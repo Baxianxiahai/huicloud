@@ -1,0 +1,19 @@
+<body>
+    {{ user_dict.k1 }}
+    <ul>
+    {#  for row in user_dict # 默认循环显示的是key  #}
+        {% for k in user_dict.keys %}  {# 循环字典：取key值 #}
+            <li>{{ k }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for val in user_dict.values %}  {# 循环字典：取value值 #}
+            <li>{{ val }}</li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for k,row in user_dict.items %}  {# 循环字典：取key、value #}
+            <li>{{ k }}-{{ row }}</li>
+        {% endfor %}
+    </ul>
+</body>

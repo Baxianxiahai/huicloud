@@ -1,0 +1,21 @@
+<head>Show Info</head>
+<body>
+	<div>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>用户名</th>
+					<th>密码</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for line in user_list %}
+					<tr>
+						<td> {{ line.user }} </td>
+						<td> {{ line.pwd }} </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</body>
