@@ -36,7 +36,6 @@ class ClassDbaFaamProductionGoodsOpr(object):
         '''
     
     def func_dba_add(self, par):
-        print(par)
         DappDbFaam_views.UserGroup_add(par)
         pass
 
