@@ -90,6 +90,9 @@ class ClassDbaCommUserGroup:
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBAGENERAL: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_comm_user_group_add(input)
             return True    
@@ -149,6 +152,9 @@ class ClassDbaCebsCustomerMission:
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBAGENERAL: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_cebs_customer_mission_add(input)
             return True    
@@ -193,6 +199,9 @@ class ClassDbaCebsClassifyExecLog:
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBAGENERAL: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_cebs_classify_exec_log_add(input)
             return True    

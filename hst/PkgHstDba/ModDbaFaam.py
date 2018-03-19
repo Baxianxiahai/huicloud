@@ -49,6 +49,9 @@ class ClassDbaFaamProductionGoodsOpr(object):
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBAFAAM: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_add(input)
             return True    

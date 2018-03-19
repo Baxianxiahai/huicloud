@@ -1,6 +1,5 @@
 ﻿====XHAT - Xiaohui Auto Develop, Deployment, Production and Maintenance Tool - SDDE-VOB=====
 
-【目标1】 Ubuntu MATE自动化装机，方便现场版本的生成
 【目标2】 后台Centos的自动化装机 （一键备份、一键恢复等）
 【目标3】 本地Git的穿越
 【目标4】 DevOps自动化
@@ -8,10 +7,11 @@
 
 
 
-
+//=ZJL, 2018 Mar.19, CURRENT_SW_DELIVERY R1.26 =>GTJY编解码接入
+= 字段保护：判定某个字段在json格式中是否存在
 
 //=ZJL, 2018 Mar.19, CURRENT_SW_DELIVERY R1.25 =>GTJY编解码接入
-
+【目标1】 Ubuntu MATE自动化装机，方便现场版本的生成 => 完成
 	/*************************************************************************
 						***** jar包使用说明  ******
 	/*************************************************************************

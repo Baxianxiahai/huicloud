@@ -49,6 +49,9 @@ class ClassDbaCclWaterMeterOpr(object):
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBACCL: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_add(input)
             return True    
@@ -88,6 +91,9 @@ class ClassDbaCclGasMeterOpr(object):
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBACCL: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_add(self, input)
             return True    
@@ -127,6 +133,9 @@ class ClassDbaCclPowerMeterOpr(object):
         pass
                 
     def cmdHandleProcedure(self, input):
+        if (("cmd" in input) == False):
+            print("MODDBACCL: Receiving data error!")
+            return False
         if (input['cmd'] == 'add'):
             self.func_dba_add(self, input)
             return True    

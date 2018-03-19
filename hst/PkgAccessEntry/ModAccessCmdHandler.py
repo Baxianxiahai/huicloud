@@ -164,7 +164,6 @@ class ClassHuirestDbaInputCmdHandler:
             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_faam_user_group_access):
                 proc = ModDbaFaam.ClassDbaFaamProductionGoodsOpr()
                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-                print("test2")
             else:
                 print("ClassHuirestDbaInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_DBA_min, self.__HUIREST_ACTIONID_DBA_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False

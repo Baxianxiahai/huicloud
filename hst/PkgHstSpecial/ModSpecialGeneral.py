@@ -70,6 +70,10 @@ class ClassGtjyWaterMeter(object):
         return returnBinCode
                 
     def cmdHandleProcedure(self, input, flag):
+        #SPECIAL TREAMENT to judge whether COMMAND segment is inside the json string or not.
+#         if (("cmd" in input) == False):
+#             print("MODDBACCL: Receiving data error!")
+#             return False
         if (flag == "encoding"):
             return self.funcEncoding(input)
         elif (flag == "decoding"):

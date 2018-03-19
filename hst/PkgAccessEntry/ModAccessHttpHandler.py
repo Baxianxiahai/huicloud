@@ -69,6 +69,9 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         jsonInput = json.loads(inputData)
         #测试收到的内容
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", jsonInput)
+        if ((("restTag" in jsonInput) == False) or (("actionId" in jsonInput) == False) or (("parFlag" in jsonInput) == False) or (("parContent" in jsonInput) == False)):
+            print("HUIREST: Receiving data format error!")
+            return
         if (jsonInput['restTag'] == 'printer'):
             varClassInputHandler = ModAccessCmdHandler.ClassHuirestPrinterInputCmdHandler()
         elif (jsonInput['restTag'] == 'dba'):
@@ -80,7 +83,8 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         elif (jsonInput['restTag'] == 'special'):
             varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
         else:
-            varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
+            print("HUIREST: Receiving restTag domain error!")
+            return
         #准备继续干活
         varProcessResult = varClassInputHandler.inputCmdHandlerEntry(jsonInput)
         strOutputData1 = """<!DOCTYPE HTML>

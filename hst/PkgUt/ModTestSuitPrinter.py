@@ -86,8 +86,8 @@ class ClassUtPrinter(unittest.TestCase):
     def tc_printer_009(self):
         ticks = time.time();
         print("tc_printer_009, time in second = ", ticks);
-        jsonInputData = {"restTag": "printera","actionId": 256,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)   
+        jsonInputData = {"restTag": "printer","actionId": 256,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
         
     def tc_printer_010(self):
         ticks = time.time();

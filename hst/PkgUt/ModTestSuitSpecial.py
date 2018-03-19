@@ -45,7 +45,7 @@ class ClassUtSpecial(unittest.TestCase):
         print("tc_special_002, time in second = ", ticks);
         jsonInputData = {"restTag": "special", "actionId": 20480, "parFlag": 1, "parContent": {"barcode": "12345678", "valvePar": 1, "datetime": "20180314133829"}}
         res = ModTestSuitComFunc.hst_curlib3_client_conn_check_details(self, jsonInputData, 1)
-        print("tc_special_003 result = ", res)
+        print("tc_special_002 result = ", res)
 
     #Encode function
     def tc_special_003(self):
