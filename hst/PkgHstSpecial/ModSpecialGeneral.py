@@ -42,9 +42,9 @@ class ClassGtjyWaterMeter(object):
     
     def funcEncoding(self, input):
         jvmPath = jpype.getDefaultJVMPath()
-        jarpath = os.path.join(os.path.abspath('.'), '')
+        jarpath = os.path.join(os.path.abspath('./PkgHstSpecial'), '')
         if not jpype.isJVMStarted():
-            jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=%s" % (jarpath + 'ReadMeterData-0.0.1-SNAPSHOT.jar'))
+            jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=%s" % (jarpath + 'ReadMeterData.jar'))
         javaClass = jpype.JClass('com.chnsce.zxmeter.impl.ZXNBITOMeterInterfaces')
         jd = javaClass()
         localBarCode = input['barcode'];
@@ -57,9 +57,9 @@ class ClassGtjyWaterMeter(object):
 
     def funcDecoding(self, input):
         jvmPath = jpype.getDefaultJVMPath()
-        jarpath = os.path.join(os.path.abspath('.'), '')
+        jarpath = os.path.join(os.path.abspath('./PkgHstSpecial'), '')
         if not jpype.isJVMStarted():
-            jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=%s" % (jarpath + 'ReadMeterData-0.0.1-SNAPSHOT.jar'))
+            jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=%s" % (jarpath + 'ReadMeterData.jar'))
         javaClass = jpype.JClass('com.chnsce.zxmeter.impl.ZXNBITOMeterInterfaces')
         jd = javaClass()
         #inputData = "AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB"

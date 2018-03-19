@@ -10,6 +10,141 @@
 
 
 
+//=ZJL, 2018 Mar.19, CURRENT_SW_DELIVERY R1.25 =>GTJY编解码接入
+
+	/*************************************************************************
+						***** jar包使用说明  ******
+	/*************************************************************************
+
+jar包中共有2个接口，包名称为com.chnsce.zxmeter.impl.ZXNBITOMeterInterfaces。
+数据解析接口：表内的数据进行解析，返回json字符串，可自动识别表具类型和上传类型，
+数据编码接口：数据打包成16进制字符串，需要上位机提供表号、开关阀指令和系统时间。
+/**
+	 * 数据解析函数
+	 * @param sRetrunCode 表端返回的数据内容
+	 * @return            解析后的json字符串
+	 */
+	 public String decoding(String sRetrunCode){
+		retrun jsonString;
+	 }
+	 
+实例：
+水表---->>{IC卡最后一次充值量=0.0, 最后一次充值量=0.0, 信号强度=41, 阀门状态=开阀, rtn=9000, 剩余量=0.0, GPRS累计充值量=0.0, 启动日期=00-00, 单价=0.0, 表号=81980052, 累积量=0.0, 累计金额=0.0, 表内运行状态= , 表内时间=2018-3-12 9:47:18, 负计数=0.0, 表类型=A8}
+气表---->>{IC卡最后一次充值量=0.0, 最后一次充值量=1.67, 信号强度=37, 统计累积量=8706, 阀门状态=开阀, SIM卡号=2147483647, 报警气量=33795, 统计日期=01-09, 启动日期=00-00, GPRS累计充值量=0.0, 单价=4.2, 表号=75126617, 负计金额=0.0, 累积量=546.6, 时间=2018-3-19 8:5:35, 累计金额=1732.2, 表内运行状态= , 程序版本号=v03C1, 上传原因标志位=  磁干扰 按键, 欠压时间=2018-1-25 15:38, 剩余金额=48267.8, 累计预购量=1000.0, 统计周期=0, 表类型=CC}
+
+	/**
+	 * 表内运行状态
+	 * @param status
+	 * @return
+	 */
+	public String getMeterStatus(byte status){
+		StringBuffer result=new StringBuffer();
+		result.append(" ");
+		if((status&0x01)==0x01){
+			result.append("余量不足");
+		}
+		if((status&0x02)==0x02){
+			result.append(" 非法卡");
+		}
+		if((status&0x04)==0x04){
+			result.append(" 欠费");
+		}
+		if((status&0x08)==0x08){
+			result.append(" ");
+		}
+		if((status&0x10)==0x10){
+			result.append(" 欠压");
+		} 
+		if((status&0x20)==0x20){
+			result.append(" 燃气泄漏");
+		} 
+		if((status&0x40)==0x40){
+			result.append(" 写false错");
+		}
+		if((status&0x80)==0x80){
+			result.append(" 磁干扰");
+		}
+		return result.toString();
+	}					  
+	
+	
+	/**
+	 * 气表上传原因标志位
+	 * @return
+	 */
+	public String getUploadReason(byte[] status){
+		StringBuffer result = new StringBuffer();
+		result.append(" ");
+		if((status[0]&0x01)==0x01){
+			result.append("负计数");
+		}
+		if((status[0]&0x02)==0x02){
+			result.append(" 磁干扰");
+		}
+		if((status[0]&0x04)==0x04){
+			result.append(" 价格表错误");
+		}
+		if((status[0]&0x08)==0x08){
+			result.append(" 欠压关阀");
+		}
+		if((status[0]&0x10)==0x10){
+			result.append(" 非法卡关阀");
+		} 
+		if((status[0]&0x20)==0x20){
+			result.append(" ");
+		} 
+		if((status[0]&0x40)==0x40){
+			result.append(" ");
+		}
+		if((status[0]&0x80)==0x80){
+			result.append(" 价格点变化");
+		}
+		
+		if((status[0]&0x01)==0x01){
+			result.append(" 插用户卡");
+		}
+		if((status[0]&0x02)==0x02){
+			result.append(" 按键");
+		}
+		if((status[0]&0x04)==0x04){
+			result.append(" 异常流量");
+		}
+		if((status[0]&0x08)==0x08){
+			result.append(" 泄漏报警");
+		}
+		if((status[0]&0x10)==0x10){
+			result.append(" 预存量卡上传");
+		} 
+		if((status[0]&0x20)==0x20){
+			result.append(" 转入卡上传");
+		} 
+		if((status[0]&0x40)==0x40){
+			result.append(" 转出卡上传");
+		}
+		if((status[0]&0x80)==0x80){
+			result.append(" 余量不足");
+		}
+		return result.toString();
+	}
+					  
+/**
+	 * 数据编码
+	 * @param barcode   表号/生产号  8位表号
+	 * @param valvePar  阀门控制参数 0 ：开阀 1 ；关阀
+	 * @param datetime  系统时间 格式为yyyymmddhhmmss 如20180314133829
+	 * @return          16进制字符串
+	 */
+	public String encoding(String barcode,int valvePar,String datetime) {
+		return cmdSend;
+	}
+实例：
+水表----->>FF11338198005200001214031820000200000000000000000000000000000000000000000000000000000000000011BB
+气表----->>和水表内容一致
+
+
+
+
+
 //=ZJL, 2018 Mar.14, CURRENT_SW_DELIVERY R1.24 =>GTJY编解码接入
 = JAR包使用说明
 	/*************************************************************************
