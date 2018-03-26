@@ -1,0 +1,17 @@
+[Unit]
+Description=hst
+After=mysql.service
+
+[Service]
+Type=simple
+TimeoutStartSec=0
+ExecStart=/var/www/html/huicloud/hst.sh
+Restart=always
+RestartSec=10
+#StandardOutput=hst.log
+#StandardError=hsterr.log
+RemainAfterExit=yes
+SysVStartPriority=99
+
+[Install]
+WantedBy=multi-user.target
