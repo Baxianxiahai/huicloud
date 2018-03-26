@@ -97,7 +97,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
 <p>this is post!</p>
 </body>
 </html>"""+str(self.headers)+str(self.command)+str(self.headers.get)+str(varProcessResult)
-        strOutputData2 = json.dumps(varProcessResult)
+        strOutputData2 = json.dumps(varProcessResult, ensure_ascii=False)
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Sending Post Data Buf = ", strOutputData2)
         self.wfile.write(bytes(strOutputData2, "UTF-8"))
 
