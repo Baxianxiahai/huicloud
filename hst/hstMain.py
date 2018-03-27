@@ -4,8 +4,8 @@ Created on 2017骞�12鏈�10鏃�
 @author: hitpony
 '''
 
-#!/usr/bin/python3.6
-# -*- coding: UTF-8 -*-
+####!/usr/bin/python3.6
+#### -*- coding: UTF-8 -*-
 
 import random
 import sys

@@ -72,7 +72,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'DjoSiteDba.urls'
 
-TEMPLATE = [
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],

@@ -7,6 +7,13 @@
 
 
 
+//=ZJL, 2018 Mar.27, CURRENT_SW_DELIVERY R1.27 =>GTJY编解码接入
+= RESTClient => Firefox的插件
+= 测试案例： curl -X POST -i 'http://127.0.0.1:8000/' --data '{"restTag": "special", "actionId": 20482, "parFlag": 1, "parContent": {"inputBinCode": "AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB"}}'
+= Django运行
+  python3 manage.py runserver
+
+
 //=ZJL, 2018 Mar.19, CURRENT_SW_DELIVERY R1.26 =>GTJY编解码接入
 = 字段保护：判定某个字段在json格式中是否存在
 

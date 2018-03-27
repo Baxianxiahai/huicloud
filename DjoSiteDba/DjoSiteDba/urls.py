@@ -26,22 +26,22 @@ from DappDbBfhs import views as DappDbCcl_views
 from DappDbBfhs import views as DappDbFaam_views
 
 urlpatterns = [
-    #基础部分
+    #BASIC
     path('admin/', admin.site.urls),
     url(r'^$', DappDbTest_views.index, name='index'),
     #url(r'^$', admin.site.urls),
     path('index/', DappDbTest_views.index),
      
-    #DappDbTest UserInfo部分
+    #DappDbTest UserInfo
     path('user_info_add/', DappDbTest_views.user_info_add),
     path('user_info_show/', DappDbTest_views.user_info_show),
     path('user_info_delete/', DappDbTest_views.user_info_delete),
     path('user_info_modify/', DappDbTest_views.user_info_modify),
     path('user_info_home/', DappDbTest_views.user_info_home),
     
-    #测试部分
+    #TEST
     #url(r'^show/', DappDbBfdf_views.show),
     #url(r'^index/', DappDbBfhs_views.index),
-    #url(r'^home/', DappDbTest_views.login()),  # CBV 固定用法
+    #url(r'^home/', DappDbTest_views.login()),  # CBV
     #path('index/', views.index),
 ]

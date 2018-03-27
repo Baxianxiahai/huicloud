@@ -4,9 +4,6 @@ Created on 2017骞�12鏈�11鏃�
 @author: hitpony
 '''
 
-#!/usr/bin/env python
-#coding:utf-8
-
 from ctypes import c_uint8
 import sys
 import time
@@ -16,8 +13,8 @@ import re   #
 
 #Django
 import django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 sys.path.append('../DjoSiteDba/')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 #from DjoSiteDba.wsgi import *
 django.setup()
 from DappDbTest import views as DappDbTest_views

@@ -3,9 +3,7 @@ Created on 2017年12月27日
 
 @author: hitpony
 '''
-#!/usr/bin/python3
-# -*- coding: utf-8 -*- 
-# coding=utf-8
+
 #import cv2
 import numpy as np  
 import matplotlib.pyplot as plt

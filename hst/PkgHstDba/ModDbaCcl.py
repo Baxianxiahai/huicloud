@@ -4,8 +4,6 @@ Created on 2018/3/14
 @author: Administrator
 '''
 
-#!/usr/bin/env python
-#coding:utf-8
 
 from ctypes import c_uint8
 import sys
@@ -16,8 +14,8 @@ import re   #
 
 #Django
 import django
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 sys.path.append('../DjoSiteDba/')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 #from DjoSiteDba.wsgi import *
 django.setup()
 
