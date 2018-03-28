@@ -36,16 +36,22 @@ elif [ -e /usr/local/bin/python3 ]
 then
 	export PATH=/usr/local/bin:$PATH
         export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-        export PYTHON_INCLUDE_DIRS=/usr/local/include/python3.6dm
-        export PYTHON_LIBRARIES=/usr/local/lib/libpython3.6dm.a
+        export PYTHON_INCLUDE_DIRS=/usr/local/include/python3.6m
+        export PYTHON_LIBRARIES=/usr/local/lib/libpython3.6m.a
 	pyExec=/usr/local/bin/python3
 else
 	pyExec=/usr/bin/python3
 fi
 
-
-
+export PYTHONPATH=$PYTHONPATH:/var/www/html/huicloud/DjoSiteDba/
 cmdExec="${pyExec} /var/www/html/huicloud/hst/hstMain.py"
+
+#jpype1 env set: After validation, this JAVA env set could be omitted, and not really useful!
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export JRE_HOME=$JAVA_HOME/jre
+export CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+#export JAVA_HOME JRE_HOME CLASS_PATH PATH
 
 do_start()
 {
@@ -54,9 +60,10 @@ do_start()
 		echo "hst is running"
 		exit 1
 	else
-		echo "hst not running" 
-		cd /
+		echo "hst not running"
+		cd /var/www/html/huicloud/hst/
 		${pyExec} /var/www/html/huicloud/hst/hstMain.py &
+		cd /
 		sleep 1
 	fi
 }
