@@ -11,10 +11,10 @@ def hst_all_testsuite():
     allTest = unittest.TestSuite((\
         ModTestSuitDba.hst_testsuite_dba(), \
         ModTestSuitPrinter.hst_testsuite_printer(), \
-        #ModTestSuitVision.hst_testsuite_vision(), \
+        ModTestSuitVision.hst_testsuite_vision(), \
         ModTestSuitAiwgt.hst_testsuite_aiwgt(),\
         ModTestSuitSensor.hst_testsuite_sensor(),\
-        ModTestSuitSpecial.hst_testsuite_special()\
+        #ModTestSuitSpecial.hst_testsuite_special(),\
         ))
     return allTest
 
