@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ObjFmpt2Form</class>
+ <widget class="QWidget" name="ObjFmpt2Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1063</width>
+    <height>651</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FMPT2</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox_LoadBootcfg">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>360</y>
+     <width>641</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>LOAD BOOTCFG</string>
+   </property>
+   <widget class="QLabel" name="label_CfgFile">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>54</width>
+      <height>12</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CFG FILE</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_LbcBrowse">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>40</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>BROWSE</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>40</y>
+      <width>471</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>C:\boot\a.cfg</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>611</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButton_LbcLoadFile">
+       <property name="text">
+        <string>LOAD FILE</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_LbcSaveFile">
+       <property name="text">
+        <string>SAVE FILE</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_LbcReadAllFromHw">
+       <property name="text">
+        <string>READ ALL FROM HARDWARE</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_LbcWriteAllToHw">
+       <property name="text">
+        <string>WRITE ALL TO HARDWARE</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_KeyElementOperation">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>641</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>KEY ELEMENT OPERATION</string>
+   </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>608</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_19">
+       <item>
+        <widget class="QLabel" name="label_hwType">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>hwType</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_hwType_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_hwType_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_10">
+         <property name="text">
+          <string>0x1234</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_20">
+       <item>
+        <widget class="QLabel" name="label_hwPemId">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>hwPemId</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_hwPemId_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_hwPemId_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_11">
+         <property name="text">
+          <string>0x1234</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_21">
+       <item>
+        <widget class="QLabel" name="label_swRelId">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>swRelId</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swRelId_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swRelId_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_12">
+         <property name="text">
+          <string>0x1234</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_22">
+       <item>
+        <widget class="QLabel" name="label_swVerId">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>swVerId</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swVerI_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swVerId_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_13">
+         <property name="text">
+          <string>0x1234</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_23">
+       <item>
+        <widget class="QLabel" name="label_swUpgradeFlag">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>swUpgradeFlag</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swUpgradeFlag_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swUpgradeFlag_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_14">
+         <property name="text">
+          <string>0x12</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_24">
+       <item>
+        <widget class="QLabel" name="label_swUpgPollId">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>swUpgPollId</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swUpgPollId_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_swUpgPollId_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_15">
+         <property name="text">
+          <string>0x12</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_25">
+       <item>
+        <widget class="QLabel" name="label_bootIndex">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>bootIndex</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_bootIndex_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_bootInde_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_16">
+         <property name="text">
+          <string>0x12</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_26">
+       <item>
+        <widget class="QLabel" name="label_bootAreaMax">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>bootAreaMax</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_bootAreaMax_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_bootAreaMax_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_17">
+         <property name="text">
+          <string>0x12</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_27">
+       <item>
+        <widget class="QLabel" name="label_cipherKey">
+         <property name="minimumSize">
+          <size>
+           <width>91</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>cipherKey</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_cipherKey_read">
+         <property name="text">
+          <string>READ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_cipherKey_write">
+         <property name="text">
+          <string>WRITE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_18">
+         <property name="text">
+          <string>0x12345678</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_OperationLogInfo">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>490</y>
+     <width>641</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>OPERATION LOG INFO</string>
+   </property>
+   <widget class="QTextEdit" name="textEdit_OprLogInfo">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>621</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;gt; SND 0x1111 to Hardware&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;gt; RCV 0x2222 from Hardware&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;gt; ERR info get from reading file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>pushButton_hwType_read</tabstop>
+  <tabstop>pushButton_hwType_write</tabstop>
+  <tabstop>lineEdit_10</tabstop>
+  <tabstop>pushButton_hwPemId_read</tabstop>
+  <tabstop>pushButton_hwPemId_write</tabstop>
+  <tabstop>lineEdit_11</tabstop>
+  <tabstop>pushButton_swRelId_read</tabstop>
+  <tabstop>pushButton_swRelId_write</tabstop>
+  <tabstop>lineEdit_12</tabstop>
+  <tabstop>pushButton_swVerI_read</tabstop>
+  <tabstop>pushButton_swVerId_write</tabstop>
+  <tabstop>lineEdit_13</tabstop>
+  <tabstop>pushButton_swUpgradeFlag_read</tabstop>
+  <tabstop>pushButton_swUpgradeFlag_write</tabstop>
+  <tabstop>lineEdit_14</tabstop>
+  <tabstop>pushButton_swUpgPollId_read</tabstop>
+  <tabstop>pushButton_swUpgPollId_write</tabstop>
+  <tabstop>lineEdit_15</tabstop>
+  <tabstop>pushButton_bootIndex_read</tabstop>
+  <tabstop>pushButton_bootInde_write</tabstop>
+  <tabstop>lineEdit_16</tabstop>
+  <tabstop>pushButton_bootAreaMax_read</tabstop>
+  <tabstop>pushButton_bootAreaMax_write</tabstop>
+  <tabstop>lineEdit_17</tabstop>
+  <tabstop>pushButton_cipherKey_read</tabstop>
+  <tabstop>pushButton_cipherKey_write</tabstop>
+  <tabstop>lineEdit_18</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>pushButton_LbcBrowse</tabstop>
+  <tabstop>pushButton_LbcLoadFile</tabstop>
+  <tabstop>pushButton_LbcSaveFile</tabstop>
+  <tabstop>pushButton_LbcReadAllFromHw</tabstop>
+  <tabstop>pushButton_LbcWriteAllToHw</tabstop>
+  <tabstop>textEdit_OprLogInfo</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_hwType_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoHwTypeRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>672</x>
+     <y>42</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_hwType_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoHwTypeWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>260</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>804</x>
+     <y>43</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_hwPemId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoHwPemIdRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>160</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>667</x>
+     <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_hwPemId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoHwPemIdWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>87</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>801</x>
+     <y>84</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swRelId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwRelIdRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>170</x>
+     <y>120</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>673</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swRelId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwRelIdWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>272</x>
+     <y>127</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>812</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swVerI_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwVerIdRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>151</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>670</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swVerId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwVerIdWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>279</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>812</x>
+     <y>155</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swUpgradeFlag_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwUpgFlagRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>177</x>
+     <y>191</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>669</x>
+     <y>196</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swUpgradeFlag_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwUpgFlagWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>264</x>
+     <y>192</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>817</x>
+     <y>184</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swUpgPollId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwUpgPollIdRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>226</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>668</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_swUpgPollId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoSwUpgPollIdWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>224</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>822</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_bootIndex_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoBootIndexRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>181</x>
+     <y>257</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>669</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_bootInde_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoBootIndexWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>250</x>
+     <y>256</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>815</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_bootAreaMax_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoBootAreaMaxRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>172</x>
+     <y>288</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>668</x>
+     <y>283</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_bootAreaMax_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoBootAreaMaxWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>293</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>821</x>
+     <y>284</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_cipherKey_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoCipherKeyRead()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>171</x>
+     <y>321</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>666</x>
+     <y>317</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_cipherKey_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotKeoCipherKeyWrite()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>241</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>806</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_LbcBrowse</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotLbcBrowse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>600</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>691</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_LbcLoadFile</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotLbcLoadFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>448</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>693</x>
+     <y>446</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_LbcSaveFile</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotLbcSaveFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>242</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>808</x>
+     <y>449</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_LbcReadAllFromHw</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotLbcReadFromHw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>402</x>
+     <y>460</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>696</x>
+     <y>492</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_LbcWriteAllToHw</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2Form</receiver>
+   <slot>slotLbcWriteToHw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>539</x>
+     <y>460</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>829</x>
+     <y>493</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>signal1()</signal>
+  <slot>slotKeoHwTypeRead()</slot>
+  <slot>slotKeoHwTypeWrite()</slot>
+  <slot>slotKeoHwPemIdRead()</slot>
+  <slot>slotKeoHwPemIdWrite()</slot>
+  <slot>slotKeoSwRelIdRead()</slot>
+  <slot>slotKeoSwRelIdWrite()</slot>
+  <slot>slotKeoSwVerIdRead()</slot>
+  <slot>slotKeoSwVerIdWrite()</slot>
+  <slot>slotKeoSwUpgFlagRead()</slot>
+  <slot>slotKeoSwUpgFlagWrite()</slot>
+  <slot>slotKeoSwUpgPollIdRead()</slot>
+  <slot>slotKeoSwUpgPollIdWrite()</slot>
+  <slot>slotKeoBootIndexRead()</slot>
+  <slot>slotKeoBootIndexWrite()</slot>
+  <slot>slotKeoBootAreaMaxRead()</slot>
+  <slot>slotKeoBootAreaMaxWrite()</slot>
+  <slot>slotKeoCipherKeyRead()</slot>
+  <slot>slotKeoCipherKeyWrite()</slot>
+  <slot>slotLbcBrowse()</slot>
+  <slot>slotLbcLoadFile()</slot>
+  <slot>slotLbcSaveFile()</slot>
+  <slot>slotLbcReadFromHw()</slot>
+  <slot>slotLbcWriteToHw()</slot>
+ </slots>
+</ui>

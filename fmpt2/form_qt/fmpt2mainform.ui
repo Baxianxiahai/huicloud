@@ -1,0 +1,4078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ObjFmpt2MainForm</class>
+ <widget class="QMainWindow" name="ObjFmpt2MainForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1420</width>
+    <height>748</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1420</width>
+    <height>700</height>
+   </size>
+  </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="tabletTracking">
+   <bool>true</bool>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>FMPT2工厂生产工具</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="groupBox_oli_OperationLogInfo">
+    <property name="geometry">
+     <rect>
+      <x>1160</x>
+      <y>10</y>
+      <width>251</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>OPERATION LOG INFO</string>
+    </property>
+    <widget class="QTextEdit" name="textEdit_OprLogInfo">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>231</width>
+       <height>591</height>
+      </rect>
+     </property>
+     <property name="mouseTracking">
+      <bool>true</bool>
+     </property>
+     <property name="tabletTracking">
+      <bool>true</bool>
+     </property>
+     <property name="inputMethodHints">
+      <set>Qt::ImhMultiLine</set>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAsNeeded</enum>
+     </property>
+     <property name="autoFormatting">
+      <set>QTextEdit::AutoAll</set>
+     </property>
+     <property name="tabChangesFocus">
+      <bool>true</bool>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;gt; SND 0x1111 to Hardware&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;gt; RCV 0x2222 from Hardware&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;gt; ERR info get from reading file&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_oli_clear">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>620</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CLEAR</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_oli_test">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>620</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TEST</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_keo_KeyElementOperation">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>561</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>控参操作</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>46</y>
+       <width>381</width>
+       <height>275</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_19">
+        <item>
+         <widget class="QLabel" name="label_keo_hwType">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>hwType</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_hwType_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_hwType_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_hwType">
+          <property name="text">
+           <string>0x1234</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_20">
+        <item>
+         <widget class="QLabel" name="label_keo_hwPemId">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>hwPemId</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_hwPemId_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_hwPemId_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_hwPemId">
+          <property name="text">
+           <string>0x1234</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_21">
+        <item>
+         <widget class="QLabel" name="label_keo_swRelId">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>swRelId</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swRelId_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swRelId_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_swRelId">
+          <property name="text">
+           <string>0x1234</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_22">
+        <item>
+         <widget class="QLabel" name="label_keo_swVerId">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>swVerId</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swVerId_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swVerId_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_swVerId">
+          <property name="text">
+           <string>0x1234</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_23">
+        <item>
+         <widget class="QLabel" name="label_keo_swUpgradeFlag">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>swUpgradeFlag</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swUpgradeFlag_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swUpgradeFlag_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_swUpgradeFlag">
+          <property name="text">
+           <string>0x01</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_24">
+        <item>
+         <widget class="QLabel" name="label_keo_swUpgPollId">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>swUpgPollId</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swUpgPollId_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_swUpgPollId_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_swUpgPollId">
+          <property name="text">
+           <string>0x01</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_25">
+        <item>
+         <widget class="QLabel" name="label_keo_bootIndex">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>bootIndex</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_bootIndex_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_bootInde_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_bootIndex">
+          <property name="text">
+           <string>0x01</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_26">
+        <item>
+         <widget class="QLabel" name="label_keo_bootAreaMax">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>bootAreaMax</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_bootAreaMax_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_bootAreaMax_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_bootAreaMax">
+          <property name="text">
+           <string>0x01</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_27">
+        <item>
+         <widget class="QLabel" name="label_keo_cypherKey">
+          <property name="minimumSize">
+           <size>
+            <width>91</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>cypherKey</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_cypherKey_read">
+          <property name="text">
+           <string>READ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_keo_cypherKey_write">
+          <property name="text">
+           <string>WRITE</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_keo_cypherKey">
+          <property name="text">
+           <string>0x000102030405060708090A0B0C0D0E0F</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_keo_LoadBootcfg">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>20</y>
+       <width>161</width>
+       <height>301</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>配置文件</string>
+     </property>
+     <widget class="QLabel" name="label_keo_cfgFile">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>34</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CFG FILE</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_keo_cfgFile_Browse">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>141</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BROWSE</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_keo_cfgFile">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>141</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>d:/bootcfg.txt</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>142</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_keo_cfgFile_LoadFile">
+         <property name="text">
+          <string>LOAD FILE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_keo_cfgFile_SaveFile">
+         <property name="text">
+          <string>SAVE FILE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_keo_cfgFile_ReadAllFromHw">
+         <property name="text">
+          <string>READ ALL FROM HARDWARE</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_keo_cfgFile_WriteAllToHw">
+         <property name="text">
+          <string>WRITE ALL TO HARDWARE</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_keo_SingleByteOpr">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>330</y>
+       <width>541</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>FLASH访问</string>
+     </property>
+     <widget class="QLabel" name="label_keo_byteopr_address">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>20</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ADDRESS</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_keo_byteopr_address">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>20</y>
+        <width>81</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x80001234</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_keo_byteopr_byte">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>20</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BYTE</string>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_keo_byteopr_short">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>20</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SHORT</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QRadioButton" name="radioButton_keo_byteopr_int">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>20</y>
+        <width>81</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>INT</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_keo_byteopr_read">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_keo_byteopr_write">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>40</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>WRITE</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_keo_byteopr_result">
+      <property name="geometry">
+       <rect>
+        <x>190</x>
+        <y>40</y>
+        <width>341</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ABCD</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="layoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>381</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_28">
+      <item>
+       <widget class="QLabel" name="label_keo_equLable">
+        <property name="minimumSize">
+         <size>
+          <width>91</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>equLable</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_keo_equLable_read">
+        <property name="text">
+         <string>READ</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_keo_equLable_write">
+        <property name="text">
+         <string>WRITE</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_keo_equLable">
+        <property name="text">
+         <string>IHU_G5008GTJY_RND01</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_fio_FullImageOperation">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>580</y>
+      <width>561</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>镜像操作</string>
+    </property>
+    <widget class="QPushButton" name="pushButton_fio_file_browse">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>61</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>BROWSE</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_fio_file_dir">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>541</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>d:/a.img</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_fio_file_save">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>231</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>SAVE IMAGE FROM FLASH TO DISK</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_fio_file_load">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>20</y>
+       <width>231</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>LOAD IMAGE FROM DISK TO FLASH</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_aim_firmwareDown">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>140</y>
+      <width>571</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>固件下载</string>
+    </property>
+    <widget class="QGroupBox" name="groupBox_aim_fac">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>551</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>FACTORY LOAD</string>
+     </property>
+     <widget class="QLabel" name="label_aim_fac_addr">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>24</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ADDRESS</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_addr_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>20</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_addr_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x80001234</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_fac_swRel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>swRel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_fac_valid">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>valid</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_swRel_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_swRel_set">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_valid_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_swRel_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>50</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x1234</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_valid_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>80</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x5678</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_len_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>80</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x12345678</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_chk_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>20</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0xABCD</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_fac_len">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Len</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_chk_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>20</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_swVer_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>50</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0xABCD</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_swVer_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_swVer_set">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_len_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_fac_swVer">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>50</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>swVer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_fac_chk">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>24</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CHECKSUM</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_chk_chk">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>20</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CHK</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_fac_file">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>.BIN FILE</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_fac_file_text">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>110</y>
+        <width>261</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>d:/fac.bin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_file_browse">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>110</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BROWSE</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_fac_file_update">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>110</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>UPDATE</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_aim_app2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>320</y>
+       <width>551</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>APP2 LOAD</string>
+     </property>
+     <widget class="QLabel" name="label_aim_app2_addr">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>24</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ADDRESS</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_addr_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>20</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_addr_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x80001234</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app2_swRel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>swRel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app2_valid">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>valid</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_swRel_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_swRel_set">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_valid_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_swRel_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>50</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x1234</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_valid_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>80</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x5678</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_len_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>80</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x12345678</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_chk_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>20</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0xABCD</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app2_len">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Len</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_chk_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>20</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_swVer_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>50</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0xABCD</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_swVer_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_swVer_set">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_len_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app2_swVer">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>50</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>swVer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app2_chk">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>24</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CHECKSUM</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_chk_chk">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>20</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CHK</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app2_file">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>.BIN FILE</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app2_file_text">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>110</y>
+        <width>261</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>d:/app2.bin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_file_browse">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>110</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BROWSE</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app2_file_update">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>110</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>UPDATE</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_aim_app1">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>170</y>
+       <width>551</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>APP1 LOAD</string>
+     </property>
+     <widget class="QLabel" name="label_aim_app1_addr">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>24</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ADDRESS</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_addr_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>20</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_addr_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>20</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x80001234</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app1_swRel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>50</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>swRel</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app1_valid">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>valid</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_swRel_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_swRel_set">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_valid_read">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_swRel_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>50</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x1234</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_valid_text">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>80</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x5678</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_len_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>80</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0x12345678</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_chk_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>20</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0xABCD</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app1_len">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>80</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Len</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_chk_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>20</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_swVer_text">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>50</y>
+        <width>101</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0xABCD</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_swVer_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_swVer_set">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>50</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>SET</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_len_read">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>80</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>READ</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app1_swVer">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>50</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>swVer</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app1_chk">
+      <property name="geometry">
+       <rect>
+        <x>280</x>
+        <y>24</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CHECKSUM</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_chk_chk">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>20</y>
+        <width>31</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>CHK</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_aim_app1_file">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>110</y>
+        <width>54</width>
+        <height>12</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>.BIN FILE</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_aim_app1_file_text">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>110</y>
+        <width>261</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>d:/app1.bin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_file_browse">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>110</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>BROWSE</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_aim_app1_file_update">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>110</y>
+        <width>71</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>UPDATE</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_bbo_BatchBurnOperation">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>620</y>
+      <width>571</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>批量烧录</string>
+    </property>
+    <widget class="QPushButton" name="pushButton_bbo_burn_fac_app">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>231</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>BURN FAC/APP LOAD</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_bbo_burn_bc_fac_app">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>20</y>
+       <width>231</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>BURN BOOTCFG/FAC/APP LOAD</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_bbo_devCode_text">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>50</y>
+       <width>181</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>IHU_G2080AQYC_SH001</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_bbo_codeFix">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>61</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>devCode</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_bbo_maxNumber_text">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>50</y>
+       <width>41</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>100</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_bbo_maxNumber">
+     <property name="geometry">
+      <rect>
+       <x>300</x>
+       <y>50</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>MaxNumber</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkBox_bbo_batchModeSelection">
+     <property name="geometry">
+      <rect>
+       <x>480</x>
+       <y>50</y>
+       <width>71</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>批量选定</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_cloudCon">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>561</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>后台设置</string>
+    </property>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_label_apply_text">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>110</y>
+       <width>351</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>15 SUCCESS, IHU_xxx</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_apply_number_text">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>41</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>15</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_cloudCon_par_set">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>110</y>
+       <width>81</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>参数设置</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_ipAddr_text">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>20</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>121.40.118.33</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_apply_number">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>applyNumber</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_ipAddr">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>20</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>cloudIpAddr</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_facCode_text">
+     <property name="geometry">
+      <rect>
+       <x>440</x>
+       <y>20</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>FAC#1234</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_facCode">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>20</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>facCode</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_pdCode_text">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>50</y>
+       <width>41</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>G201</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_pdCode">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>50</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>pdCode</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_pjCode_text">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>50</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>AQYC</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_pdType_text">
+     <property name="geometry">
+      <rect>
+       <x>470</x>
+       <y>50</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>IHU</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_pdType">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>50</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>pdType</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_userAccount_text">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>80</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>user123</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_userAccount">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>80</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>userAccount</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_passwd_text">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>80</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>user#1234</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_passwd">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>80</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>passwd</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_formalFlag_text">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>80</y>
+       <width>91</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Y</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_formalFlag">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>80</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>formalFlag</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_cloudCon_label_apply">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>110</y>
+       <width>81</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>标签申请</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_userCode">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>50</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>userCode</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_cloudCon_userCode_text">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>50</y>
+       <width>51</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>SH</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_cloudCon_pjCode">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>50</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>91</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>pjCode</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_ihuConn">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>10</y>
+      <width>571</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>硬板设置</string>
+    </property>
+    <widget class="QPushButton" name="pushButton_ihuCon_conn">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>70</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>连接</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_ihuCon_port_eth">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>54</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>网口</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_ihuCon_port_sps">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>串口</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="radioButton_ihuCon_port_can">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>37</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>CAN</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_ihuCon_disc">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>93</y>
+       <width>51</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>断开</string>
+     </property>
+    </widget>
+    <widget class="QGroupBox" name="groupBox_ihuConn_canParSet">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>10</y>
+       <width>501</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>CAN参数</string>
+     </property>
+     <widget class="QLabel" name="label_ihuConn_canParSet_productType">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>22</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>设备类型</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_productType">
+      <property name="geometry">
+       <rect>
+        <x>64</x>
+        <y>20</y>
+        <width>81</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>DEV_USBCAN</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>DEV_USBCAN2</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_index">
+      <property name="geometry">
+       <rect>
+        <x>200</x>
+        <y>20</y>
+        <width>51</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>3</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_index">
+      <property name="geometry">
+       <rect>
+        <x>156</x>
+        <y>22</y>
+        <width>41</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>索引号</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_canNbr">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>20</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>0</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_canNbr">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>22</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>第几路CAN</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_rcvCode">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>52</y>
+        <width>51</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>验收码0x</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_ihuConn_canParSet_rcvCode_text">
+      <property name="geometry">
+       <rect>
+        <x>64</x>
+        <y>50</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>80000000</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_ihuConn_canParSet_timer0_text">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>50</y>
+        <width>21</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>00</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_timer0">
+      <property name="geometry">
+       <rect>
+        <x>156</x>
+        <y>52</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>定时器0: 0x</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_ihuConn_canParSet_maskCode_text">
+      <property name="geometry">
+       <rect>
+        <x>64</x>
+        <y>80</y>
+        <width>81</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>FFFFFFFF</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_maskCode">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>82</y>
+        <width>51</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>屏蔽码0x</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_ihuConn_canParSet_timer1_text">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>80</y>
+        <width>21</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1C</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_timer1">
+      <property name="geometry">
+       <rect>
+        <x>156</x>
+        <y>82</y>
+        <width>71</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>定时器1: 0x</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_filter">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>50</y>
+        <width>61</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>全部类型</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>只标准帧</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>只扩展帧</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_filter">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>52</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>滤波方式</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_workMode">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>80</y>
+        <width>51</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>正常</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>只听</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>自测</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_workMode">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>80</y>
+        <width>61</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>工作模式</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_frameType">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>20</y>
+        <width>61</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>数据帧</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>远程帧</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_frameType">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>20</y>
+        <width>41</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>帧类型</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_ihuConn_canParSet_frameFormat">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>50</y>
+        <width>61</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>标准帧</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>扩展帧</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_frameFormat">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>50</y>
+        <width>41</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>帧格式</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_ihuConn_canParSet_frameId">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>80</y>
+        <width>51</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>帧ID 0x</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_ihuConn_canParSet_frameId_text">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>80</y>
+        <width>61</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>00100001</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="ObjFmpt2Menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1420</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>后台设置</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>硬板设置</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>控参操作</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>固件下载</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>镜像操作</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_6">
+    <property name="title">
+     <string>批量烧录</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menu_7">
+    <property name="title">
+     <string>关于</string>
+    </property>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
+   <addaction name="menu_6"/>
+   <addaction name="menu_7"/>
+  </widget>
+  <widget class="QStatusBar" name="ObjFmpt2StatusBar">
+   <property name="mouseTracking">
+    <bool>true</bool>
+   </property>
+   <property name="tabletTracking">
+    <bool>true</bool>
+   </property>
+   <property name="acceptDrops">
+    <bool>true</bool>
+   </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton_cloudCon_par_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_cloudCon_par_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>80</x>
+     <y>158</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cfgFile_Browse</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cfgFile_Browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>461</x>
+     <y>292</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_byteopr_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_byteopr_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>575</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>71</x>
+     <y>605</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_byteopr_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_byteopr_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>576</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>604</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_fio_file_browse</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_fio_file_browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>636</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_fio_file_save</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_fio_file_save()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>638</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>156</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_fio_file_load</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_fio_file_load()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>376</x>
+     <y>632</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>366</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ihuCon_conn</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_ihuCon_conn()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>860</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_addr_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_addr_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>717</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>140</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_chk_chk</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_chk_chk()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>997</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_chk_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_chk_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>963</x>
+     <y>155</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>144</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_swRel_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_swRel_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>700</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>171</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_swRel_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_swRel_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>732</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>179</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_valid_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_valid_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>715</x>
+     <y>217</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_swVer_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_swVer_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>969</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>175</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_swVer_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_swVer_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1006</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>187</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_file_browse</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_file_browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1010</x>
+     <y>247</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_file_update</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_file_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1092</x>
+     <y>247</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_addr_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_addr_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>715</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>292</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_swRel_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_swRel_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>687</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>320</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_swRel_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_swRel_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>731</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>328</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_valid_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_valid_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>711</x>
+     <y>364</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>354</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_chk_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_chk_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>958</x>
+     <y>312</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>286</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_chk_chk</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_chk_chk()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1002</x>
+     <y>314</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_swVer_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_swVer_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>967</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>342</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_swVer_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_swVer_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1002</x>
+     <y>345</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>349</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_fac_len_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_fac_len_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>985</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>217</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_len_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_len_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>999</x>
+     <y>365</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>375</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_file_browse</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_file_browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>974</x>
+     <y>402</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app1_file_update</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app1_file_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1110</x>
+     <y>395</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>395</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_addr_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_addr_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>694</x>
+     <y>460</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>437</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_chk_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_chk_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>956</x>
+     <y>456</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>446</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_chk_chk</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_chk_chk()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1003</x>
+     <y>458</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>449</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_swRel_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_swRel_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>679</x>
+     <y>488</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>471</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_swRel_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_swRel_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>733</x>
+     <y>486</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>478</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_swVer_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_swVer_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>967</x>
+     <y>490</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>485</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_swVer_set</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_swVer_set()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1002</x>
+     <y>489</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>497</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_valid_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_valid_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>711</x>
+     <y>518</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>523</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_len_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_len_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>994</x>
+     <y>518</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>521</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_file_browse</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_file_browse()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>992</x>
+     <y>552</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>554</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_aim_app2_file_update</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_aim_app2_file_update()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1101</x>
+     <y>544</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>559</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_bbo_burn_fac_app</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_bbo_burn_fac_app()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>739</x>
+     <y>630</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>740</x>
+     <y>582</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_bbo_burn_bc_fac_app</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_bbo_burn_bc_fac_app()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1014</x>
+     <y>627</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>603</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swUpgradeFlag_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swUpgradeFlag_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>375</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>264</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_hwPemId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_hwPemId_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>148</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>165</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_hwPemId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_hwPemId_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>284</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>173</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swRelId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swRelId_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>156</x>
+     <y>310</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>198</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swRelId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swRelId_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>247</x>
+     <y>311</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>200</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swVerId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swVerId_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>230</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swVerId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swVerId_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>245</x>
+     <y>340</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swUpgPollId_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swUpgPollId_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>399</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swUpgPollId_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swUpgPollId_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>239</x>
+     <y>397</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_bootIndex_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_bootIndex_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>165</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>348</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_bootInde_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_bootIndex_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>220</x>
+     <y>436</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>350</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_bootAreaMax_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_bootAreaMax_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>458</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>379</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_bootAreaMax_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_bootAreaMax_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>224</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>578</x>
+     <y>361</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cypherKey_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cypherKey_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>164</x>
+     <y>497</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cypherKey_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cypherKey_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>238</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>412</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_hwType_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_hwType_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>137</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_hwType_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_hwType_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>251</x>
+     <y>249</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>139</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_swUpgradeFlag_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_swUpgradeFlag_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>367</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>265</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_equLable_read</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_equLable_read()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>154</x>
+     <y>94</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_equLable_write</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_equLable_write()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>238</x>
+     <y>220</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>588</x>
+     <y>80</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_oli_clear</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_oli_clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1297</x>
+     <y>666</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_cloudCon_label_apply</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_cloudCon_label_apply()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>137</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1311</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_oli_test</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_oli_test()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1214</x>
+     <y>659</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1186</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cfgFile_LoadFile</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cfgFile_LoadFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>487</x>
+     <y>361</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>470</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cfgFile_SaveFile</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cfgFile_SaveFile()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>472</x>
+     <y>394</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>468</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cfgFile_ReadAllFromHw</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cfgFile_ReadAllFromHw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>512</x>
+     <y>430</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>502</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_keo_cfgFile_WriteAllToHw</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_keo_cfgFile_WriteAllToHw()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>483</x>
+     <y>466</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1163</x>
+     <y>504</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ihuCon_disc</sender>
+   <signal>clicked()</signal>
+   <receiver>ObjFmpt2MainForm</receiver>
+   <slot>slot_ihuCon_disc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>920</x>
+     <y>76</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1157</x>
+     <y>44</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slotDialogWinKeo()</slot>
+  <slot>slot_cloudCon_label_apply()</slot>
+  <slot>slot_keo_hwType_read()</slot>
+  <slot>slot_keo_hwType_write()</slot>
+  <slot>slot_keo_hwPemId_read()</slot>
+  <slot>slot_keo_hwPemId_write()</slot>
+  <slot>slot_keo_swRelId_read()</slot>
+  <slot>slot_keo_swRelId_write()</slot>
+  <slot>slot_keo_swUpgPollId_read()</slot>
+  <slot>slot_keo_swUpgPollId_write()</slot>
+  <slot>slot_keo_swVerId_write()</slot>
+  <slot>slot_keo_swVerId_read()</slot>
+  <slot>slot_keo_bootIndex_read()</slot>
+  <slot>slot_keo_bootIndex_write()</slot>
+  <slot>slot_keo_bootAreaMax_write()</slot>
+  <slot>slot_keo_bootAreaMax_read()</slot>
+  <slot>slot_keo_cypherKey_write()</slot>
+  <slot>slot_keo_cypherKey_read()</slot>
+  <slot>slot_keo_cfgFile_Browse()</slot>
+  <slot>slot_keo_swUpgradeFlag_read()</slot>
+  <slot>slot_keo_swUpgradeFlag_write()</slot>
+  <slot>slot_keo_cfgFile_LoadFile()</slot>
+  <slot>slot_keo_cfgFile_SaveFile()</slot>
+  <slot>slot_keo_cfgFile_ReadAllFromHw()</slot>
+  <slot>slot_keo_cfgFile_WriteAllToHw()</slot>
+  <slot>slot_keo_byteopr_read()</slot>
+  <slot>slot_keo_byteopr_write()</slot>
+  <slot>slot_fio_file_browse()</slot>
+  <slot>slot_fio_file_save()</slot>
+  <slot>slot_fio_file_load()</slot>
+  <slot>slot_ihuCon_conn()</slot>
+  <slot>slot_aim_fac_addr_read()</slot>
+  <slot>slot_aim_fac_swRel_read()</slot>
+  <slot>slot_aim_fac_swRel_set()</slot>
+  <slot>slot_aim_fac_valid_read()</slot>
+  <slot>slot_aim_fac_chk_read()</slot>
+  <slot>slot_aim_fac_chk_chk()</slot>
+  <slot>slot_aim_fac_swVer_read()</slot>
+  <slot>slot_aim_fac_swVer_set()</slot>
+  <slot>slot_aim_fac_file_browse()</slot>
+  <slot>slot_aim_fac_file_update()</slot>
+  <slot>slot_aim_app1_addr_read()</slot>
+  <slot>slot_aim_app1_swRel_read()</slot>
+  <slot>slot_aim_app1_swRel_set()</slot>
+  <slot>slot_aim_app1_valid_read()</slot>
+  <slot>slot_aim_app1_chk_read()</slot>
+  <slot>slot_aim_app1_chk_chk()</slot>
+  <slot>slot_aim_app1_swVer_read()</slot>
+  <slot>slot_aim_app1_swVer_set()</slot>
+  <slot>slot_aim_app1_file_browse()</slot>
+  <slot>slot_aim_app1_file_update()</slot>
+  <slot>slot_aim_app2_addr_read()</slot>
+  <slot>slot_aim_app2_swRel_read()</slot>
+  <slot>slot_aim_app2_swRel_set()</slot>
+  <slot>slot_aim_app2_valid_read()</slot>
+  <slot>slot_aim_app2_chk_read()</slot>
+  <slot>slot_aim_app2_chk_chk()</slot>
+  <slot>slot_aim_app2_swVer_read()</slot>
+  <slot>slot_aim_app2_swVer_set()</slot>
+  <slot>slot_aim_app2_file_browse()</slot>
+  <slot>slot_aim_app2_file_update()</slot>
+  <slot>slot_aim_fac_len_read()</slot>
+  <slot>slot_aim_app1_len_read()</slot>
+  <slot>slot_aim_app2_len_read()</slot>
+  <slot>slot_bbo_burn_fac_app()</slot>
+  <slot>slot_bbo_burn_bc_fac_app()</slot>
+  <slot>slot_keo_equLable_read()</slot>
+  <slot>slot_keo_equLable_write()</slot>
+  <slot>slot_oli_clear()</slot>
+  <slot>slot_cloudCon_par_set()</slot>
+  <slot>slot_oli_test()</slot>
+  <slot>slot_ihuCon_disc()</slot>
+ </slots>
+</ui>
