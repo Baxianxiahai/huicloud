@@ -1,10 +1,9 @@
-﻿====XHAT - Xiaohui Auto Develop, Deployment, Production and Maintenance Tool - SDDE-VOB=====
+﻿====HUICLOUD=====
 
-【目标2】 后台Centos的自动化装机 （一键备份、一键恢复等）
-【目标3】 本地Git的穿越
-【目标4】 DevOps自动化
-【目标5】 vnc远程登录办公室目标机，做交叉编译并一键部署
 
+
+//=ZJL, 2018 MAY.2, CURRENT_SW_DELIVERY R1.28 =>CEBS
+= INIT CEBS
 
 
 //=ZJL, 2018 Mar.27, CURRENT_SW_DELIVERY R1.27 =>GTJY编解码接入
