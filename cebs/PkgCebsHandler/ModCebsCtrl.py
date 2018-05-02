@@ -67,32 +67,30 @@ class classCtrlThread(QThread):
 
     def __init__(self,parent=None):
         super(classCtrlThread,self).__init__(parent)
-        self.identity = None
-
+        self.identity = None;
+        self.times = 0;
+        
     def setIdentity(self,text):
         self.identity = text
 
     def setVal(self,val):
         self.times = int(val)
-        # 执行线程的run方法
-        self.start()
 
-    def start(self):
-        self.signal_print_log.emit("This is starting!")
-        self.signal_print_log.emit("This is 2nd time starting!")
-        self.signal_print_log.emit("This is 3rd time starting!")
-        pass
+    def funcStart(self):
+        self.times = 1000
+        self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times))
 
-    def stop(self):
-        self.signal_print_log.emit("This is stopping!")
-        pass
+    def funcStop(self):
+        self.times = 0
+        self.signal_print_log.emit("停止拍照，剩余次数=%d." %(self.times))
 
     def run(self):
-        while self.times > 0 and self.identity:
+        while True:
             time.sleep(1)
-            # 发射信号
-            self.sinOut.emit(self.identity + "==>"+str(self.times))
-            self.times -= 1
+            if (self.times > 0):
+                #self.signal_print_log.emit(str(self.identity + "==>" + str(self.times)))
+                self.signal_print_log.emit(str("拍照进行时：当前剩余次数=" + str(self.times)))
+                self.times -= 1
 
         
         

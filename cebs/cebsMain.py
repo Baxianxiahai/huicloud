@@ -44,20 +44,14 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         super(cebsMainWindow, self).__init__()  
         self.setupUi(self)
         self.initUI()
-        #self.initCanParameter()
         
-#         self.thread = ModCebsCtrl.classCtrlThread()
-#         self.thread.setIdentity("thread1")
-#         self.thread.sinOut.connect(self.outText)
-#         self.thread.setVal(6)
-
+        #启动第一个干活的子进程
         self.thread = ModCebsCtrl.classCtrlThread()
         self.thread.setIdentity("CtrlThread")
         self.thread.signal_print_log.connect(self.slot_print_trigger)
-        self.thread.signal_start.connect(self.thread.start)
-        self.thread.signal_stop.connect(self.thread.stop)
-        self.thread.setVal(6)
-        #self.thread.run();
+        self.thread.signal_start.connect(self.thread.funcStart)
+        self.thread.signal_stop.connect(self.thread.funcStop)
+        self.thread.start();
        
     def initUI(self):
         self.statusBar().showMessage('状态栏: ')
@@ -70,7 +64,7 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         toolbar = self.addToolBar('EXIT')  
         toolbar.addAction(exitAction)
 
-    def initCanParameter(self):
+    def initParameter(self):
         pass
 
     #File Open Method, for reference
@@ -81,44 +75,28 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
     #核心函数
     def cebs_print_log(self, info):
         strOld = self.textEdit_runProgress.toPlainText()
-        strOut = strOld + "\n>> " + time.asctime() + " " + info;
-        self.textEdit_runProgress.setText(strOut);
-        #sself.textEdit_runProgress.scrollToBottom();
-        #time.sleep(1)
-        pass
+        #采用全局编辑
+        #strOut = strOld + "\n>> " + time.asctime() + " " + info;
+        #self.textEdit_runProgress.setText(strOut);
+        #采用正常的append方法
+        strOut = ">> " + time.asctime() + " " + info;
+        self.textEdit_runProgress.append(strOut);
+        self.textEdit_runProgress.moveCursor(QtGui.QTextCursor.End)
+        #后面两个操作不增加也没啥大问题，但给了我们更多的操作线索
+        self.textEdit_runProgress.ensureCursorVisible()
+        self.textEdit_runProgress.insertPlainText("")
 
     def slot_print_trigger(self, info):
         self.cebs_print_log(info)
 
     def slot_ctrl_start(self):
-        try:
-            res = {}
-            #obj = ModCebsCtrl.ClassHandler();
-            #res = obj.func_ctrl_start();
-            self.thread.signal_start.emit()
-        except Exception as err:  
-            print("Exec slot_ctrl_start, err = " + str(err))
-            self.cebs_print_log("CTRL: Exec slot_ctrl_start, err = " + str(err))
-        finally:
-            self.cebs_print_log("CTRL: " + str(res))
+        self.thread.signal_start.emit()
         
     def slot_ctrl_stop(self):
-        try:
-            res = {}
-            #obj = ModCebsCtrl.ClassHandler();
-            #res = obj.func_ctrl_stop();
-            self.thread.signal_stop.emit()
-        except Exception as err:  
-            print("Exec slot_ctrl_stop, err = " + str(err))
-            self.cebs_print_log("CTRL: Exec slot_ctrl_stop, err = " + str(err))
-        finally:
-            self.cebs_print_log("CTRL: " + str(res))
-
-
+        self.thread.signal_stop.emit()
 
     def slot_runpg_clear(self):
         self.textEdit_runProgress.clear();
-
 
     #Test functions
     def slot_runpg_test(self):
