@@ -4,7 +4,8 @@
 
 //=ZJL, 2018 MAY.2, CURRENT_SW_DELIVERY R1.28 =>CEBS
 = INIT CEBS
-
+= cd form_qt, pyuic5 -o  cebsmainform.py cebsMainform.ui
+  pyinstaller -F -w --icon=.\icon_res\cebs.ico cebsMain.py
 
 //=ZJL, 2018 Mar.27, CURRENT_SW_DELIVERY R1.27 =>GTJY编解码接入
 = RESTClient => Firefox的插件
