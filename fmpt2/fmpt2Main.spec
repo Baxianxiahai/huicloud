@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['fmpt2Main.py'],
-             pathex=['/home/hitpony/EclipseWs/sdde/fmpt2'],
+             pathex=['D:\\IHUSRC\\huicloud\\fmpt2'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -26,4 +26,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=False )
+          console=False , icon='fmpt2.ico')

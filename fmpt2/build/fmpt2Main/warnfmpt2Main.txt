@@ -1,0 +1,31 @@
+missing module named resource - imported by posix, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named posix - imported by os, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named _posixsubprocess - imported by subprocess, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named readline - imported by cmd, code, pdb, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+excluded module named _frozen_importlib - imported by importlib, importlib.abc, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named _winreg - imported by platform, jpype._windows, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named _scproxy - imported by urllib.request
+missing module named java - imported by platform, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named 'java.lang' - imported by platform, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py, xml.sax._exceptions
+missing module named vms_lib - imported by platform, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named termios - imported by tty, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py, getpass
+missing module named grp - imported by shutil, tarfile, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named _dummy_threading - imported by dummy_threading, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py, netrc, getpass
+missing module named org - imported by pickle, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py
+missing module named 'org.python' - imported by copy, D:\IHUSRC\huicloud\fmpt2\fmpt2Main.py, xml.sax
+missing module named PyObjCTools - imported by jpype._gui
+runtime module named urllib3.packages.six.moves - imported by http.client, urllib3.connectionpool, urllib3.util.response, 'urllib3.packages.six.moves.urllib', urllib3.response
+missing module named StringIO - imported by PyQt5.uic.port_v2.string_io, urllib3.packages.six
+missing module named backports - imported by urllib3.packages.ssl_match_hostname
+missing module named _abcoll - imported by urllib3.packages.ordered_dict
+missing module named dummy_thread - imported by urllib3.packages.ordered_dict
+missing module named thread - imported by urllib3.packages.ordered_dict
+missing module named "'urllib3.packages.six.moves.urllib'.parse" - imported by urllib3.request, urllib3.poolmanager
+missing module named netbios - imported by uuid
+missing module named win32wnet - imported by uuid
+missing module named Queue - imported by urllib3.connectionpool
+missing module named port_v2 - imported by PyQt5.uic.properties
+missing module named cStringIO - imported by PyQt5.uic.port_v2.string_io
+missing module named copy_reg - imported by cStringIO
