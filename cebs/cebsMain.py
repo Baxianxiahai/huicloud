@@ -35,7 +35,8 @@ from form_qt.cebsmainform import Ui_cebsMainWindow    # 导入生成form.py里�
 #Local Class
 from PkgCebsHandler import ModCebsCom  #Common Support module
 from PkgCebsHandler import ModCebsCtrl
-
+from PkgCebsHandler import ModCebsVision
+from PkgCebsHandler import ModCebsCfg
 
 #Main Windows
 class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
@@ -45,13 +46,27 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.setupUi(self)
         self.initUI()
         
+        #读取配置文件参数
+        objInitCfg=ModCebsCfg.ConfigReader(ModCebsCom.GL_CEBS_CFG_FILE_NAME)
+        objInitCfg.readCfgFormal()
+        
+        #固定参数
+        ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = random.random()*10; #测试目的，不然应该赋0值
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
+        
         #启动第一个干活的子进程
-        self.thread = ModCebsCtrl.classCtrlThread()
-        self.thread.setIdentity("CtrlThread")
-        self.thread.signal_print_log.connect(self.slot_print_trigger)
-        self.thread.signal_start.connect(self.thread.funcStart)
-        self.thread.signal_stop.connect(self.thread.funcStop)
-        self.thread.start();
+        self.threadCtrl = ModCebsCtrl.classCtrlThread()
+        self.threadCtrl.setIdentity("CtrlThread")
+        self.threadCtrl.signal_print_log.connect(self.slot_print_trigger)
+        self.threadCtrl.signal_start.connect(self.threadCtrl.funcStart)
+        self.threadCtrl.signal_stop.connect(self.threadCtrl.funcStop)
+        self.threadCtrl.start();
+
+        #启动第二个干活的子进程
+        self.threadVision = ModCebsVision.classVisionThread()
+        self.threadVision.setIdentity("VisionThread")
+        self.threadVision.signal_print_log.connect(self.slot_print_trigger)
+        self.threadVision.start();
        
     def initUI(self):
         self.statusBar().showMessage('状态栏: ')
@@ -90,10 +105,10 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.cebs_print_log(info)
 
     def slot_ctrl_start(self):
-        self.thread.signal_start.emit()
+        self.threadCtrl.signal_start.emit()
         
     def slot_ctrl_stop(self):
-        self.thread.signal_stop.emit()
+        self.threadCtrl.signal_stop.emit()
 
     def slot_runpg_clear(self):
         self.textEdit_runProgress.clear();

@@ -73,7 +73,6 @@ class Ui_cebsMainWindow(object):
         self.pushButton_runpg_test.clicked.connect(cebsMainWindow.slot_runpg_test)
         self.pushButton_ctrl_stop.clicked.connect(cebsMainWindow.slot_ctrl_stop)
         self.pushButton_ctrl_start.clicked.connect(cebsMainWindow.slot_ctrl_start)
-        self.textEdit_runProgress.copyAvailable['bool'].connect(cebsMainWindow.slot_print_trigger)
         QtCore.QMetaObject.connectSlotsByName(cebsMainWindow)
 
     def retranslateUi(self, cebsMainWindow):

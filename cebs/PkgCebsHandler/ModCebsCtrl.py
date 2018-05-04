@@ -4,6 +4,9 @@ Created on 2018年5月2日
 @author: Administrator
 '''
 
+####!/usr/bin/python3.6
+#### -*- coding: UTF-8 -*-
+
 import random
 import sys
 import time
@@ -78,11 +81,13 @@ class classCtrlThread(QThread):
 
     def funcStart(self):
         self.times = 1000
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False;
         self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times))
 
     def funcStop(self):
         self.times = 0
         self.signal_print_log.emit("停止拍照，剩余次数=%d." %(self.times))
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
 
     def run(self):
         while True:
@@ -91,6 +96,7 @@ class classCtrlThread(QThread):
                 #self.signal_print_log.emit(str(self.identity + "==>" + str(self.times)))
                 self.signal_print_log.emit(str("拍照进行时：当前剩余次数=" + str(self.times)))
                 self.times -= 1
+                ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT += 1;
 
         
         

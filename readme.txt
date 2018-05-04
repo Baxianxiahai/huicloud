@@ -2,6 +2,9 @@
 
 
 
+//=ZJL, 2018 MAY.4, CURRENT_SW_DELIVERY R1.29 =>CEBS
+= 继续完善多任务及VISION PRCECESSING FRAMEWORK
+
 //=ZJL, 2018 MAY.2, CURRENT_SW_DELIVERY R1.28 =>CEBS
 = INIT CEBS
 = cd form_qt, pyuic5 -o  cebsmainform.py cebsMainform.ui
