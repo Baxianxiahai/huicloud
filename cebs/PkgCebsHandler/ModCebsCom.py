@@ -21,6 +21,7 @@ import socket
 
 #Gllbal set data
 GL_CEBS_PIC_PROC_BATCH_INDEX = 0;
+GL_CEBS_PIC_PROC_CLAS_INDEX = 0;  #识别到哪一种类别
 GL_CEBS_PIC_PROC_REMAIN_CNT = 0;
 GL_CEBS_PIC_PROC_CTRL_FLAG = True;  #True表示可以做图像识别
 GL_CEBS_PIC_ONE_WHOLE_BATCH = 96;

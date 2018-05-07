@@ -44,11 +44,9 @@ class ConfigOpr(object):
             self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
             self.CReader.add_section("Counter")
             self.CReader.set("Counter","PicBatchCnt", "0")
+            self.CReader.set("Counter","PicBatchClas", "0")
             self.CReader.set("Counter","PicRemainCnt", "0")
             self.CReader.write(open(self.filePath, "w"))
-#         else:
-#             ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX = int(self.CReader['Counter']['PicBatchCnt']);
-#             ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = int(self.CReader['Counter']['PicRemainCnt']);
         #为了防止ini文件中信息错误，重新写入
         if (self.CReader['Env']['workdir'] != str(os.getcwd()+ self.osDifferentStr())):
             self.updateSectionPar()
@@ -57,8 +55,9 @@ class ConfigOpr(object):
         self.CReader=configparser.ConfigParser()
         self.CReader.read(self.filePath, encoding='utf8')        
         ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX = int(self.CReader['Counter']['PicBatchCnt']);
+        ModCebsCom.GL_CEBS_PIC_PROC_CLAS_INDEX = int(self.CReader['Counter']['PicBatchClas']);
         ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = int(self.CReader['Counter']['PicRemainCnt']);
-                
+
     def getSection(self):
         return self.CReader.sections()
 
@@ -91,7 +90,7 @@ class ConfigOpr(object):
             self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
             self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
             self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
-        fd = open(self.filePath,'w')
+        fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
                 
@@ -102,13 +101,16 @@ class ConfigOpr(object):
         if (self.CReader.has_section("Counter") == False):
             self.CReader.add_section("Counter")
             self.CReader.set("Counter","PicBatchCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX))
+            self.CReader.set("Counter","PicBatchClas", str(ModCebsCom.GL_CEBS_PIC_PROC_CLAS_INDEX))
             self.CReader.set("Counter","PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+            
         else:
             self.CReader.remove_section("Counter")
             self.CReader.add_section("Counter")
             self.CReader.set("Counter","PicBatchCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX))
+            self.CReader.set("Counter","PicBatchClas", str(ModCebsCom.GL_CEBS_PIC_PROC_CLAS_INDEX))
             self.CReader.set("Counter","PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
-        fd = open(self.filePath,'w')
+        fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
 
@@ -121,9 +123,8 @@ class ConfigOpr(object):
             self.CReader.add_section(batchStr)
         else:
             self.CReader.add_section(batchStr)
-        print(batchStr, "batch_number", batch)
         self.CReader.set(batchStr, "batch_number", str(batch))
-        fd = open(self.filePath,'w')
+        fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
 
@@ -131,23 +132,30 @@ class ConfigOpr(object):
         self.CReader=configparser.ConfigParser()
         self.CReader.read(self.filePath, encoding='utf8')
         batchStr = "batch#" + str(batch)
-        fileName = str("batchFile#" + str(fileNbr))
+        fileName = str("batchFileName#" + str(fileNbr))
+        fileClas = str("batchFileClas#" + str(fileNbr))
         self.CReader.set(batchStr, fileName, str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH) + fileName + '.jpg')
-        fd = open(self.filePath,'w')
+        self.CReader.set(batchStr, fileClas, 'no')
+        fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
 
-    def updateBatch(self, batch):
+    def getUnclasBatchFile(self, batch):
+        pass
+
+    def updateBatchFile(self, batch, fileNbr):
         batchStr = "batch#" + str(batch)
         if (self.CReader.has_section(batchStr) == True):
             self.CReader.remove_section(batchStr)
             self.CReader.add_section(batchStr)
         self.CReader.set(batchStr,"PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
-        fd = open(self.filePath,'w')
+        fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
-        
-        
-        
-        
-                
+
+
+
+
+
+
+

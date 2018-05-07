@@ -81,7 +81,6 @@ class classCtrlThread(QThread):
         self.times = int(val)
 
     def funcStart(self):
-        ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX += 1;
         self.times = ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH;
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False;
         self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times))
@@ -91,18 +90,16 @@ class classCtrlThread(QThread):
         self.times = 0
         self.signal_print_log.emit("停止拍照，剩余次数=%d." %(self.times))
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
-        self.objInitCfg.updateCtrlCntInfo();
         ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
+        self.objInitCfg.updateCtrlCntInfo();
         
     def funcCapture(self):
         self.objInitCfg.addBatchFile(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX, self.times)
-        pass
 
     def run(self):
         while True:
             time.sleep(1)
             if (self.times > 0):
-                #self.signal_print_log.emit(str(self.identity + "==>" + str(self.times)))
                 self.signal_print_log.emit(str("拍照进行时：当前剩余次数=" + str(self.times)))
                 self.funcCapture()
                 self.times -= 1
@@ -110,7 +107,7 @@ class classCtrlThread(QThread):
                 #控制停止的所作所为
                 if (self.times == 0):
                     ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
-
+                    self.objInitCfg.updateCtrlCntInfo();
         
         
         
