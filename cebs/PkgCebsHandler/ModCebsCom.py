@@ -20,10 +20,15 @@ import socket
 
 
 #Gllbal set data
+GL_CEBS_PIC_PROC_BATCH_INDEX = 0;
 GL_CEBS_PIC_PROC_REMAIN_CNT = 0;
 GL_CEBS_PIC_PROC_CTRL_FLAG = True;  #True表示可以做图像识别
+GL_CEBS_PIC_ONE_WHOLE_BATCH = 96;
 GL_CEBS_CFG_FILE_NAME = r"cebsConfig.ini";
-
+GL_CEBS_PIC_ORIGIN_PATH = r"pic_origin";
+GL_CEBS_PIC_MIDDLE_PATH = r"pic_middle";
+GL_CEBS_PIC_ABS_ORIGIN_PATH = "";
+GL_CEBS_PIC_ABS_MIDDLE_PATH = "";
 
 #以下变量暂时未使用
 GL_CEBS_SPS_READ_VALUE = 0;

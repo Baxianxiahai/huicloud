@@ -9,15 +9,56 @@ Created on 2018年5月4日
 
 
 import configparser
+import os
+import platform
 from PkgCebsHandler import ModCebsCom
 
 
-class ConfigReader(object):
-    def __init__(self, path):
-        self.filePath = path
+class ConfigOpr(object):
+    def __init__(self):
+        self.filePath = ModCebsCom.GL_CEBS_CFG_FILE_NAME
+        self.initGlobalPar()
+
+    #初始化所有的存储区
+    def initGlobalPar(self):
+        #判定捕获图像的工作文件目录
+        ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH = os.getcwd()+ self.osDifferentStr() + ModCebsCom.GL_CEBS_PIC_ORIGIN_PATH
+        flag = os.path.exists(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH)
+        if (flag == False):
+            os.mkdir(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH)
+        ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH += self.osDifferentStr()
+        #判定中间图像的工作文件目录
+        ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH = os.getcwd()+ self.osDifferentStr() + ModCebsCom.GL_CEBS_PIC_MIDDLE_PATH
+        flag = os.path.exists(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH)
+        if (flag == False):
+            os.mkdir(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH)
+        ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH += self.osDifferentStr()
+        #判定是否需要创建ini文件
         self.CReader=configparser.ConfigParser()
         self.CReader.read(self.filePath, encoding='utf8')
+        flag = os.path.exists(self.filePath)
+        if (flag == False):
+            self.CReader.add_section("Env")
+            self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
+            self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
+            self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
+            self.CReader.add_section("Counter")
+            self.CReader.set("Counter","PicBatchCnt", "0")
+            self.CReader.set("Counter","PicRemainCnt", "0")
+            self.CReader.write(open(self.filePath, "w"))
+#         else:
+#             ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX = int(self.CReader['Counter']['PicBatchCnt']);
+#             ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = int(self.CReader['Counter']['PicRemainCnt']);
+        #为了防止ini文件中信息错误，重新写入
+        if (self.CReader['Env']['workdir'] != str(os.getcwd()+ self.osDifferentStr())):
+            self.updateSectionPar()
 
+    def readGlobalPar(self):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')        
+        ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX = int(self.CReader['Counter']['PicBatchCnt']);
+        ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = int(self.CReader['Counter']['PicRemainCnt']);
+                
     def getSection(self):
         return self.CReader.sections()
 
@@ -26,63 +67,85 @@ class ConfigReader(object):
         for k,v in self.CReader.items(section):
             s[k]=v
         return s
-    
-    #写入宿舍配置文件
-    def writeRoomInfo(self):
-        try:
-            self.CReader.add_section("School")
-            self.CReader.set("School","IP","10.15.40.123")
-            self.CReader.set("School","Mask","255.255.255.0")
-            self.CReader.set("School","Gateway","10.15.40.1")
-            self.CReader.set("School","DNS","211.82.96.1")
-        except configparser.DuplicateSectionError:
-            print("Section 'School' already exists")
-        
-    #写入比赛配置文件
-    def writeMatchInfo(self):
-        try:
-            self.CReader.add_section("Match")
-            self.CReader.set("Match","IP","172.17.29.120")
-            self.CReader.set("Match","Mask","255.255.255.0")
-            self.CReader.set("Match","Gateway","172.17.29.1")
-            self.CReader.set("Match","DNS","0.0.0.0")
-        except configparser.DuplicateSectionError:
-            print("Section 'Match' already exists")
 
+    def osDifferentStr(self):
+        sysstr = platform.system()
+        if(sysstr =="Windows"):
+            return '\\'
+        elif(sysstr == "Linux"):
+            return '/'
+        else:
+            return '/'
+
+    def updateSectionPar(self):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')        
+        if (self.CReader.has_section("Env") == False):
+            self.CReader.add_section("Env")
+            self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
+            self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
+            self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
+        else:
+            self.CReader.remove_section("Env")
+            self.CReader.add_section("Env")        
+            self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
+            self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
+            self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
+        fd = open(self.filePath,'w')
+        self.CReader.write(fd)
+        fd.close()
+                
     #写入全局控制数据
-    def writeCtrlCntInfo(self):
-        try:
+    def updateCtrlCntInfo(self):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')
+        if (self.CReader.has_section("Counter") == False):
             self.CReader.add_section("Counter")
+            self.CReader.set("Counter","PicBatchCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX))
             self.CReader.set("Counter","PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
-        except configparser.DuplicateSectionError:
-            print("Section 'Counter' already exists")
+        else:
+            self.CReader.remove_section("Counter")
+            self.CReader.add_section("Counter")
+            self.CReader.set("Counter","PicBatchCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX))
+            self.CReader.set("Counter","PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+        fd = open(self.filePath,'w')
+        self.CReader.write(fd)
+        fd.close()
 
-    #写入配置文件
-    def writeCfgInfo(self):        
-        self.CReader.write(open(self.filePath, "w"))
-        
-    #测试读取
-    def readCfgInfo(self):         
-        ip=self.CReader.get("School","IP")
-        mask=self.CReader.get("School","mask")
-        gateway=self.CReader.get("School","Gateway")
-        dns=self.CReader.get("School","DNS")
-        print((ip,mask+"\n"+gateway,dns))
-        
-    #测试读取
-    def readCfgTest(self):
-        self.writeRoomInfo()
-        self.writeMatchInfo()
-        self.writeCfgInfo()
-        self.readCfgInfo() 
-        
-    #正式工作模式
-    def readCfgFormal(self):
-        self.writeRoomInfo()
-        self.writeMatchInfo()
-        self.writeCtrlCntInfo()
-        self.writeCfgInfo()
-        self.readCfgInfo() 
+    def createBatch(self, batch):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')
+        batchStr = "batch#" + str(batch)
+        if (self.CReader.has_section(batchStr) == True):
+            self.CReader.remove_section(batchStr)
+            self.CReader.add_section(batchStr)
+        else:
+            self.CReader.add_section(batchStr)
+        print(batchStr, "batch_number", batch)
+        self.CReader.set(batchStr, "batch_number", str(batch))
+        fd = open(self.filePath,'w')
+        self.CReader.write(fd)
+        fd.close()
+
+    def addBatchFile(self, batch, fileNbr):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')
+        batchStr = "batch#" + str(batch)
+        fileName = str("batchFile#" + str(fileNbr))
+        self.CReader.set(batchStr, fileName, str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH) + fileName + '.jpg')
+        fd = open(self.filePath,'w')
+        self.CReader.write(fd)
+        fd.close()
+
+    def updateBatch(self, batch):
+        batchStr = "batch#" + str(batch)
+        if (self.CReader.has_section(batchStr) == True):
+            self.CReader.remove_section(batchStr)
+            self.CReader.add_section(batchStr)
+        self.CReader.set(batchStr,"PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+        fd = open(self.filePath,'w')
+        self.CReader.write(fd)
+        fd.close()
         
         
         

@@ -46,13 +46,13 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.setupUi(self)
         self.initUI()
         
-        #读取配置文件参数
-        objInitCfg=ModCebsCfg.ConfigReader(ModCebsCom.GL_CEBS_CFG_FILE_NAME)
-        objInitCfg.readCfgFormal()
-        
         #固定参数
-        ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = random.random()*10; #测试目的，不然应该赋0值
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
+        
+        #读取配置文件参数
+        objInitCfg=ModCebsCfg.ConfigOpr()
+        objInitCfg.readGlobalPar();
+        objInitCfg.updateCtrlCntInfo()
         
         #启动第一个干活的子进程
         self.threadCtrl = ModCebsCtrl.classCtrlThread()

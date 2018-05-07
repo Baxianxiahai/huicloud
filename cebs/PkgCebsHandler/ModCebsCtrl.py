@@ -23,7 +23,7 @@ from PyQt5.QtCore import pyqtSlot
 #Local include
 from cebsMain import *
 from PkgCebsHandler import ModCebsCom
-from form_qt.cebsmainform import Ui_cebsMainWindow
+#from form_qt.cebsmainform import Ui_cebsMainWindow
 
 
 #Entry Processing
@@ -72,6 +72,7 @@ class classCtrlThread(QThread):
         super(classCtrlThread,self).__init__(parent)
         self.identity = None;
         self.times = 0;
+        self.objInitCfg=ModCebsCfg.ConfigOpr();
         
     def setIdentity(self,text):
         self.identity = text
@@ -80,14 +81,22 @@ class classCtrlThread(QThread):
         self.times = int(val)
 
     def funcStart(self):
-        self.times = 1000
+        ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX += 1;
+        self.times = ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH;
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False;
         self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times))
+        self.objInitCfg.createBatch(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX);
 
     def funcStop(self):
         self.times = 0
         self.signal_print_log.emit("停止拍照，剩余次数=%d." %(self.times))
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
+        self.objInitCfg.updateCtrlCntInfo();
+        ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
+        
+    def funcCapture(self):
+        self.objInitCfg.addBatchFile(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX, self.times)
+        pass
 
     def run(self):
         while True:
@@ -95,8 +104,12 @@ class classCtrlThread(QThread):
             if (self.times > 0):
                 #self.signal_print_log.emit(str(self.identity + "==>" + str(self.times)))
                 self.signal_print_log.emit(str("拍照进行时：当前剩余次数=" + str(self.times)))
+                self.funcCapture()
                 self.times -= 1
                 ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT += 1;
+                #控制停止的所作所为
+                if (self.times == 0):
+                    ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
 
         
         

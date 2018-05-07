@@ -23,7 +23,7 @@ from PyQt5.QtCore import pyqtSlot
 #Local include
 from cebsMain import *
 from PkgCebsHandler import ModCebsCom
-from form_qt.cebsmainform import Ui_cebsMainWindow
+#from form_qt.cebsmainform import Ui_cebsMainWindow
 
 #主处理任务模块
 class classVisionThread(QThread):
