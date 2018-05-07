@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1197</width>
-    <height>637</height>
+    <width>1161</width>
+    <height>543</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1161</width>
+    <height>543</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>CEBS SYSTEM</string>
@@ -17,10 +23,10 @@
    <widget class="QTextEdit" name="textEdit_runProgress">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>80</y>
-      <width>641</width>
-      <height>241</height>
+      <x>380</x>
+      <y>40</y>
+      <width>761</width>
+      <height>401</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -62,21 +68,21 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushButton_ctrl_start">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>60</y>
-      <width>111</width>
-      <height>111</height>
+      <x>20</x>
+      <y>40</y>
+      <width>161</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="text">
-     <string>启动</string>
+     <string>启动拍照</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_runProgress">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>60</y>
+      <x>380</x>
+      <y>20</y>
       <width>261</width>
       <height>16</height>
      </rect>
@@ -88,21 +94,21 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushButton_ctrl_stop">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>210</y>
-      <width>111</width>
-      <height>111</height>
+      <x>200</x>
+      <y>40</y>
+      <width>161</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="text">
-     <string>停止</string>
+     <string>停止拍照</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_runpg_test">
     <property name="geometry">
      <rect>
-      <x>710</x>
-      <y>330</y>
+      <x>980</x>
+      <y>450</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -114,8 +120,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QPushButton" name="pushButton_runpg_clear">
     <property name="geometry">
      <rect>
-      <x>790</x>
-      <y>330</y>
+      <x>1060</x>
+      <y>450</y>
       <width>71</width>
       <height>41</height>
      </rect>
@@ -124,13 +130,52 @@ p, li { white-space: pre-wrap; }
      <string>清除</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_ctrl_zero">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>200</y>
+      <width>161</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>位置归零</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_ctrl_cala">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>360</y>
+      <width>161</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>校准巡游</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_ctrl_null">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>360</y>
+      <width>161</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NULL</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1197</width>
+     <width>1161</width>
      <height>23</height>
     </rect>
    </property>
@@ -182,8 +227,8 @@ p, li { white-space: pre-wrap; }
    <slot>slot_runpg_clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>837</x>
-     <y>370</y>
+     <x>1107</x>
+     <y>513</y>
     </hint>
     <hint type="destinationlabel">
      <x>938</x>
@@ -198,8 +243,8 @@ p, li { white-space: pre-wrap; }
    <slot>slot_runpg_test()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>735</x>
-     <y>375</y>
+     <x>1005</x>
+     <y>513</y>
     </hint>
     <hint type="destinationlabel">
      <x>939</x>
@@ -214,12 +259,12 @@ p, li { white-space: pre-wrap; }
    <slot>slot_ctrl_stop()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>131</x>
-     <y>304</y>
+     <x>271</x>
+     <y>157</y>
     </hint>
     <hint type="destinationlabel">
-     <x>203</x>
-     <y>383</y>
+     <x>329</x>
+     <y>208</y>
     </hint>
    </hints>
   </connection>
@@ -234,8 +279,56 @@ p, li { white-space: pre-wrap; }
      <y>165</y>
     </hint>
     <hint type="destinationlabel">
-     <x>192</x>
-     <y>224</y>
+     <x>127</x>
+     <y>205</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ctrl_zero</sender>
+   <signal>clicked()</signal>
+   <receiver>cebsMainWindow</receiver>
+   <slot>slot_ctrl_zero()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>316</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>300</x>
+     <y>313</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ctrl_cala</sender>
+   <signal>clicked()</signal>
+   <receiver>cebsMainWindow</receiver>
+   <slot>slot_ctrl_cala()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>129</x>
+     <y>493</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>139</x>
+     <y>547</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ctrl_null</sender>
+   <signal>clicked()</signal>
+   <receiver>cebsMainWindow</receiver>
+   <slot>slot_ctrl_null()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>325</x>
+     <y>501</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>336</x>
+     <y>548</y>
     </hint>
    </hints>
   </connection>
@@ -246,5 +339,8 @@ p, li { white-space: pre-wrap; }
   <slot>slot_ctrl_stop()</slot>
   <slot>slot_ctrl_start()</slot>
   <slot>slot_print_trigger()</slot>
+  <slot>slot_ctrl_zero()</slot>
+  <slot>slot_ctrl_cala()</slot>
+  <slot>slot_ctrl_null()</slot>
  </slots>
 </ui>

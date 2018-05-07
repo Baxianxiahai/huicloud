@@ -60,6 +60,8 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.threadCtrl.signal_print_log.connect(self.slot_print_trigger)
         self.threadCtrl.signal_start.connect(self.threadCtrl.funcStart)
         self.threadCtrl.signal_stop.connect(self.threadCtrl.funcStop)
+        self.threadCtrl.signal_cala.connect(self.threadCtrl.funcCala)
+        self.threadCtrl.signal_zero.connect(self.threadCtrl.funcZero)
         self.threadCtrl.start();
 
         #启动第二个干活的子进程
@@ -109,6 +111,15 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         
     def slot_ctrl_stop(self):
         self.threadCtrl.signal_stop.emit()
+
+    def slot_ctrl_cala(self):
+        self.threadCtrl.signal_cala.emit()
+
+    def slot_ctrl_zero(self):
+        self.threadCtrl.signal_zero.emit()
+
+    def slot_ctrl_null(self):
+        pass
 
     def slot_runpg_clear(self):
         self.textEdit_runProgress.clear();

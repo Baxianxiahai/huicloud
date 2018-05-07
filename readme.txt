@@ -1,6 +1,9 @@
 ﻿====HUICLOUD=====
 
 
+//=ZJL, 2018 MAY.8, CURRENT_SW_DELIVERY R1.30 =>CEBS
+=完善
+
 //=ZJL, 2018 MAY.5, CURRENT_SW_DELIVERY R1.29 =>FMPT2
 = pyinstaller -F -w --icon=fmpt2.ico fmpt2Main.py
 

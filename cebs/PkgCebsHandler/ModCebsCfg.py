@@ -11,6 +11,7 @@ Created on 2018年5月4日
 import configparser
 import os
 import platform
+import time
 from PkgCebsHandler import ModCebsCom
 
 
@@ -123,7 +124,8 @@ class ConfigOpr(object):
             self.CReader.add_section(batchStr)
         else:
             self.CReader.add_section(batchStr)
-        self.CReader.set(batchStr, "batch_number", str(batch))
+        self.CReader.set(batchStr, "batch number", str(batch))
+        self.CReader.set(batchStr, "work time", str(time.asctime()))
         fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
@@ -132,30 +134,70 @@ class ConfigOpr(object):
         self.CReader=configparser.ConfigParser()
         self.CReader.read(self.filePath, encoding='utf8')
         batchStr = "batch#" + str(batch)
-        fileName = str("batchFileName#" + str(fileNbr))
+        fileName = self.combineFileName(batch, fileNbr)
         fileClas = str("batchFileClas#" + str(fileNbr))
-        self.CReader.set(batchStr, fileName, str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH) + fileName + '.jpg')
+        self.CReader.set(batchStr, fileName, self.combineFileNameWithDir(batch, fileNbr))
         self.CReader.set(batchStr, fileClas, 'no')
         fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
 
-    def getUnclasBatchFile(self, batch):
-        pass
-
-    def updateBatchFile(self, batch, fileNbr):
+    #读取控制文件
+    def getStoredFileName(self, batch, fileNbr):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')
         batchStr = "batch#" + str(batch)
-        if (self.CReader.has_section(batchStr) == True):
-            self.CReader.remove_section(batchStr)
-            self.CReader.add_section(batchStr)
-        self.CReader.set(batchStr,"PicRemainCnt", str(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+        fileName = self.combineFileName(batch, fileNbr)
+        res = self.CReader[batchStr][fileName];
+        return res;
+
+    def combineFileName(self, batch, fileNbr):
+        return str("batch#" + str(batch) + "FileName#" + str(fileNbr))
+
+    def combineFileNameWithDir(self, batch, fileNbr):
+        fileName = str("batch#" + str(batch) + "FileName#" + str(fileNbr))
+        return str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH) + fileName + '.jpg'
+    
+    #得到某一个BTACH的未分类的第一个文件
+    def getUnclasBatchFile(self, batch):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')
+        batchStr = "batch#" + str(batch)
+        if (self.CReader.has_section(batchStr) == False):
+            return -1;
+        # 遍历配置组的key, 与'DEFAULT'组的key
+        for key in self.CReader[batchStr]:
+            #print(key, self.CReader[batchStr][key])
+            if (('batchfileclas#' in key) and (self.CReader[batchStr][key] == 'no')):
+                temps = key[len('batchfileclas#'):]
+                tempi = int(temps)
+                return tempi;
+        #没找到
+        return -2;
+    
+    #全局搜索是否存在还未完成的图像
+    def findUnclasFileBatchAndFileNbr(self):
+        start = ModCebsCom.GL_CEBS_PIC_PROC_CLAS_INDEX;
+        end = ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX;
+        for index in range(start, end):
+            fileNbr = self.getUnclasBatchFile(index);
+            if (fileNbr >= 0):
+                ModCebsCom.GL_CEBS_PIC_PROC_CLAS_INDEX = index;
+                self.updateCtrlCntInfo()
+                return index, fileNbr;
+        return -1, -1;
+                
+    #更新分类后的图像文件信息
+    def updateUnclasFileAsClassified(self, batch, fileNbr):
+        self.CReader=configparser.ConfigParser()
+        self.CReader.read(self.filePath, encoding='utf8')
+        batchStr = "batch#" + str(batch)
+        fileName = self.combineFileName(batch, fileNbr)
+        fileClas = str("batchFileClas#" + str(fileNbr))
+        self.CReader.set(batchStr, fileName, self.combineFileNameWithDir(batch, fileNbr))
+        self.CReader.set(batchStr, fileClas, 'yes')
         fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
-
-
-
-
-
 
 
