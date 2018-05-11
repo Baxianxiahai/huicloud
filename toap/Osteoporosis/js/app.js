@@ -75,7 +75,7 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 	form.on('submit(common_6)',function(data){
 		layer.alert("调查结束，返回首页",{title:"消息提示"},
 		function(){
-			window.location.href="index.html";
+			window.location.href="main.html";
 			//return false;
 		})
 		return false;
@@ -90,6 +90,8 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 		var s=parseInt(obj['lumbago_1_answer1'])+parseInt(obj["lumbago_1_answer2"])+parseInt(obj["lumbago_1_answer3"])+parseInt(obj["lumbago_1_answer4"])+parseInt(obj["lumbago_1_answer5"])+parseInt(obj["lumbago_1_answer6"])+parseInt(obj["lumbago_1_answer7"])+parseInt(obj["lumbago_1_answer8"])+parseInt(obj["lumbago_1_answer9"])+parseInt(obj["lumbago_1_answer10"]);
 		layer.alert(String(s), {
 			title: '最终得分'
+		},function(){
+			window.location.href="main.html";
 		})
 		return false;
 	});
@@ -99,6 +101,8 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 		var s=parseInt(obj['balance_answer1'])+parseInt(obj["balance_answer2"])+parseInt(obj["balance_answer3"])+parseInt(obj["balance_answer4"])+parseInt(obj["balance_answer5"])+parseInt(obj["balance_answer6"])+parseInt(obj["balance_answer7"])+parseInt(obj["balance_answer8"])+parseInt(obj["balance_answer9"])+parseInt(obj["balance_answer10"])+parseInt(obj["balance_answer11"])+parseInt(obj["balance_answer12"])+parseInt(obj["balance_answer13"])+parseInt(obj["balance_answer14"]);
 		layer.alert(String(s), {
 			title: '最终得分'
+		},function(){
+			window.location.href="main.html";
 		})
 		return false;
 	});
@@ -145,8 +149,10 @@ layui.use(['form', 'layedit', 'laydate'], function(){
 		var obj=JSON.parse(jsonstr);
 		var s=parseInt(perimeters)+parseInt(obj['SF_36_5_answer1'])+parseInt(obj["SF_36_5_answer2"])+parseInt(obj["SF_36_5_answer3"])+parseInt(obj["SF_36_5_answer4"])+parseInt(obj["SF_36_5_answer5"]);
 		layer.alert(s, {
-			title: 'SF_36量表最终得分'
-		})
+			title: 'SF_36量表最终得分'	
+		},function(){
+				window.location.href="main.html";
+			});
 		return false;
 	});
 });
