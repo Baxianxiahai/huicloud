@@ -58,10 +58,11 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.threadCtrl = ModCebsCtrl.classCtrlThread()
         self.threadCtrl.setIdentity("CtrlThread")
         self.threadCtrl.signal_print_log.connect(self.slot_print_trigger)
-        self.threadCtrl.signal_start.connect(self.threadCtrl.funcStart)
-        self.threadCtrl.signal_stop.connect(self.threadCtrl.funcStop)
-        self.threadCtrl.signal_cala.connect(self.threadCtrl.funcCala)
-        self.threadCtrl.signal_zero.connect(self.threadCtrl.funcZero)
+        self.threadCtrl.signal_ctrl_start.connect(self.threadCtrl.funcTakePicStart)
+        self.threadCtrl.signal_ctrl_stop.connect(self.threadCtrl.funcTakePicStop)
+        self.threadCtrl.signal_ctrl_zero.connect(self.threadCtrl.funcCtrlMotoBackZero)
+        self.threadCtrl.signal_cala_pilot.connect(self.threadCtrl.funcCalaPilot)
+        self.threadCtrl.signal_cala_comp.connect(self.threadCtrl.funcCtrlCalaComp)
         self.threadCtrl.start();
 
         #启动第二个干活的子进程
@@ -108,22 +109,23 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
 
     def slot_ctrl_start(self):
         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
-            self.threadCtrl.signal_start.emit()
+            self.threadCtrl.signal_ctrl_start.emit()
         
     def slot_ctrl_stop(self):
         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
-            self.threadCtrl.signal_stop.emit()
+            self.threadCtrl.signal_ctrl_stop.emit()
 
     def slot_ctrl_zero(self):
         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
-            self.threadCtrl.signal_zero.emit()
+            self.threadCtrl.signal_ctrl_zero.emit()
 
     def slot_ctrl_null(self):
         pass
 
     def slot_cala_pilot(self):
         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
-            self.threadCtrl.signal_cala.emit()
+            ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False # 不让继续做图像识别
+            self.threadCtrl.signal_cala_pilot.emit()
 
     def slot_cala_start(self):
         ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA = True;
@@ -165,10 +167,10 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
                 parMoveDir = 4;
             else:
                 parMoveDir = 1;
-            #调用处理函数            
+            #调用处理函数
             obj = ModCebsMoto.classMotoProcess();
             obj.funcMotoCalaMoveOneStep(parMoveScale, parMoveDir);
-            self.cebs_print_log("CALA Moving one step. Current position XY=[%d/%d]." %(ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
+            self.cebs_print_log("CALA Moving one step. Current position XY=[%d/%d]." % (ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
 
     def slot_cala_left_up(self):
         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA == True):
@@ -176,7 +178,7 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
             ModCebsCom.GL_CEBS_HB_POS_IN_UM[1] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1];
             iniObj = ModCebsCfg.ConfigOpr();
             iniObj.updateSectionPar();
-            self.cebs_print_log("CALA LeftUp Axis set!")
+            self.cebs_print_log("CALA LeftUp Axis set! XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[0], ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
 
     def slot_cala_right_bottom(self):
         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA == True):
@@ -184,11 +186,11 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
             ModCebsCom.GL_CEBS_HB_POS_IN_UM[3] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1];
             iniObj = ModCebsCfg.ConfigOpr();
             iniObj.updateSectionPar();
-            self.cebs_print_log("CALA RightBottom Axis set!")
+            self.cebs_print_log("CALA RightBottom Axis set!  XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[2], ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))
 
     def slot_cala_comp(self):
-        ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA = False;
-        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True; # 让继续做图像识别
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA == True):
+            self.threadCtrl.signal_cala_comp.emit()
         self.cebs_print_log("CALA Complete!!!")
 
     def slot_runpg_clear(self):
@@ -198,7 +200,6 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         res = {}
         #Trigger print log
         self.cebs_print_log("TEST: " + str(res))
-
 
 #Main App entry
 def main_form():

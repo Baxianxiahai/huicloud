@@ -49,7 +49,7 @@ class classVisionProcess(object):
         # Check if the webcam is opened correctly
         if not cap.isOpened():
             #raise IOError("Cannot open webcam")
-            print("VISION CAPTURE: Cannot open webcam!")
+            print("VISION CAPTURE: Cannot open webcam!, Batch/Nbr=%d/%d" % (batch, fileNbr))
             return -1;
 
         #定义摄像头的分辨率
