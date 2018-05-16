@@ -34,7 +34,7 @@ from form_qt.cebsmainform import Ui_cebsMainWindow    # 导入生成form.py里�
 
 #Local Class
 from PkgCebsHandler import ModCebsCom  #Common Support module
-from PkgCebsHandler import ModCebsCtrl
+from PkgCebsHandler import ModCebsCtrl, ModCebsMoto
 from PkgCebsHandler import ModCebsVision
 from PkgCebsHandler import ModCebsCfg
 
@@ -107,23 +107,92 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.cebs_print_log(info)
 
     def slot_ctrl_start(self):
-        self.threadCtrl.signal_start.emit()
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
+            self.threadCtrl.signal_start.emit()
         
     def slot_ctrl_stop(self):
-        self.threadCtrl.signal_stop.emit()
-
-    def slot_ctrl_cala(self):
-        self.threadCtrl.signal_cala.emit()
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
+            self.threadCtrl.signal_stop.emit()
 
     def slot_ctrl_zero(self):
-        self.threadCtrl.signal_zero.emit()
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
+            self.threadCtrl.signal_zero.emit()
 
     def slot_ctrl_null(self):
         pass
 
+    def slot_cala_pilot(self):
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
+            self.threadCtrl.signal_cala.emit()
+
+    def slot_cala_start(self):
+        ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA = True;
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False; # 不让继续做图像识别
+        self.cebs_print_log("CALA Starting...")
+
+    def slot_cala_move(self):
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA == True):
+            #读取运动刻度
+            radioCala05mm = self.radioButton_cala_05mm.isChecked();
+            radioCala1mm = self.radioButton_cala_1mm.isChecked();
+            radioCala5mm = self.radioButton_cala_5mm.isChecked();
+            radioCala1cm = self.radioButton_cala_1cm.isChecked();
+            radioCala5cm = self.radioButton_cala_5cm.isChecked();
+            if (radioCala05mm == 1):
+                parMoveScale = 1;
+            elif (radioCala1mm == 1):
+                parMoveScale = 2;
+            elif (radioCala5mm == 1):
+                parMoveScale = 3;
+            elif (radioCala1cm == 1):
+                parMoveScale = 4;
+            elif (radioCala5cm == 1):
+                parMoveScale = 5;
+            else:
+                parMoveScale = 1;
+            #读取运动方向
+            radioCalaUp = self.radioButton_cala_y_plus.isChecked();
+            radioCalaDown = self.radioButton_cala_y_minus.isChecked();
+            radioCalaLeft = self.radioButton_cala_x_minus.isChecked();
+            radioCalaRight = self.radioButton_cala_x_plus.isChecked();
+            if (radioCalaUp == 1):
+                parMoveDir = 1;
+            elif (radioCalaDown == 1):
+                parMoveDir = 2;
+            elif (radioCalaLeft == 1):
+                parMoveDir = 3;
+            elif (radioCalaRight == 1):
+                parMoveDir = 4;
+            else:
+                parMoveDir = 1;
+            #调用处理函数            
+            obj = ModCebsMoto.classMotoProcess();
+            obj.funcMotoCalaMoveOneStep(parMoveScale, parMoveDir);
+            self.cebs_print_log("CALA Moving one step. Current position XY=[%d/%d]." %(ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
+
+    def slot_cala_left_up(self):
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA == True):
+            ModCebsCom.GL_CEBS_HB_POS_IN_UM[0] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0];
+            ModCebsCom.GL_CEBS_HB_POS_IN_UM[1] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1];
+            iniObj = ModCebsCfg.ConfigOpr();
+            iniObj.updateSectionPar();
+            self.cebs_print_log("CALA LeftUp Axis set!")
+
+    def slot_cala_right_bottom(self):
+        if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA == True):
+            ModCebsCom.GL_CEBS_HB_POS_IN_UM[2] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0];
+            ModCebsCom.GL_CEBS_HB_POS_IN_UM[3] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1];
+            iniObj = ModCebsCfg.ConfigOpr();
+            iniObj.updateSectionPar();
+            self.cebs_print_log("CALA RightBottom Axis set!")
+
+    def slot_cala_comp(self):
+        ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA = False;
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True; # 让继续做图像识别
+        self.cebs_print_log("CALA Complete!!!")
+
     def slot_runpg_clear(self):
         self.textEdit_runProgress.clear();
-
     #Test functions
     def slot_runpg_test(self):
         res = {}

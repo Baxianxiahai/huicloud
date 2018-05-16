@@ -43,6 +43,11 @@ class ConfigOpr(object):
             self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
             self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
             self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
+            self.CReader.set("Env","holeboard_type", str(ModCebsCom.GL_CEBS_HB_TARGET_TYPE))
+            self.CReader.set("Env","holeboard, left_up X-axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[0]))
+            self.CReader.set("Env","holeboard, left_up Y-axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
+            self.CReader.set("Env","holeboard, right bot X-Axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[2]))
+            self.CReader.set("Env","holeboard, right bot Y-Axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))
             self.CReader.add_section("Counter")
             self.CReader.set("Counter","PicBatchCnt", "0")
             self.CReader.set("Counter","PicBatchClas", "0")
@@ -58,6 +63,11 @@ class ConfigOpr(object):
         ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX = int(self.CReader['Counter']['PicBatchCnt']);
         ModCebsCom.GL_CEBS_PIC_PROC_CLAS_INDEX = int(self.CReader['Counter']['PicBatchClas']);
         ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = int(self.CReader['Counter']['PicRemainCnt']);
+        ModCebsCom.GL_CEBS_HB_TARGET_TYPE = self.CReader['Env']['holeboard_type'];
+        ModCebsCom.GL_CEBS_HB_POS_IN_UM[0] = int(self.CReader['Env']['holeboard, left_up X-axis']);
+        ModCebsCom.GL_CEBS_HB_POS_IN_UM[1] = int(self.CReader['Env']['holeboard, left_up Y-axis']);
+        ModCebsCom.GL_CEBS_HB_POS_IN_UM[2] = int(self.CReader['Env']['holeboard, right bot X-axis']);
+        ModCebsCom.GL_CEBS_HB_POS_IN_UM[3] = int(self.CReader['Env']['holeboard, right bot Y-axis']);
 
     def getSection(self):
         return self.CReader.sections()
@@ -85,12 +95,22 @@ class ConfigOpr(object):
             self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
             self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
             self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
+            self.CReader.set("Env","holeboard_type", str(ModCebsCom.GL_CEBS_HB_TARGET_TYPE))
+            self.CReader.set("Env","holeboard, left_up X-axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[0]))
+            self.CReader.set("Env","holeboard, left_up Y-axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
+            self.CReader.set("Env","holeboard, right bot X-Axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[2]))
+            self.CReader.set("Env","holeboard, right bot Y-Axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))            
         else:
             self.CReader.remove_section("Env")
             self.CReader.add_section("Env")        
             self.CReader.set("Env","workdir", str(os.getcwd()+ self.osDifferentStr()))
             self.CReader.set("Env","pic_origin", str(ModCebsCom.GL_CEBS_PIC_ABS_ORIGIN_PATH))
             self.CReader.set("Env","pic_middle", str(ModCebsCom.GL_CEBS_PIC_ABS_MIDDLE_PATH))
+            self.CReader.set("Env","holeboard_type", str(ModCebsCom.GL_CEBS_HB_TARGET_TYPE))
+            self.CReader.set("Env","holeboard, left_up X-axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[0]))
+            self.CReader.set("Env","holeboard, left_up Y-axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
+            self.CReader.set("Env","holeboard, right bot X-Axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[2]))
+            self.CReader.set("Env","holeboard, right bot Y-Axis", str(ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))            
         fd = open(self.filePath, 'w')
         self.CReader.write(fd)
         fd.close()
