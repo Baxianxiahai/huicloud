@@ -30,12 +30,12 @@ from PkgCebsHandler import ModCebsMoto
 
 class classCtrlThread(QThread):
     #sinOut = pyqtSignal(str)
-    signal_print_log = pyqtSignal(str)
-    signal_ctrl_start = pyqtSignal()
-    signal_ctrl_stop = pyqtSignal()
-    signal_ctrl_zero = pyqtSignal()
-    signal_cala_pilot = pyqtSignal()
-    signal_cala_comp = pyqtSignal()    
+    signal_print_log = pyqtSignal(str) #申明信号
+    signal_ctrl_start = pyqtSignal() #申明给主函数使用
+    signal_ctrl_stop = pyqtSignal()  #申明给主函数使用
+    signal_ctrl_zero = pyqtSignal()  #申明给主函数使用
+    signal_cala_pilot = pyqtSignal() #申明给主函数使用
+    signal_cala_comp = pyqtSignal()  #申明给主函数使用
 
     def __init__(self,parent=None):
         super(classCtrlThread,self).__init__(parent)
@@ -43,6 +43,7 @@ class classCtrlThread(QThread):
         self.times = 0;
         self.objInitCfg=ModCebsCfg.ConfigOpr();
         self.objMoto=ModCebsMoto.classMotoProcess();
+        
         #初始化不同目标板子的数量
         if (ModCebsCom.GL_CEBS_HB_TARGET_TYPE == ModCebsCom.GL_CEBS_HB_TARGET_96_STANDARD):
             ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH = ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX;
@@ -55,12 +56,22 @@ class classCtrlThread(QThread):
         else:
             ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH = ModCebsCom.GL_CEBS_HB_TARGET_BOARD_BATCH_MAX;
         
+        #启动第三个干活的子进程
+        self.threadMotoPilot = ModCebsMoto.classCalaPilotThread()
+        self.threadMotoPilot.setIdentity("CalaPilotThread")
+        self.threadMotoPilot.signal_print_log.connect(self.transferLogTrace) #接收信号
+        self.threadMotoPilot.signal_moto_pilot.connect(self.threadMotoPilot.funcMotoCalaPilotSart) #发送信号
+        self.threadMotoPilot.start();
+        
     def setIdentity(self,text):
         self.identity = text
 
     def setTakePicWorkRemainNumber(self, val):
         self.times = int(val)
     
+    def transferLogTrace(self, string):
+        self.signal_print_log.emit(string)
+        
     #拍照
     def funcTakePicStart(self):
         #停止后强制摄像头归零
@@ -86,16 +97,19 @@ class classCtrlThread(QThread):
         #self.objMoto.funcMotoStop();
 
     #托盘四周巡游
-    def funcCalaPilot(self):
+    def funcCalaPilotStart(self):
         self.signal_print_log.emit("系统校准巡视开始...")
-        if (self.objMoto.funcMotoCalaPilot() < 0):
-            self.signal_print_log.emit("系统巡视错误！")
-            ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True # 让继续做图像识别
-            return -1;
-        else:
-            self.signal_print_log.emit("系统校准巡视成功结束!")
-            ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True # 让继续做图像识别
-
+        self.threadMotoPilot.signal_moto_pilot.emit()
+        
+#         if (self.objMoto.funcMotoCalaPilot() < 0):
+#             self.signal_print_log.emit("系统巡视错误！")
+#             ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True # 让继续做图像识别
+#             return -1;
+#         else:
+#             self.signal_print_log.emit("系统校准巡视成功结束!")
+#             ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True # 让继续做图像识别
+    
+    
     #托盘归位到初始态
     def funcCtrlMotoBackZero(self):
         self.signal_print_log.emit("马达位置归零...")

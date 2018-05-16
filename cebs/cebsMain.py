@@ -57,12 +57,12 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         #启动第一个干活的子进程
         self.threadCtrl = ModCebsCtrl.classCtrlThread()
         self.threadCtrl.setIdentity("CtrlThread")
-        self.threadCtrl.signal_print_log.connect(self.slot_print_trigger)
-        self.threadCtrl.signal_ctrl_start.connect(self.threadCtrl.funcTakePicStart)
-        self.threadCtrl.signal_ctrl_stop.connect(self.threadCtrl.funcTakePicStop)
-        self.threadCtrl.signal_ctrl_zero.connect(self.threadCtrl.funcCtrlMotoBackZero)
-        self.threadCtrl.signal_cala_pilot.connect(self.threadCtrl.funcCalaPilot)
-        self.threadCtrl.signal_cala_comp.connect(self.threadCtrl.funcCtrlCalaComp)
+        self.threadCtrl.signal_print_log.connect(self.slot_print_trigger)  #接收信号
+        self.threadCtrl.signal_ctrl_start.connect(self.threadCtrl.funcTakePicStart) #发送信号
+        self.threadCtrl.signal_ctrl_stop.connect(self.threadCtrl.funcTakePicStop)  #发送信号
+        self.threadCtrl.signal_ctrl_zero.connect(self.threadCtrl.funcCtrlMotoBackZero)  #发送信号
+        self.threadCtrl.signal_cala_pilot.connect(self.threadCtrl.funcCalaPilotStart)  #发送信号
+        self.threadCtrl.signal_cala_comp.connect(self.threadCtrl.funcCtrlCalaComp)  #发送信号
         self.threadCtrl.start();
 
         #启动第二个干活的子进程

@@ -76,9 +76,9 @@ class classVisionProcess(object):
 
 #主处理任务模块
 class classVisionThread(QThread):
-    signal_print_log = pyqtSignal(str)
-    signal_start = pyqtSignal()
-    signal_stop = pyqtSignal()
+    signal_print_log = pyqtSignal(str) #申明发送信号
+    signal_vision_start = pyqtSignal()  #申明发送给主函数的信号，暂时未使用
+    signal_vision_stop = pyqtSignal()   #申明发送给主函数的信号，暂时未使用
 
     def __init__(self,parent=None):
         super(classVisionThread,self).__init__(parent)
