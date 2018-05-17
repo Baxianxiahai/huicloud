@@ -29,7 +29,6 @@ from PkgCebsHandler import ModCebsMoto
 #from form_qt.cebsmainform import Ui_cebsMainWindow
 
 class classCtrlThread(QThread):
-    #sinOut = pyqtSignal(str)
     signal_print_log = pyqtSignal(str) #申明信号
     signal_ctrl_start = pyqtSignal() #申明给主函数使用
     signal_ctrl_stop = pyqtSignal()  #申明给主函数使用

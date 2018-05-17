@@ -31,17 +31,18 @@ from PyQt5.QtGui import QIcon
 
 #Form class
 from form_qt.cebsmainform import Ui_cebsMainWindow    # 导入生成mainForm.py里生成的类
-from form_qt.cebscalaform import Ui_cebsCalaForm      # 导入生成calaForm.py里生成的类
+from form_qt.cebscalibform import Ui_cebsCalibForm      # 导入生成calaForm.py里生成的类
 
 #Local Class
 from PkgCebsHandler import ModCebsCom  #Common Support module
-from PkgCebsHandler import ModCebsCtrl, ModCebsMoto
+from PkgCebsHandler import ModCebsMoto
+from PkgCebsHandler import ModCebsCtrl
 from PkgCebsHandler import ModCebsVision
 from PkgCebsHandler import ModCebsCfg
+from PkgCebsHandler import ModCebsCalib
 
 #Main Windows
 class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
-    signal_mainwin_visible = pyqtSignal() #申明给主函数使用
     signal_mainwin_unvisible = pyqtSignal()  #申明给主函数使用    
     
     def __init__(self):    
@@ -50,10 +51,10 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.initUI()
         
         #必须使用成员函数，才能保证子FORM的生命周期
-        self.calaForm = cebsCalaForm(self)
+        self.calaForm = cebsCalibForm()
         
         #固定信号量设置
-        self.signal_mainwin_visible.connect(self.funcMainWinVisible);
+        self.calaForm.signal_mainwin_visible.connect(self.funcMainWinVisible);
         self.signal_mainwin_unvisible.connect(self.funcMainWinUnvisible);
         
         #固定参数
@@ -226,22 +227,86 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
 
 
 #Calibration Widget
-class cebsCalaForm(QtWidgets.QWidget, Ui_cebsCalaForm):
+class cebsCalibForm(QtWidgets.QWidget, Ui_cebsCalibForm):
     signal_mainwin_visible = pyqtSignal() #申明给主函数使用
 
-    def __init__(self, father):    
-        super(cebsCalaForm, self).__init__()  
+    def __init__(self):    
+        super(cebsCalibForm, self).__init__()  
         self.setupUi(self)
-        self.mainWin = father
-        #self.justDoubleClicked = False
+        #必须使用成员函数，才能保证子FORM的生命周期
+        self.calibProc = ModCebsCalib.classCalibProcess(self)
+        
+    #校准打印
+    def calib_print_log(self, info):
+        strOut = ">> " + time.asctime() + " " + info;
+        self.textEdit_calib_runProgress.append(strOut);
+        self.textEdit_calib_runProgress.moveCursor(QtGui.QTextCursor.End)
+        self.textEdit_calib_runProgress.ensureCursorVisible()
+        self.textEdit_calib_runProgress.insertPlainText("")
+        
+    #校准移动
+    def slot_calib_move(self):
+        #读取运动刻度
+        radioCala05mm = self.radioButton_calib_05mm.isChecked();
+        radioCala1mm = self.radioButton_calib_1mm.isChecked();
+        radioCala5mm = self.radioButton_calib_5mm.isChecked();
+        radioCala1cm = self.radioButton_calib_1cm.isChecked();
+        radioCala5cm = self.radioButton_calib_5cm.isChecked();
+        if (radioCala05mm == 1):
+            parMoveScale = 1;
+        elif (radioCala1mm == 1):
+            parMoveScale = 2;
+        elif (radioCala5mm == 1):
+            parMoveScale = 3;
+        elif (radioCala1cm == 1):
+            parMoveScale = 4;
+        elif (radioCala5cm == 1):
+            parMoveScale = 5;
+        else:
+            parMoveScale = 1;
+        #读取运动方向
+        radioCalaUp = self.radioButton_calib_y_plus.isChecked();
+        radioCalaDown = self.radioButton_calib_y_minus.isChecked();
+        radioCalaLeft = self.radioButton_calib_x_minus.isChecked();
+        radioCalaRight = self.radioButton_calib_x_plus.isChecked();
+        if (radioCalaUp == 1):
+            parMoveDir = 1;
+        elif (radioCalaDown == 1):
+            parMoveDir = 2;
+        elif (radioCalaLeft == 1):
+            parMoveDir = 3;
+        elif (radioCalaRight == 1):
+            parMoveDir = 4;
+        else:
+            parMoveDir = 1;
+        self.calibProc.funcCalibMove(parMoveScale, parMoveDir);
+    
+    #校准左上
+    def slot_calib_left_up(self):
+        self.calibProc.funcCalibLeftUp();
+    
+    #校准右下
+    def slot_calib_right_bottom(self):
+        self.calibProc.funcCalibRightBottom();
+    
+    #校准巡游
+    def slot_calib_pilot(self):
+        self.calibProc.funcCalibPilotStart();
+#         if (ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA != True):
+#             ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False # 不让继续做图像识别
+#             self.calibProc.funcCalibPilotStart();
+#             self.threadCtrl.signal_cala_pilot.emit()
+
+    #界面按钮结束
+    def slot_calib_close(self):
+        self.calibProc.funcCtrlCalibComp()
+        self.signal_mainwin_visible.emit()
+        self.close()
 
     #重载系统的关闭函数
     def closeEvent(self, event):
-        self.mainWin.signal_mainwin_visible.emit()
-        self.close()
-        
-    def slot_cala_close(self):
-        self.mainWin.signal_mainwin_visible.emit()
+        self.calibProc.funcRecoverWorkingEnv()
+        self.signal_mainwin_visible.emit()
         self.close()
 
 #Main App entry
