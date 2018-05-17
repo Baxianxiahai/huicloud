@@ -30,7 +30,8 @@ from PyQt5.uic import loadUi
 from PyQt5.QtGui import QIcon
 
 #Form class
-from form_qt.cebsmainform import Ui_cebsMainWindow    # 导入生成form.py里生成的类
+from form_qt.cebsmainform import Ui_cebsMainWindow    # 导入生成mainForm.py里生成的类
+from form_qt.cebscalaform import Ui_cebsCalaForm      # 导入生成calaForm.py里生成的类
 
 #Local Class
 from PkgCebsHandler import ModCebsCom  #Common Support module
@@ -40,11 +41,18 @@ from PkgCebsHandler import ModCebsCfg
 
 #Main Windows
 class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
+    signal_mainwin_visible = pyqtSignal() #申明给主函数使用
+    signal_mainwin_unvisible = pyqtSignal()  #申明给主函数使用    
     
     def __init__(self):    
         super(cebsMainWindow, self).__init__()  
         self.setupUi(self)
         self.initUI()
+        self.calaForm = cebsCalaForm(self)
+        
+        #固定信号量设置
+        self.signal_mainwin_visible.connect(self.funcMainWinVisible);
+        self.signal_mainwin_unvisible.connect(self.funcMainWinUnvisible);
         
         #固定参数
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
@@ -70,7 +78,7 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.threadVision.setIdentity("VisionThread")
         self.threadVision.signal_print_log.connect(self.slot_print_trigger)
         self.threadVision.start();
-       
+
     def initUI(self):
         self.statusBar().showMessage('状态栏: ')
         self.setGeometry(10, 30, 1024, 768)
@@ -195,19 +203,84 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
 
     def slot_runpg_clear(self):
         self.textEdit_runProgress.clear();
+
+    def funcMainWinVisible(self):
+        self.show()
+
+    def funcMainWinUnvisible(self):
+        self.hide()
+
     #Test functions
     def slot_runpg_test(self):
-        res = {}
-        #Trigger print log
-        self.cebs_print_log("TEST: " + str(res))
+        #res = {}
+        #self.cebs_print_log("TEST: " + str(res))
+        #self.calaForm = cebsCalaForm()
+        if not self.calaForm.isVisible():
+            self.signal_mainwin_unvisible.emit()
+            self.calaForm.show()
+        self.cebs_print_log("TEST WIDGET!")
+
+
+#Calibration Widget
+class cebsCalaForm(QtWidgets.QWidget, Ui_cebsCalaForm):
+#class cebsCalaForm(cebsMainWindow):
+    signal_mainwin_visible = pyqtSignal() #申明给主函数使用
+
+    def __init__(self, father):    
+        super(cebsCalaForm, self).__init__()  
+        self.setupUi(self)
+        self.mainWin = father
+        #self.justDoubleClicked = False
+        #self.key = ""
+        #self.text = ""
+        #self.message = ""
+        #self.resize(400, 300)
+        #self.move(100,100)
+        #self.setWindowTitle("CALIBRATION1")
+
+    def handle_close(self):
+        self.mainWin.signal_mainwin_visible.emit()
+        self.close()
+        
+    def slot_cala_close(self):
+        self.mainWin.signal_mainwin_visible.emit()
+        self.close()
+
+#2nd Windows TEST
+class SecondWindow(QWidget):
+    def __init__(self, parent=None):
+        super(SecondWindow, self).__init__(parent)
+        self.resize(200, 200)
+        self.setStyleSheet("background: black")
+
+    def handle_click(self):
+        if not self.isVisible():
+            self.show()
+
+    def handle_close(self):
+        self.close()
 
 #Main App entry
 def main_form():
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = cebsMainWindow()
+
+    #s = SecondWindow()
+    #mainWindow.btn.clicked.connect(s.handle_click)
+    #mainWindow.btn.clicked.connect(mainWindow.hide)
+    #mainWindow.close_signal.connect(mainWindow.close)
+    
     mainWindow.show()
     sys.exit(app.exec_())
-    pass
+
+#CALA FORm entry
+def cala_form():
+    #calaApp = QtWidgets.QApplication(sys.argv)
+    calaForm = cebsCalaForm()
+    calaForm.show()
+    
+    #calaApp.exec_()
+
 
 #SYSTEM ENTRY
 if __name__ == '__main__':
