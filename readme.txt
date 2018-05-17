@@ -1,6 +1,10 @@
 ﻿====HUICLOUD=====
 
 
+
+//=ZJL, 2018 MAY.17, CURRENT_SW_DELIVERY R1.33 =>CEBS
+=生成双页面
+
 //=ZJL, 2018 MAY.16, CURRENT_SW_DELIVERY R1.32 =>CEBS
 =更新巡视功能
 

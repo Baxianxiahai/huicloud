@@ -48,6 +48,8 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         super(cebsMainWindow, self).__init__()  
         self.setupUi(self)
         self.initUI()
+        
+        #必须使用成员函数，才能保证子FORM的生命周期
         self.calaForm = cebsCalaForm(self)
         
         #固定信号量设置
@@ -205,10 +207,12 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.textEdit_runProgress.clear();
 
     def funcMainWinVisible(self):
-        self.show()
+        if not self.isVisible():
+            self.show()
 
     def funcMainWinUnvisible(self):
-        self.hide()
+        if self.isVisible():
+            self.hide()
 
     #Test functions
     def slot_runpg_test(self):
@@ -223,7 +227,6 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
 
 #Calibration Widget
 class cebsCalaForm(QtWidgets.QWidget, Ui_cebsCalaForm):
-#class cebsCalaForm(cebsMainWindow):
     signal_mainwin_visible = pyqtSignal() #申明给主函数使用
 
     def __init__(self, father):    
@@ -231,14 +234,9 @@ class cebsCalaForm(QtWidgets.QWidget, Ui_cebsCalaForm):
         self.setupUi(self)
         self.mainWin = father
         #self.justDoubleClicked = False
-        #self.key = ""
-        #self.text = ""
-        #self.message = ""
-        #self.resize(400, 300)
-        #self.move(100,100)
-        #self.setWindowTitle("CALIBRATION1")
 
-    def handle_close(self):
+    #重载系统的关闭函数
+    def closeEvent(self, event):
         self.mainWin.signal_mainwin_visible.emit()
         self.close()
         
@@ -246,41 +244,12 @@ class cebsCalaForm(QtWidgets.QWidget, Ui_cebsCalaForm):
         self.mainWin.signal_mainwin_visible.emit()
         self.close()
 
-#2nd Windows TEST
-class SecondWindow(QWidget):
-    def __init__(self, parent=None):
-        super(SecondWindow, self).__init__(parent)
-        self.resize(200, 200)
-        self.setStyleSheet("background: black")
-
-    def handle_click(self):
-        if not self.isVisible():
-            self.show()
-
-    def handle_close(self):
-        self.close()
-
 #Main App entry
 def main_form():
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = cebsMainWindow()
-
-    #s = SecondWindow()
-    #mainWindow.btn.clicked.connect(s.handle_click)
-    #mainWindow.btn.clicked.connect(mainWindow.hide)
-    #mainWindow.close_signal.connect(mainWindow.close)
-    
     mainWindow.show()
     sys.exit(app.exec_())
-
-#CALA FORm entry
-def cala_form():
-    #calaApp = QtWidgets.QApplication(sys.argv)
-    calaForm = cebsCalaForm()
-    calaForm.show()
-    
-    #calaApp.exec_()
-
 
 #SYSTEM ENTRY
 if __name__ == '__main__':
