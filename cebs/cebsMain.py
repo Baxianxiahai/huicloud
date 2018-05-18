@@ -52,13 +52,12 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         
         #必须使用成员函数，才能保证子FORM的生命周期
         self.calibForm = cebsCalibForm()
-        
+        self.objMoto = ModCebsMoto.classMotoProcess();
+        self.objVision=ModCebsVision.classVisionProcess();
+
         #固定信号量设置
         self.calibForm.signal_mainwin_visible.connect(self.funcMainWinVisible);
         self.signal_mainwin_unvisible.connect(self.funcMainWinUnvisible);
-        
-        #固定参数
-        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
         
         #读取配置文件参数
         objInitCfg=ModCebsCfg.ConfigOpr()
@@ -81,6 +80,9 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.threadVision.setIdentity("VisionThread")
         self.threadVision.signal_print_log.connect(self.slot_print_trigger)
         self.threadVision.start();
+
+        #初始化配置
+        self.funcMainFormSetEquInitStatus();
 
     def initUI(self):
         self.statusBar().showMessage('状态栏: ')
@@ -119,18 +121,42 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.cebs_print_log(info)
 
     def slot_ctrl_start(self):
+        self.funcMainFormSetEquInitStatus();
         self.threadCtrl.signal_ctrl_start.emit()
         
     def slot_ctrl_stop(self):
         self.threadCtrl.signal_ctrl_stop.emit()
 
     def slot_ctrl_zero(self):
+        self.funcMainFormSetEquInitStatus();
         self.threadCtrl.signal_ctrl_zero.emit()
 
-    def slot_ctrl_null(self):
-        pass
+    def slot_ctrl_vclas_start(self):
+        self.funcMainFormSetEquInitStatus();
+        #问题！！！！！！！！！！！！！！！！！！！！！！！！！！
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        self.threadVision.start();
+
+    def slot_ctrl_vclas_stop(self):
+        self.objVision.funcVisionClasStop();
 
     def slot_ctrl_calib(self):
+        self.funcMainFormSetEquInitStatus();
         if not self.calibForm.isVisible():
             self.signal_mainwin_unvisible.emit()
             self.calibForm.show()
@@ -150,6 +176,12 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
     def slot_runpg_test(self):
         res = {}
         self.cebs_print_log("TEST: " + str(res))
+
+    def funcMainFormSetEquInitStatus(self):
+        self.objVision.funcVisionClasEnd() #图像识别停止
+        self.threadCtrl.signal_ctrl_stop.emit() #摄像头读取停止
+        self.objMoto.funcMotoStop() #停止马达
+
 
 #Calibration Widget
 class cebsCalibForm(QtWidgets.QWidget, Ui_cebsCalibForm):

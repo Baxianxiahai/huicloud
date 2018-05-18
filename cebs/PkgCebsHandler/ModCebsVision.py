@@ -36,8 +36,6 @@ from PyQt5.QtCore import pyqtSlot
 from cebsMain import *
 from PkgCebsHandler import ModCebsCom
 from PkgCebsHandler import ModCebsCfg
-#from form_qt.cebsmainform import Ui_cebsMainWindow
-
 
 class classVisionProcess(object):
     def __init__(self):
@@ -73,6 +71,12 @@ class classVisionProcess(object):
         cap.release()
         cv.destroyAllWindows()               
         return 1;
+
+    def funcVisionClasStart(self):
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
+
+    def funcVisionClasEnd(self):
+        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False;
 
 #主处理任务模块
 class classVisionThread(QThread):

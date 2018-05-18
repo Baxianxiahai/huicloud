@@ -156,7 +156,7 @@ p, li { white-space: pre-wrap; }
      <string>校准功能</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_ctrl_null_2">
+   <widget class="QPushButton" name="pushButton_ctrl_vclas_start">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -166,10 +166,10 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>NULL</string>
+     <string>启动图像识别</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_ctrl_null_3">
+   <widget class="QPushButton" name="pushButton_ctrl_vclas_stop">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -179,7 +179,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text">
-     <string>NULL</string>
+     <string>停止图像识别</string>
     </property>
    </widget>
   </widget>
@@ -329,6 +329,38 @@ p, li { white-space: pre-wrap; }
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_ctrl_vclas_start</sender>
+   <signal>clicked()</signal>
+   <receiver>cebsMainWindow</receiver>
+   <slot>slot_ctrl_vclas_start()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>135</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>178</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_ctrl_vclas_stop</sender>
+   <signal>clicked()</signal>
+   <receiver>cebsMainWindow</receiver>
+   <slot>slot_ctrl_vclas_stop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>267</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>370</x>
+     <y>301</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slot_runpg_test()</slot>
@@ -339,5 +371,7 @@ p, li { white-space: pre-wrap; }
   <slot>slot_ctrl_zero()</slot>
   <slot>slot_ctrl_null()</slot>
   <slot>slot_ctrl_calib()</slot>
+  <slot>slot_ctrl_vclas_start()</slot>
+  <slot>slot_ctrl_vclas_stop()</slot>
  </slots>
 </ui>

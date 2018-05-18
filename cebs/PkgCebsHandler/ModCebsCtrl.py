@@ -26,7 +26,6 @@ from PkgCebsHandler import ModCebsCom
 from PkgCebsHandler import ModCebsCfg
 from PkgCebsHandler import ModCebsVision
 from PkgCebsHandler import ModCebsMoto
-#from form_qt.cebsmainform import Ui_cebsMainWindow
 
 class classCtrlThread(QThread):
     signal_print_log = pyqtSignal(str) #申明信号
@@ -42,6 +41,7 @@ class classCtrlThread(QThread):
         self.times = 0;
         self.objInitCfg=ModCebsCfg.ConfigOpr();
         self.objMoto=ModCebsMoto.classMotoProcess();
+        self.objVision=ModCebsVision.classVisionProcess();
         
         #初始化不同目标板子的数量
         if (ModCebsCom.GL_CEBS_HB_TARGET_TYPE == ModCebsCom.GL_CEBS_HB_TARGET_96_STANDARD):
@@ -66,12 +66,13 @@ class classCtrlThread(QThread):
         
     #拍照
     def funcTakePicStart(self):
-        #停止后强制摄像头归零
+        #停止图像自动设备
+        self.objVision.funcVisionClasEnd();
+        #马达起点
         if (self.objMoto.funcMotoMove2Start() < 0):
             self.signal_print_log.emit("马达移动错误！")
             return -1;
         self.times = ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH;
-        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False;
         self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times))
         self.objInitCfg.createBatch(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX);
 
@@ -79,14 +80,15 @@ class classCtrlThread(QThread):
     def funcTakePicStop(self):
         self.times = 0
         self.signal_print_log.emit("停止拍照，剩余次数=%d." %(self.times))
-        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
         ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
         self.objInitCfg.updateCtrlCntInfo();
-        #停止后强制摄像头归零
+        #马达归零
         if (self.objMoto.funcMotoBackZero() < 0):
             self.signal_print_log.emit("系统归位错误！")
             return -1;
         #self.objMoto.funcMotoStop();
+        #启动图像的自动识别
+        self.objVision.funcVisionClasStart();
 
     #托盘归位到初始态
     def funcCtrlMotoBackZero(self):
