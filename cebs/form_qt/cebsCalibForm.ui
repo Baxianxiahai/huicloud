@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1194</width>
-    <height>392</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <x>30</x>
      <y>20</y>
      <width>341</width>
-     <height>191</height>
+     <height>241</height>
     </rect>
    </property>
    <property name="title">
@@ -185,7 +185,7 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>81</width>
+      <width>321</width>
       <height>41</height>
      </rect>
     </property>
@@ -196,9 +196,9 @@
    <widget class="QPushButton" name="pushButton_calib_left_up">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>20</y>
-      <width>91</width>
+      <x>10</x>
+      <y>190</y>
+      <width>141</width>
       <height>41</height>
      </rect>
     </property>
@@ -209,9 +209,9 @@
    <widget class="QPushButton" name="pushButton_calib_right_bottom">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>20</y>
-      <width>81</width>
+      <x>180</x>
+      <y>190</y>
+      <width>141</width>
       <height>41</height>
      </rect>
     </property>
@@ -226,7 +226,7 @@
      <x>400</x>
      <y>30</y>
      <width>751</width>
-     <height>271</height>
+     <height>391</height>
     </rect>
    </property>
    <property name="mouseTracking">
@@ -281,9 +281,9 @@ p, li { white-space: pre-wrap; }
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>230</y>
+     <y>280</y>
      <width>161</width>
-     <height>71</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
@@ -293,14 +293,27 @@ p, li { white-space: pre-wrap; }
   <widget class="QPushButton" name="pushButton_calib_comp">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>230</y>
-     <width>161</width>
-     <height>71</height>
+     <x>30</x>
+     <y>360</y>
+     <width>341</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="text">
     <string>校准完成</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_calib_pilot_2">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>280</y>
+     <width>161</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>巡游停止</string>
    </property>
   </widget>
  </widget>
@@ -386,6 +399,22 @@ p, li { white-space: pre-wrap; }
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_calib_pilot_2</sender>
+   <signal>clicked()</signal>
+   <receiver>cebsCalibForm</receiver>
+   <slot>slot_calib_pilot_stop()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>210</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>257</x>
+     <y>321</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>slot_calib_close()</slot>
@@ -393,5 +422,6 @@ p, li { white-space: pre-wrap; }
   <slot>slot_calib_left_up()</slot>
   <slot>slot_calib_right_bottom()</slot>
   <slot>slot_calib_pilot()</slot>
+  <slot>slot_calib_pilot_stop()</slot>
  </slots>
 </ui>

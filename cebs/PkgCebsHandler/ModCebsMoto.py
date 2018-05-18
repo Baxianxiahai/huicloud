@@ -25,48 +25,6 @@ from cebsMain import *
 from PkgCebsHandler import ModCebsCom
 from PkgCebsHandler import ModCebsCfg
 
-#校准巡视独立的线程
-class classCalaPilotThread(QThread):
-    signal_print_log = pyqtSignal(str) #申明信号
-    signal_moto_pilot = pyqtSignal() #申明给CebsCtrl启动本任务功能的信号
-
-    def __init__(self,parent=None):
-        super(classCalaPilotThread,self).__init__(parent)
-        self.identity = None;
-        self.cntCtrl = 0;
-        self.objMotoProc = classMotoProcess();
-
-    def setIdentity(self,text):
-        self.identity = text
-
-    def funcMotoCalaPilotSart(self):
-        self.cntCtrl = ModCebsCom.GL_CEBS_PILOT_WOKING_ROUNDS_MAX+1;
-
-    def funcMotoCalaPilotWorkingOnces(self):
-        #移动到左上
-        self.objMotoProc.funcMotoMove2HoleNbr(1);
-        #移动到右上
-        self.objMotoProc.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_HOLE_X_NUM);
-        #移动到左下
-        self.objMotoProc.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX - ModCebsCom.GL_CEBS_HB_HOLE_X_NUM + 1);
-        #移动到右下
-        self.objMotoProc.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX);
-                
-    def run(self):
-        while True:
-            time.sleep(1)
-            self.cntCtrl -= 1;
-            if (self.cntCtrl > 1):
-                self.signal_print_log.emit("MOTO: Running Calibration pilot process! roundIndex = %d" % (self.cntCtrl))
-                self.funcMotoCalaPilotWorkingOnces();
-            elif (self.cntCtrl == 1):
-                self.signal_print_log.emit("MOTO: Running Calibration pilot process! roundIndex = %d" % (self.cntCtrl))
-                self.funcMotoCalaPilotWorkingOnces();
-                ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True #让继续做图像识别    
-
-
-
-
 #约定移动的孔板位置使用： 0 =》 表示复位位置
 #               1-96 =》正常的板孔位置
 class classMotoProcess(object):
@@ -198,20 +156,6 @@ class classMotoProcess(object):
             return 1;
         else:
             return -2;
-
-#     #四周巡视
-#     def funcMotoCalaPilot(self):
-#         for roundIndex in range (0, ModCebsCom.GL_CEBS_PILOT_WOKING_ROUNDS_MAX):
-#             print("MOTO: Running Calibration pilot process! roundIndex = %d" % (roundIndex))
-#             #移动到左上
-#             self.funcMotoMove2HoleNbr(1);
-#             #移动到右上
-#             self.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_HOLE_X_NUM);
-#             #移动到左下
-#             self.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX - ModCebsCom.GL_CEBS_HB_HOLE_X_NUM + 1);
-#             #移动到右下
-#             self.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX);
-#         return 1;
 
     #暂时不需要的过程
     def funcMotoStop(self):

@@ -61,18 +61,3 @@ GL_CEBS_HB_POS_IN_UM = [0, 0, 0, 0];  #使用整数表达，um精度，96孔板�
 GL_CEBS_CUR_POS_IN_UM = [0, 0];  #使用整数表达，um精度，标识X/Y坐标
 
 
-#控制变量
-GL_CEBS_CTRL_WORK_MODE_CALA = False;
-
-
-class MyClass(object):
-    '''
-    classdocs
-    '''
-
-
-    def __init__(self, params):
-        '''
-        Constructor
-        '''
-        

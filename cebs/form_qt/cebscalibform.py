@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'cebsCalibForm.ui'
+# Form implementation generated from reading ui file 'cebsCalibform.ui'
 #
 # Created by: PyQt5 UI code generator 5.10
 #
@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_cebsCalibForm(object):
     def setupUi(self, cebsCalibForm):
         cebsCalibForm.setObjectName("cebsCalibForm")
-        cebsCalibForm.resize(1194, 392)
+        cebsCalibForm.resize(1194, 443)
         self.groupBox_calib_set = QtWidgets.QGroupBox(cebsCalibForm)
-        self.groupBox_calib_set.setGeometry(QtCore.QRect(30, 20, 341, 191))
+        self.groupBox_calib_set.setGeometry(QtCore.QRect(30, 20, 341, 241))
         self.groupBox_calib_set.setObjectName("groupBox_calib_set")
         self.groupBox_calib_move_scale = QtWidgets.QGroupBox(self.groupBox_calib_set)
         self.groupBox_calib_move_scale.setGeometry(QtCore.QRect(10, 70, 311, 51))
@@ -53,16 +53,16 @@ class Ui_cebsCalibForm(object):
         self.radioButton_calib_x_minus.setGeometry(QtCore.QRect(140, 20, 61, 21))
         self.radioButton_calib_x_minus.setObjectName("radioButton_calib_x_minus")
         self.pushButton_calib_move = QtWidgets.QPushButton(self.groupBox_calib_set)
-        self.pushButton_calib_move.setGeometry(QtCore.QRect(10, 20, 81, 41))
+        self.pushButton_calib_move.setGeometry(QtCore.QRect(10, 20, 321, 41))
         self.pushButton_calib_move.setObjectName("pushButton_calib_move")
         self.pushButton_calib_left_up = QtWidgets.QPushButton(self.groupBox_calib_set)
-        self.pushButton_calib_left_up.setGeometry(QtCore.QRect(120, 20, 91, 41))
+        self.pushButton_calib_left_up.setGeometry(QtCore.QRect(10, 190, 141, 41))
         self.pushButton_calib_left_up.setObjectName("pushButton_calib_left_up")
         self.pushButton_calib_right_bottom = QtWidgets.QPushButton(self.groupBox_calib_set)
-        self.pushButton_calib_right_bottom.setGeometry(QtCore.QRect(240, 20, 81, 41))
+        self.pushButton_calib_right_bottom.setGeometry(QtCore.QRect(180, 190, 141, 41))
         self.pushButton_calib_right_bottom.setObjectName("pushButton_calib_right_bottom")
         self.textEdit_calib_runProgress = QtWidgets.QTextEdit(cebsCalibForm)
-        self.textEdit_calib_runProgress.setGeometry(QtCore.QRect(400, 30, 751, 271))
+        self.textEdit_calib_runProgress.setGeometry(QtCore.QRect(400, 30, 751, 391))
         self.textEdit_calib_runProgress.setMouseTracking(True)
         self.textEdit_calib_runProgress.setTabletTracking(True)
         self.textEdit_calib_runProgress.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -77,11 +77,14 @@ class Ui_cebsCalibForm(object):
         self.label_calib_runProgress.setGeometry(QtCore.QRect(400, 10, 261, 16))
         self.label_calib_runProgress.setObjectName("label_calib_runProgress")
         self.pushButton_calib_pilot = QtWidgets.QPushButton(cebsCalibForm)
-        self.pushButton_calib_pilot.setGeometry(QtCore.QRect(30, 230, 161, 71))
+        self.pushButton_calib_pilot.setGeometry(QtCore.QRect(30, 280, 161, 61))
         self.pushButton_calib_pilot.setObjectName("pushButton_calib_pilot")
         self.pushButton_calib_comp = QtWidgets.QPushButton(cebsCalibForm)
-        self.pushButton_calib_comp.setGeometry(QtCore.QRect(210, 230, 161, 71))
+        self.pushButton_calib_comp.setGeometry(QtCore.QRect(30, 360, 341, 61))
         self.pushButton_calib_comp.setObjectName("pushButton_calib_comp")
+        self.pushButton_calib_pilot_2 = QtWidgets.QPushButton(cebsCalibForm)
+        self.pushButton_calib_pilot_2.setGeometry(QtCore.QRect(210, 280, 161, 61))
+        self.pushButton_calib_pilot_2.setObjectName("pushButton_calib_pilot_2")
 
         self.retranslateUi(cebsCalibForm)
         self.pushButton_calib_comp.clicked.connect(cebsCalibForm.slot_calib_close)
@@ -89,6 +92,7 @@ class Ui_cebsCalibForm(object):
         self.pushButton_calib_left_up.clicked.connect(cebsCalibForm.slot_calib_left_up)
         self.pushButton_calib_right_bottom.clicked.connect(cebsCalibForm.slot_calib_right_bottom)
         self.pushButton_calib_pilot.clicked.connect(cebsCalibForm.slot_calib_pilot)
+        self.pushButton_calib_pilot_2.clicked.connect(cebsCalibForm.slot_calib_pilot_stop)
         QtCore.QMetaObject.connectSlotsByName(cebsCalibForm)
 
     def retranslateUi(self, cebsCalibForm):
@@ -117,4 +121,5 @@ class Ui_cebsCalibForm(object):
         self.label_calib_runProgress.setText(_translate("cebsCalibForm", "校准进展"))
         self.pushButton_calib_pilot.setText(_translate("cebsCalibForm", "校准巡游"))
         self.pushButton_calib_comp.setText(_translate("cebsCalibForm", "校准完成"))
+        self.pushButton_calib_pilot_2.setText(_translate("cebsCalibForm", "巡游停止"))
 

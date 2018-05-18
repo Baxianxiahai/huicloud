@@ -28,6 +28,54 @@ from PkgCebsHandler import ModCebsVision
 from PkgCebsHandler import ModCebsMoto
 from PkgCebsHandler import ModCebsCtrl
 
+
+#校准巡视独立的线程
+class classCalibPilotThread(QThread):
+    signal_calib_print_log = pyqtSignal(str) #申明信号
+    signal_calib_moto_pilot = pyqtSignal() #申明给CebsCtrl启动本任务功能的信号
+    signal_calib_pilot_stop = pyqtSignal() #申明给CebsCtrl启动本任务功能的信号
+
+    def __init__(self,parent=None):
+        super(classCalibPilotThread,self).__init__(parent)
+        self.identity = None;
+        self.cntCtrl = 0;
+        self.objMotoProc = ModCebsMoto.classMotoProcess();
+
+    def setIdentity(self,text):
+        self.identity = text
+        
+    def funcCalibMotoPilotSart(self):
+        self.cntCtrl = ModCebsCom.GL_CEBS_PILOT_WOKING_ROUNDS_MAX+2;
+
+    def funcCalibMotoPilotStop(self):
+        if (self.cntCtrl > 1):
+            self.cntCtrl = 1;
+        else:
+            self.cntCtrl = 0;
+
+    def funcMotoCalibPilotWorkingOnces(self):
+        #移动到左上
+        self.objMotoProc.funcMotoMove2HoleNbr(1);
+        #移动到右上
+        self.objMotoProc.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_HOLE_X_NUM);
+        #移动到左下
+        self.objMotoProc.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX - ModCebsCom.GL_CEBS_HB_HOLE_X_NUM + 1);
+        #移动到右下
+        self.objMotoProc.funcMotoMove2HoleNbr(ModCebsCom.GL_CEBS_HB_TARGET_96_SD_BATCH_MAX);
+                
+    def run(self):
+        while True:
+            time.sleep(1)
+            self.cntCtrl -= 1;
+            if (self.cntCtrl > 1):
+                self.signal_calib_print_log.emit("CALIB: Running Calibration pilot process! roundIndex = %d" % (self.cntCtrl-1))
+                self.funcMotoCalibPilotWorkingOnces();
+            elif (self.cntCtrl == 1): #STOP标识位
+                self.signal_calib_print_log.emit("CALIB: Stop Calibration pilot!")
+                obj = classCalibProcess();
+                #恢复环境：是不是太早了？
+                #obj.funcRecoverWorkingEnv();
+
 class classCalibProcess(object):
     def __init__(self, father):
         super(classCalibProcess, self).__init__()
@@ -49,16 +97,18 @@ class classCalibProcess(object):
             ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH = ModCebsCom.GL_CEBS_HB_TARGET_BOARD_BATCH_MAX;
 
         #初始化板孔参数
+        self.funcInitHoleBoardPar();
         
         #清理现场
         self.funcCleanWorkingEnv()
 
         #启动第三个干活的子进程
-        self.threadMotoPilot = ModCebsMoto.classCalaPilotThread()
-        self.threadMotoPilot.setIdentity("CalaPilotThread")
-        self.threadMotoPilot.signal_print_log.connect(self.funcLogTrace) #接收信号
-        self.threadMotoPilot.signal_moto_pilot.connect(self.threadMotoPilot.funcMotoCalaPilotSart) #发送信号
-        self.threadMotoPilot.start();
+        self.threadCalibMotoPilot = classCalibPilotThread()
+        self.threadCalibMotoPilot.setIdentity("CalibPilotThread")
+        self.threadCalibMotoPilot.signal_calib_print_log.connect(self.funcLogTrace) #接收信号
+        self.threadCalibMotoPilot.signal_calib_moto_pilot.connect(self.threadCalibMotoPilot.funcCalibMotoPilotSart) #发送启动信号
+        self.threadCalibMotoPilot.signal_calib_pilot_stop.connect(self.threadCalibMotoPilot.funcCalibMotoPilotStop) #发送停止信号
+        self.threadCalibMotoPilot.start();
         
     def setIdentity(self,text):
         self.identity = text
@@ -67,21 +117,19 @@ class classCalibProcess(object):
         self.calibForm.calib_print_log(myString)
 
     def funcCleanWorkingEnv(self):
-        #停止读取干活
-        ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA = False;
         #停止图像识别
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False
         #将马达复位到零点
+        #TBD
 
     def funcRecoverWorkingEnv(self):
-        #停止读取干活
-        ModCebsCom.GL_CEBS_CTRL_WORK_MODE_CALA = False;
         #启动图像识别
         ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True
         #将马达复位到零点
+        #TBD
     
     #初始化板孔参数
-    def funcInitHoleBoardpar(self):
+    def funcInitHoleBoardPar(self):
         if (ModCebsCom.GL_CEBS_HB_WIDTH_X_SCALE == 0 or ModCebsCom.GL_CEBS_HB_HEIGHT_Y_SCALE == 0 or ModCebsCom.GL_CEBS_HB_HOLE_X_NUM == 0 or ModCebsCom.GL_CEBS_HB_HOLE_Y_NUM == 0):
             if (ModCebsCom.GL_CEBS_HB_TARGET_TYPE == ModCebsCom.GL_CEBS_HB_TARGET_96_STANDARD):
                 ModCebsCom.GL_CEBS_HB_HOLE_X_NUM = 12;
@@ -118,7 +166,7 @@ class classCalibProcess(object):
         else:
             pass        
     
-    def funcUpdateHoleBoardpar(self):
+    def funcUpdateHoleBoardPar(self):
         #更新系统级参数
         if (ModCebsCom.GL_CEBS_HB_TARGET_TYPE == ModCebsCom.GL_CEBS_HB_TARGET_96_STANDARD):
             ModCebsCom.GL_CEBS_HB_HOLE_X_NUM = 12;
@@ -141,11 +189,16 @@ class classCalibProcess(object):
     #托盘四周巡游
     def funcCalibPilotStart(self):
         self.funcLogTrace("系统校准巡视开始...")
-        self.threadMotoPilot.signal_moto_pilot.emit()
+        self.threadCalibMotoPilot.signal_calib_moto_pilot.emit()
+
+    #巡游停止
+    def funcCalibPilotStop(self):
+        self.funcLogTrace("系统校准巡视停止...")
+        self.threadCalibMotoPilot.signal_calib_pilot_stop.emit()
 
     #处理校准过程完成的动作
     def funcCtrlCalibComp(self):
-        self.funcUpdateHoleBoardpar()
+        self.funcUpdateHoleBoardPar()
         #控制比特位
         self.funcRecoverWorkingEnv();
 
@@ -153,34 +206,29 @@ class classCalibProcess(object):
         #调用处理函数
         obj = ModCebsMoto.classMotoProcess();
         obj.funcMotoCalaMoveOneStep(parMoveScale, parMoveDir);
-        self.funcLogTrace("CALA Moving one step. Current position XY=[%d/%d]." % (ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
+        self.funcLogTrace("CALIB Moving one step. Current position XY=[%d/%d]." % (ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
         
     def funcCalibLeftUp(self):
         #存入新坐标
         ModCebsCom.GL_CEBS_HB_POS_IN_UM[0] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0];
         ModCebsCom.GL_CEBS_HB_POS_IN_UM[1] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1];
         #更新系统参数
-        self.funcUpdateHoleBoardpar()
+        self.funcUpdateHoleBoardPar()
         #更新配置文件参数
         iniObj = ModCebsCfg.ConfigOpr();
         iniObj.updateSectionPar();
-        self.funcLogTrace("CALA LeftUp Axis set! XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[0], ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
+        self.funcLogTrace("CALIB LeftUp Axis set! XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[0], ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
 
     def funcCalibRightBottom(self):
         #存入新坐标
         ModCebsCom.GL_CEBS_HB_POS_IN_UM[2] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0];
         ModCebsCom.GL_CEBS_HB_POS_IN_UM[3] = ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1];
         #更新系统参数
-        self.funcUpdateHoleBoardpar()
+        self.funcUpdateHoleBoardPar()
         #更新配置文件参数
         iniObj = ModCebsCfg.ConfigOpr();
         iniObj.updateSectionPar();
-        self.funcLogTrace("CALA RightBottom Axis set!  XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[2], ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))    
-    
-    
-    
-    
-    
+        self.funcLogTrace("CALIB RightBottom Axis set!  XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[2], ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))    
     
     
     
