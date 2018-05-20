@@ -36,8 +36,6 @@ from PyQt5.QtCore import pyqtSlot
 from cebsMain import *
 from PkgCebsHandler import ModCebsCom
 from PkgCebsHandler import ModCebsCfg
-#from form_qt.cebsmainform import Ui_cebsMainWindow
-
 
 class classVisionProcess(object):
     def __init__(self):
@@ -49,7 +47,7 @@ class classVisionProcess(object):
         # Check if the webcam is opened correctly
         if not cap.isOpened():
             #raise IOError("Cannot open webcam")
-            print("VISION CAPTURE: Cannot open webcam!")
+            print("VISION CAPTURE: Cannot open webcam!, Batch/Nbr=%d/%d" % (batch, fileNbr))
             return -1;
 
         #定义摄像头的分辨率
@@ -74,11 +72,17 @@ class classVisionProcess(object):
         cv.destroyAllWindows()               
         return 1;
 
+    def funcVisionClasStart(self):
+        ModCebsCom.GL_CEBS_PIC_CLAS_FLAG = True;
+
+    def funcVisionClasEnd(self):
+        ModCebsCom.GL_CEBS_PIC_CLAS_FLAG = False;
+
 #主处理任务模块
 class classVisionThread(QThread):
-    signal_print_log = pyqtSignal(str)
-    signal_start = pyqtSignal()
-    signal_stop = pyqtSignal()
+    signal_print_log = pyqtSignal(str) #申明发送信号
+    signal_vision_start = pyqtSignal()  #申明发送给主函数的信号，暂时未使用
+    signal_vision_stop = pyqtSignal()   #申明发送给主函数的信号，暂时未使用
 
     def __init__(self,parent=None):
         super(classVisionThread,self).__init__(parent)
@@ -115,7 +119,7 @@ class classVisionThread(QThread):
     def run(self):
         while True:
             time.sleep(1)
-            if ((ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT > 0) and (ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG == True)):
+            if ((ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT > 0) and (ModCebsCom.GL_CEBS_PIC_CLAS_FLAG == True)):
                 self.funcVisionProc();
                 pass
         
