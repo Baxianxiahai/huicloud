@@ -125,6 +125,7 @@ class classMotoProcess(object):
         #print("MOTO: Running Zero Position!")
 
     def funcMotoMove2Start(self):
+        print("MOTO: Move to start!")
         #注意：左上的X轴最小、Y最大。右下的X最大，而Y小
         xWidth = ModCebsCom.GL_CEBS_HB_POS_IN_UM[2] - ModCebsCom.GL_CEBS_HB_POS_IN_UM[0];
         yHeight = ModCebsCom.GL_CEBS_HB_POS_IN_UM[1] - ModCebsCom.GL_CEBS_HB_POS_IN_UM[3];
@@ -166,7 +167,7 @@ class classMotoProcess(object):
             return 1;
         else:
             return -2;
-        print("Finished once!")
+        print("MOTO: Finished once!")
 
     #从当前一个坐标移动到另一个新坐标
     #需要将坐标转换为脉冲数

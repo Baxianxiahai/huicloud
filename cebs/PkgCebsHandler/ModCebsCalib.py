@@ -141,12 +141,12 @@ class classCalibProcess(object):
 
     #托盘四周巡游
     def funcCalibPilotStart(self):
-        self.funcLogTrace("系统校准巡视开始...")
+        self.funcLogTrace("CALIB: 系统校准巡视开始...")
         self.threadCalibMotoPilot.signal_calib_moto_pilot.emit()
 
     #巡游停止
     def funcCalibPilotStop(self):
-        self.funcLogTrace("系统校准巡视停止...")
+        self.funcLogTrace("CALIB: 系统校准巡视停止...")
         self.threadCalibMotoPilot.signal_calib_pilot_stop.emit()
 
     #处理校准过程完成的动作
@@ -159,7 +159,7 @@ class classCalibProcess(object):
         #调用处理函数
         obj = ModCebsMoto.classMotoProcess();
         obj.funcMotoCalaMoveOneStep(parMoveScale, parMoveDir);
-        self.funcLogTrace("CALIB Moving one step. Current position XY=[%d/%d]." % (ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
+        self.funcLogTrace("CALIB: Moving one step. Current position XY=[%d/%d]." % (ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1]))
         
     def funcCalibLeftUp(self):
         #存入新坐标
@@ -170,7 +170,7 @@ class classCalibProcess(object):
         #更新配置文件参数
         iniObj = ModCebsCfg.ConfigOpr();
         iniObj.updateSectionPar();
-        self.funcLogTrace("CALIB LeftUp Axis set! XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[0], ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
+        self.funcLogTrace("CALIB: LeftUp Axis set! XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[0], ModCebsCom.GL_CEBS_HB_POS_IN_UM[1]))
 
     def funcCalibRightBottom(self):
         #存入新坐标
@@ -181,7 +181,7 @@ class classCalibProcess(object):
         #更新配置文件参数
         iniObj = ModCebsCfg.ConfigOpr();
         iniObj.updateSectionPar();
-        self.funcLogTrace("CALIB RightBottom Axis set!  XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[2], ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))    
+        self.funcLogTrace("CALIB: RightBottom Axis set!  XY=%d/%d." % (ModCebsCom.GL_CEBS_HB_POS_IN_UM[2], ModCebsCom.GL_CEBS_HB_POS_IN_UM[3]))    
     
     
     
@@ -203,6 +203,7 @@ class classCalibPilotThread(QThread):
     def funcCalibMotoPilotSart(self):
         self.cntCtrl = ModCebsCom.GL_CEBS_PILOT_WOKING_ROUNDS_MAX+1;
 
+    #这是高级技巧！
     def funcCalibMotoPilotStop(self):
             self.cntCtrl = 1;
 

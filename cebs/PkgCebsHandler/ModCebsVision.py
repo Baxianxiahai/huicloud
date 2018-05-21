@@ -47,7 +47,7 @@ class classVisionProcess(object):
         # Check if the webcam is opened correctly
         if not cap.isOpened():
             #raise IOError("Cannot open webcam")
-            print("VISION CAPTURE: Cannot open webcam!, Batch/Nbr=%d/%d" % (batch, fileNbr))
+            print("VS_CAP: Cannot open webcam!, Batch/Nbr=%d/%d" % (batch, fileNbr))
             return -1;
 
         #定义摄像头的分辨率
@@ -64,12 +64,12 @@ class classVisionProcess(object):
         if (ret == True):
             frame = cv.flip(frame, 1)# 在帧上进行操作
             frame = cv.resize(frame, None, fx=1.5, fy=1.5, interpolation=cv.INTER_AREA)
-            cv.imshow('Input', frame)
+            #cv.imshow('Input', frame)
             obj=ModCebsCfg.ConfigOpr();
             fileName = obj.combineFileNameWithDir(batch, fileNbr)
             cv.imwrite(fileName, frame)
         cap.release()
-        cv.destroyAllWindows()               
+        cv.destroyAllWindows()
         return 1;
 
     def funcVisionClasStart(self):
@@ -96,13 +96,13 @@ class classVisionThread(QThread):
         batch, fileNbr = self.objInitCfg.findUnclasFileBatchAndFileNbr();
         if (batch < 0):
             ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = 0;
-            self.signal_print_log.emit("图片识别完成： 还剩照片数量=%d." %(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+            self.signal_print_log.emit("VS_CLAS: 图片识别完成： 还剩照片数量=%d." %(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
             self.objInitCfg.updateCtrlCntInfo();
             return;
         fileName = self.objInitCfg.getStoredFileName(batch, fileNbr);
         if (fileName == None):
             ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT = 0;
-            self.signal_print_log.emit("图片识别完成： 还剩照片数量=%d." %(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+            self.signal_print_log.emit("VS_CLAS图片识别完成： 还剩照片数量=%d." %(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
             self.objInitCfg.updateCtrlCntInfo();
             return;
         #真正的处理过程
@@ -110,7 +110,7 @@ class classVisionThread(QThread):
         self.funcVisionClassify(fileName);
         ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT -= 1;
         self.objInitCfg.updateUnclasFileAsClassified(batch, fileNbr);
-        self.signal_print_log.emit("图片识别完成： 还剩照片数量=%d." %(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
+        self.signal_print_log.emit("VS_CLAS图片识别完成： 还剩照片数量=%d." %(ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT))
     
     #对着图像进行处理
     def funcVisionClassify(self, filename):

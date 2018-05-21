@@ -158,9 +158,14 @@ class ConfigOpr(object):
         fileClas = str("batchFileClas#" + str(fileNbr))
         self.CReader.set(batchStr, fileName, self.combineFileNameWithDir(batch, fileNbr))
         self.CReader.set(batchStr, fileClas, 'no')
-        fd = open(self.filePath, 'w')
-        self.CReader.write(fd)
-        fd.close()
+        try:
+            fd = open(self.filePath, 'w')
+        except Exception as err:  
+            print("CFG: Open file failure, err = " + str(err))
+            return -1;
+        finally:
+            self.CReader.write(fd)
+            fd.close()
 
     #读取控制文件
     def getStoredFileName(self, batch, fileNbr):

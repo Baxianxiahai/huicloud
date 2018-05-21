@@ -31,7 +31,7 @@ from PyQt5.QtGui import QIcon
 
 #Form class
 from form_qt.cebsmainform import Ui_cebsMainWindow    # 导入生成mainForm.py里生成的类
-from form_qt.cebscalibform import Ui_cebsCalibForm      # 导入生成calaForm.py里生成的类
+from form_qt.cebscalibform import Ui_cebsCalibForm      # 导入生成calibForm.py里生成的类
 
 #Local Class
 from PkgCebsHandler import ModCebsCom  #Common Support module
@@ -53,7 +53,6 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         #必须使用成员函数，才能保证子FORM的生命周期
         self.calibForm = cebsCalibForm()
         self.objMoto = ModCebsMoto.classMotoProcess();
-        self.objVision=ModCebsVision.classVisionProcess();
 
         #固定信号量设置
         self.calibForm.signal_mainwin_visible.connect(self.funcMainWinVisible);
@@ -70,6 +69,10 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.threadCtrl.signal_print_log.connect(self.slot_print_trigger)  #接收信号
         self.threadCtrl.signal_ctrl_start.connect(self.threadCtrl.funcTakePicStart) #发送信号
         self.threadCtrl.signal_ctrl_stop.connect(self.threadCtrl.funcTakePicStop)  #发送信号
+        self.threadCtrl.signal_ctrl_clas_start.connect(self.threadCtrl.funcVisionClasStart) #发送信号
+        self.threadCtrl.signal_ctrl_clas_stop.connect(self.threadCtrl.funcVisionClasStop)  #发送信号
+        self.threadCtrl.signal_ctrl_calib_start.connect(self.threadCtrl.funcCtrlCalibStart) #发送信号
+        self.threadCtrl.signal_ctrl_calib_stop.connect(self.threadCtrl.funcCtrlCalibStop)  #发送信号
         self.threadCtrl.signal_ctrl_zero.connect(self.threadCtrl.funcCtrlMotoBackZero)  #发送信号
         self.threadCtrl.start();
 
@@ -119,38 +122,46 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.cebs_print_log(info)
 
     def slot_ctrl_start(self):
-        self.cebs_print_log("拍照开始！")
-        self.funcMainFormSetEquInitStatus();
+        self.cebs_print_log("MAIN: 拍照开始！")
+        #self.funcMainFormSetEquInitStatus();
         self.threadCtrl.signal_ctrl_start.emit()
         
     def slot_ctrl_stop(self):
-        self.cebs_print_log("拍照停止！")
+        self.cebs_print_log("MAIN: 拍照停止！")
         self.threadCtrl.signal_ctrl_stop.emit()
 
     def slot_ctrl_zero(self):
-        self.funcMainFormSetEquInitStatus();
-        self.cebs_print_log("系统归零！")
+        #self.funcMainFormSetEquInitStatus();
+        self.cebs_print_log("MAIN: 系统归零！")
         self.threadCtrl.signal_ctrl_zero.emit()
 
     def slot_ctrl_vclas_start(self):
-        self.funcMainFormSetEquInitStatus();
-        self.cebs_print_log("启动图像识别！")
-        self.objVision.funcVisionClasStart();
+        #self.funcMainFormSetEquInitStatus();
+        self.cebs_print_log("MAIN: 启动图像识别！")
+        self.threadCtrl.signal_ctrl_clas_start.emit()
 
     def slot_ctrl_vclas_stop(self):
-        self.cebs_print_log("停止图像识别！")
-        self.objVision.funcVisionClasEnd();
+        self.cebs_print_log("MAIN: 停止图像识别！")
+        self.threadCtrl.signal_ctrl_clas_stop.emit()
 
     def slot_ctrl_calib(self):
-        self.funcMainFormSetEquInitStatus();
-        self.cebs_print_log("开始校准！")
+        if (self.threadCtrl.funcCtrlGetRightStatus() < 0):
+            self.cebs_print_log("MAIN: CALIB上一个任务还未完成！")
+            return -1;
+        #self.funcMainFormSetEquInitStatus();
+        self.cebs_print_log("MAIN: 开始校准！")
+        self.threadCtrl.signal_ctrl_calib_start.emit()
         if not self.calibForm.isVisible():
             self.signal_mainwin_unvisible.emit()
             self.calibForm.show()
 
     def funcMainWinVisible(self):
+        #再执行逻辑
         if not self.isVisible():
             self.show()
+        #再将状态机改过来
+        self.threadCtrl.signal_ctrl_calib_stop.emit()
+        self.cebs_print_log("MAIN: 校准结束！")
 
     def funcMainWinUnvisible(self):
         if self.isVisible():
@@ -164,9 +175,9 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         res = {}
         self.cebs_print_log("TEST: " + str(res))
 
+    #本来用于强制控制，现在有了CTRL层面的状态机之后，暂时不用了。
+    #强制控制的坏处非常明显：动作部件在坏人狂点鼠标的情况下，可能会遇到损坏
     def funcMainFormSetEquInitStatus(self):
-        self.objVision.funcVisionClasEnd() #图像识别停止
-        self.threadCtrl.signal_ctrl_stop.emit() #摄像头读取停止
         self.objMoto.funcMotoStop() #停止马达
 
 #Calibration Widget
