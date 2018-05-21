@@ -6,7 +6,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 		layedit = layui.layedit,
 		laydate = layui.laydate;
 	//日期
-
+	
 	lay('.test-item').each(function() {
 		laydate.render({
 			elem: this,
@@ -32,24 +32,30 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 		telphone: [/^[1][3,5,8][0-9]{9}$/, '请输入正确的手机号'],
 	});
 	//监听提交
-//	form.on('submit(index)', function(data) {
-//		var list = document.getElementsByName("index_sex");
-//		for(i = 0; i < list.length; i++) {
-//			if(list[i].checked == true) {
-//				if(list[i].value == "女") {
-//					window.location.href = 'woman.html';
-//				} else {
-//					window.location.href = 'man.html';
-//				}
-//			}
-//		}
-//		return false;
-//	});
-	form.on('submit(index)', function(data) {
+	//	form.on('submit(index)', function(data) {
+	//		var list = document.getElementsByName("index_sex");
+	//		for(i = 0; i < list.length; i++) {
+	//			if(list[i].checked == true) {
+	//				if(list[i].value == "女") {
+	//					window.location.href = 'woman.html';
+	//				} else {
+	//					window.location.href = 'man.html';
+	//				}
+	//			}
+	//		}
+	//		return false;
+	//	});
+	form.on('submit(index_1)', function(data) {
+		layer.alert(JSON.stringify(data.field), {
+			title: '最终的提交信息'
+		})
 		window.location.href = "index.html";
 		return false;
 	});
 	form.on('submit(second_1)', function(data) {
+		var params1 = $("#case1111").serializeJSON();
+		console.log(params1);
+		console.log(JSON.stringify(params1));
 		window.location.href = "index.html";
 		return false;
 	});
@@ -81,103 +87,103 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 		window.location.href = "fourth_2.html";
 		return false;
 	});
-//	form.on('submit(common_3)', function(data) {
-//		window.location.href = "common_4.html";
-//		return false;
-//	});
-//	form.on('submit(common_4)', function(data) {
-//		window.location.href = "common_6.html";
-//		return false;
-//	});
+	//	form.on('submit(common_3)', function(data) {
+	//		window.location.href = "common_4.html";
+	//		return false;
+	//	});
+	//	form.on('submit(common_4)', function(data) {
+	//		window.location.href = "common_6.html";
+	//		return false;
+	//	});
 	//	form.on('submit(common_6)',function(data){
 	//		window.location.href="common_5.html";
 	//		return false;
 	//	});
-//	form.on('submit(common_6)', function(data) {
-//		layer.alert("调查结束，返回首页", {
-//				title: "消息提示"
-//			},
-//			function() {
-//				window.location.href = "main.html";
-//				//return false;
-//			})
-//		return false;
-//	});
-//	form.on('submit(demo1)', function(data) {
-//		layer.alert(JSON.stringify(data.field), {
-//			title: "最终提交消息"
-//		});
-//		return false;
-//	});
-//	form.on('submit(lumbago_1)', function(data) {
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(obj['lumbago_1_answer1']) + parseInt(obj["lumbago_1_answer2"]) + parseInt(obj["lumbago_1_answer3"]) + parseInt(obj["lumbago_1_answer4"]) + parseInt(obj["lumbago_1_answer5"]) + parseInt(obj["lumbago_1_answer6"]) + parseInt(obj["lumbago_1_answer7"]) + parseInt(obj["lumbago_1_answer8"]) + parseInt(obj["lumbago_1_answer9"]) + parseInt(obj["lumbago_1_answer10"]);
-//		layer.alert(String(s), {
-//			title: '最终得分'
-//		}, function() {
-//			window.location.href = "main.html";
-//		})
-//		return false;
-//	});
-//	form.on('submit(balance)', function(data) {
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(obj['balance_answer1']) + parseInt(obj["balance_answer2"]) + parseInt(obj["balance_answer3"]) + parseInt(obj["balance_answer4"]) + parseInt(obj["balance_answer5"]) + parseInt(obj["balance_answer6"]) + parseInt(obj["balance_answer7"]) + parseInt(obj["balance_answer8"]) + parseInt(obj["balance_answer9"]) + parseInt(obj["balance_answer10"]) + parseInt(obj["balance_answer11"]) + parseInt(obj["balance_answer12"]) + parseInt(obj["balance_answer13"]) + parseInt(obj["balance_answer14"]);
-//		layer.alert(String(s), {
-//			title: '最终得分'
-//		}, function() {
-//			window.location.href = "main.html";
-//		})
-//		return false;
-//	});
-//	form.on('submit(SF_36_1)', function(data) {
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(obj['SF_36_1_answer1']) + parseInt(obj["SF_36_1_answer2"]) + parseInt(obj["SF_36_1_answer3"]) + parseInt(obj["SF_36_1_answer4"]) + parseInt(obj["SF_36_1_answer5"]) + parseInt(obj["SF_36_1_answer6"]) + parseInt(obj["SF_36_1_answer7"]);
-//		window.location.href = "SF_36_2.html?" + s;
-//		console.log(s);
-//		return false;
-//	});
-//	form.on('submit(SF_36_2)', function(data) {
-//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(perimeters) + parseInt(obj['SF_36_2_answer1']) + parseInt(obj["SF_36_2_answer2"]) + parseInt(obj["SF_36_2_answer3"]) + parseInt(obj["SF_36_2_answer4"]) + parseInt(obj["SF_36_2_answer5"]) + parseInt(obj["SF_36_2_answer6"]) + parseInt(obj["SF_36_2_answer7"]) + parseInt(obj["SF_36_2_answer8"]) + parseInt(obj["SF_36_2_answer9"]);
-//		window.location.href = "SF_36_3.html?" + s;
-//		console.log(s);
-//		return false;
-//	});
-//	form.on('submit(SF_36_3)', function(data) {
-//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(perimeters) + parseInt(obj['SF_36_3_answer1']) + parseInt(obj["SF_36_3_answer2"]) + parseInt(obj["SF_36_3_answer3"]) + parseInt(obj["SF_36_3_answer4"]) + parseInt(obj["SF_36_3_answer5"]) + parseInt(obj["SF_36_3_answer6"]);
-//		window.location.href = "SF_36_4.html?" + s;
-//		console.log(s);
-//		return false;
-//	});
-//	form.on('submit(SF_36_4)', function(data) {
-//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(perimeters) + parseInt(obj['SF_36_4_answer1']) + parseInt(obj["SF_36_4_answer2"]) + parseInt(obj["SF_36_4_answer3"]) + parseInt(obj["SF_36_4_answer4"]) + parseInt(obj["SF_36_4_answer5"]) + parseInt(obj["SF_36_4_answer6"]) + parseInt(obj["SF_36_4_answer7"]) + parseInt(obj["SF_36_4_answer8"]) + parseInt(obj["SF_36_4_answer9"]);
-//		window.location.href = "SF_36_5.html?" + s;
-//		console.log(s);
-//		return false;
-//	});
-//	form.on('submit(SF_36_5)', function(data) {
-//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
-//		var jsonstr = JSON.stringify(data.field);
-//		var obj = JSON.parse(jsonstr);
-//		var s = parseInt(perimeters) + parseInt(obj['SF_36_5_answer1']) + parseInt(obj["SF_36_5_answer2"]) + parseInt(obj["SF_36_5_answer3"]) + parseInt(obj["SF_36_5_answer4"]) + parseInt(obj["SF_36_5_answer5"]);
-//		layer.alert(s, {
-//			title: 'SF_36量表最终得分'
-//		}, function() {
-//			window.location.href = "main.html";
-//		});
-//		return false;
-//	});
+	//	form.on('submit(common_6)', function(data) {
+	//		layer.alert("调查结束，返回首页", {
+	//				title: "消息提示"
+	//			},
+	//			function() {
+	//				window.location.href = "main.html";
+	//				//return false;
+	//			})
+	//		return false;
+	//	});
+	//	form.on('submit(demo1)', function(data) {
+	//		layer.alert(JSON.stringify(data.field), {
+	//			title: "最终提交消息"
+	//		});
+	//		return false;
+	//	});
+	//	form.on('submit(lumbago_1)', function(data) {
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(obj['lumbago_1_answer1']) + parseInt(obj["lumbago_1_answer2"]) + parseInt(obj["lumbago_1_answer3"]) + parseInt(obj["lumbago_1_answer4"]) + parseInt(obj["lumbago_1_answer5"]) + parseInt(obj["lumbago_1_answer6"]) + parseInt(obj["lumbago_1_answer7"]) + parseInt(obj["lumbago_1_answer8"]) + parseInt(obj["lumbago_1_answer9"]) + parseInt(obj["lumbago_1_answer10"]);
+	//		layer.alert(String(s), {
+	//			title: '最终得分'
+	//		}, function() {
+	//			window.location.href = "main.html";
+	//		})
+	//		return false;
+	//	});
+	//	form.on('submit(balance)', function(data) {
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(obj['balance_answer1']) + parseInt(obj["balance_answer2"]) + parseInt(obj["balance_answer3"]) + parseInt(obj["balance_answer4"]) + parseInt(obj["balance_answer5"]) + parseInt(obj["balance_answer6"]) + parseInt(obj["balance_answer7"]) + parseInt(obj["balance_answer8"]) + parseInt(obj["balance_answer9"]) + parseInt(obj["balance_answer10"]) + parseInt(obj["balance_answer11"]) + parseInt(obj["balance_answer12"]) + parseInt(obj["balance_answer13"]) + parseInt(obj["balance_answer14"]);
+	//		layer.alert(String(s), {
+	//			title: '最终得分'
+	//		}, function() {
+	//			window.location.href = "main.html";
+	//		})
+	//		return false;
+	//	});
+	//	form.on('submit(SF_36_1)', function(data) {
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(obj['SF_36_1_answer1']) + parseInt(obj["SF_36_1_answer2"]) + parseInt(obj["SF_36_1_answer3"]) + parseInt(obj["SF_36_1_answer4"]) + parseInt(obj["SF_36_1_answer5"]) + parseInt(obj["SF_36_1_answer6"]) + parseInt(obj["SF_36_1_answer7"]);
+	//		window.location.href = "SF_36_2.html?" + s;
+	//		console.log(s);
+	//		return false;
+	//	});
+	//	form.on('submit(SF_36_2)', function(data) {
+	//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(perimeters) + parseInt(obj['SF_36_2_answer1']) + parseInt(obj["SF_36_2_answer2"]) + parseInt(obj["SF_36_2_answer3"]) + parseInt(obj["SF_36_2_answer4"]) + parseInt(obj["SF_36_2_answer5"]) + parseInt(obj["SF_36_2_answer6"]) + parseInt(obj["SF_36_2_answer7"]) + parseInt(obj["SF_36_2_answer8"]) + parseInt(obj["SF_36_2_answer9"]);
+	//		window.location.href = "SF_36_3.html?" + s;
+	//		console.log(s);
+	//		return false;
+	//	});
+	//	form.on('submit(SF_36_3)', function(data) {
+	//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(perimeters) + parseInt(obj['SF_36_3_answer1']) + parseInt(obj["SF_36_3_answer2"]) + parseInt(obj["SF_36_3_answer3"]) + parseInt(obj["SF_36_3_answer4"]) + parseInt(obj["SF_36_3_answer5"]) + parseInt(obj["SF_36_3_answer6"]);
+	//		window.location.href = "SF_36_4.html?" + s;
+	//		console.log(s);
+	//		return false;
+	//	});
+	//	form.on('submit(SF_36_4)', function(data) {
+	//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(perimeters) + parseInt(obj['SF_36_4_answer1']) + parseInt(obj["SF_36_4_answer2"]) + parseInt(obj["SF_36_4_answer3"]) + parseInt(obj["SF_36_4_answer4"]) + parseInt(obj["SF_36_4_answer5"]) + parseInt(obj["SF_36_4_answer6"]) + parseInt(obj["SF_36_4_answer7"]) + parseInt(obj["SF_36_4_answer8"]) + parseInt(obj["SF_36_4_answer9"]);
+	//		window.location.href = "SF_36_5.html?" + s;
+	//		console.log(s);
+	//		return false;
+	//	});
+	//	form.on('submit(SF_36_5)', function(data) {
+	//		perimeters = decodeURI(perimeters.substr(1).split('&')[0]);
+	//		var jsonstr = JSON.stringify(data.field);
+	//		var obj = JSON.parse(jsonstr);
+	//		var s = parseInt(perimeters) + parseInt(obj['SF_36_5_answer1']) + parseInt(obj["SF_36_5_answer2"]) + parseInt(obj["SF_36_5_answer3"]) + parseInt(obj["SF_36_5_answer4"]) + parseInt(obj["SF_36_5_answer5"]);
+	//		layer.alert(s, {
+	//			title: 'SF_36量表最终得分'
+	//		}, function() {
+	//			window.location.href = "main.html";
+	//		});
+	//		return false;
+	//	});
 	form.on('radio(2_answer_1)', function(data) {
 		if(data.value == "1") {
 			layer.open({
@@ -193,10 +199,10 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 				}
 			});
 		}
-//		else{
-//			$("#2_answer_1").load(location.href+' #2_answer_1');
-//			document.getElementById("2_answer_1").style.display = 'none';
-//		}
+		//		else{
+		//			$("#2_answer_1").load(location.href+' #2_answer_1');
+		//			document.getElementById("2_answer_1").style.display = 'none';
+		//		}
 	});
 	form.on('radio(2_answer_2)', function(data) {
 		if(data.value == "1") {
@@ -507,7 +513,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "镰状细胞贫血",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_21'),
@@ -523,7 +529,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "系统性肥大细胞增多症",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_22'),
@@ -539,7 +545,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "球蛋白生成障碍性贫血",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_23'),
@@ -555,7 +561,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "类风湿关节炎",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_24'),
@@ -571,7 +577,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "系统性红斑狼疮",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_25'),
@@ -587,7 +593,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "强直性脊柱炎",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_26'),
@@ -603,7 +609,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "其他风湿免疫性疾病",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_27'),
@@ -619,7 +625,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "癫痫",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_28'),
@@ -635,7 +641,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "卒中",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_29'),
@@ -651,7 +657,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "肌萎缩",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_30'),
@@ -667,7 +673,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "帕金森病",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_31'),
@@ -683,7 +689,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "脊髓损伤",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_32'),
@@ -699,7 +705,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "慢性代谢性酸中毒",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_33'),
@@ -715,7 +721,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "终末期肾病",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_34'),
@@ -731,7 +737,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "器官移植后遗症",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_35'),
@@ -747,7 +753,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "慢性阻塞性肺病",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_36'),
@@ -763,7 +769,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "充血性心衰",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_37'),
@@ -779,7 +785,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "结节病",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_38'),
@@ -795,7 +801,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "特发性脊柱侧凸",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_39'),
@@ -811,7 +817,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "抑郁",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_40'),
@@ -827,7 +833,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "肠外营养",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_41'),
@@ -843,7 +849,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "淀粉样变",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_42'),
@@ -859,7 +865,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "艾滋病",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_43'),
@@ -875,7 +881,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "前列腺癌的药物",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_44'),
@@ -891,7 +897,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "抗凝血剂（肝素）",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_45'),
@@ -907,7 +913,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "抗癫痫药",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_46'),
@@ -923,7 +929,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "芳香酶抑制剂",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_47'),
@@ -939,7 +945,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "环孢素A和他克莫司",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_48'),
@@ -955,7 +961,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "癌症化疗药物",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_49'),
@@ -971,7 +977,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "糖皮质激素",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_50'),
@@ -987,7 +993,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "促性腺激素释放激素激动剂",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_51'),
@@ -1003,7 +1009,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "铝剂（抑酸剂）",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_52'),
@@ -1019,7 +1025,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "质子泵抑制剂",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_53'),
@@ -1035,7 +1041,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "选择性血清素再摄取抑制剂（SSRIs）",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_54'),
@@ -1051,7 +1057,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "甲状腺素",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_55'),
@@ -1067,7 +1073,7 @@ layui.use(['form', 'layedit', 'laydate'], function() {
 			layer.open({
 				type: 1,
 				area: ['300px', '500px'],
-				title: "血友病",
+				title: "抗病毒药物",
 				closeBtn: 0,
 				btn: ['确定'],
 				content: $('#2_answer_56'),

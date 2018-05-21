@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="css/app.css">
 		<script charset="UTF-8" src="js/jquery.min.js"></script>
 	</head>
-	<form>
+	<form id="case1111">
 		<div class="check_2_1" id="2_answer_1">
 			<table class="layui-table" lay-even="" lay-skin="nob">
 				<colgroup>
@@ -23,19 +23,19 @@
 					<tr>
 						<td>最后一次患病时间：</td>
 						<td>
-							<input type="text" class="layui-input test-item" placeholder="yyyy-MM-dd">
+							<input type="text" class="layui-input test-item" placeholder="yyyy-MM-dd" name="date1">
 						</td>
 					</tr>
 					<tr>
 						<td>累积患病时长：</td>
 						<td>
-							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入患病时长" class="layui-input">
+							<input type="text" name="time1" lay-verify="title" autocomplete="off" placeholder="请输入患病时长" class="layui-input">
 						</td>
 					</tr>
 					<tr>
 						<td>使用的治疗药物：</td>
 						<td>
-							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入治疗药物" class="layui-input">
+							<input type="text" name="medicines1" lay-verify="title" autocomplete="off" placeholder="请输入治疗药物" class="layui-input">
 						</td>
 					</tr>
 				</tbody>
@@ -2005,6 +2005,7 @@
 			</div>
 			<br><br>
 		</form>
+		<script type="text/javascript" src="js/jquery.serializejson.js" ></script>
 		<script src="layui/layui.js" charset="utf-8"></script>
 		<script src="layui/layui.all.js" charset="utf-8"></script>
 		<script src="js/app.js" charset="UTF-8"></script>
