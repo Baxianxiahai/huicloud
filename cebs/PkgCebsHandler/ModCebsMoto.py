@@ -134,6 +134,16 @@ class classMotoProcess(object):
         return self.funcMotoMove2HoleNbr(1);
         #print("MOTO: Running Start Position!")
 
+    #暂时不需要的过程
+    def funcMotoStop(self):
+        #print("MOTO: Stop!")
+        return 1;
+    
+    #暂时不需要的过程
+    def funcMotoResume(self):
+        print("MOTO: Resume action!")
+        return 1;
+    
     def funcMotoMove2HoleNbr(self, holeIndex):
         time.sleep(1)
         #计算新的目标位置
@@ -150,23 +160,14 @@ class classMotoProcess(object):
             newPosY = int(ModCebsCom.GL_CEBS_HB_POS_IN_UM[1] - (yTargetHoleNbr-1)*ModCebsCom.GL_CEBS_HB_HEIGHT_Y_SCALE);
         print("MOTO: Moving to working hole=%d, newPosX/Y=%d/%d." % (holeIndex, newPosX, newPosY))
         #真实移动过程
-        if (self.funcMotoMove2AxisPos(ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], newPosX, newPosY) > 0):
+        if (self.funcMotoMove2AxisPos(ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0], ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1], newPosX, newPosY) > 0):
             ModCebsCom.GL_CEBS_CUR_POS_IN_UM[0] = newPosX;
             ModCebsCom.GL_CEBS_CUR_POS_IN_UM[1] = newPosY;
             return 1;
         else:
             return -2;
+        print("Finished once!")
 
-    #暂时不需要的过程
-    def funcMotoStop(self):
-        #print("MOTO: Stop!")
-        return 1;
-    
-    #暂时不需要的过程
-    def funcMotoResume(self):
-        print("MOTO: Resume action!")
-        return 1;
-    
     #从当前一个坐标移动到另一个新坐标
     #需要将坐标转换为脉冲数
     def funcMotoMove2AxisPos(self, curPx, curPy, newPx, newPy):

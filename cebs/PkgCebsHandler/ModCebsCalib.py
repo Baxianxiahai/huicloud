@@ -36,7 +36,7 @@ class classCalibProcess(object):
         self.identity = None;
         self.calibForm = father
         self.objInitCfg=ModCebsCfg.ConfigOpr();
-        self.objMoto=ModCebsMoto.classMotoProcess();
+        self.objMotoProc=ModCebsMoto.classMotoProcess();
         self.objVision=ModCebsVision.classVisionProcess();
         
         #初始化不同目标板子的数量
@@ -73,13 +73,13 @@ class classCalibProcess(object):
 
     def funcCleanWorkingEnv(self):
         #将马达复位到零点
-        self.objMoto.funcMotoStop();
+        self.objMotoProc.funcMotoStop();
         #停止图像识别
         self.objVision.funcVisionClasEnd()
 
     def funcRecoverWorkingEnv(self):
         #将马达复位到零点
-        self.objMoto.funcMotoStop();
+        self.objMotoProc.funcMotoStop();
     
     #初始化板孔参数
     def funcInitHoleBoardPar(self):
@@ -204,7 +204,7 @@ class classCalibPilotThread(QThread):
         self.cntCtrl = ModCebsCom.GL_CEBS_PILOT_WOKING_ROUNDS_MAX+1;
 
     def funcCalibMotoPilotStop(self):
-            self.cntCtrl = -1;
+            self.cntCtrl = 1;
 
     def funcMotoCalibPilotWorkingOnces(self):
         #移动到左上
@@ -221,13 +221,13 @@ class classCalibPilotThread(QThread):
             time.sleep(1)
             self.cntCtrl -= 1;
             if (self.cntCtrl > 0):
-                self.signal_calib_print_log.emit("CALIB: Running Calibration pilot process! roundIndex = %d" % (self.cntCtrl-1))
+                self.signal_calib_print_log.emit("CALIB: Running Calibration pilot process! roundIndex = %d" % (self.cntCtrl))
                 self.funcMotoCalibPilotWorkingOnces();
             #STOP标识位
             elif (self.cntCtrl == 0): 
                 self.signal_calib_print_log.emit("CALIB: Stop Calibration pilot!")
                 #停止马达
-                self.objMoto.funcMotoStop();
+                self.objMotoProc.funcMotoStop();
 
 
     
