@@ -38,7 +38,7 @@ class classCtrlThread(QThread):
     def __init__(self,parent=None):
         super(classCtrlThread,self).__init__(parent)
         self.identity = None;
-        self.times = 0;
+        self.times = -1;
         self.objInitCfg=ModCebsCfg.ConfigOpr();
         self.objMoto=ModCebsMoto.classMotoProcess();
         self.objVision=ModCebsVision.classVisionProcess();
@@ -59,7 +59,7 @@ class classCtrlThread(QThread):
         self.identity = text
 
     def setTakePicWorkRemainNumber(self, val):
-        self.times = int(val)
+        self.times = int(val)+1
     
     def transferLogTrace(self, string):
         self.signal_print_log.emit(string)
@@ -72,13 +72,13 @@ class classCtrlThread(QThread):
         if (self.objMoto.funcMotoMove2Start() < 0):
             self.signal_print_log.emit("马达移动错误！")
             return -1;
-        self.times = ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH;
-        self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times))
+        self.times = ModCebsCom.GL_CEBS_PIC_ONE_WHOLE_BATCH+1;
+        self.signal_print_log.emit("启动拍照： 拍照次数=%d." %(self.times-1))
         self.objInitCfg.createBatch(ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX);
 
     #停止拍照
     def funcTakePicStop(self):
-        self.times = 0
+        self.times = -1
         self.signal_print_log.emit("停止拍照，剩余次数=%d." %(self.times))
         ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
         self.objInitCfg.updateCtrlCntInfo();
@@ -86,9 +86,6 @@ class classCtrlThread(QThread):
         if (self.objMoto.funcMotoBackZero() < 0):
             self.signal_print_log.emit("系统归位错误！")
             return -1;
-        #self.objMoto.funcMotoStop();
-        #启动图像的自动识别
-        self.objVision.funcVisionClasStart();
 
     #托盘归位到初始态
     def funcCtrlMotoBackZero(self):
@@ -118,16 +115,15 @@ class classCtrlThread(QThread):
     def run(self):
         while True:
             time.sleep(1)
+            self.times -= 1;
             if (self.times > 0):
                 self.signal_print_log.emit(str("拍照进行时：当前剩余次数=" + str(self.times)))
                 self.funcCameraCapture();
-                self.times -= 1;
                 ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT += 1;
                 #控制停止的所作所为
-                if (self.times == 0):
-                    ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
-                    ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
-                    self.objInitCfg.updateCtrlCntInfo();
+            elif (self.times == 0):
+                ModCebsCom.GL_CEBS_PIC_PROC_BATCH_INDEX +=1;
+                self.objInitCfg.updateCtrlCntInfo();
         
         
         

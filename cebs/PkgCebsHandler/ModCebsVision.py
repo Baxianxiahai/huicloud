@@ -73,10 +73,10 @@ class classVisionProcess(object):
         return 1;
 
     def funcVisionClasStart(self):
-        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = True;
+        ModCebsCom.GL_CEBS_PIC_CLAS_FLAG = True;
 
     def funcVisionClasEnd(self):
-        ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG = False;
+        ModCebsCom.GL_CEBS_PIC_CLAS_FLAG = False;
 
 #主处理任务模块
 class classVisionThread(QThread):
@@ -119,7 +119,7 @@ class classVisionThread(QThread):
     def run(self):
         while True:
             time.sleep(1)
-            if ((ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT > 0) and (ModCebsCom.GL_CEBS_PIC_PROC_CTRL_FLAG == True)):
+            if ((ModCebsCom.GL_CEBS_PIC_PROC_REMAIN_CNT > 0) and (ModCebsCom.GL_CEBS_PIC_CLAS_FLAG == True)):
                 self.funcVisionProc();
                 pass
         

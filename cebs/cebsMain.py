@@ -71,8 +71,6 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.threadCtrl.signal_ctrl_start.connect(self.threadCtrl.funcTakePicStart) #发送信号
         self.threadCtrl.signal_ctrl_stop.connect(self.threadCtrl.funcTakePicStop)  #发送信号
         self.threadCtrl.signal_ctrl_zero.connect(self.threadCtrl.funcCtrlMotoBackZero)  #发送信号
-        #self.threadCtrl.signal_cala_pilot.connect(self.threadCtrl.funcCalaPilotStart)  #发送信号
-        #self.threadCtrl.signal_cala_comp.connect(self.threadCtrl.funcCtrlCalaComp)  #发送信号
         self.threadCtrl.start();
 
         #启动第二个干活的子进程
@@ -121,42 +119,31 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.cebs_print_log(info)
 
     def slot_ctrl_start(self):
+        self.cebs_print_log("拍照开始！")
         self.funcMainFormSetEquInitStatus();
         self.threadCtrl.signal_ctrl_start.emit()
         
     def slot_ctrl_stop(self):
+        self.cebs_print_log("拍照停止！")
         self.threadCtrl.signal_ctrl_stop.emit()
 
     def slot_ctrl_zero(self):
         self.funcMainFormSetEquInitStatus();
+        self.cebs_print_log("系统归零！")
         self.threadCtrl.signal_ctrl_zero.emit()
 
     def slot_ctrl_vclas_start(self):
         self.funcMainFormSetEquInitStatus();
-        #问题！！！！！！！！！！！！！！！！！！！！！！！！！！
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        self.threadVision.start();
+        self.cebs_print_log("启动图像识别！")
+        self.objVision.funcVisionClasStart();
 
     def slot_ctrl_vclas_stop(self):
-        self.objVision.funcVisionClasStop();
+        self.cebs_print_log("停止图像识别！")
+        self.objVision.funcVisionClasEnd();
 
     def slot_ctrl_calib(self):
         self.funcMainFormSetEquInitStatus();
+        self.cebs_print_log("开始校准！")
         if not self.calibForm.isVisible():
             self.signal_mainwin_unvisible.emit()
             self.calibForm.show()
@@ -181,7 +168,6 @@ class cebsMainWindow(QtWidgets.QMainWindow, Ui_cebsMainWindow):
         self.objVision.funcVisionClasEnd() #图像识别停止
         self.threadCtrl.signal_ctrl_stop.emit() #摄像头读取停止
         self.objMoto.funcMotoStop() #停止马达
-
 
 #Calibration Widget
 class cebsCalibForm(QtWidgets.QWidget, Ui_cebsCalibForm):

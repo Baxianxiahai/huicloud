@@ -159,7 +159,7 @@ class classMotoProcess(object):
 
     #暂时不需要的过程
     def funcMotoStop(self):
-        print("MOTO: Stop!")
+        #print("MOTO: Stop!")
         return 1;
     
     #暂时不需要的过程
