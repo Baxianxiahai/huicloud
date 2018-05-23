@@ -2,7 +2,7 @@
  False,
  False,
  False,
- 'fmpt2.ico',
+ 'icon_res\\q1.ico',
  None,
  False,
  False,
@@ -345,7 +345,7 @@
  [],
  False,
  False,
- 1525464881,
+ 1527051021,
  [('runw.exe',
    'c:\\program '
    'files\\python36\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\runw.exe',
