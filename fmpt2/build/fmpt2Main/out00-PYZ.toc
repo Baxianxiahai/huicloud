@@ -241,7 +241,6 @@
   ('unittest.main',
    'c:\\program files\\python36\\lib\\unittest\\main.py',
    'PYMODULE'),
-  ('enum', 'c:\\program files\\python36\\lib\\enum.py', 'PYMODULE'),
   ('signal', 'c:\\program files\\python36\\lib\\signal.py', 'PYMODULE'),
   ('unittest.signals',
    'c:\\program files\\python36\\lib\\unittest\\signals.py',
@@ -250,113 +249,8 @@
    'c:\\program files\\python36\\lib\\unittest\\__init__.py',
    'PYMODULE'),
   ('doctest', 'c:\\program files\\python36\\lib\\doctest.py', 'PYMODULE'),
+  ('enum', 'c:\\program files\\python36\\lib\\enum.py', 'PYMODULE'),
   ('copy', 'c:\\program files\\python36\\lib\\copy.py', 'PYMODULE'),
-  ('jpype',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\__init__.py',
-   'PYMODULE'),
-  ('jpype._classpath',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_classpath.py',
-   'PYMODULE'),
-  ('jpype._gui',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_gui.py',
-   'PYMODULE'),
-  ('jpype._core',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_core.py',
-   'PYMODULE'),
-  ('jpype._linux',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_linux.py',
-   'PYMODULE'),
-  ('jpype._darwin',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_darwin.py',
-   'PYMODULE'),
-  ('distutils.version',
-   'c:\\program files\\python36\\lib\\distutils\\version.py',
-   'PYMODULE'),
-  ('distutils',
-   'c:\\program files\\python36\\lib\\distutils\\__init__.py',
-   'PYMODULE'),
-  ('jpype._windows',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_windows.py',
-   'PYMODULE'),
-  ('jpype._cygwin',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_cygwin.py',
-   'PYMODULE'),
-  ('jpype._jvmfinder',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jvmfinder.py',
-   'PYMODULE'),
-  ('jpype._refdaemon',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_refdaemon.py',
-   'PYMODULE'),
-  ('jpype.reflect',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\reflect.py',
-   'PYMODULE'),
-  ('jpype.nio',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\nio.py',
-   'PYMODULE'),
-  ('jpype._properties',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_properties.py',
-   'PYMODULE'),
-  ('jpype._pykeywords',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_pykeywords.py',
-   'PYMODULE'),
-  ('jpype._jio',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jio.py',
-   'PYMODULE'),
-  ('jpype._jobject',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jobject.py',
-   'PYMODULE'),
-  ('jpype._jcollection',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jcollection.py',
-   'PYMODULE'),
-  ('jpype._jboxed',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jboxed.py',
-   'PYMODULE'),
-  ('jpype._jproxy',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jproxy.py',
-   'PYMODULE'),
-  ('jpype.JClassUtil',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\JClassUtil.py',
-   'PYMODULE'),
-  ('jpype._jarray',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jarray.py',
-   'PYMODULE'),
-  ('jpype._jwrapper',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jwrapper.py',
-   'PYMODULE'),
-  ('jpype._jpackage',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jpackage.py',
-   'PYMODULE'),
-  ('jpype._jexception',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jexception.py',
-   'PYMODULE'),
-  ('jpype._jclass',
-   'c:\\program '
-   'files\\python36\\lib\\site-packages\\jpype1-0.6.3-py3.6-win-amd64.egg\\jpype\\_jclass.py',
-   'PYMODULE'),
   ('PkgFmptHandler.ModFmptIhuCon',
    'D:\\IHUSRC\\huicloud\\fmpt2\\PkgFmptHandler\\ModFmptIhuCon.py',
    'PYMODULE'),

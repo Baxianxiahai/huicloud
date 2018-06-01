@@ -183,7 +183,7 @@ class fmpt2MainWindow(QtWidgets.QMainWindow, Ui_ObjFmpt2MainForm):
             print("Exec slot_ihuCon_conn, err = " + str(err))
             self.fmpt_print_log("\nIHUCONN: Exec slot_ihuCon_conn, err = " + str(err))
         finally:
-            self.fmpt_print_log("\nIHUCONN: " + str(res))
+            self.fmpt_print_log("\nIHUCONN: Res with" + str(res))
 
 
     def slot_ihuCon_disc(self):
@@ -1160,7 +1160,7 @@ class fmpt2MainWindow(QtWidgets.QMainWindow, Ui_ObjFmpt2MainForm):
 
     #Test functions
     def slot_oli_test(self):
-        res = {}
+        res = {"TEST!"}
 
         #Test1
         #hash = hashlib.md5()
@@ -1203,37 +1203,43 @@ class fmpt2MainWindow(QtWidgets.QMainWindow, Ui_ObjFmpt2MainForm):
 #         res = api(inputData);
 #         print(res)
         
+        #
+        #  2018/6/1/ZJL: 去掉TEST.JAR的测试过程，不然会造成实际应用出错，干扰正常使用
+        #
         #Test7
-        import jpype
-        jvmPath = jpype.getDefaultJVMPath()       # 默认的JVM路径
-        print(jvmPath)
-#         jpype.startJVM(jvmPath)
-#         jpype.java.lang.System.out.println("hello world!")
-#         jpype.java.lang.System.out.println("I hate you!")
-#         jpype.shutdownJVM()
+#         import jpype
+#         jvmPath = jpype.getDefaultJVMPath()       # 默认的JVM路径
+#         print(jvmPath)
+#         
+#         jarpath = os.path.join(os.path.abspath('.'), '')
+#         print(jarpath)
+#         #开启JVM，且指定jar包位置
+#         if not jpype.isJVMStarted():
+#             jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=%s" % (jarpath + 'test.jar'))
+#         #引入java程序中的类.路径应该是项目中的package包路径
+#         javaClass = jpype.JClass('com.chnsce.decoding.TestPHP')
+#         jd = javaClass()
+#         #decode(String produceNo, String commandNo, String htcs, int meterTypeCode )
+#         #这一步就是具体执行类中的函数了
+#         produceNo = "1";
+#         commandNo = "1";
+#         htcs = "AAAA: 3";
+#         meterTypeCode = 0xA8;
+#         inputData = "AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB"
+#         res = jd.decode(produceNo, commandNo, htcs, meterTypeCode);
+#         #print(res)
+#         #jpype.shutdownJVM()
+#     
+#         #Trigger print log
+#         self.fmpt_print_log("\nOLI: " + str(res))
         
-        jarpath = os.path.join(os.path.abspath('.'), '')
-        print(jarpath)
-        #开启JVM，且指定jar包位置
-        if not jpype.isJVMStarted():
-            jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=%s" % (jarpath + 'test.jar'))
-        #引入java程序中的类.路径应该是项目中的package包路径
-        javaClass = jpype.JClass('com.chnsce.decoding.TestPHP')
-        jd = javaClass()
-        #decode(String produceNo, String commandNo, String htcs, int meterTypeCode )
-        #这一步就是具体执行类中的函数了
-        produceNo = "1";
-        commandNo = "1";
-        htcs = "AAAA: 3";
-        meterTypeCode = 0xA8;
-        inputData = "AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB"
-        res = jd.decode(produceNo, commandNo, htcs, meterTypeCode);
-        #print(res)
-        #jpype.shutdownJVM()
-    
-        #Trigger print log
+        #
+        #  2018/6/1/ZJL: 无效更新
+        #
+        #Test8
         self.fmpt_print_log("\nOLI: " + str(res))
-
+    
+        
 
 #Widget Windows
 class widgetWindowKeo(QtWidgets.QWidget, Ui_ObjFmpt2Form):

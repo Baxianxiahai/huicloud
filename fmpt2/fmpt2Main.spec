@@ -26,4 +26,4 @@ exe = EXE(pyz,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
-          console=False , icon='icon_res\\q1.ico')
+          console=False , icon='fmpt2.ico')
