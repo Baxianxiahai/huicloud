@@ -55,7 +55,8 @@ def hst_curlib3_client_connection(ptr, jsonInputData, logic):
             body=encoded_data,
             headers={'Content-Type': 'application/json'})
         result = json.loads(r.data)
-        ptr.assertEqual(result['parContent']['sucFlag'], logic, 'Result Failure')
+        #ptr.assertEqual(result['parContent']['sucFlag'], logic, 'Result Failure')
+        return result
         pass
 
 def hst_curlib3_client_conn_check_details(ptr, jsonInputData, logic):
@@ -68,6 +69,7 @@ def hst_curlib3_client_conn_check_details(ptr, jsonInputData, logic):
             headers={'Content-Type': 'application/json'})
         result = json.loads(r.data)
         ptr.assertEqual(result['parFlag'], logic, 'Result Failure')
-        return result['parContent']
+        #return result['parContent']
+        return result
 
 

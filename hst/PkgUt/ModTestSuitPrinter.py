@@ -22,6 +22,8 @@ def hst_testsuite_printer():
     suiteTest.addTest(ClassUtPrinter("tc_printer_009"))
     suiteTest.addTest(ClassUtPrinter("tc_printer_010"))    
     suiteTest.addTest(ClassUtPrinter("tc_printer_011"))
+    suiteTest.addTest(ClassUtPrinter("tc_printer_012"))
+    suiteTest.addTest(ClassUtPrinter("tc_printer_013"))
     #print ("hst_testsuite_printer 运行")
     return suiteTest
 
@@ -44,64 +46,78 @@ class ClassUtPrinter(unittest.TestCase):
     def tc_printer_002(self):
         ticks = time.time();
         print("tc_printer_002, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 255,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 999,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)
 
     def tc_printer_003(self):
         ticks = time.time();
         print("tc_printer_003, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 256,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1000,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)
 
     def tc_printer_004(self):
         ticks = time.time();
         print("tc_printer_004, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 257,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1001,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)        
 
     def tc_printer_005(self):
         ticks = time.time();
         print("tc_printer_005, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 258,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1002,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)        
 
     def tc_printer_006(self):
         ticks = time.time();
         print("tc_printer_006, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 262,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1003,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)     
 
     def tc_printer_007(self):
         ticks = time.time();
         print("tc_printer_007, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 263,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1004,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)    
 
     def tc_printer_008(self):
         ticks = time.time();
         print("tc_printer_008, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 264,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1005,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)   
 
     def tc_printer_009(self):
         ticks = time.time();
         print("tc_printer_009, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 256,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        jsonInputData = {"restTag": "printer","actionId": 1006,"parFlag": 1,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)   
         
     def tc_printer_010(self):
         ticks = time.time();
         print("tc_printer_010, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 256,"parFlag": 2,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        jsonInputData = {"restTag": "printer","actionId": 1007,"parFlag": 2,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
         ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)   
  
     #这里的标志位，检查的不够
     def tc_printer_011(self):
         ticks = time.time();
         print("tc_printer_011, time in second = ", ticks);
-        jsonInputData = {"restTag": "printer","actionId": 256,"parFlag": 0,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)    
+        jsonInputData = {"restTag": "printer","actionId": 1008,"parFlag": 0,"parContent": {"sn": 55,"sucFlag": 1,"errCode": 0}}
+        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)    
 
+    #FAAM测试
+    def tc_printer_012(self):
+        ticks = time.time();
+        print("tc_printer_012, time in second = ", ticks);
+        jsonInputData = {"restTag": "printer","actionId": 1012,"parFlag": 1,"parContent": {"cmd":"get_mac"}}
+        res = ModTestSuitComFunc.hst_curlib3_client_conn_check_details(self, jsonInputData, 1)
+        print("tc_printer_012 result = ", res)
+
+    def tc_printer_013(self):
+        ticks = time.time();
+        print("tc_printer_013, time in second = ", ticks);
+        jsonInputData = {"restTag": "printer","actionId": 1012,"parFlag": 1,"parContent": {"cmd":"get_cpuid"}}
+        res = ModTestSuitComFunc.hst_curlib3_client_conn_check_details(self, jsonInputData, 1)
+        print("tc_printer_013 result = ", res)
         
 #         pararms = urllib.parse.urlencode({'@number': 12524, '@type': 'issue', '@action': 'show'})
 #         headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}

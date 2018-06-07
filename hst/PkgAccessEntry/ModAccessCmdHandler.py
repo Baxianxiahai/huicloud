@@ -8,9 +8,9 @@ import random
 import sys
 import time
 import json
-import os   #Python鐨勬爣鍑嗗簱涓殑os妯″潡鍖呭惈鏅亶鐨勬搷浣滅郴缁熷姛鑳�  
-import re   #寮曞叆姝ｅ垯琛ㄨ揪寮忓璞�  
-import urllib   #鐢ㄤ簬瀵筓RL杩涜缂栬В鐮�  
+import os   
+import re
+import urllib
 import http
 import socket
 #from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -38,21 +38,22 @@ class ClassEntryCmdHandler:
 #
 class ClassHuirestPrinterInputCmdHandler:
     __HUIREST_SVTAG = "printer"
-    __HUIREST_ACTIONID_PRINTER_min              = 0x0100
-    __HUIREST_ACTIONID_PRINTER_callcell_bfsc    = 0x0100
-    __HUIREST_ACTIONID_PRINTER_callcell_bfdf    = 0x0101
-    __HUIREST_ACTIONID_PRINTER_callcell_bfhs    = 0x0102
-    __HUIREST_ACTIONID_PRINTER_fam_sdqx_md1     = 0x0110,
-    __HUIREST_ACTIONID_PRINTER_fam_sdqx_md2     = 0x0111, 
-    __HUIREST_ACTIONID_PRINTER_max     = 0x0112
+    __HUIREST_ACTIONID_PRINTER_min              = 1000
+    __HUIREST_ACTIONID_PRINTER_callcell_bfsc    = 1000
+    __HUIREST_ACTIONID_PRINTER_callcell_bfdf    = 1001
+    __HUIREST_ACTIONID_PRINTER_callcell_bfhs    = 1002
+    __HUIREST_ACTIONID_PRINTER_fam_sdqx_md1     = 1010
+    __HUIREST_ACTIONID_PRINTER_fam_sdqx_md2     = 1011
+    __HUIREST_ACTIONID_PRINTER_fam_get_mac_addr = 1012
+    __HUIREST_ACTIONID_PRINTER_max     = 1020
     publicOutputResultFlag = False
     
     def __init__(self):
         self.publicOutputResultFlag = True
 
-    #HUIREST鎸囦护澶勭悊杩囩▼
+    #HUIREST
     def inputCmdHandlerEntry(self, inputStr):
-        #鍩虹鏍煎紡鍒ゅ畾
+        #
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.publicOutputResultFlag = False;
         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_PRINTER_min):
@@ -62,7 +63,7 @@ class ClassHuirestPrinterInputCmdHandler:
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
             self.publicOutputResultFlag = False;
         
-        #璋冪敤鍒嗙被澶勭悊杩囩▼
+        #
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_PRINTER_callcell_bfsc):
                 proc = ModPrinterGeneral.ClassPrinterCallcellBfsc()
@@ -73,10 +74,19 @@ class ClassHuirestPrinterInputCmdHandler:
             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_PRINTER_callcell_bfhs):
                 proc = ModPrinterGeneral.ClassPrinterCallcellBfhs()
                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])                
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_PRINTER_fam_sdqx_md1):
+                proc = ModPrinterGeneral.ClassPrinterFaam()
+                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])                
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_PRINTER_fam_sdqx_md2):
+                proc = ModPrinterGeneral.ClassPrinterFaam()
+                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])                
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_PRINTER_fam_get_mac_addr):
+                proc = ModPrinterGeneral.ClassPrinterFaam()
+                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])                
             else:
                 print("ClassHuirestPrinterInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_PRINTER_min, self.__HUIREST_ACTIONID_PRINTER_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False
-        #杈撳嚭鍐呭
+        #
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
         outputStr['actionId'] = inputStr["actionId"];
@@ -91,7 +101,7 @@ class ClassHuirestPrinterInputCmdHandler:
             outputStr['parContent'] = self.publicOutputResultFlag;
         return outputStr
  
-#鏀跺埌鍚庣殑鎸囦护锛岃繘琛屽鐞嗙殑杩囩▼
+#
 class ClassHuirestDbaInputCmdHandler:
     __HUIREST_SVTAG = "dba"
     __HUIREST_ACTIONID_DBA_min                      = 0x1000
@@ -120,9 +130,9 @@ class ClassHuirestDbaInputCmdHandler:
     def __init__(self):
         self.publicOutputResultFlag = True
 
-    #HUIREST鎸囦护澶勭悊杩囩▼
+    #HUIREST
     def inputCmdHandlerEntry(self, inputStr):
-        #鍩虹鏍煎紡鍒ゅ畾
+        #
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.publicOutputResultFlag = False;
         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min):
@@ -132,7 +142,7 @@ class ClassHuirestDbaInputCmdHandler:
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
             self.publicOutputResultFlag = False;
                 
-        #璋冪敤鍒嗙被澶勭悊杩囩▼
+        #
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_yczx_temp_update):
                 proc = ModDbaGeneral.ClassDbaTempUpdate()
@@ -167,7 +177,7 @@ class ClassHuirestDbaInputCmdHandler:
             else:
                 print("ClassHuirestDbaInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_DBA_min, self.__HUIREST_ACTIONID_DBA_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False
-        #杈撳嚭鍐呭
+        #
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
         outputStr['actionId'] = inputStr["actionId"];
@@ -180,7 +190,7 @@ class ClassHuirestDbaInputCmdHandler:
             outputStr['parContent'] = parContentStrErr;
         return outputStr
     
-#鏀跺埌鍚庣殑鎸囦护锛岃繘琛屽鐞嗙殑杩囩▼
+#
 class ClassHuirestVisionInputCmdHandler:
     __HUIREST_SVTAG = "vision"
     __HUIREST_ACTIONID_VISION_min     = 0x2000
@@ -196,9 +206,9 @@ class ClassHuirestVisionInputCmdHandler:
         self.publicOutputResultFlag = True
         self.parContentStrExt = ""
 
-    #HUIREST鎸囦护澶勭悊杩囩▼
+    #HUIREST
     def inputCmdHandlerEntry(self, inputStr):
-        #鍩虹鏍煎紡鍒ゅ畾
+        #
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.publicOutputResultFlag = False;
         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_VISION_min):
@@ -208,7 +218,7 @@ class ClassHuirestVisionInputCmdHandler:
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
             self.publicOutputResultFlag = False;
                     
-        #璋冪敤鍒嗙被澶勭悊杩囩▼
+        #
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_test1):
                 #proc = ClassHuirestVisionActionTest1Handler()
@@ -228,7 +238,7 @@ class ClassHuirestVisionInputCmdHandler:
             else:
                 print("ClassHuirestVisionInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_VISION_min, self.__HUIREST_ACTIONID_VISION_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False
-        #杈撳嚭鍐呭
+        #
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
         outputStr['actionId'] = inputStr["actionId"];
@@ -243,7 +253,7 @@ class ClassHuirestVisionInputCmdHandler:
             outputStr['parContent'] = parContentStrErr;
         return outputStr
     
-#鏀跺埌鍚庣殑鎸囦护锛岃繘琛屽鐞嗙殑杩囩▼
+#
 class ClassHuirestAiwgtInputCmdHandler:
     __HUIREST_SVTAG = "aiwgt"
     __HUIREST_ACTIONID_AIWGT_min                      = 0x3000
@@ -254,9 +264,9 @@ class ClassHuirestAiwgtInputCmdHandler:
     def __init__(self):
         self.publicOutputResultFlag = True
 
-    #HUIREST鎸囦护澶勭悊杩囩▼
+    #HUIREST
     def inputCmdHandlerEntry(self, inputStr):
-        #鍩虹鏍煎紡鍒ゅ畾
+        #
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.publicOutputResultFlag = False;
         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_AIWGT_min):
@@ -266,7 +276,7 @@ class ClassHuirestAiwgtInputCmdHandler:
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
             self.publicOutputResultFlag = False;
                     
-        #璋冪敤鍒嗙被澶勭悊杩囩▼
+        #
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_AIWGT_test1):
                 proc = ModAiwgtGeneral.ClassModAiwgtTest1()
@@ -274,7 +284,7 @@ class ClassHuirestAiwgtInputCmdHandler:
             else:
                 print("ClassHuirestAiwgtInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_AIWGT_min, self.__HUIREST_ACTIONID_AIWGT_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False
-        #杈撳嚭鍐呭
+        #
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
         outputStr['actionId'] = inputStr["actionId"];
@@ -290,7 +300,7 @@ class ClassHuirestAiwgtInputCmdHandler:
         return outputStr
 
 
-#鏀跺埌鍚庣殑鎸囦护锛岃繘琛屽鐞嗙殑杩囩▼
+#
 class ClassHuirestSensorInputCmdHandler:
     __HUIREST_SVTAG = "sensor"
     __HUIREST_ACTIONID_SENSOR_min                      = 0x4000
@@ -301,9 +311,9 @@ class ClassHuirestSensorInputCmdHandler:
     def __init__(self):
         self.publicOutputResultFlag = True
 
-    #HUIREST鎸囦护澶勭悊杩囩▼
+    #HUIREST
     def inputCmdHandlerEntry(self, inputStr):
-        #鍩虹鏍煎紡鍒ゅ畾
+        #
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.publicOutputResultFlag = False;
         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_SENSOR_min):
@@ -313,7 +323,7 @@ class ClassHuirestSensorInputCmdHandler:
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
             self.publicOutputResultFlag = False;
                     
-        #璋冪敤鍒嗙被澶勭悊杩囩▼
+        #
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_SENSOR_test1):
                 proc = ModSensorGeneral.ClassModSensorTest1()
@@ -321,7 +331,7 @@ class ClassHuirestSensorInputCmdHandler:
             else:
                 print("ClassHuirestSensorInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_SENSOR_min, self.__HUIREST_ACTIONID_SENSOR_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False
-        #杈撳嚭鍐呭
+        #
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
         outputStr['actionId'] = inputStr["actionId"];

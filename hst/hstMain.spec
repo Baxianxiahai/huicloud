@@ -1,13 +1,10 @@
 # -*- mode: python -*-
 
-#Comments Add by ZJL
-#pyinstaller -F -w -p/usr/local/lib/python3.6/site-packages/django/:/usr/local/lib/python3.6/site-packages/django/template/:/usr/local/lib/python3.6/site-packages/django/templatetags/i18n.p:/usr/local/lib/python3.6/site-packages/django/templatetags/:/usr/local/lib/python3.6/site-packages/django/core/:/usr/local/lib:/usr/lib/:/usr/local/lib/python3.5/ hstMain.py
-
 block_cipher = None
 
 
 a = Analysis(['hstMain.py'],
-             pathex=['/usr/local/lib/python3.6/site-packages/django/', '/usr/local/lib/python3.6/site-packages/django/template/', '/usr/local/lib/python3.6/site-packages/django/templatetags/i18n.p', '/usr/local/lib/python3.6/site-packages/django/templatetags/', '/usr/local/lib/python3.6/site-packages/django/core/', '/usr/local/lib', '/usr/lib/', '/usr/local/lib/python3.5/', '/home/hitpony/EclipseWs/sdde/hst'],
+             pathex=['D:\\IHUSRC\\huicloud\\hst'],
              binaries=[],
              datas=[],
              hiddenimports=[],

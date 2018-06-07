@@ -3,11 +3,12 @@
 
 
 
-
+//=ZJL, 2018 June.7, CURRENT_SW_DELIVERY R1.35 =>HST PRINTER
+= 提供MAC地址读取服务
+= 将服务号重新进行了编码，改为10进制，简化UT TEST CASE中有关十进制和16进制之间的转换，防止错误
 
 //=ZJL, 2018 MAY.18, CURRENT_SW_DELIVERY R1.34 =>CEBS
 = 继续
-
 
 //=ZJL, 2018 MAY.17, CURRENT_SW_DELIVERY R1.33 =>CEBS
 =生成双页面
