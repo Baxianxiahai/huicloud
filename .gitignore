@@ -52,3 +52,4 @@
 # Debug files
 *.dSYM/
 *.su
+/.metadata/
