@@ -1,4 +1,4 @@
-"""xhzn_db_new URL Configuration
+"""XhznDjango URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/dev/topics/http/urls/
@@ -15,9 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from xhzn import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/',views.login),
-    path('ajax/',views.ajax),
 ]
