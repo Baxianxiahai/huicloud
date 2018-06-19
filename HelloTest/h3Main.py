@@ -61,8 +61,9 @@ vco.ExternFlag = 0
 vco.DataLen = 8
 vco.Data = (1, 2, 3, 4, 5, 6, 7, 8)
 
-
-canLib = windll.LoadLibrary('ControlCAN.dll')
+strDllPath = sys.path[0] + str(os.sep) + "ControlCAN.dll"
+print("strDllPath = ", strDllPath)
+canLib = cdll.LoadLibrary(strDllPath)
 print("path=", canLib)
 print('打开设备: %d' % (canLib.VCI_OpenDevice(3, 0, 0)))
 print('设置波特率: %d' % (canLib.VCI_SetReference(3, 0, 0, 0, pointer(c_int(0x060003)))))
