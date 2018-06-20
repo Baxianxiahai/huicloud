@@ -46,7 +46,7 @@ if __name__ == '__main__':
     GPIO_RELAY2 = 27
     func_raspy_gpio_init()
     while True:
-        func_gpio_test(GPIO_PWM, 0.33)
+        #func_gpio_test(GPIO_PWM, 0.33)
         func_gpio_test(GPIO_RELAY2, 1)
 
 
