@@ -34,11 +34,11 @@ SERVER_HOSTNAME_SET = 'iZbp1iil3e0qqrfbczpmkhZ' + ' ' + ''
 
 LOCAL_HOSTNAME = socket.gethostname()
 #ip = socket.gethostbyname(hostname)
-#print ip 
+#print ip
 #print(LOCAL_HOSTNAME)
 if (SERVER_HOSTNAME_SET.find(LOCAL_HOSTNAME) < 0):
     IS_FORMAL_DEPLOYMENT = False
-    LOCAL_DB_PASSWORD = '123456';
+    LOCAL_DB_PASSWORD = 'bxxhbxxh';
 else:
     IS_FORMAL_DEPLOYMENT = True
     LOCAL_DB_PASSWORD = 'bxxhbxxh';
@@ -52,12 +52,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'DappDbComm',
-    'DappDbBfhs',    
+    'DappDbBfhs',
     'DappDbBfdf',
     'DappDbTest',
     'DappDbCebs',
     'DappDbCcl',
     'DappDbFaam',
+    # 'DappDbAqyc',
+    # 'DappDbFstt',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +100,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'hstdb',
+        'NAME': 'djztest6',
         'USER': 'root',
         'PASSWORD': LOCAL_DB_PASSWORD,
         'HOST': '127.0.0.1',
