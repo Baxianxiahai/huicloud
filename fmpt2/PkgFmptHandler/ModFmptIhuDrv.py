@@ -89,12 +89,19 @@ class ClassDrvCan(object):
 
         #Open
         strDllPath = sys.path[0] + str(os.sep) + "ControlCAN.dll"
+        print("strDllPath = ", strDllPath)
         objDll = cdll.LoadLibrary(strDllPath)
         api  = objDll.VCI_OpenDevice;
-        api.argtypes = [c_uint, c_uint];
+        api.argtypes = [c_uint, c_uint, c_uint];
         api.restypes = c_uint;
-        callRes = api(ModFmptCom.GL_FMPT_DEVDRIVE_CAN_DEVTYPE, ModFmptCom.GL_FMPT_DEVDRIVE_CAN_DEVIND);
-        #print(callRes)
+        #callRes = api(ModFmptCom.GL_FMPT_DEVDRIVE_CAN_DEVTYPE, ModFmptCom.GL_FMPT_DEVDRIVE_CAN_DEVIND);
+        for port1 in range(1, 33):
+            for index in range(0, 10):
+                callRes = api(port1, index, 0);
+                print("Dev=%d, Index=%d, callRes=%d" % (port1, index, callRes))
+                if callRes == 1:
+                    print("Result find!")
+        
         if (callRes == 0):
             res = -1;
             return res;
