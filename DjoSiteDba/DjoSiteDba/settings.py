@@ -58,8 +58,8 @@ INSTALLED_APPS = [
     'DappDbCebs',
     'DappDbCcl',
     'DappDbFaam',
-    # 'DappDbAqyc',
-    # 'DappDbFstt',
+    'DappDbAqyc',
+    'DappDbFstt',
 ]
 
 MIDDLEWARE = [
