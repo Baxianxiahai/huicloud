@@ -40,12 +40,10 @@ def hst_start_server(addr, port):
     myServerConnection.server_close()
     print("[", time.asctime(), "HUIREST]: Server Stops - %s:%s" % addr)
 
-
 def main():
     HST_HOST_NAME = "localhost"
     HST_HOST_PORT = 8000
     zHstAddrBind = (HST_HOST_NAME, HST_HOST_PORT)
     hst_start_server(zHstAddrBind, HST_HOST_PORT)
-
 if __name__ == '__main__':
     main()
