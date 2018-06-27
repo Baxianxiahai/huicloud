@@ -17,27 +17,27 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include, url
 
-from DappDbComm import views as DappDbComm_views
-from DappDbTest import views as DappDbTest_views
-from DappDbCebs import views as DappDbCebs_views
-from DappDbBfdf import views as DappDbBfdf_views
-from DappDbBfhs import views as DappDbBfhs_views
-from DappDbBfhs import views as DappDbCcl_views
-from DappDbBfhs import views as DappDbFaam_views
+# from DappDbComm import views as DappDbComm_views
+# from DappDbTest import views as DappDbTest_views
+# from DappDbCebs import views as DappDbCebs_views
+# from DappDbBfdf import views as DappDbBfdf_views
+# from DappDbBfhs import views as DappDbBfhs_views
+# from DappDbBfhs import views as DappDbCcl_views
+# from DappDbBfhs import views as DappDbFaam_views
 
 urlpatterns = [
     #BASIC
     path('admin/', admin.site.urls),
-    url(r'^$', DappDbTest_views.index, name='index'),
-    #url(r'^$', admin.site.urls),
-    path('index/', DappDbTest_views.index),
-     
-    #DappDbTest UserInfo
-    path('user_info_add/', DappDbTest_views.user_info_add),
-    path('user_info_show/', DappDbTest_views.user_info_show),
-    path('user_info_delete/', DappDbTest_views.user_info_delete),
-    path('user_info_modify/', DappDbTest_views.user_info_modify),
-    path('user_info_home/', DappDbTest_views.user_info_home),
+    # url(r'^$', DappDbTest_views.index, name='index'),
+    # #url(r'^$', admin.site.urls),
+    # path('index/', DappDbTest_views.index),
+    #
+    # #DappDbTest UserInfo
+    # path('user_info_add/', DappDbTest_views.user_info_add),
+    # path('user_info_show/', DappDbTest_views.user_info_show),
+    # path('user_info_delete/', DappDbTest_views.user_info_delete),
+    # path('user_info_modify/', DappDbTest_views.user_info_modify),
+    # path('user_info_home/', DappDbTest_views.user_info_home),
     
     #TEST
     #url(r'^show/', DappDbBfdf_views.show),

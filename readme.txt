@@ -1,7 +1,8 @@
 ﻿====HUICLOUD=====
 
 
-
+//=LZH, 2018 June.22, CURRENT_SW_DELIVERY R1.37 =>DjoSiteDba
+= 增加后台F1sym - F11Faam Django Dba App
 
 //=ZJL, 2018 June.9, CURRENT_SW_DELIVERY R1.36 =>RelayTest
 = 增加Raspy Relay Test项目工程

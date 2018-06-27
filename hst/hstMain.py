@@ -21,7 +21,6 @@ from http.server import HTTPServer
 
 from PkgAccessEntry import ModAccessHttpHandler
 
-
 def hst_start_server(addr, port):
     myServerConnection = HTTPServer(addr, ModAccessHttpHandler.ClassHttpRequestGenernalHandler)
     print("[", time.asctime(), "HUIREST]: Server Starts - %s:%s" % addr)
