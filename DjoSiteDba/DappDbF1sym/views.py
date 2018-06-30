@@ -1,14 +1,11 @@
 from django.shortcuts import render
+from django.db import transaction
 from DappDbF1sym.models import dct_t_l3f1sym_user_login_session,dct_t_l3f1sym_account_primary,dct_t_l3f1sym_user_right_action
 import random
 import datetime
 import time
 # Create your views here.
 class dct_classDbiL3apF1sym:
-    def test1(self,p):
-        print(p)
-    def test2(self):
-        self.test1("Hello World")
     def __dft_getRandomSid(self,strlen):
         str_array=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y']
         sid=''.join(random.sample(str_array,strlen))
@@ -19,11 +16,14 @@ class dct_classDbiL3apF1sym:
         return uid
     def __dft_updateSession(self,uid,sessionid):
         now_time=int(time.time())
+        print(uid)
+        print(sessionid)
         result=dct_t_l3f1sym_user_login_session.objects.filter(uid=uid)
         if result.exists():
             result=dct_t_l3f1sym_user_login_session.objects.filter(uid=uid).update(session_id=sessionid,timestamp=now_time)
         else:
-            result=dct_t_l3f1sym_user_login_session(uid=uid,session_id=sessionid,timestamp=now_time)
+            primary=dct_t_l3f1sym_account_primary.objects.get(uid=uid)
+            result=dct_t_l3f1sym_user_login_session(uid=primary,session_id=sessionid,timestamp=now_time)
             result.save()
         return result
     def dft_dbi_session_check(self,session):
@@ -33,7 +33,7 @@ class dct_classDbiL3apF1sym:
             lastupdate=result[0].timestamp
             if(now_time<lastupdate+900):
                 uid=result[0].uid
-                dct_t_l3f1sym_user_login_session.objects.filter(session_id=session).update(timestamp=now_time)
+                self.__dft_updateSession(uid, session)
             else:
                 uid=""
         else:
@@ -53,7 +53,7 @@ class dct_classDbiL3apF1sym:
             result=dct_t_l3f1sym_account_primary.objects.filter(uid=uid)
             grade=result[0].grade_lever
             if grade==0:
-                result = dct_t_l3f1sym_user_right_action.objects.filter(action_name=action,l1_auth=1)
+                result = dct_t_l3f1sym_user_right_action.objects.filter(action_name=action, l1_auth=1)
             elif grade==1:
                 result = dct_t_l3f1sym_user_right_action.objects.filter(action_name=action, l2_auth=1)
             elif grade==2:
@@ -92,7 +92,6 @@ class dct_classDbiL3apF1sym:
             msg = '登录失败，用户名错误'
         login_info={'body':body,'msg':msg}
         return login_info
-    '''短信验证以及邮箱验证码的信息需要经过查询之后再进行改写'''
 if __name__=="__main__":
     a = dct_classDbiL3apF1sym()
     a.test2()

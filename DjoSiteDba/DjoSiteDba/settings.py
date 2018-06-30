@@ -51,8 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'DappDbTest',
-#     'DappDbF1sym',
+#     'DappDbTest',
+    'DappDbF1sym',
 #     'DappDbF2cm',
 #     'DappDbF3dm',
 #     'DappDbF4icm',
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 #     'DappDbF7ads',
 #     'DappDbF8psm',
 #     'DappDbF9gism',
-    'DappDbF11faam',
+#     'DappDbF11faam',
 #     'DappDbSnr',
 ]
 
@@ -103,7 +103,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'djztest7',
+        'NAME': 'djztest5',
         'USER': 'root',
         'PASSWORD': LOCAL_DB_PASSWORD,
         'HOST': '127.0.0.1',
