@@ -17,13 +17,12 @@ import socket
 
 #
 from PkgHstPrinter import ModPrinterGeneral
-from PkgHstDba import ModDbaGeneral
-from PkgHstDba import ModDbaCcl
-from PkgHstDba import ModDbaFaam
+from PkgHstDba import ModDbaF1sym
 from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
 from PkgHstSpecial import ModSpecialGeneral  #Special Usage
+from builtins import int
 
 class ClassEntryCmdHandler:
     '''
@@ -105,49 +104,93 @@ class ClassHuirestPrinterInputCmdHandler:
 class ClassHuirestDbaInputCmdHandler:
     __HUIREST_SVTAG = "dba"
     __HUIREST_ACTIONID_DBA_min                      = 0x1000
-    __HUIREST_ACTIONID_DBA_yczx_temp_update         = 0x1000
-    __HUIREST_ACTIONID_DBA_django_test_case1        = 0x1001
-    
-    __HUIREST_ACTIONID_DBA_comm_user_group_access   = 0x1002
-    __HUIREST_ACTIONID_DBA_comm_user_account_access = 0x1003
-
-    __HUIREST_ACTIONID_DBA_cebs_customer_mission_access = 0x1004
-    __HUIREST_ACTIONID_DBA_cebs_classify_exec_log_access = 0x1005
-    
-    __HUIREST_ACTIONID_DBA_ccl_water_meter_access = 0x1010
-    __HUIREST_ACTIONID_DBA_ccl_gas_meter_access =   0x1011
-    __HUIREST_ACTIONID_DBA_ccl_power_meter_access = 0x1012
-
-    __HUIREST_ACTIONID_DBA_faam_user_group_access = 0x1020
-
-    
+    __HUIREST_ACTIONID_DBA_F1sym                    = 0x1100
+    __HUIREST_ACTIONID_DBA_F2cm                     = 0x1200
+    __HUIREST_ACTIONID_DBA_F3dm                     = 0x1300
+    __HUIREST_ACTIONID_DBA_F4icm                    = 0x1400
+    __HUIREST_ACTIONID_DBA_F5fm                     = 0x1500
+    __HUIREST_ACTIONID_DBA_F6pm                     = 0x1600
+    __HUIREST_ACTIONID_DBA_F7ads                    = 0x1700
+    __HUIREST_ACTIONID_DBA_F8psm                    = 0x1800
+    __HUIREST_ACTIONID_DBA_F9gism                   = 0x1900
+    __HUIREST_ACTIONID_DBA_F11faam                  = 0x1B00
+    __HUIREST_ACTIONID_DBA_L2snr                    = 0x1F00
     #END FLAG
-    __HUIREST_ACTIONID_DBA_max                      = 0x1030
+    __HUIREST_ACTIONID_DBA_max                      = 0X2000
     
     #Init global control variable
     publicOutputResultFlag = False
+    publicReturnResult=''
     
     def __init__(self):
         self.publicOutputResultFlag = True
 
     #HUIREST
-    def inputCmdHandlerEntry(self, inputStr):
-        #
-        print(inputStr)
-        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_DBA_max):
-            self.publicOutputResultFlag = False;
-        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.publicOutputResultFlag = False;
-                
-        #
+    def inputCmdHandlerEntry(self,inputStr):
+        if(inputStr['restTag']!=self.__HUIREST_SVTAG):
+            self.publicOutputResultFlag=False
+        if((inputStr['actionId']<self.__HUIREST_ACTIONID_DBA_min)and (inputStr['actionId']>self.__HUIREST_ACTIONID_DBA_max)):
+            self.publicOutputResultFlag=False
+        if(inputStr['parFlag']!=int(True) and inputStr['parFlag']!=int(False)):
+            self.publicOutputResultFlag=False
+        if self.publicOutputResultFlag==True:
+            if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F1sym:
+                proc=ModDbaF1sym.ClassDbaF1sym()
+                print(inputStr['parContent']['body']['name'])
+                print(inputStr['parContent']['body']['password'])
+                self.publicReturnResult = proc.dft_login_req(inputStr['parContent']['body'])    
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F2cm:
+                pass
+            if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F3dm:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F4icm:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F5fm:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F6pm:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F7ads:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F8psm:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F9gism:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F11faam:
+                pass
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_L2snr:
+                pass
+        else:
+            self.publicOutputResultFlag==False
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.publicOutputResultFlag == True):
-            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_yczx_temp_update):
-                proc = ModDbaGeneral.ClassDbaTempUpdate()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])     
+            outputStr['parContent'] = parContentStrSuc;
+        else:
+            outputStr['parContent'] = parContentStrErr;
+        return self.publicReturnResult
+#         return outputStr
+   
+#     def inputCmdHandlerEntry(self, inputStr):
+#         #
+#         print(inputStr)
+#         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_DBA_max):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.publicOutputResultFlag = False;
+#                 
+#         #
+#         if (self.publicOutputResultFlag == True):
+#             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_F1sym):
+#                 proc = ModDbaGeneral.ClassDbaTempUpdate()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])     
 #             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_django_test_case1):
 #                 proc = ModDbaGeneral.ClassDbaDjangoTest()
 #                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
@@ -162,34 +205,34 @@ class ClassHuirestDbaInputCmdHandler:
 #                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
 #             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_classify_exec_log_access):
 #                 proc = ModDbaGeneral.ClassDbaCebsClassifyExecLog()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_water_meter_access):
-                proc = ModDbaCcl.ClassDbaCclWaterMeterOpr()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_gas_meter_access):
-                proc = ModDbaCcl.ClassDbaCclGasMeterOpr()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_power_meter_access):
-                proc = ModDbaCcl.ClassDbaCclPowerMeterOpr()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_faam_user_group_access):
-                proc = ModDbaFaam.ClassDbaFaamProductionGoodsOpr()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            else:
-                print("ClassHuirestDbaInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_DBA_min, self.__HUIREST_ACTIONID_DBA_max, inputStr['actionId']))
-                self.publicOutputResultFlag = False
-        #
-        outputStr= {}
-        outputStr['restTag'] = self.__HUIREST_SVTAG;
-        outputStr['actionId'] = inputStr["actionId"];
-        outputStr['parFlag'] = int(True);
-        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-        parContentStrErr={'sucFlag':int(False), 'errCode':1}
-        if (self.publicOutputResultFlag == True):
-            outputStr['parContent'] = parContentStrSuc;
-        else:
-            outputStr['parContent'] = parContentStrErr;
-        return outputStr
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_water_meter_access):
+#                 proc = ModDbaCcl.ClassDbaCclWaterMeterOpr()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_gas_meter_access):
+#                 proc = ModDbaCcl.ClassDbaCclGasMeterOpr()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_power_meter_access):
+#                 proc = ModDbaCcl.ClassDbaCclPowerMeterOpr()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_faam_user_group_access):
+#                 proc = ModDbaFaam.ClassDbaFaamProductionGoodsOpr()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             else:
+#                 print("ClassHuirestDbaInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_DBA_min, self.__HUIREST_ACTIONID_DBA_max, inputStr['actionId']))
+#                 self.publicOutputResultFlag = False
+#         #
+#         outputStr= {}
+#         outputStr['restTag'] = self.__HUIREST_SVTAG;
+#         outputStr['actionId'] = inputStr["actionId"];
+#         outputStr['parFlag'] = int(True);
+#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
+#         if (self.publicOutputResultFlag == True):
+#             outputStr['parContent'] = parContentStrSuc;
+#         else:
+#             outputStr['parContent'] = parContentStrErr;
+#         return outputStr
     
 #
 class ClassHuirestVisionInputCmdHandler:

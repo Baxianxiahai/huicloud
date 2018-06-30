@@ -7,7 +7,7 @@ class dct_t_l3f1sym_account_primary(models.Model):
     pass_word=models.CharField(max_length=100)
     email=models.EmailField(null=True,blank=True)
     menu_group=models.IntegerField(default=0)
-    grade_lever=models.IntegerField(null=True,blank=True)
+    grade_lever=models.IntegerField(default=4)
     red_date=models.DateTimeField(auto_now_add=True)
 class dct_t_l3f1sym_account_secondary(models.Model):
     CHOICES=((1,'男'),(2,'女'),(3,'第三人'))
