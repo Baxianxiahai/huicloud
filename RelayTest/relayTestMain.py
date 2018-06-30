@@ -34,20 +34,17 @@ def func_gpio_test(pinNbr, delay):
     time.sleep(delay)
     GPIO.output(GPIO_PIN, GPIO.LOW)
     time.sleep(delay)
-    GPIO.output(GPIO_PIN, GPIO.HIGH)
-    time.sleep(delay)
-    GPIO.output(GPIO_PIN, GPIO.LOW)
     time.sleep(delay)
 
 #SYSTEM ENTRY
 if __name__ == '__main__':
     print("[RELAY TEST] ", time.asctime(), ", Starting...\n" );
     GPIO_PWM = 17
-    GPIO_RELAY2 = 27
+    GPIO_RELAY1 = 27
     func_raspy_gpio_init()
     while True:
         #func_gpio_test(GPIO_PWM, 0.33)
-        func_gpio_test(GPIO_RELAY2, 1)
+        func_gpio_test(GPIO_RELAY1, 5)
 
 
     
