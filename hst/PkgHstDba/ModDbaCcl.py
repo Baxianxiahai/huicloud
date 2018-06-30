@@ -19,8 +19,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 #from DjoSiteDba.wsgi import *
 django.setup()
 
-from DappDbComm import views as DappDbComm_views
-from DappDbBfhs import views as DappDbCcl_views
+# from DappDbComm import views as DappDbComm_views
+# from DappDbBfhs import views as DappDbCcl_views
 
 
 class ClassDbaCclWaterMeterOpr(object):
@@ -148,7 +148,3 @@ class ClassDbaCclPowerMeterOpr(object):
             return obj
         else:
             return False
-
-
-
-

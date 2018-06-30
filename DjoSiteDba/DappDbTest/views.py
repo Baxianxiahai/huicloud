@@ -4,7 +4,6 @@ from DappDbTest import models
 #from DjoSiteDba import DappDbTest.models
 
 # Create your views here.
-
 def index(request):
     #request.POST
     #request.GET

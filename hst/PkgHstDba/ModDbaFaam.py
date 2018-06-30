@@ -19,8 +19,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 #from DjoSiteDba.wsgi import *
 django.setup()
 
-from DappDbComm import views as DappDbComm_views
-from DappDbFaam import views as DappDbFaam_views
+# from DappDbComm import views as DappDbComm_views
+from DappDbF11faam import views as DappDbFaam_views
 
 
 class ClassDbaFaamProductionGoodsOpr(object):
@@ -33,9 +33,9 @@ class ClassDbaFaamProductionGoodsOpr(object):
         Constructor
         '''
     
-    def func_dba_add(self, par):
-        DappDbFaam_views.UserGroup_add(par)
-        pass
+#     def func_dba_add(self, par):
+#         DappDbFaam_views.UserGroup_add(par)
+#         pass
 
     def func_dba_delete(self, par):
         pass
@@ -64,8 +64,3 @@ class ClassDbaFaamProductionGoodsOpr(object):
             return obj
         else:
             return False
-
-
-
-
-

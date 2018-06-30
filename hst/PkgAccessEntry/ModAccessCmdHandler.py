@@ -133,6 +133,7 @@ class ClassHuirestDbaInputCmdHandler:
     #HUIREST
     def inputCmdHandlerEntry(self, inputStr):
         #
+        print(inputStr)
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.publicOutputResultFlag = False;
         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min):
@@ -147,20 +148,20 @@ class ClassHuirestDbaInputCmdHandler:
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_yczx_temp_update):
                 proc = ModDbaGeneral.ClassDbaTempUpdate()
                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])     
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_django_test_case1):
-                proc = ModDbaGeneral.ClassDbaDjangoTest()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_comm_user_group_access):
-                proc = ModDbaGeneral.ClassDbaCommUserGroup()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_comm_user_account_access):
-                proc = ModDbaGeneral.ClassDbaCommUserAccount()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_customer_mission_access):
-                proc = ModDbaGeneral.ClassDbaCebsCustomerMission()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_classify_exec_log_access):
-                proc = ModDbaGeneral.ClassDbaCebsClassifyExecLog()
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_django_test_case1):
+#                 proc = ModDbaGeneral.ClassDbaDjangoTest()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_comm_user_group_access):
+#                 proc = ModDbaGeneral.ClassDbaCommUserGroup()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_comm_user_account_access):
+#                 proc = ModDbaGeneral.ClassDbaCommUserAccount()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_customer_mission_access):
+#                 proc = ModDbaGeneral.ClassDbaCebsCustomerMission()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_classify_exec_log_access):
+#                 proc = ModDbaGeneral.ClassDbaCebsClassifyExecLog()
                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_water_meter_access):
                 proc = ModDbaCcl.ClassDbaCclWaterMeterOpr()
@@ -408,4 +409,3 @@ class ClassHuirestSpecialInputCmdHandler:
 
 
     
-            

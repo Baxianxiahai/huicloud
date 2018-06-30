@@ -64,11 +64,11 @@ class dct_t_l3f2cm_project_aqyc(models.Model):
     prj_code = models.OneToOneField(dct_t_l3f2cm_project_common, on_delete=models.CASCADE, primary_key=True)
     eng_code = models.CharField(max_length=50)
     eng_name = models.CharField(max_length=50, null=True, blank=True)
-    prj_type = models.IntegerField
-    prj_category = models.IntegerField
-    prj_period = models.IntegerField
+    prj_type = models.IntegerField(default=0)
+    prj_category = models.IntegerField(default=0)
+    prj_period = models.IntegerField(default=0)
     district = models.CharField(max_length=5)
-    region = models.IntegerField
+    region = models.IntegerField(default=0)
     street = models.CharField(max_length=50, null=True, blank=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=6)
     latitude = models.DecimalField(max_digits=10, decimal_places=6)
@@ -85,7 +85,7 @@ class dct_t_l3f2cm_project_aqyc(models.Model):
 
 class dct_t_l3f2cm_device_aqyc(models.Model):
     dev_code = models.OneToOneField(dct_t_l3f2cm_device_common, on_delete=models.CASCADE, primary_key=True)
-    ip_addr = models.IPAddressField
+    ip_addr = models.IPAddressField(default="0.0.0.0")
     mac_addr = models.CharField(max_length=20)
     cam_url = models.CharField(max_length=100)
     ctrl_url = models.CharField(max_length=100)

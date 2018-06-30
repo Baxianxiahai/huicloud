@@ -43,4 +43,4 @@ class dct_t_l3f1sym_user_right_project(models.Model):
 class dct_t_l3f1sym_user_login_session(models.Model):
     uid=models.OneToOneField(dct_t_l3f1sym_account_primary,primary_key=True,on_delete=models.CASCADE)
     session_id=models.CharField(max_length=10)
-    timestamp = models.IntegerField(verbose_name="更新时间戳", default=time.time())
+    timestamp = models.IntegerField(verbose_name="更新时间戳", default=0)
