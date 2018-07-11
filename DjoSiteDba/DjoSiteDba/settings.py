@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # SET WOKRING ENV AND DB PASSWORD
 # COULD SET MULTIPUL TARGET SERVER
-SERVER_HOSTNAME_SET = 'iZbp1iil3e0qqrfbczpmkhZ' + ' ' + ''
+SERVER_HOSTNAME_SET = 'iZbp1iil3e0qqrfbczpmkhZ' + ' ' + '' 
 
 LOCAL_HOSTNAME = socket.gethostname()
 #ip = socket.gethostbyname(hostname)
@@ -41,7 +41,7 @@ if (SERVER_HOSTNAME_SET.find(LOCAL_HOSTNAME) < 0):
     LOCAL_DB_PASSWORD = 'bxxhbxxh';
 else:
     IS_FORMAL_DEPLOYMENT = True
-    LOCAL_DB_PASSWORD = 'bxxhbxxh';
+    LOCAL_DB_PASSWORD = '123456';
 
 # Application definition
 INSTALLED_APPS = [
@@ -53,16 +53,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 #     'DappDbTest',
     'DappDbF1sym',
-#     'DappDbF2cm',
-#     'DappDbF3dm',
-#     'DappDbF4icm',
-#     'DappDbF5fm',
-#     'DappDbF6pm',
-#     'DappDbF7ads',
-#     'DappDbF8psm',
-#     'DappDbF9gism',
-#     'DappDbF11faam',
-#     'DappDbSnr',
+    'DappDbF2cm',
+    'DappDbF3dm',
+    'DappDbF4icm',
+    'DappDbF5fm',
+    'DappDbF6pm',
+    'DappDbF7ads',
+    'DappDbF8psm',
+    'DappDbF9gism',
+    'DappDbF11faam',
+    'DappDbSnr',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +103,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'djztest5',
+        'NAME': 'djztest6',
         'USER': 'root',
         'PASSWORD': LOCAL_DB_PASSWORD,
         'HOST': '127.0.0.1',
@@ -147,7 +147,7 @@ USE_I18N = False
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -26,7 +26,6 @@ class dct_t_l3f2cm_project_common(models.Model):
     address = models.CharField(max_length=50, null=True, blank=True)
     comments = models.TextField(null=True)
 
-
 class dct_t_l3f2cm_site_common(models.Model):
     site_code = models.AutoField(primary_key=True)
     site_name = models.CharField(max_length=20)
@@ -85,7 +84,7 @@ class dct_t_l3f2cm_project_aqyc(models.Model):
 
 class dct_t_l3f2cm_device_aqyc(models.Model):
     dev_code = models.OneToOneField(dct_t_l3f2cm_device_common, on_delete=models.CASCADE, primary_key=True)
-    ip_addr = models.IPAddressField(default="0.0.0.0")
+    ip_addr = models.GenericIPAddressField(default="0.0.0.0")
     mac_addr = models.CharField(max_length=20)
     cam_url = models.CharField(max_length=100)
     ctrl_url = models.CharField(max_length=100)

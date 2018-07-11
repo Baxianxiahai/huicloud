@@ -281,7 +281,7 @@ def Canny_test(img):
     #cv2.imshow('input image', img)
     #cv2.waitKey(0)
     #cv2.destroyAllWindows()
-    ''''' 
+    ''' 
     cv2.Canny(image,threshold1 , threshold2[,edges]) 
     作用：根据Canny算法检测边界 
     threshold1:minVal，threshold2：maxVal 

@@ -1,5 +1,6 @@
 from django.db import models
 from DappDbF2cm.models import dct_t_l3f2cm_device_common,dct_t_l3f2cm_site_common
+from email.policy import default
 # Create your models here.
 class dct_t_l3f3dm_current_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -24,7 +25,7 @@ class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     report_date = models.DateTimeField(auto_now=True)
-    hourminindex = models.IntegerField
+    hourminindex = models.IntegerField(default=0)
     tsp = models.FloatField(default=0, verbose_name="TSP")
     pm01 = models.FloatField(default=0, verbose_name="PM0.1")
     pm25 = models.FloatField(default=0, verbose_name="PM2.5")
@@ -72,12 +73,6 @@ class dct_t_l3f3dm_current_report_fhys(models.Model):
     shakestate = models.IntegerField(default=0)
     fallstate = models.IntegerField(default=0)
     smokestate = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
     battvalue = models.FloatField(default=0,blank=True, verbose_name="电池电量值")
     fallvalue = models.FloatField(default=0,blank=True, verbose_name="倾斜角度值")
     tempvalue = models.FloatField(default=0,blank=True, verbose_name="温度值")
@@ -104,12 +99,6 @@ class dct_t_l3f3dm_minute_report_fhys(models.Model):
     shakestate = models.IntegerField(default=0)
     fallstate = models.IntegerField(default=0)
     smokestate = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
-    door_1 = models.IntegerField(default=0)
     battvalue = models.FloatField(default=0,blank=True, verbose_name="电池电量值")
     fallvalue = models.FloatField(default=0,blank=True, verbose_name="倾斜角度值")
     tempvalue = models.FloatField(default=0,blank=True, verbose_name="温度值")

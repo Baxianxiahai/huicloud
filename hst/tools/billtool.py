@@ -4,17 +4,17 @@
 
 import cv2
 import numpy as np  
-import matplotlib.pyplot as plt
-import imutils
-from ctypes import c_uint8
-import argparse
-import math
-import random
-import sys
-import time
-import json
-import os   #Python的标准库中的os模块包含普遍的操作系统功能  
-import re   #引入正则表达式对象  
+# import matplotlib.pyplot as plt
+# import imutils
+# from ctypes import c_uint8
+# import argparse
+# import math
+# import random
+# import sys
+# import time
+# import json
+# import os   #Python的标准库中的os模块包含普遍的操作系统功能  
+# import re   #引入正则表达式对象  
 #import Image
 import pytesseract
 #import pillow
@@ -47,14 +47,14 @@ def Preprocessing_binvalue_test_plain(img, pattern):
     midGray = cv2.cvtColor(new, cv2.COLOR_BGR2GRAY)
     #cv2.imshow('Middle Blur', midGray)
     
-     #固定二值化
+    #固定二值化
     if (pattern == 1):
         ret, binGray = cv2.threshold(new, 160, 255, cv2.THRESH_BINARY)
         binGray = cv2.cvtColor(binGray, cv2.COLOR_BGR2GRAY)
         #cv2.imshow('BinValue FixBin Image', binGray)
         cv2.imwrite('mid.jpg', binGray)
     
-     #自适应二值化
+    #自适应二值化
     elif (pattern == 2):
         binGray = cv2.adaptiveThreshold(midGray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 19, 5)   # ADAPTIVE_THRESH_MEAN_C ADAPTIVE_THRESH_GAUSSIAN_C
         #binRes= cv2.GaussianBlur(binGray, (5,5), 1.5) #medianBlur

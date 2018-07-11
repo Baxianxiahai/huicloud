@@ -136,8 +136,6 @@ class ClassHuirestDbaInputCmdHandler:
         if self.publicOutputResultFlag==True:
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F1sym:
                 proc=ModDbaF1sym.ClassDbaF1sym()
-                print(inputStr['parContent']['body']['name'])
-                print(inputStr['parContent']['body']['password'])
                 self.publicReturnResult = proc.dft_login_req(inputStr['parContent']['body'])    
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F2cm:
                 pass
