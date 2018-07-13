@@ -68,7 +68,6 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         #print("INPUTDATA = ", inputData)
         jsonInput = json.loads(inputData)
         jsonInput=json.loads(jsonInput)
-        print(type(jsonInput))
         #测试收到的内容
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", jsonInput)
         if ((("restTag" in jsonInput) == False) or (("actionId" in jsonInput) == False) or (("parFlag" in jsonInput) == False) or (("parContent" in jsonInput) == False)):

@@ -17,7 +17,7 @@ import socket
 
 #
 from PkgHstPrinter import ModPrinterGeneral
-from PkgHstDba import ModDbaF1sym
+from PkgHstDba import ModDbaMainEntry
 from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
@@ -135,8 +135,8 @@ class ClassHuirestDbaInputCmdHandler:
             self.publicOutputResultFlag=False
         if self.publicOutputResultFlag==True:
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F1sym:
-                proc=ModDbaF1sym.ClassDbaF1sym()
-                self.publicReturnResult = proc.dft_login_req(inputStr['parContent']['body'])    
+                proc=ModDbaMainEntry.ClassDbaF1symMainEntry()
+                self.publicReturnResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])    
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F2cm:
                 pass
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F3dm:

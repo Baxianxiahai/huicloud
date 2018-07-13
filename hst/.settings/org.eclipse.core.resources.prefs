@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//PkgAccessEntry/ModAccessCmdHandler.py=UTF-8
 encoding//PkgHstDba/ModDbaF1sym.py=utf-8
 encoding//PkgHstDba/ModDbaGeneral.py=UTF-8
+encoding//PkgHstDba/ModDbaMainEntry.py=utf-8
 encoding//PkgHstSpecial/ModSpecialGeneral.py=UTF-8
 encoding//tools/aitest.py=utf-8
 encoding/hstMain.py=UTF-8

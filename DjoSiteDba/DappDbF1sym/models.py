@@ -21,16 +21,16 @@ class dct_t_l3f1sym_account_secondary(models.Model):
     city=models.CharField(max_length=20,null=True,blank=True)
 class dct_t_l3f1sym_menu_code_mapping(models.Model):
     menu_code=models.IntegerField(primary_key=True)
-    menu_name=models.CharField(max_length=20)
+    menu_name=models.CharField(max_length=50)
 class dct_t_l3f1sym_user_right_menu(models.Model):
     sid=models.AutoField(primary_key=True)
     menu_group=models.IntegerField(default=0)
     menu_code=models.ForeignKey(dct_t_l3f1sym_menu_code_mapping,on_delete=models.CASCADE)
-    menu_name=models.CharField(max_length=20)
+    menu_name=models.CharField(max_length=50)
 class dct_t_l3f1sym_user_right_action(models.Model):
     sid=models.AutoField(primary_key=True)
     action_code = models.IntegerField(unique=True)
-    action_name=models.CharField(max_length=20)
+    action_name=models.CharField(max_length=50)
     l1_auth = models.BooleanField(default=0,blank=True)
     l2_auth = models.BooleanField(default=0,blank=True)
     l3_auth = models.BooleanField(default=0,blank=True)
