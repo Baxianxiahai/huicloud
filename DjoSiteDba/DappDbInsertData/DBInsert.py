@@ -6,13 +6,15 @@ Created on 2018年7月12日
 '''
 
 import os
+import pymysql
 os.environ['DJANGO_SETTINGS_MODULE']='DjoSiteDba.settings'
 import django
 django.setup()
 from DappDbF1sym.models import dct_t_l3f1sym_menu_code_mapping,dct_t_l3f1sym_user_right_action,dct_t_l3f1sym_user_right_menu,dct_t_l3f1sym_account_primary,dct_t_l3f1sym_account_secondary
 from DappDbF1sym import views
+from DappDbF11faam.models import *
 faam1={
-    'menu':{
+    'webauth':{
         #FUM1SYM
         'menu_user_profile':0X0101,
         'UserManage':0X0102,
@@ -86,7 +88,7 @@ faam1={
         'SeafoodInfo':0X0A0F,
         'SeafoodAudit':0X0A10,
         },
-    'action':{
+    'actionauth':{
         #FUM1SYM
         'login':0X0101,
         'Get_user_auth_code':0X0102,
@@ -96,6 +98,7 @@ faam1={
         'UserMod':0X0122,
         'UserDel':0X0123,
         'UserTable':0X0124,
+
         #FUM2CM
         'PGNew':0X0201,
         'PGMod':0X0202,
@@ -122,7 +125,7 @@ faam1={
         'DevDel':0X0263,
         'GetStationActiveInfo':0X0264,
         'StationActive':0X0265,
-        'TableQuery':0X0266,
+        'F2TableQuery':0X0266,
         'ProductModel':0X0267,
         'PointConf':0X0268,
         'PointLogin':0X0269,
@@ -183,67 +186,88 @@ faam1={
         'GetUserImg':0X0704,
         'ClearUserImg':0X0705,
         #FUM11FAAM
-        'AttendanceAudit':0x0A01,
-        'AttendanceMod':0x0A02,
-        'KPIAudit':0x0A03,
-        'StaffDel':0x0A04,
-        'ConsumablesPurchaseNew':0x0A05,
-        'ConsumablesTable':0x0A06,
-        'ConsumablesHistory':0x0A07,
-        'GetConsumablesPurchase':0x0A08,
-        'ConsumablesPurchaseMod':0x0A09,
-        'ConsumablesPurchaseDel':0x0A0A,
-        'ProductStockNew':0x0A0B,
-        'GetProductWeightAndSize':0x0A0C,
-        'GetProductStockList':0x0A0D,
-        'GetProductEmptyStock':0x0A0E,
-        'ProductStockTable':0x0A0F,
-        'ProductStockDel':0x0A10,
-        'GetProductStockDetail':0x0A11,
-        'ProductStockTransfer':0x0A12,
-        'ProductStockHistory':0x0A13,
-        'MaterialStockNew':0x0A14,
-        'GetMaterialStockList':0x0A15,
-        'GetMaterialEmptyStock':0x0A16,
-        'MaterialStockDel':0x0A17,
-        'MaterialStockTable':0x0A18,
-        'GetMaterialStockDetail':0x0A19,
-        'MaterialStockIncomeNew':0x0A1A,
-        'MaterialStockRemovalNew':0x0A1B,
-        'MaterialStockHistory':0x0A1C,
-        'GetMaterialStockHistoryDetail':0x0A1D,
-        'MaterialStockIncomeMod':0x0A1E,
-        'MaterialStockRemovalMod':0x0A1F,
-        'MaterialStockRemovalDel':0x0A20,
-        'GetProductStockHistoryDetail':0x0A21,
-        'ProductStockRemovalMod':0x0A22,
-        'ProductStockRemovalDel':0x0A23,
-        'ProductStockRemovalNew':0x0A24,
-        'TableQuery':0X0A25,
-        'SeafoodInfo':0x0A30,
-        'SeafoodAudit':0x0A31,
+        'FactoryCodeList':0X0A01,
+        'FactoryTable':0X0A02,
+        'FactoryMod':0X0A03,
+        'FactoryNew':0X0A04,
+        'FactoryDel':0X0A05,
+        'SpecificationTable':0X0A06,
+        'SpecificationMod':0X0A07,
+        'SpecificationNew':0X0A08,
+        'SpecificationDel':0X0A09,
+        'StaffnameList':0X0A0A,
+        'StaffTable':0X0A0B,
+        'StaffNew':0X0A0C,
+        'StaffMod':0X0A0D,
+        'StaffDel':0X0A0E,
+        'AttendanceHistory':0X0A0F,
+        'AttendanceNew':0X0A10,
+        'AttendanceBatchNew':0X0A11,
+        'AttendanceDel':0X0A12,
+        'GetAttendance':0X0A13,
+        'AttendanceMod':0X0A14,
+        'AttendanceAudit':0X0A15,
+        'AssembleHistory':0X0A16,
+        'AssembleAudit':0X0A17,
+        'KPIAudit':0X0A18,
+        'ConsumablesPurchaseNew':0X0A19,
+        'ConsumablesTable':0X0A1A,
+        'ConsumablesHistory':0X0A1B,
+        'GetConsumablesPurchase':0X0A1C,
+        'ConsumablesPurchaseMod':0X0A1D,
+        'ConsumablesPurchaseDel':0X0A1E,
+        'ProductStockNew':0X0A1F,
+        'GetProductWeightAndSize':0X0A20,
+        'GetProductStockList':0X0A21,
+        'GetProductEmptyStock':0X0A22,
+        'ProductStockTable':0X0A23,
+        'ProductStockDel':0X0A24,
+        'GetProductStockDetail':0X0A25,
+        'ProductStockTransfer':0X0A26,
+        'ProductStockHistory':0X0A27,
+        'MaterialStockNew':0X0A28,
+        'GetMaterialStockList':0X0A29,
+        'GetMaterialEmptyStock':0X0A2A,
+        'MaterialStockDel':0X0A2B,
+        'MaterialStockTable':0X0A2C,
+        'GetMaterialStockDetail':0X0A2D,
+        'MaterialStockIncomeNew':0X0A2E,
+        'MaterialStockRemovalNew':0X0A2F,
+        'MaterialStockHistory':0X0A30,
+        'GetMaterialStockHistoryDetail':0X0A31,
+        'MaterialStockIncomeMod':0X0A32,
+        'MaterialStockRemovalMod':0X0A33,
+        'MaterialStockRemovalDel':0X0A34,
+        'GetProductStockHistoryDetail':0X0A35,
+        'ProductStockRemovalMod':0X0A36,
+        'ProductStockRemovalDel':0X0A37,
+        'ProductStockRemovalNew':0X0A38,
+        'GetPrint':0X0A39,
+        'GetConsumablesVendorList':0X0A3A,
+        'GetConsumablesTypeList':0X0A3B,
+        'F11TableQuery':0X0A3C,
+        #水产管理
+        'SeafoodInfo':0X0B01,
+        'SeafoodAudit':0X0B02,
         },
     }
 def insert_menu_code_mapping():
-    for key,value in faam1['menu'].items():
+    for key,value in faam1['webauth'].items():
         result=dct_t_l3f1sym_menu_code_mapping(menu_code=value,menu_name=key)
         result.save()
     return 
 def delete_menu_code_mapping():
     dct_t_l3f1sym_menu_code_mapping.objects.filter().delete()
 def insert_action_menu():
-    i=0
-    for key,value in faam1['action'].items():
-        print(str(key)+'\t'+str(value)+'\t'+str(i))
-        i=i+1
-        result=dct_t_l3f1sym_user_right_action.objects.get(action_code=value)
-        if result:
-            print(key+'is exited')
+    for key,value in faam1['actionauth'].items():
+        result=dct_t_l3f1sym_user_right_action.objects.filter(action_code=value)
+        if result.exists():
+            print(key+' is exited')
         else:
             create=dct_t_l3f1sym_user_right_action(action_code=value,action_name=key,l1_auth=True,l2_auth=False,l3_auth=False,l4_auth=False,l5_auth=False)
             create.save()
 def insert_right_menu():
-    for key,value in faam1['menu'].items():
+    for key,value in faam1['webauth'].items():
         menu=dct_t_l3f1sym_menu_code_mapping.objects.get(menu_code=value)
         right_menu=dct_t_l3f1sym_user_right_menu(menu_group=0X0001,menu_code=menu,menu_name=key)
         right_menu.save()
@@ -264,5 +288,30 @@ def select_user():
 def show_menu():
     for i in faam1['group'].keys():
         print(i)
+        
+def insert_type():
+    db=pymysql.connect('127.0.0.1','root','bxxhbxxh','bxxhl1l2l3')
+    cursor=db.cursor()
+    sql='SELECT * FROM t_l3f11faam_typesheet'
+    cursor.execute(sql)
+    results=cursor.fetchall()
+    for row in results:
+        if dct_t_l3f11faam_type_sheet.objects.filter(typecode=row[2]).exists():
+            pass
+        else:
+            dct_t_l3f11faam_type_sheet.objects.create(pjcode=row[1],typecode=row[2],applenum=row[3],appleweight=row[4],applegrade=row[5],memo=row[6])
+        print(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+def insert_factory():
+    db=pymysql.connect('127.0.0.1','root','bxxhbxxh','bxxhl1l2l3')
+    cursor=db.cursor()
+    sql='SELECT * FROM t_l3f11faam_factorysheet'
+    cursor.execute(sql)
+    results=cursor.fetchall()
+    for row in results:
+        if dct_t_l3f11faam_factory_sheet.objects.filter(pjcode=row[1]).exists():
+            pass
+        else:
+            print(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12])
+            #dct_t_l3f11faam_factory_sheet.objects.create(pjcode=row[1],workstart=row[2],workend=row[3],reststart=row[4],restend=row[5],fullwork=row[6],address=row[7],latitude=row[8],longitude=row[9],trafficmoney=row[10],factorybonus=row[11],memo=row[12])
 if __name__=="__main__":
-    insert_action_menu()
+    insert_factory()

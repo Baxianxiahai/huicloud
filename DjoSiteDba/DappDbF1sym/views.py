@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.db import transaction
 from django.db.models import Q
 from DappDbF1sym.models import dct_t_l3f1sym_user_right_menu,dct_t_l3f1sym_user_right_project,dct_t_l3f1sym_user_login_session,dct_t_l3f1sym_account_primary,dct_t_l3f1sym_user_right_action,dct_t_l3f1sym_account_secondary
 import random
@@ -16,216 +15,242 @@ class dct_classDbiL3apF1sym:
     __MFUN_HCU_FHYS_CMCC_TEMPCODE_ALARM='10833'
     __MENUACTIONINDEX={
         'webauth':{
-            #FUM1SYM
-            'menu_user_profile':0X0101,
-            'UserManage':0X0102,
-            'ParaManage':0X0103,
-            'ExportTableManage':0X0104,
-            'SoftwareLoadManage':0X0105,
-        
-            #FUM2CM
-            'PGManage':0X0201,
-            'ProjManage':0X0202,
-            'MPManage':0X0203,
-            'DevManage':0X0204,
-            'KeyManage':0X0205,
-            'KeyAuth':0X0206,
-            'KeyHistory':0X0207,
-    
-            #FUM3DM
-            'MPMonitor':0X0301,
-            'MPStaticMonitorTable':0X0302,
-            'MPMonitorCard':0X0303,
-    
-            #FUM4ICM
-            'InstConf':0X0401,
-            'InstRead':0X0402,
-            'InstDesign':0X0403,
-            'InstControl':0X0404,
-            'InstSnapshot':0X0405,
-            'InstVideo':0X0406,
-    
-            #FUM5FM
-            'WarningCheck':0X0501,
-            'WarningHandle':0X0502,
-            'WarningLimit':0X0503,
-    
-            #FUM6PM
-            'AuditTarget':0X0601,
-            'AuditStability':0X0602,
-            'AuditAvailability':0X0603,
-            'AuditError':0X0604,
-            'AuditQuality':0X0605,
-    
-            #FUM6ADS
-            'ADConf':0X0701,
-            'ADManage':0X0702,
-            "WEBConf":0X0703,
-    
-            #FUM8PSM
-    
-            #FUM9GISM
-            'GeoInfoQuery':0X0901,
-            'GeoTrendAnalysis':0X0902,
-            'GeoDisaterForecast':0X0903,
-            'GeoEmergencyDirect':0X0904,
-            'GeoDiffusionAnalysis':0X0905,
-    
-            #FUM11FAAM
-            'StaffManage':0X0A01,
-            'AttendanceManage':0X0A02,
-            'FactoryManage':0X0A03,
-            'SpecificationManage':0X0A04,
-            'AssembleManage':0X0A05,
-            'AssembleAudit':0X0A06,
-            'AttendanceAudit':0X0A07,
-            'KPIAudit':0X0A08,
-            'ConsumablesManage':0X0A09,
-            'ConsumablesHistory':0X0A0A,
-            'ProductStorageManage':0X0A0B,
-            'ProductDeliveryManage':0X0A0C,
-            'MaterialStorageManage':0X0A0D,
-            'MaterialDeliveryManage':0X0A0E,
-            'SeafoodInfo':0X0A0F,
-            'SeafoodAudit':0X0A10,
-            },
-        'actionauth':{
-            #FUM1SYM
-            'login':0X0101,
-            'Get_user_auth_code':0X0102,
-            'Reset_password':0X0103,
-            'UserInfo':0X0120,
-            'UserNew':0X0121,
-            'UserMod':0X0122,
-            'UserDel':0X0123,
-            'UserTable':0X0124,
-            #FUM2CM
-            'PGNew':0X0201,
-            'PGMod':0X0202,
-            'PGDel':0X0203,
-            'PGTable':0X0204,
-            'PGProj':0X0205,
-            'ProjectPGList':0X0206,
-            'ProjectList':0X0220,
-            'UserProj':0X0221,
-            'ProjTable':0X0222,
-            'ProjPoint':0X0223,
-            'ProjNew':0X0224,
-            'ProjMod':0X0225,
-            'ProjDel':0X0226,
-            'PointProj':0X0240,
-            'PointTable':0X0241,
-            'PointNew':0X0242,
-            'PointMod':0X0243,
-            'PointDel':0X0244,
-            'PointDev':0X0245,
-            'DevTable':0X0260,
-            'DevNew':0X0261,
-            'DevMod':0X0262,
-            'DevDel':0X0263,
-            'GetStationActiveInfo':0X0264,
-            'StationActive':0X0265,
-            'TableQuery':0X0266,
-            'ProductModel':0X0267,
-            'PointConf':0X0268,
-            'PointLogin':0X0269,
-            'UserKey':0X02A0,
-            'ProjKeyList':0X02A1,
-            'ProjKey':0X02A2,
-            'ProjUserList':0X02A3,
-            'KeyTable':0X02A4,
-            'KeyNew':0X02A5,
-            'KeyMod':0X02A6,
-            'KeyDel':0X02A7,
-            'DomainAuthlist':0X02A8,
-            'KeyAuthlist':0X02A9,
-            'KeyGrant':0X02AA,
-            'KeyAuthNew':0X02AB,
-            'KeyAuthDel':0X02AC,
-            #FUM3DMA
-            'DevSensor':0X0301,
-            'SensorList':0X0302,
-            'MonitorList':0X0303,
-            'FakeMonitorList':0X0304,
-            'Favourite_list':0X0305,
-            'Favourite_count':0X0306,
-            'GetStaticMonitorTable':0X0307,
-            'PointPicture':0X0308,
-            'KeyHistory':0X0320,
-            'GetOpenImg':0X0321,
-            #FUM4ICM
-            'SensorUpdate':0X0401,
-            'GetVideoCameraWeb':0X0402,
-            'GetVideoList':0X0403,
-            'GetVideo':0X0404,
-            'GetCameraStatus':0X0405,
-            'GetCameraUnit':0X0406,
-            'CameraVAdj':0X0407,
-            'CameraHAdj':0X0408,
-            'CameraZAdj':0X0409,
-            'CameraReset':0X040A,
-            'GetCameraStatus':0X040B,
-            'OpenLock':0X040C,
-            #FUM5FM
-            'MonitorAlarmList':0x0501,
-            'DevAlarm':0x0502,
-            'AlarmType':0x0503,
-            'AlarmQuery':0x0504,
-            'AlarmQueryRealtime':0x0505,
-            'GetWarningHandleListTable':0x0506,
-            'GetWarningImg':0x0507,
-            'AlarmHandle':0x0508,
-            'AlarmClose':0x0509,
-            'GetHistoryRTSP':0x050A,
-            #FUM6PM
-            'GetAuditStabilityTable':0x0601,
-            #FUM7ADS
-            'SetUserMsg':0X0701,
-            'GetUserMsg':0X0702,
-            'ShowUserMsg':0X0703,
-            'GetUserImg':0X0704,
-            'ClearUserImg':0X0705,
-            #FUM11FAAM
-            'AttendanceAudit':0x0A01,
-            'AttendanceMod':0x0A02,
-            'KPIAudit':0x0A03,
-            'StaffDel':0x0A04,
-            'ConsumablesPurchaseNew':0x0A05,
-            'ConsumablesTable':0x0A06,
-            'ConsumablesHistory':0x0A07,
-            'GetConsumablesPurchase':0x0A08,
-            'ConsumablesPurchaseMod':0x0A09,
-            'ConsumablesPurchaseDel':0x0A0A,
-            'ProductStockNew':0x0A0B,
-            'GetProductWeightAndSize':0x0A0C,
-            'GetProductStockList':0x0A0D,
-            'GetProductEmptyStock':0x0A0E,
-            'ProductStockTable':0x0A0F,
-            'ProductStockDel':0x0A10,
-            'GetProductStockDetail':0x0A11,
-            'ProductStockTransfer':0x0A12,
-            'ProductStockHistory':0x0A13,
-            'MaterialStockNew':0x0A14,
-            'GetMaterialStockList':0x0A15,
-            'GetMaterialEmptyStock':0x0A16,
-            'MaterialStockDel':0x0A17,
-            'MaterialStockTable':0x0A18,
-            'GetMaterialStockDetail':0x0A19,
-            'MaterialStockIncomeNew':0x0A1A,
-            'MaterialStockRemovalNew':0x0A1B,
-            'MaterialStockHistory':0x0A1C,
-            'GetMaterialStockHistoryDetail':0x0A1D,
-            'MaterialStockIncomeMod':0x0A1E,
-            'MaterialStockRemovalMod':0x0A1F,
-            'MaterialStockRemovalDel':0x0A20,
-            'GetProductStockHistoryDetail':0x0A21,
-            'ProductStockRemovalMod':0x0A22,
-            'ProductStockRemovalDel':0x0A23,
-            'ProductStockRemovalNew':0x0A24,
-            'SeafoodInfo':0x0A30,
-            'SeafoodAudit':0x0A31,
-            },
-        }
+        #FUM1SYM
+        'menu_user_profile':0X0101,
+        'UserManage':0X0102,
+        'ParaManage':0X0103,
+        'ExportTableManage':0X0104,
+        'SoftwareLoadManage':0X0105,
+
+        #FUM2CM
+        'PGManage':0X0201,
+        'ProjManage':0X0202,
+        'MPManage':0X0203,
+        'DevManage':0X0204,
+        'KeyManage':0X0205,
+        'KeyAuth':0X0206,
+        'KeyHistory':0X0207,
+
+        #FUM3DM
+        'MPMonitor':0X0301,
+        'MPStaticMonitorTable':0X0302,
+        'MPMonitorCard':0X0303,
+
+        #FUM4ICM
+        'InstConf':0X0401,
+        'InstRead':0X0402,
+        'InstDesign':0X0403,
+        'InstControl':0X0404,
+        'InstSnapshot':0X0405,
+        'InstVideo':0X0406,
+
+        #FUM5FM
+        'WarningCheck':0X0501,
+        'WarningHandle':0X0502,
+        'WarningLimit':0X0503,
+
+        #FUM6PM
+        'AuditTarget':0X0601,
+        'AuditStability':0X0602,
+        'AuditAvailability':0X0603,
+        'AuditError':0X0604,
+        'AuditQuality':0X0605,
+
+        #FUM6ADS
+        'ADConf':0X0701,
+        'ADManage':0X0702,
+        "WEBConf":0X0703,
+
+        #FUM8PSM
+
+        #FUM9GISM
+        'GeoInfoQuery':0X0901,
+        'GeoTrendAnalysis':0X0902,
+        'GeoDisaterForecast':0X0903,
+        'GeoEmergencyDirect':0X0904,
+        'GeoDiffusionAnalysis':0X0905,
+
+        #FUM11FAAM
+        'StaffManage':0X0A01,
+        'AttendanceManage':0X0A02,
+        'FactoryManage':0X0A03,
+        'SpecificationManage':0X0A04,
+        'AssembleManage':0X0A05,
+        'AssembleAudit':0X0A06,
+        'AttendanceAudit':0X0A07,
+        'KPIAudit':0X0A08,
+        'ConsumablesManage':0X0A09,
+        'ConsumablesHistory':0X0A0A,
+        'ProductStorageManage':0X0A0B,
+        'ProductDeliveryManage':0X0A0C,
+        'MaterialStorageManage':0X0A0D,
+        'MaterialDeliveryManage':0X0A0E,
+        'SeafoodInfo':0X0A0F,
+        'SeafoodAudit':0X0A10,
+        },
+    'actionauth':{
+        #FUM1SYM
+        'login':0X0101,
+        'Get_user_auth_code':0X0102,
+        'Reset_password':0X0103,
+        'UserInfo':0X0120,
+        'UserNew':0X0121,
+        'UserMod':0X0122,
+        'UserDel':0X0123,
+        'UserTable':0X0124,
+
+        #FUM2CM
+        'PGNew':0X0201,
+        'PGMod':0X0202,
+        'PGDel':0X0203,
+        'PGTable':0X0204,
+        'PGProj':0X0205,
+        'ProjectPGList':0X0206,
+        'ProjectList':0X0220,
+        'UserProj':0X0221,
+        'ProjTable':0X0222,
+        'ProjPoint':0X0223,
+        'ProjNew':0X0224,
+        'ProjMod':0X0225,
+        'ProjDel':0X0226,
+        'PointProj':0X0240,
+        'PointTable':0X0241,
+        'PointNew':0X0242,
+        'PointMod':0X0243,
+        'PointDel':0X0244,
+        'PointDev':0X0245,
+        'DevTable':0X0260,
+        'DevNew':0X0261,
+        'DevMod':0X0262,
+        'DevDel':0X0263,
+        'GetStationActiveInfo':0X0264,
+        'StationActive':0X0265,
+        'TableQuery':0X0266,
+        'ProductModel':0X0267,
+        'PointConf':0X0268,
+        'PointLogin':0X0269,
+        'UserKey':0X02A0,
+        'ProjKeyList':0X02A1,
+        'ProjKey':0X02A2,
+        'ProjUserList':0X02A3,
+        'KeyTable':0X02A4,
+        'KeyNew':0X02A5,
+        'KeyMod':0X02A6,
+        'KeyDel':0X02A7,
+        'DomainAuthlist':0X02A8,
+        'KeyAuthlist':0X02A9,
+        'KeyGrant':0X02AA,
+        'KeyAuthNew':0X02AB,
+        'KeyAuthDel':0X02AC,
+        #FUM3DMA
+        'DevSensor':0X0301,
+        'SensorList':0X0302,
+        'MonitorList':0X0303,
+        'FakeMonitorList':0X0304,
+        'Favourite_list':0X0305,
+        'Favourite_count':0X0306,
+        'GetStaticMonitorTable':0X0307,
+        'PointPicture':0X0308,
+        'KeyHistory':0X0320,
+        'GetOpenImg':0X0321,
+        #FUM4ICM
+        'SensorUpdate':0X0401,
+        'GetVideoCameraWeb':0X0402,
+        'GetVideoList':0X0403,
+        'GetVideo':0X0404,
+        'GetCameraStatus':0X0405,
+        'GetCameraUnit':0X0406,
+        'CameraVAdj':0X0407,
+        'CameraHAdj':0X0408,
+        'CameraZAdj':0X0409,
+        'CameraReset':0X040A,
+        'GetCameraStatus':0X040B,
+        'OpenLock':0X040C,
+        #FUM5FM
+        'MonitorAlarmList':0x0501,
+        'DevAlarm':0x0502,
+        'AlarmType':0x0503,
+        'AlarmQuery':0x0504,
+        'AlarmQueryRealtime':0x0505,
+        'GetWarningHandleListTable':0x0506,
+        'GetWarningImg':0x0507,
+        'AlarmHandle':0x0508,
+        'AlarmClose':0x0509,
+        'GetHistoryRTSP':0x050A,
+        #FUM6PM
+        'GetAuditStabilityTable':0x0601,
+        #FUM7ADS
+        'SetUserMsg':0X0701,
+        'GetUserMsg':0X0702,
+        'ShowUserMsg':0X0703,
+        'GetUserImg':0X0704,
+        'ClearUserImg':0X0705,
+        #FUM11FAAM
+        'FactoryCodeList':0X0A01,
+        'FactoryTable':0X0A02,
+        'FactoryMod':0X0A03,
+        'FactoryNew':0X0A04,
+        'FactoryDel':0X0A05,
+        'SpecificationTable':0X0A06,
+        'SpecificationMod':0X0A07,
+        'SpecificationNew':0X0A08,
+        'SpecificationDel':0X0A09,
+        'StaffnameList':0X0A0A,
+        'StaffTable':0X0A0B,
+        'StaffNew':0X0A0C,
+        'StaffMod':0X0A0D,
+        'StaffDel':0X0A0E,
+        'AttendanceHistory':0X0A0F,
+        'AttendanceNew':0X0A10,
+        'AttendanceBatchNew':0X0A11,
+        'AttendanceDel':0X0A12,
+        'GetAttendance':0X0A13,
+        'AttendanceMod':0X0A14,
+        'AttendanceAudit':0X0A15,
+        'AssembleHistory':0X0A16,
+        'AssembleAudit':0X0A17,
+        'KPIAudit':0X0A18,
+        'ConsumablesPurchaseNew':0X0A19,
+        'ConsumablesTable':0X0A1A,
+        'ConsumablesHistory':0X0A1B,
+        'GetConsumablesPurchase':0X0A1C,
+        'ConsumablesPurchaseMod':0X0A1D,
+        'ConsumablesPurchaseDel':0X0A1E,
+        'ProductStockNew':0X0A1F,
+        'GetProductWeightAndSize':0X0A20,
+        'GetProductStockList':0X0A21,
+        'GetProductEmptyStock':0X0A22,
+        'ProductStockTable':0X0A23,
+        'ProductStockDel':0X0A24,
+        'GetProductStockDetail':0X0A25,
+        'ProductStockTransfer':0X0A26,
+        'ProductStockHistory':0X0A27,
+        'MaterialStockNew':0X0A28,
+        'GetMaterialStockList':0X0A29,
+        'GetMaterialEmptyStock':0X0A2A,
+        'MaterialStockDel':0X0A2B,
+        'MaterialStockTable':0X0A2C,
+        'GetMaterialStockDetail':0X0A2D,
+        'MaterialStockIncomeNew':0X0A2E,
+        'MaterialStockRemovalNew':0X0A2F,
+        'MaterialStockHistory':0X0A30,
+        'GetMaterialStockHistoryDetail':0X0A31,
+        'MaterialStockIncomeMod':0X0A32,
+        'MaterialStockRemovalMod':0X0A33,
+        'MaterialStockRemovalDel':0X0A34,
+        'GetProductStockHistoryDetail':0X0A35,
+        'ProductStockRemovalMod':0X0A36,
+        'ProductStockRemovalDel':0X0A37,
+        'ProductStockRemovalNew':0X0A38,
+        'GetPrint':0X0A39,
+        'GetConsumablesVendorList':0X0A3A,
+        'GetConsumablesTypeList':0X0A3B,
+        'TableQuery':0X0A3C,
+        #水产管理
+        'SeafoodInfo':0X0B01,
+        'SeafoodAudit':0X0B02,
+        },
+    }
     __MFUN_CURRENT_WORKING_PROGRAM_NAME_UNIQUE=0
     def __init__(self):
         pass
@@ -430,113 +455,104 @@ class dct_classDbiL3apF1sym:
         return userinfo
     def dft_dbi_usernum_inquery(self):
         result=dct_t_l3f1sym_account_primary.objects.all()
-        return len(result)
+        i=0
+        for line in result:
+            i=i+1
+        return i
     
     def dft_dbi_usertable_req(self,uid,keyword):
         usertable=[]
         if keyword=="":
             result=dct_t_l3f1sym_account_secondary.objects.filter(uid__grade_lever__gte=dct_t_l3f1sym_account_secondary.objects.get(uid__uid=uid).uid.grade_lever)
             for line in result:
-                temp = {'id': line.uid,
+                temp = {'id': line.uid_id,
                         'name': line.uid.login_name,
                         'nickname': line.nick_name,
                         'mobile': line.telephone,
                         'mail': line.uid.email,
                         'type': line.uid.grade_lever,
-                        'date': line.uid.red_date,
-                        'memo': " "}
+                        'date':str(line.uid.red_date),
+                        'memo': line.uid.backup}
                 usertable.append(temp)
         else:
             result=dct_t_l3f1sym_account_secondary.objects.filter(Q(uid__login_name__icontains=keyword)|Q(nick_name__icontains=keyword)|Q(telephone__icontains=keyword))
             for line in result:
-                temp={'id':line.uid,
+                temp={'id':line.uid_id,
                       'name':line.uid.login_name,
                       'nickname':line.nick_name,
                       'mobile':line.telephone,
                       'mail':line.uid.email,
                       'type':line.uid.grade_lever,
-                      'date':line.uid.red_date,
-                      'memo':" "}
+                      'date':str(line.uid.red_date),
+                      'memo': line.uid.backup}
                 usertable.append(temp)
         return usertable
         
     def dft_dbi_userinfo_new(self,userinfo):
         uid='UID'+self.__dft_getRandomUid(7)
-        if userinfo['name']!="":user=userinfo['name'].replace(' ','')
-        else:user=""
-        if userinfo['nickname']!="":nick=userinfo['nickname'].replace(' ','')
-        else:nick=""
-        if userinfo['password']!="":password=userinfo['password'].replace(' ','')
-        else:password=""
-        if userinfo['type']!="":grade=userinfo['type'].replace(' ','')
-        else:grade=""
-        if userinfo['mobile']!="":mobile=userinfo['mobile'].replace(' ','')
-        else:mobile=""
-        if userinfo['mail']!="":mail=userinfo['mail'].replace(' ','')
-        else:mail=""
-        if userinfo['memo']!="":backup=userinfo['memo'].replace(' ','')
-        else:backup=""
-        if userinfo['auth']!="":auth=userinfo['auth'].replace(' ','')
-        else:auth=""
+        if 'name' not in userinfo.keys():user=""
+        else:user=userinfo['name'].replace(' ','')
+        if 'nickname'not in userinfo.keys():nick=""
+        else:nick=userinfo['nickname'].replace(' ','')
+        if 'password' not in userinfo.keys():password=""
+        else: password=userinfo['password'].replace(' ','')
+        if 'type' not in userinfo.keys():grade=""
+        else:grade=userinfo['type'].replace(' ','')
+        if 'mobile' not in userinfo.keys():mobile=""
+        else:mobile=userinfo['mobile'].replace(' ','')
+        if 'mail' not in userinfo.keys():mail=""
+        else:mail=userinfo['mail'].replace(' ','')
+        if 'memo' not in userinfo.keys():backup=""
+        else:backup=userinfo['memo'].replace(' ','')
+        if 'auth' not in userinfo.keys():auth=""
+        else:auth=userinfo['auth'].replace(' ','')
         city="上海"
-        print(user,nick,password,type,mobile,mail,backup,auth)
+#         print(user,nick,password,type,mobile,mail,backup,auth)
         result=dct_t_l3f1sym_account_primary.objects.filter(login_name=user)
         if result.exists():
-            result=dct_t_l3f1sym_account_primary.objects.get(login_name=user)
-            result.pass_word=password
-            result.email=mail
-            result.menu_group=0
-            result.auth_code=0
-            result.grade_lever=grade
+            result.delete()
+            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_lever=grade,backup=backup)
             result.save()
-            dct_t_l3f1sym_account_secondary.objects.update(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
+            result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
         else:
-            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_lever=grade)
+            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_lever=grade,backup=backup)
             result.save()
-            dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
-        return uid
+            result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
+        if 'auth' in vars():
+            for ss in auth:
+                print(ss['id'])
+        return result
     
-    def dft_dbi_userinfo_update(self,userinfo):
-        if userinfo['userid']!="":uid=userinfo['userid'].replace(' ','')
-        else:uid=""
-        if userinfo['name']!="":user=userinfo['name'].replace(' ','')
-        else:user=""
-        if userinfo['nickname']!="":nick=userinfo['nickname'].replace(' ','')
-        else:nick=""
-        if userinfo['password']!="":password=userinfo['password'].replace(' ','')
-        else:password=""
-        if userinfo['type']!="":grade=userinfo['type'].replace(' ','')
-        else:grade=""
-        if userinfo['mobile']!="":mobile=userinfo['mobile'].replace(' ','')
-        else:mobile=""
-        if userinfo['mail']!="":email=userinfo['mail'].replace(' ','')
-        else:email=""
-        if userinfo['memo']!="":memo=userinfo['memo'].replace(' ','')
-        else:memo=""
-        if userinfo['auth']!="":auth=userinfo['auth'].replace(' ','')
-        else:auth=""
-        user_update=dct_t_l3f1sym_account_secondary.objects.get(uid__uid=uid)
-        if (password != ""):
-            user_update = dct_t_l3f1sym_account_secondary.objects.get(uid__uid=uid)
-            user_update.uid.login_name = user
-            user_update.nick_name = nick
-            user_update.uid.pass_word = password
-            user_update.uid.gradelever = grade
-            user_update.telephone = mobile
-            user_update.uid.email = email
-            user_update.save()
-    
+    def dft_dbi_userinfo_update(self,inputData):
+        now=datetime.datetime.today()
+        if 'userid' not in inputData.keys():uid=""
+        else:uid=inputData['userid'].replace(' ','')
+        if 'name'not in inputData.keys():user=""
+        else:user=inputData['name'].replace(' ','')
+        if 'nickname' not in inputData.keys():nick=""
+        else:nick=inputData['nickname'].replace(' ','')
+        if 'password' not in inputData.keys():pwd=""
+        else:pwd=inputData['password'].replace(' ','')
+        if 'type' not in inputData.keys():grade=""
+        else:grade=inputData['type'].replace(' ','')
+        if 'mobile' not in inputData.keys():phone=""
+        else:phone=inputData['mobile'].replace(' ','')
+        if 'mail' not in inputData.keys():email=""
+        else:email=inputData['mail'].replace(' ','')
+        if 'memo' not in inputData.keys():backup=""
+        else:backup=inputData['memo'].replace(' ','')
+        if 'auth' not in inputData.keys():auth=""
+        else: auth=inputData['auth'].replace(' ','')
+        if (pwd != ""):
+            dct_t_l3f1sym_account_primary.objects.filter(uid=uid).update(login_name=user,pass_word=pwd,grade_lever=grade,email=email,backup=backup,red_date=now)
+            dct_t_l3f1sym_account_secondary.objects.filter(uid__uid=uid).update(nick_name=nick,telephone=phone)
         else:
-            user_update = dct_t_l3f1sym_account_secondary.objects.get(uid__uid=uid)
-            user_update.uid.login_name = user
-            user_update.nick_name = nick
-            user_update.uid.grade_lever = grade
-            user_update.telephone = mobile
-            user_update.uid.email = email
-            user_update.save()
-    
-        dct_t_l3f1sym_user_right_project.objects.filter(uid_id=uid).delete()
-        if auth!="":
+            print(backup)
+#             dct_t_l3f1sym_account_secondary.objects.filter(uid__uid=uid).update(uid__login_name=user,uid__grade_lever=grade,uid__email=email,uid__backup=backup,uid__red_date=now,nick_name=nick,telephone=phone)
+            dct_t_l3f1sym_account_primary.objects.filter(uid=uid).update(login_name=user,grade_lever=grade,email=email,backup=backup,red_date=now)
+            dct_t_l3f1sym_account_secondary.objects.filter(uid__uid=uid).update(nick_name=nick,telephone=phone)
+        result=dct_t_l3f1sym_user_right_project.objects.filter(uid_id=uid).delete()
+        if 'auth' in vars():
             for i in range(len(auth)):
                 if auth[i]['id']=="":authcode='PG_0000'
                 else:authcode=auth[i]['id']
@@ -548,13 +564,9 @@ class dct_classDbiL3apF1sym:
                     auth_type=1
                 else:
                     auth_type=2
-                dct_t_l3f1sym_user_right_project.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(uid=uid),auth_type=auth_type,auth_code=auth_code)
-        return
-    def dft_dbi_userinfo_delete(self,uid):
-        dct_t_l3f1sym_account_primary.objects.filter(uid=uid).delete()
-        return
-    
-if __name__=="__main__":
-    a = dct_classDbiL3apF1sym()
-# print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-# print(int(time.time()))
+                result=dct_t_l3f1sym_user_right_project.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(uid=uid),auth_type=auth_type,auth_code=auth_code)
+        return result
+    def dft_dbi_userinfo_delete(self,inputData):
+        uid=inputData['userid'].replace(' ','')
+        result=dct_t_l3f1sym_account_primary.objects.filter(uid=uid).delete()
+        return result

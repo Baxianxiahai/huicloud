@@ -135,7 +135,7 @@ class ClassHuirestDbaInputCmdHandler:
             self.publicOutputResultFlag=False
         if self.publicOutputResultFlag==True:
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F1sym:
-                proc=ModDbaMainEntry.ClassDbaF1symMainEntry()
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])    
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F2cm:
                 pass
@@ -154,7 +154,8 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F9gism:
                 pass
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F11faam:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F11Faam_Send_Message(inputStr['parContent'])
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_L2snr:
                 pass
         else:

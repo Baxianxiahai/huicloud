@@ -24,9 +24,8 @@ class ClassDbaF1sym():
             with transaction.atomic():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
                 result=DappDbF1sym_view.dft_dbi_login_req(name, password)
-                print(type(result))    
         except Exception:
-            result={"body":{"key":"","admin":"false"},"msg":"数据库发生错误，请重试"}
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     def dft_dbi_userauthcode_process(self,inputData):
         username=inputData['name']
@@ -72,14 +71,37 @@ class ClassDbaF1sym():
         except Exception:
             result={"body":"","msg":"数据库发生错误，请重试"}
         return result
-    def dft_user_new(self,inputData):
+    def dft_dbi_userinfo_new(self,inputData):
         try:
             with transaction.atomic():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
-                result=DappDbF1sym_view.dft_dbi_userinfo_new(inputData)
+                result=DappDbF1sym_view.dft_dbi_userinfo_new(inputData['userinfo'])
                 print(result)
         except Exception:
-            result={"body":{"key":"","admin":"false"},"msg":"数据库发生错误，请重试"}
+            result=''
+        if result!='':
+            result=True
+        else:
+            result=False
+        return result
+    def dft_dbi_userinfo_delete(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_userinfo_delete(inputData)
+        except Exception:
+            result=""
+        if result!='':
+            return True
+        else:
+            return False 
+    def dft_dbi_usernum_inquery(self):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_usernum_inquery()
+        except Exception:
+            result=0
         return result
     def dft_dbi_userinfo_req(self,inputData):
         session=inputData['sessionid']
@@ -89,5 +111,25 @@ class ClassDbaF1sym():
                 result=DappDbF1sym_view.dft_dbi_userinfo_req(session)
                 print(result)
         except Exception:
-            result={"body":{"key":"","admin":"false"},"msg":"数据库发生错误，请重试"}
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    def dft_dbi_usertable_req(self,inputData):
+        uid=inputData['uid']
+        keyword=inputData['keyword']
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_usertable_req(uid, keyword)
+                print(result)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    def dft_dbi_userinfo_update(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                DappDbF1sym_view.dft_dbi_userinfo_update(inputData)
+                result=True
+        except Exception:
+            result=False
         return result

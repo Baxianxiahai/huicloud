@@ -50,7 +50,8 @@ class dct_t_l3f2cm_device_common(models.Model):
     hw_ver = models.IntegerField(null=True, blank=True)
     sw_rel = models.IntegerField(null=True, blank=True)
     sw_ver = models.IntegerField(null=True, blank=True)
-
+    sw_update=models.IntegerField(null=True,default=0)
+    db_update=models.IntegerField(null=True,default=0)
 
 class dct_t_l3f2cm_favour_site(models.Model):
     sid = models.AutoField(primary_key=True)

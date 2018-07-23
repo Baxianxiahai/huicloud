@@ -10,6 +10,7 @@ class dct_t_l3f1sym_account_primary(models.Model):
     auth_code=models.IntegerField(null=True,blank=True)
     grade_lever=models.IntegerField(default=4,null=True)
     red_date=models.DateTimeField(auto_now=True)
+    backup=models.CharField(max_length=20,null=True)
 class dct_t_l3f1sym_account_secondary(models.Model):
     CHOICES=((1,'男'),(2,'女'),(3,'第三人'))
     uid=models.OneToOneField(dct_t_l3f1sym_account_primary,on_delete=models.CASCADE,primary_key=True)
