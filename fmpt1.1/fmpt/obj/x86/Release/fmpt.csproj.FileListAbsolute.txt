@@ -1,0 +1,56 @@
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.Form1.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.Form2.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.Properties.Resources.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.csproj.GenerateResource.Cache
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\bin\x86\Release\fmpt.exe
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\bin\x86\Release\fmpt.pdb
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.exe
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.pdb
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\x86\Release\fmpt.csprojResolveAssemblyReference.cache
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.exe
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.pdb
+C:\team cnss\xiaoma\fmpt\fmpt\bin\x86\Release\fmpt.exe
+C:\team cnss\xiaoma\fmpt\fmpt\bin\x86\Release\fmpt.pdb
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.csprojResolveAssemblyReference.cache
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.Form1.resources
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.Form2.resources
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.Properties.Resources.resources
+C:\team cnss\xiaoma\fmpt\fmpt\obj\x86\Release\fmpt.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.pdb
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.exe
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.pdb
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\bin\x86\Release\fmpt.exe
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\bin\x86\Release\fmpt.pdb
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.csprojResolveAssemblyReference.cache
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.Form1.resources
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.Form2.resources
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.Properties.Resources.resources
+F:\dis_product\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.csproj.GenerateResource.Cache
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.exe
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.pdb
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.csprojResolveAssemblyReference.cache
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.Form1.resources
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.Form2.resources
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.Properties.Resources.resources
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\obj\x86\Release\fmpt.csproj.GenerateResource.Cache
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\bin\x86\Release\fmpt.exe
+D:\yanzong\xiaoma\10\fmpt_from_hao\fmpt\fmpt\bin\x86\Release\fmpt.pdb
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.exe
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.pdb
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\bin\x86\Release\fmpt.exe
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\bin\x86\Release\fmpt.pdb
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.csprojResolveAssemblyReference.cache
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.Form1.resources
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.Form2.resources
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.Properties.Resources.resources
+D:\yanzong\xiaoma\10\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.csproj.GenerateResource.Cache
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\bin\x86\Release\fmpt.exe
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\bin\x86\Release\fmpt.pdb
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.Form1.resources
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.Form2.resources
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.exe
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Release\fmpt.pdb

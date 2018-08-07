@@ -1,0 +1,130 @@
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Documents\WeChat Files\Prototype14138\Files\fmpt0904\fmpt0904\fmpt\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt修改界面的测试\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt进一步做优化\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt通过文件读写\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt通过文件读写 - 副本\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt完美界面版\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt完美界面版 - 副本\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt界面调整版 - 副本\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt final\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt final\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt final\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt final\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\bin\x86\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\bin\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\bin\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache

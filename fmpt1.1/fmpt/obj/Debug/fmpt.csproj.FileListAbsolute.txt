@@ -1,0 +1,20 @@
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\ResolveAssemblyReference.cache
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\fmpt.Properties.Resources.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\fmpt.csproj.GenerateResource.Cache
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\bin\Debug\fmpt.exe
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\bin\Debug\fmpt.pdb
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\fmpt.exe
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\fmpt.pdb
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\fmpt.Form1.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\bin\Debug\fmpt.exe.config
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\bin\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\bin\Debug\fmpt.pdb
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.Form1.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.Form2.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.Properties.Resources.resources
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.csproj.GenerateResource.cache
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.exe
+C:\Users\Administrator\Desktop\fmpt - 副本\fmpt\obj\Debug\fmpt.pdb

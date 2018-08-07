@@ -1,0 +1,4 @@
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Release\fmpt.Form1.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Release\fmpt.Form2.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Release\fmpt.Properties.Resources.resources
+D:\yanzong\xiaoma\10\form\fmpt\fmpt\obj\Release\fmpt.csproj.GenerateResource.Cache
