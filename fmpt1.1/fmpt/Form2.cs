@@ -21,13 +21,13 @@ public struct VCI_INIT_CONFIG
 }
 
 
+
 namespace fmpt
 {
     public partial class Form2 : Form
     {
         public UInt32 m_devtype = 4;//USBCAN2
-
-        public UInt32 m_bOpen = 0;
+        public static UInt32 m_bOpen = 0;
         public UInt32 m_devind = 0;
         public UInt32 m_canind = 0;
         const int DEV_USBCAN = 3;//3;
@@ -94,8 +94,10 @@ namespace fmpt
                 VCI_CloseDevice(m_devtype, m_devind);
             }*/
         }
+       
         unsafe private void buttonConnect_Click(object sender, EventArgs e)
         {
+
         	Form1 main = (Form1)this.Owner;
             if (m_bOpen == 1)
             {
@@ -114,7 +116,7 @@ namespace fmpt
                             MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
-
+                main.button_loadBootCfg.Enabled = true;    //LC:bug fixed
                 m_bOpen = 1;
                 VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
                 config.AccCode = System.Convert.ToUInt32("0x" + textBox_AccCode.Text, 16);

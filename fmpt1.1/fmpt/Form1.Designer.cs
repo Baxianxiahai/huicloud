@@ -519,7 +519,7 @@
 
         private System.Windows.Forms.GroupBox BootCfg;
         private System.Windows.Forms.GroupBox DebugPrint;
-        private System.Windows.Forms.Button button_loadBootCfg;
+        public System.Windows.Forms.Button button_loadBootCfg;
         private System.Windows.Forms.Label label_equaLable;
         private System.Windows.Forms.TextBox textBox_bootIndex;
         private System.Windows.Forms.Label label_bootIndex;

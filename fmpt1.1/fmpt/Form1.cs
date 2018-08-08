@@ -148,11 +148,13 @@ namespace fmpt
         [DllImport("controlcan.dll")]
         static extern UInt32 VCI_Receive(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pReceive, UInt32 Len, Int32 WaitTime);
 
+
+       
         public Form1()
         {
             InitializeComponent();
             initialBootCfgTextBox();
-
+            
         }
         public void initialBootCfgTextBox()
         {
@@ -978,8 +980,7 @@ namespace fmpt
 
         public unsafe void can_msg_send(UInt16 msg_len, ref byte data)
         {
-          try
-          { 
+          
             VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
             int jj = 0;
 
@@ -1030,11 +1031,8 @@ namespace fmpt
             listBox_debug.Items.Add("send ext =0x" + System.Convert.ToString(sendobj.ExternFlag, 16));
             listBox_debug.Items.Add("send id =0x" + System.Convert.ToString(sendobj.ID, 16));
             listBox_debug.SelectedIndex = listBox_debug.Items.Count - 1;
-          }
-              catch (Exception ex)
-            {
-                throw ex;
-            }
+          
+          
     }
 
 
@@ -1177,15 +1175,19 @@ namespace fmpt
             can_msg_send(header->len, ref ctrlMsgBuf[0]);
         }
 
-
+        
         private void SetUp_Click(object sender, EventArgs e)
         {
             //Form2 
+            
             Form2 setup = new Form2();
             setup.Owner = this;
             setup.Show();
-            button_loadBootCfg.Enabled = true;
-        }
+          
+           // button_loadBootCfg.Enabled = true;
+           
+            
+    }
 
         unsafe private void timer_rec_Tick(object sender, EventArgs e)
         {
@@ -1903,12 +1905,12 @@ namespace fmpt
           //  write_register(EQU_LABLE.addr, 40, value);
         }
         #endregion
- 
 
 
 
 
-        private void button_loadBootCfg_Click(object sender, EventArgs e)
+
+     public void button_loadBootCfg_Click(object sender, EventArgs e)
         {
 
             pc.status_top = Constants.LOAD_BOOTCFG_TOP_STATUS;

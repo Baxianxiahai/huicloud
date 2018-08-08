@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fmpt", "fmpt\fmpt.csproj", "{D86E6A4A-EAD7-4ACE-9671-BBD34FFC0603}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup_fmpt_1.1", "Setup_fmpt_1.1\Setup_fmpt_1.1.vdproj", "{690025CB-150B-4B53-A591-3D6C12B589D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D86E6A4A-EAD7-4ACE-9671-BBD34FFC0603}.Release|Any CPU.Build.0 = Release|x86
 		{D86E6A4A-EAD7-4ACE-9671-BBD34FFC0603}.Release|x86.ActiveCfg = Release|x86
 		{D86E6A4A-EAD7-4ACE-9671-BBD34FFC0603}.Release|x86.Build.0 = Release|x86
+		{690025CB-150B-4B53-A591-3D6C12B589D6}.Debug|Any CPU.ActiveCfg = Debug
+		{690025CB-150B-4B53-A591-3D6C12B589D6}.Debug|x86.ActiveCfg = Debug
+		{690025CB-150B-4B53-A591-3D6C12B589D6}.Release|Any CPU.ActiveCfg = Release
+		{690025CB-150B-4B53-A591-3D6C12B589D6}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
