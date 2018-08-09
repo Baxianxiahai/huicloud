@@ -977,7 +977,7 @@ namespace fmpt
                 Application.DoEvents();
             }
         }
-
+     
         public unsafe void can_msg_send(UInt16 msg_len, ref byte data)
         {
           
@@ -1015,18 +1015,23 @@ namespace fmpt
                             //Application.DoEvents();
                         }
                     }
-
+                    
                     if (VCI_Transmit(devtype, devind, canind/*setup.m_devtype, setup.m_devind, setup.m_canind*/, ref sendobj, 1) == 0)
                     {
-                        MessageBox.Show("fail", "error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
+                  
+                      
+                        MessageBox.Show("通信失败，检查连接", "error",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                       
+                    
+                      
                     }
                     Delay(1);  //LC : puls delay solve the no respone 
+
                
 
-
             }
+            
             listBox_debug.Items.Add("send remote =0x" + System.Convert.ToString(sendobj.RemoteFlag, 16));
             listBox_debug.Items.Add("send ext =0x" + System.Convert.ToString(sendobj.ExternFlag, 16));
             listBox_debug.Items.Add("send id =0x" + System.Convert.ToString(sendobj.ID, 16));
@@ -2284,7 +2289,10 @@ namespace fmpt
 
         }
 
-      
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 
     static class Constants
