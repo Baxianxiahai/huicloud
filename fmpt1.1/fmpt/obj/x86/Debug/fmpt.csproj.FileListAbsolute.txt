@@ -131,7 +131,6 @@ C:\Users\Administrator\Desktop\FMPT后续测试\fmpt final\fmpt\obj\x86\Debug\fm
 D:\ihusrc\huicloud\fmpt1.1\fmpt\bin\x86\Debug\fmpt.exe.config
 D:\ihusrc\huicloud\fmpt1.1\fmpt\bin\x86\Debug\fmpt.exe
 D:\ihusrc\huicloud\fmpt1.1\fmpt\bin\x86\Debug\fmpt.pdb
-D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
 D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.Form1.resources
 D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.Form2.resources
 D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.Properties.Resources.resources
@@ -139,3 +138,4 @@ D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.csproj.GenerateResource.cache
 D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.csproj.CoreCompileInputs.cache
 D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.exe
 D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.pdb
+D:\ihusrc\huicloud\fmpt1.1\fmpt\obj\x86\Debug\fmpt.csprojAssemblyReference.cache
