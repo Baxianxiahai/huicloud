@@ -5,6 +5,7 @@ import datetime
 import os
 import stat
 from django.db.models import Q
+from datetime import timedelta
 # from DappDbF11faam.models import dct_t_l3f11faam_product_stock_sheet
 # # Create your views here.
 # 
@@ -12,6 +13,7 @@ from django.db.models import Q
 #     dct_t_l3f11faam_product_stock_sheet.objects.create(stockname="上海一仓",stockaddress="上海市浦东新区",stockheader="李四")
 from DappDbF11faam.models import *
 from DappDbF1sym.models import *
+from _datetime import date
 class dct_classDbiL3apF11Faam:
     __MFUN_HCU_FAAM_EMPLOYEE_PHOTO_WWW_DIR='/xhzn/avorion/userphoto/'
     def __init__(self):
@@ -1561,8 +1563,835 @@ class dct_classDbiL3apF11Faam:
             consumables_value.append(line.supplier)
             consumables_value.append(line.datatype)
             ConsumablesTable=dict(zip(consumables_key,consumables_value))
-            print()
         return ConsumablesTable
+    def dft_dbi_consumables_purchase_mod(self,inputData):
+        print(inputData)
+        storage_time = datetime.datetime.now()
+        sid=inputData['consumablespurchaseID']
+        item=inputData['item']
+        number=inputData['number']
+        unit=inputData['unit']
+        total=inputData['total']
+        vendor=inputData['vendor']
+        if item=='1':type='纸箱'
+        elif item=='2':type='保鲜袋'
+        elif item=='3':type='胶带'
+        elif item=='4':type='标签'
+        elif item=='5':type='托盘'
+        elif item=='6':type='垫片'
+        elif item=='7':type='网套'
+        elif item=='8':type='打包带'
+        else:type=""
+        if type=="":
+            return False
+        else:
+            dct_t_l3f11faam_buy_consumables.objects.filter(sid=sid).update(supplier=vendor,contype=type,amount=number,
+                                                           unitprice=unit,totalprice=total,createtime=storage_time)
+            return True
+        
+    def dft_dbi_consumables_purchase_del(self,inputData):
+        sid=inputData['consumablespurchaseID']
+        dct_t_l3f11faam_buy_consumables.objects.filter(sid=sid).delete()
+        return True
+    
+    def dft_dbi_product_stock_new(self,inputData):
+        name=inputData['name']
+        address=inputData['address']
+        result=dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name)
+        data_now=datetime.datetime.now()
+        if result.exists():
+            dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name,stockaddress=address,createtime=data_now)
+        else:
+            productweight=0
+            productnum=0
+            number=0
+            dct_t_l3f11faam_product_stock_sheet.objects.create(stockname=name,stockaddress=address,productweight=productweight,productnum=productnum,number=number,createtime=data_now,updatetime=data_now)
+    
+    def dft_dbi_get_product_weight_and_size(self):
+        weight=[]
+        size=[]
+        result=dct_t_l3f11faam_type_sheet.objects.all()
+        for line in result:
+            if str(line.appleweight)+'KG' not in weight:
+                weight.append(str(line.appleweight)+'KG')
+            if line.applegrade=='A':grade='特级'
+            elif line.applegrade=='1':grade='一级'
+            elif line.applegrade=='2':grade='二级'
+            elif line.applegrade=='3':grade='三级'
+            elif line.applegrade=='S':grade='混合'
+            if grade not in size:
+                size.append(grade)
+        product={'weight':weight,'size':size}
+        return product
+
+    def dft_dbi_get_product_stock_list(self):
+        table=[]
+        name=[]
+        result=dct_t_l3f11faam_product_stock_sheet.objects.all()
+        for line in result:
+            if line.stockname not in name:
+                name.append(line.stockname)
+                cargo={'id':str(line.sid),'name':line.stockname,'address':line.stockaddress}
+                table.append(cargo)
+            else:
+                continue
+        return table
+
+    def dft_dbi_get_product_empty_stock(self):
+        empty = []
+        name=[]
+        result=dct_t_l3f11faam_product_stock_sheet.objects.all()
+        for line in result:
+            if line.stockname not in name:
+                name.append(line.stockname)
+        for nameList in name:
+            total_number=0
+            result=dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=nameList)
+            for line in result:
+                total_number=total_number+int(line.number)
+                id=line.sid
+                address=line.stockaddress
+            if total_number==0:
+                temp = {'id': id, 'name': nameList, 'address': address}
+                empty.append(temp)
+            else:
+                continue
+        return empty
+
+    def dft_dbi_product_stock_del(self,inputData):
+        id=int(inputData['stockID'])
+        name=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=id).stockname
+        result=dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name)
+        totalNum=0
+        for line in result:
+            totalNum=totalNum+line.number
+        if totalNum<=0:
+            dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name).delete()
+            return True
+        else:
+            return False
+
+    def dft_dbi_product_stock_table(self,inputData):
+        ColumnName=[]
+        TableData=[]
+        ColumnName.append('序号')
+        ColumnName.append('库名')
+        ColumnName.append('重量/箱')
+        ColumnName.append('规格')
+        ColumnName.append('粒数/箱')
+        ColumnName.append('箱数')
+        ColumnName.append('仓库地址')
+        ColumnName.append('最后操作时间')
+        ColumnName.append('备注')
+        if inputData['StockID']!='all':id=int(inputData['StockID'])
+        else:id=""
+        if inputData['Period']!='all':Period=float(inputData['Period'])
+        else:Period=""
+        if inputData['KeyWord']!='all':KeyWord=int(inputData['KeyWord'])
+        else:KeyWord=""
+
+        if KeyWord=='特级':size='A'
+        elif KeyWord=='一级':size='1'
+        elif KeyWord=='二级':size='2'
+        elif KeyWord=='三级':size='3'
+        elif KeyWord=='混合':size='S'
+        else:size=""
+        if id=="":
+            if Period=="" and size=="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.all()
+            elif Period!="" and size=="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period)
+            elif Period=="" and size!="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(puoductsize=size)
+            elif Period!="" and size!="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period, puoductsize=size)
+        else:
+            name=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=id).stockname
+            if Period=="" and size=="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name)
+            elif Period!="" and size=="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period,stockname=name)
+            elif Period=="" and size!="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(puoductsize=size,stockname=name)
+            elif Period!="" and size!="":
+                result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period, puoductsize=size,stockname=name)
+        i=1
+        for line in result:
+            if line.puoductsize=="A":type="特级"
+            elif line.puoductsize=='1':type='一级'
+            elif line.puoductsize=='2':type='二级'
+            elif line.puoductsize=='3':type='三级'
+            elif line.puoductsize=='S':type='混合'
+            else:type='暂无数据'
+            temp=[]
+            temp.append(str(line.sid))
+            temp.append(str(i))
+            temp.append(line.stockname)
+            temp.append(str(line.productweight)+'KG')
+            temp.append(type)
+            temp.append(line.productnum)
+            temp.append(line.number)
+            temp.append(line.stockaddress)
+            temp.append(str(line.updatetime))
+            temp.append(line.message)
+            TableData.append(temp)
+            i=i+1
+        product={'ColumnName':ColumnName,'TableData':TableData}
+        return product
+
+    def dft_dbi_get_product_stock_detail(self,inputData):
+        sid=int(inputData['stockID'])
+        result=dct_t_l3f11faam_product_stock_sheet.objects.filter(sid=sid)
+        for line in result:
+            name=line.stockname
+            weight=str(line.productweight)+'KG'
+            if line.puoductsize == "A":
+                type = "特级"
+            elif line.puoductsize == '1':
+                type = '一级'
+            elif line.puoductsize == '2':
+                type = '二级'
+            elif line.puoductsize == '3':
+                type = '三级'
+            elif line.puoductsize == 'S':
+                type = '混合'
+            else:type='暂无数据'
+            list=self.dft_dbi_get_product_stock_list()
+            for i in range(len(list)):
+                if name==list[i]['name']:
+                    id=str(list[i]['id'])
+            table={"ID":sid,'storageID':str(id),'size':type,'weight':weight,'maxStorage':'100'}
+        return table
+    #因为部分数据暂时无法进行实际的实现
+    def dft_dbi_product_stock_transfer(self,inputData):
+        storageID=int(inputData['storageID'])
+        weight=float(inputData['weight'].strip().strip('KG'))
+        size=inputData['size']
+        number=int(inputData['number']) #转移的数量
+        target=inputData['target'] #目标库
+        note=inputData['note']
+        date_now=datetime.datetime.now()
+        if size=='特级':size='A'
+        elif size=='一级':size='1'
+        elif size=='二级':size='2'
+        elif size=='三级':size='3'
+        elif size=='混合':size='S'
+        else:return False
+        result=dct_t_l3f11faam_product_stock_sheet.objects.filter(sid=storageID)
+        for line in result:
+            name=line.stockname
+        result=dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name,productweight=weight,puoductsize=size,productnum=28)
+        for line in result:
+            productNum=line.productnum #每箱苹果的数量
+            productNumber=line.number #仓库的现存数量
+        if number>productNumber:
+            return False
+        else:
+            out_stock=dct_t_l3f11faam_product_stock_sheet.objects.get(stockname=name,productweight=weight,puoductsize=size,productnum=28)
+            out_stock.number=(productNumber-number)
+            out_stock.updatetime=date_now
+            out_stock.message=note
+            out_stock.save(update_fields=['number','updatetime','message'])
+            intoStockInfo=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=target)
+            into_stock=dct_t_l3f11faam_product_stock_sheet.objects.filter(sid=target,productweight=weight,puoductsize=size,productnum=productNum)
+            if into_stock.exists():
+                update_stock=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=target,productweight=weight,puoductsize=size,productnum=productNum)
+                update_stock.number=(into_stock[0].number+number)
+                update_stock.message=note
+                update_stock.updatetime=date_now
+#                 into_stock[0].save(update_fields=['productweight','puoductsize','productnum','number','message','updatetime'])
+                update_stock.save(update_fields=['number','message','updatetime'])
+                dct_t_l3f11faam_product_history.objects.create(stockname=name,productweight=weight,puoductsize=size,productnum=productNum,
+                                                               number=number,containerID='---',platenumber='---',
+                                                               drivername='---',driverphone='---',receivingunit=intoStockInfo.stockname,logisticsunit='---',
+                                                               message=note)
+            else:
+                if intoStockInfo:
+                    intoStockInfo.productweight=weight
+                    intoStockInfo.puoductsize=size
+                    intoStockInfo.productnum=productNum
+                    intoStockInfo.number=number
+                    intoStockInfo.updatetime=date_now
+                    intoStockInfo.message=note
+                    intoStockInfo.save(update_fields=['productweight','puoductsize','productnum','number','updatetime','message'])
+                    dct_t_l3f11faam_product_history.objects.create(stockname=name, productweight=weight,
+                                                                   puoductsize=size, productnum=productNum,
+                                                                   number=number, containerID='---', platenumber='---',
+                                                                   drivername='---', driverphone='---',
+                                                                   receivingunit=intoStockInfo.stockname, logisticsunit='---',
+                                                                   message=note)
+                else:
+                    dct_t_l3f11faam_product_stock_sheet.objects.create(message=note,stockname=intoStockInfo.stockname,createtime=intoStockInfo.createtime,stockaddress=intoStockInfo.stockaddress,productweight=weight,puoductsize=size,productnum=productNum,updatetime=date_now,number=number)
+                    dct_t_l3f11faam_product_history.objects.create(stockname=name, productweight=weight,
+                                                                   puoductsize=size, productnum=productNum,
+                                                                   number=number, containerID='---', platenumber='---',
+                                                                   drivername='---', driverphone='1---',
+                                                                   receivingunit=intoStockInfo.stockname, logisticsunit='---',
+                                                                   message=note)
+            return True
+    #因为部分数据无法获取到，所以暂时将该处理函数进行搁置
+    def dft_dbi_product_stock_removal_new(self,inputData):
+        dateNow=datetime.datetime.now()
+        storageID=inputData['storageID']
+        weight=int(inputData['weight'])
+        size=inputData['size']
+        number=int(inputData['number'])
+        container=inputData['container']
+        trunk=inputData['trunk']
+        mobile=inputData['mobile']
+        driver=inputData['driver']
+        target=inputData['target']
+        logistics=inputData['logistics']
+        if size=='特级':size='A'
+        elif size=='一级':size='1'
+        elif size=='二级':size='2'
+        elif size=='三级':size='3'
+        elif size=='混合':size='S'
+        else:size=""
+        reuslt=dct_t_l3f11faam_product_stock_sheet.objects.filter(sid=storageID)
+        for line in reuslt:
+            name=line.stockname
+            productNum=line.productnum
+            productNumber=line.number
+            if number>productNumber:
+                return False
+            else:
+                out_stock=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=storageID)
+                out_stock.number=productNum-number
+                out_stock.save(update_fields=['number'])
+                dct_t_l3f11faam_product_history.objects.create(stockname=name,productweight=weight,
+                                                               puoductsize=size,productnum=productNum,
+                                                               number=number,containerID=container,platenumber=trunk,
+                                                               drivername=driver,driverphone=mobile,
+                                                               receivingunit=target,logisticsunit=logistics
+                                                               ,message=str(dateNow)+'，正常出库')
+                return True
+    def dft_dbi_product_stock_history(self,inputData):
+        timeEnd=datetime.date.today()
+        ColumnName=[]
+        TableData=[]
+        ColumnName.append('序号')
+        ColumnName.append('出库方')
+        ColumnName.append('重量/箱')
+        ColumnName.append('规格')
+        ColumnName.append('粒数/箱')
+        ColumnName.append('箱数')
+        ColumnName.append('集装箱号')
+        ColumnName.append('车牌号')
+        ColumnName.append('司机姓名')
+        ColumnName.append('司机手机')
+        ColumnName.append('收货单位')
+        ColumnName.append('物流单位')
+        ColumnName.append('出库时间')
+        ColumnName.append('备注')
+        stockID=inputData['StockID']
+        keyWord=inputData['KeyWord']
+        period=inputData['Period']
+        if stockID=='all':stockID=''
+        else:stockID=int(stockID)
+        if period=='1':
+            timeStart=timeEnd
+        elif period=='7':
+            timeStart=timeEnd-timedelta(days=6)
+        elif period=='30':
+            timeStart = timeEnd - timedelta(days=29)
+        elif period=='all':
+            timeStart='0001-01-01'
+        timeStart=datetime.datetime.strptime((str(timeStart)+' 00:00:00.000000'), '%Y-%m-%d %H:%M:%S.%f')
+        timeEnd=datetime.datetime.strptime((str(timeEnd)+' 23:59:59.999999'), '%Y-%m-%d %H:%M:%S.%f')
+        if stockID=="":
+            stockName=""
+        else:
+            result=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=stockID)
+            stockName=result.stockname
+        if stockName=="":
+            if keyWord=="":
+                result=dct_t_l3f11faam_product_history.objects.filter(outtime__gte=timeStart,outtime__lte=timeEnd)
+            else:
+                result = dct_t_l3f11faam_product_history.objects.filter(outtime__gte=timeStart,outtime__lte=timeEnd,drivername__icontains=keyWord)
+        else:
+            if keyWord=="":
+                result=dct_t_l3f11faam_product_history.objects.filter(stockname=stockName,outtime__gte=timeStart,outtime__lte=timeEnd)
+            else:
+                result = dct_t_l3f11faam_product_history.objects.filter(stockname=stockName,drivername__icontains=keyWord,outtime__gte=timeStart,outtime__lte=timeEnd)
+        i=1
+        for line in result:
+            if line.puoductsize=="A":size='特级'
+            elif line.puoductsize=="1":size='一级'
+            elif line.puoductsize=="2":size='二级'
+            elif line.puoductsize=="3":size='三级'
+            elif line.puoductsize=="S":size='混合'
+            else:size=""
+            middle=[]
+            if line.containerID=='---':
+                middle.append("")
+            else:
+                middle.append(str(line.sid))
+            middle.append(i)
+            middle.append(line.stockname)
+            middle.append(line.productweight)
+            middle.append(size)
+            middle.append(line.productnum)
+            middle.append(line.number)
+            middle.append(line.containerID)
+            middle.append(line.platenumber)
+            middle.append(line.drivername)
+            middle.append(line.driverphone)
+            middle.append(line.receivingunit)
+            middle.append(line.logisticsunit)
+            middle.append(str(line.outtime))
+            middle.append(line.message)
+            TableData.append(middle)
+            i=i+1
+        history={'ColumnName':ColumnName,'TableData':TableData}
+        return history
+    def dft_dbi_get_product_stock_history_detail(self,inputData):
+        ID=inputData['removalID']
+        result=dct_t_l3f11faam_product_history.objects.filter(sid=ID)
+        for line in result:
+            stockID=dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=line.stockname)[0].sid
+            if line.puoductsize=="A":size='特级'
+            elif line.puoductsize=="1":size='一级'
+            elif line.puoductsize=="2":size='二级'
+            elif line.puoductsize=="3":size='三级'
+            elif line.puoductsize=="S":size='混合'
+            else:size=""
+            weight=str(line.productweight)+'KG'
+            number=str(line.number)
+            container=line.containerID
+            trunk=line.platenumber
+            driver=line.drivername
+            mobile=line.driverphone
+            target=line.receivingunit
+            logistics=line.logisticsunit
+            result={'storageID':stockID,'weight':weight,'size':size,'number':number,'container':container,'trunk':trunk,'driver':driver,'mobile':mobile,'target':target,'logistics':logistics}
+        return result
+    def dft_dbi_material_stock_new(self,inputData):
+        #0 自有 1 第三方
+        name=inputData['name']
+        address=inputData['address']
+        isself=int(inputData['mode'])
+        if isself==0:
+            Tableisself=True
+        else:
+            Tableisself=False
+        result=dct_t_l3f11faam_material_stock_table.objects.filter(stockname=name)
+        if result.exists():
+            dct_t_l3f11faam_material_stock_table.objects.filter(stockname=name).update(stockaddress=address,isself=Tableisself)
+        else:
+            dct_t_l3f11faam_material_stock_table.objects.create(stockname=name,stockaddress=address,stockleader="-",isself=Tableisself,bucketnum=0,totalprice=0)
+
+    def dft_dbi_get_material_stock_list(self):
+        result=dct_t_l3f11faam_material_stock_table.objects.all()
+        stock_list=[]
+        for line in result:
+            id=line.sid
+            name=line.stockname
+            address=line.stockaddress
+            cargo={'id':str(id),'name':name,'address':address}
+            stock_list.append(cargo)
+        return stock_list
+    def dft_dbi_get_material_empty_stock(self):
+        result=dct_t_l3f11faam_material_stock_table.objects.filter(bucketnum=0)
+        empty_list=[]
+        for line in result:
+            id=line.sid
+            name=line.stockname
+            address=line.stockaddress
+            cargo={'id':str(id),'name':name,'address':address}
+            empty_list.append(cargo)
+        return empty_list
+    def dft_dbi_empty_material_stock_del(self,inputData):
+        id=inputData['stockID']
+        result=dct_t_l3f11faam_material_stock_table.objects.filter(sid=id)
+        for line in result:
+            if line.bucketnum<=0:
+                result.delete()
+            else:
+                return False
+    def dft_dbi_material_stock_table(self,inputData):
+        ColumnName=[]
+        TableData=[]
+        ColumnName.append('序号')
+        ColumnName.append('库名')
+        ColumnName.append('自有')
+        ColumnName.append('桶数')
+        ColumnName.append('总费用')
+        ColumnName.append('最后一次操作时间')
+        ColumnName.append('仓库地址')
+        if inputData['StockID']=='all':
+            result=dct_t_l3f11faam_material_stock_table.objects.all()
+        else:
+            ID=int(inputData['StockID'])
+            result=dct_t_l3f11faam_material_stock_table.objects.filter(sid=ID)
+        i=1
+        for line in result:
+            table=[]
+            id=line.sid
+            name=line.stockname
+            address=line.stockaddress
+            isself=line.isself
+            if isself==True:
+                mode='是'
+            else:
+                mode='否'
+            bucket=line.bucketnum
+            price=line.totalprice
+            date=line.updatetime
+            table.append(str(id))
+            table.append(str(i))
+            table.append(name)
+            table.append(mode)
+            table.append(bucket)
+            table.append(price)
+            table.append(str(date))
+            table.append(address)
+            TableData.append(table)
+            i=i+1
+        history={'ColumnName':ColumnName,'TableData':TableData}
+        return history
+    def dft_dbi_get_material_stock_detail(self,inputData):
+        ID=inputData['stockID']
+        result=dct_t_l3f11faam_material_stock_table.objects.filter(sid=ID)
+        if result.exists():
+            for line in result:
+                if line.isself:
+                    mode='0'
+                else:
+                    mode='1'
+                table={'storageID':str(line.sid),'mode':mode,'localStorage':'50','maxStorage':'100'}
+        else:
+            table={}
+        return table
+
+    def dft_dbi_material_stock_income_new(self,inputData):
+        ID=inputData['storageID']
+        bucket=int(inputData['bucket'])
+        price=int(inputData['price'])
+        materialMode=inputData['materialMode']
+        if materialMode=='0':
+            mode=True #入库
+        else:
+            mode=False #代存
+        vendor=inputData['vendor']
+        buyer=inputData['buyer']
+        mobile=inputData['mobile']
+        result=dct_t_l3f11faam_material_stock_table.objects.get(sid=ID)
+        if result:
+            into=True
+            stockName=result.stockname
+            result.bucketnum=result.bucketnum+bucket
+            result.totalprice=result.totalprice+price
+            result.save(update_fields=['bucketnum','totalprice'])
+            dct_t_l3f11faam_material_history.objects.create(stockid=ID,stockname=stockName,
+                                                            into=into,bucketnum=bucket,
+                                                            price=price,mode=mode,vendor=vendor,
+                                                            charge=buyer,mobile=mobile,
+                                                            trunk="---",target='---',logisitics='---')
+            return True
+        else:
+            return False
+    def dft_dbi_material_stock_remova_new(self,inputData):
+        ID=inputData['storageID']
+        bucket=int(inputData['bucket'])
+        price=int(inputData['price'])
+        materialMode=inputData['materialMode']
+        if materialMode=='0':
+            materialMode=True
+        else:
+            materialMode=False
+        trunk=inputData['trunk']
+        driver=inputData['driver']
+        mobile=inputData['mobile']
+        target=inputData['target']
+        logistics=inputData['logistics']
+        result=dct_t_l3f11faam_material_stock_table.objects.filter(sid=ID)
+        if result.exists():
+            for line in result:
+                if bucket>line.bucketnum:
+                    return False
+                else:
+                    totalNumber=int(line.bucketnum)-bucket
+                    totalPrice=int(line.totalprice)+price
+                    stockUpdate=dct_t_l3f11faam_material_stock_table.objects.get(sid=ID)
+                    stockUpdate.bucketnum=totalNumber
+                    stockUpdate.totalprice=totalPrice
+                    stockUpdate.save(update_fields=['bucketnum','totalprice'])
+                    dct_t_l3f11faam_material_history.objects.create(stockid=ID,stockname=line.stockname,
+                                                                    into=False,bucketnum=bucket,price=price,
+                                                                    mode=materialMode,vendor="---",charge=driver,
+                                                                    mobile=mobile,trunk=trunk,target=target,logisitics=logistics)
+        else:
+            return False
+
+    def dft_dbi_material_stock_history(self,inputData):
+        timeEnd=datetime.date.today()
+        ColumnName=[]
+        TableData=[]
+        ColumnName.append('序号')
+        ColumnName.append('仓库名')
+        ColumnName.append('入库/出库')
+        ColumnName.append('桶数')
+        ColumnName.append('费用')
+        ColumnName.append('供应商')
+        ColumnName.append('购买者/司机')
+        ColumnName.append('手机号')
+        ColumnName.append('车牌号')
+        ColumnName.append('收货单位')
+        ColumnName.append('物流')
+        ColumnName.append('时间')
+        ID=inputData['StockID']
+        day=inputData['Period']
+        keyWord=inputData['KeyWord']
+        if day=='1':timeStart=timeEnd
+        elif day=='7':timeStart=timeEnd-timedelta(days=6)
+        elif day=='30':timeStart=timeEnd-timedelta(days=29)
+        elif day=='all':timeStart='0001-01-01'
+        timeStart = datetime.datetime.strptime((str(timeStart) + ' 00:00:00.000000'), '%Y-%m-%d %H:%M:%S.%f')
+        timeEnd = datetime.datetime.strptime((str(timeEnd) + ' 23:59:59.999999'), '%Y-%m-%d %H:%M:%S.%f')
+        print(timeStart)
+        print(timeEnd)
+        if(ID=='all'):
+            if keyWord=="":
+                result=dct_t_l3f11faam_material_history.objects.filter(time__gte=timeStart,time__lte=timeEnd)
+            else:
+                result=dct_t_l3f11faam_material_history.objects.filter(time__gte=timeStart,time__lte=timeEnd,charge__icontains=keyWord)
+        else:
+            if keyWord=="":
+                result=dct_t_l3f11faam_material_history.objects.filter(time__gte=timeStart,time__lte=timeEnd,stockid=ID)
+            else:
+                result=dct_t_l3f11faam_material_history.objects.filter(stockid=ID,time__gte=timeStart,time__lte=timeEnd,charge__icontains=keyWord)
+        i=1
+        for line in result:
+            empty=[]
+            name=line.stockname
+            check=dct_t_l3f11faam_material_stock_table.objects.filter(stockname=name)
+            if check.exists():
+                empty.append(line.sid)
+            else:
+                empty.append("")
+            if line.into:
+                mode='入库'
+            else:
+                mode='出库'
+            empty.append(i)
+            empty.append(line.stockname)
+            empty.append(mode)
+            empty.append(line.bucketnum)
+            empty.append(line.price)
+            empty.append(line.vendor)
+            empty.append(line.charge)
+            empty.append(line.mobile)
+            empty.append(line.trunk)
+            empty.append(line.target)
+            empty.append(line.logisitics)
+            empty.append(str(line.time))
+            TableData.append(empty)
+            i=i+1
+        history={'ColumnName':ColumnName,'TableData':TableData}
+        return history
+    def dft_dbi_get_material_stock_history_deatil(self,inputData):
+        sid=inputData['removalID']
+        table={}
+        result=dct_t_l3f11faam_material_history.objects.filter(sid=sid)
+        for line in result:
+            if line.mode:
+                materialMode='0'
+            else:
+                materialMode='1'
+            if line.into:
+                table={'type':'0','storageID':line.stockid,'materialMode':materialMode,'bucket':line.bucketnum,'price':line.price,'buyer':line.charge,'vendor':line.vendor,'mobile':line.mobile}
+            else:
+                table = {'type': '1', 'storageID': line.stockid, 'materialMode': materialMode, 'bucket': line.bucketnum,
+                         'price': line.price, 'trunk':line.trunk,'driver':line.charge,'mobile':line.mobile,
+                         'target':line.target,'logistics':line.logisitics}
+        return table
+
+    def dft_dbi_material_stock_income_mod(self,inputData):
+        incomeID=inputData['incomeID']
+        storageID=inputData['storageID']
+        bucket=int(inputData['bucket'])
+        price=int(inputData['price'])
+        vendor=inputData['vendor']
+        buyer=inputData['buyer']
+        mobile=inputData['mobile']
+        result=dct_t_l3f11faam_material_stock_table.objects.get(sid=storageID)
+        result1=dct_t_l3f11faam_material_history.objects.get(sid=incomeID)
+        if result and result1:
+            totalBucket=result.bucketnum-result1.bucketnum+bucket
+            totalPrice=result.totalprice-result1.price+price
+            if totalBucket<0:
+                return False
+            else:
+                result.bucketnum=totalBucket
+                result.totalprice=totalPrice
+                result.save(update_fields=['bucketnum','totalprice'])
+                result1.bucketnum=bucket
+                result1.price=price
+                result1.charge=buyer
+                result1.vendor=vendor
+                result1.mobile=mobile
+                result1.save(update_fields=['bucketnum','price','charge','vendor','mobile'])
+                return True
+        else:
+            return False
+    def dft_dbi_material_stock_removal_mod(self,inputData):
+        removalID = inputData['removalID']
+        storageID = inputData['storageID']
+        bucket = int(inputData['bucket'])
+        price = int(inputData['price'])
+        trunk = inputData['trunk']
+        driver = inputData['driver']
+        mobile = inputData['mobile']
+        target = inputData['target']
+        logistics = inputData['logistics']
+        result = dct_t_l3f11faam_material_stock_table.objects.get(sid=storageID)
+        result1 = dct_t_l3f11faam_material_history.objects.get(sid=removalID)
+        if result and result1:
+            totalBucket = result.bucketnum + result1.bucketnum - bucket
+            totalPrice = result.bucketnum - result1.bucketnum + price
+            if totalBucket<0:
+                return False
+            else:
+                result.bucketnum = totalBucket
+                result.totalprice = totalPrice
+                result.save(update_fields=['bucketnum', 'totalprice'])
+                result1.bucketnum = bucket
+                result1.price = price
+                result1.charge = driver
+                result1.mobile = mobile
+                result1.trunk = trunk
+                result1.target = target
+                result1.logistics = logistics
+                result1.save(update_fields=['bucketnum','price','charge','mobile','trunk','target','logistics'])
+                return True
+        else:
+            return False
+    def dft_dbi_material_stock_removal_del(self,inputData):
+        ID=inputData['removalID']
+        result=dct_t_l3f11faam_material_history.objects.filter(sid=ID)
+        if result.exists():
+            for line in result:
+                stockID=line.stockid
+                into=line.into
+                bucket=int(line.bucketnum)
+                price=int(line.price)
+                if into==True:
+                    dct_t_l3f11faam_material_history.objects.filter(sid=ID).delete()
+                    stock=dct_t_l3f11faam_material_stock_table.objects.get(sid=stockID)
+                    if stock.bucketnum-bucket<0:
+                        return False
+                    else:
+                        stock.bucketnum=stock.bucketnum-bucket
+                        stock.totalprice=stock.totalprice-price
+                        stock.save(update_fields=['bucketnum','totalprice'])
+                else:
+                    dct_t_l3f11faam_material_history.objects.filter(sid=ID).delete()
+                    stock = dct_t_l3f11faam_material_stock_table.objects.get(sid=stockID)
+                    stock.bucketnum = stock.bucketnum + bucket
+                    stock.totalprice = stock.totalprice - price
+                    stock.save(update_fields=['bucketnum', 'totalprice'])
+        else:
+            return False
+
+    def dft_dbi_product_stock_removal_mod(self,inputData):
+        removalID=inputData['removalID']
+        # size=inputData['size']
+        number=int(inputData['number'])
+        container=inputData['container']
+        trunk=inputData['trunk']
+        mobile=inputData['mobile']
+        driver=inputData['driver']
+        target=inputData['target']
+        logistics=inputData['logistics']
+        # if size=='特级':size='A'
+        # elif size=='一级':size='1'
+        # elif size=='二级':size='2'
+        # elif size=='三级':size='3'
+        # elif size=='混合':size='S'
+        # else:size=""
+        result=dct_t_l3f11faam_product_history.objects.filter(sid=removalID)
+        for line in result:
+            name=line.stockname
+            prosize=line.puoductsize
+            proweight=line.productweight
+            pronum=line.productnum
+            old_number=line.number
+            result_1=dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name,productweight=proweight,puoductsize=prosize,productnum=pronum)
+            if result.exists():
+                new_number=result_1[0].number
+                if new_number+old_number-number>=0:
+                    result_1[0].number=(new_number+old_number-number)
+                    result_1[0].save(update_fields=['number'])
+                    line.number=number
+                    line.containerID=container
+                    line.platenumber=trunk
+                    line.drivername=driver
+                    line.driverphone=mobile
+                    line.receivingunit=target
+                    line.logisticsunit=logistics
+                    line.save(update_fields=['number','containerID','platenumber','drivername','driverphone','receivingunit','logisticsunit'])
+                else:
+                    return False
+            else:
+                return False
+
+    def dft_dbi_product_stock_removal_del(self,inputData):
+        removalID=inputData['removalID']
+        result = dct_t_l3f11faam_product_history.objects.filter(sid=removalID)
+        if result.exists():
+            for line in result:
+                name = line.stockname
+                prosize = line.puoductsize
+                proweight = line.productweight
+                pronum = line.productnum
+                old_number = line.number
+                result_1 = dct_t_l3f11faam_product_stock_sheet.objects.filter(stockname=name, productweight=proweight,
+                                                                              puoductsize=prosize, productnum=pronum)
+                if result.exists():
+                    new_number = result_1[0].number
+                    result_1[0].number = new_number + old_number
+                    result_1[0].save(update_fields=['number'])
+                    line.delete()
+                else:
+                    return False
+        else:
+            return False
+    def dft_dbi_faam_table_query(self,inputData):
+        ColumnName=[]
+        TableData=[]
+        uid=inputData['uid']
+        ColumnName.append('序号')
+        ColumnName.append('员工名')
+        ColumnName.append('性别')
+        ColumnName.append('微信昵称')
+        ColumnName.append('联系方式')
+        ColumnName.append('在职')
+        ColumnName.append('地址')
+        ColumnName.append('岗位')
+        ColumnName.append('时薪')
+        pjCode=self.__dft_get_user_auth_factory(uid)
+        result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
+        i=1
+        for line in result:
+            history=[]
+            if line.gender==1:sex='男'
+            else:sex='女'
+            if line.onjob==True:onjob='是'
+            else:onjob='否'
+            history.append(i)
+            history.append(line.employee)
+            history.append(sex)
+            history.append(line.openid)
+            history.append(line.phone)
+            history.append(onjob)
+            history.append(line.address)
+            history.append(line.position)
+            history.append(line.unitprice)
+            TableData.append(history)
+            i=i+1
+        Table={'ColumnName':ColumnName,'TableData':TableData}
+        return Table
         
         
         

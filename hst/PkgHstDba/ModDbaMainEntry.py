@@ -160,112 +160,96 @@ class ClassDbaMainEntry():
             result=F11Faam.dft_get_consumbales_purchase(inputData['body'])
         if inputData['action']=='ConsumablesPurchaseMod':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_consumables_purchase_mod(inputData['body'])
         if inputData['action']=='ConsumablesPurchaseDel':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_consumables_purchase_del(inputData['body'])
         if inputData['action']=='ProductStockNew':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_product_stock_new(inputData['body'])
         if inputData['action']=='GetProductWeightAndSize':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_get_product_weight_and_size(inputData['body'])
         if inputData['action']=='GetProductStockList':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_get_product_stock_list(inputData['body'])
         if inputData['action']=='GetProductEmptyStock':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_get_product_empty_stock(inputData['body'])
         if inputData['action']=='ProductStockTable':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_product_stock_table(inputData['body'])
         if inputData['action']=='ProductStockDel':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_product_stock_del(inputData['body'])
         if inputData['action']=='GetProductStockDetail':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_get_product_stock_detail(inputData['body'])
         if inputData['action']=='ProductStockTransfer':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_product_stock_transfer(inputData['body'])
         if inputData['action']=='ProductStockHistory':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_product_stock_history(inputData['body'])
         if inputData['action']=='MaterialStockNew':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_dbi_material_stock_new(inputData['body'])
         if inputData['action']=='GetMaterialStockList':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-     
+            result=F11Faam.dft_get_material_stock_list(inputData['body'])
         if inputData['action']=='GetMaterialEmptyStock':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-      
+            result=F11Faam.dft_get_material_empty_stock(inputData['body'])
         if inputData['action']=='MaterialStockDel':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_empty_material_stock_del(inputData['body'])
         if inputData['action']=='MaterialStockTable':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-   
+            result=F11Faam.dft_material_stock_table(inputData['body'])
         if inputData['action']=='MaterialStockIncomeNew':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-     
+            result=F11Faam.dft_material_stock_income_new(inputData['body'])
         if inputData['action']=='MaterialStockRemovalNew':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_material_stock_remova_new(inputData['body'])
         if inputData['action']=='MaterialStockHistory':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-    
+            result=F11Faam.dft_material_stock_history(inputData['body'])
+        if inputData['action']=='GetMaterialStockDetail':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_get_material_stock_detail(inputData['body'])
         if inputData['action']=='GetMaterialStockHistoryDetail':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-    
+            result=F11Faam.dft_get_material_stock_history_deatil(inputData['body'])
         if inputData['action']=='MaterialStockIncomeMod':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-      
+            result=F11Faam.dft_material_stock_income_mod(inputData['body'])
         if inputData['action']=='MaterialStockRemovalDel':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-      
+            result=F11Faam.dft_material_stock_removal_del(inputData['body'])
         if inputData['action']=='GetProductStockHistoryDetail':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-     
+            result=F11Faam.dft_get_product_stock_history_detail(inputData['body'])
         if inputData['action']=='ProductStockRemovalMod':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
-   
+            result=F11Faam.dft_product_stock_removal_mod(inputData['body'])
         if inputData['action']=='ProductStockRemovalDel':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
+            result=F11Faam.dft_product_stock_removal_del(inputData['body'])
         if inputData['action']=='ProductStockRemovalNew':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
-        if inputData['action']=='GetConsumablesVendorList':
-            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
- 
-        if inputData['action']=='GetConsumablesTypeList':
-            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_product_stock_removal_new(inputData['body'])
+#         if inputData['action']=='GetConsumablesVendorList':
+#             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+#             result=F11Faam.dft_get_print(inputData['body'])
+#  
+#         if inputData['action']=='GetConsumablesTypeList':
+#             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+#             result=F11Faam.dft_get_print(inputData['body'])
  
         if inputData['action']=='F11TableQuery':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_get_print(inputData['body'])
+            result=F11Faam.dft_faam_table_query(inputData['body'])
  
          
          

@@ -328,3 +328,249 @@ class ClassDbaF11Faam:
         except Exception:
             result={}
         return result
+    
+    def dft_consumables_purchase_mod(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_consumables_purchase_mod(inputData)
+        except Exception:
+            result=False
+        return result
+    def dft_consumables_purchase_del(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_consumables_purchase_del(inputData)
+        except Exception:
+            result=False
+        return result
+    
+    def dft_product_stock_new(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_product_stock_new(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    
+    def dft_get_product_weight_and_size(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_product_weight_and_size()
+        except Exception:
+            result={}
+        return result
+    
+    def dft_get_product_stock_list(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_product_stock_list()
+        except Exception:
+            result={}
+        return result
+    def dft_get_product_empty_stock(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_product_empty_stock()
+        except Exception:
+            result={}
+        return result
+    
+    def dft_product_stock_del(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_product_stock_del(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_product_stock_table(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_product_stock_table(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_get_product_stock_detail(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_product_stock_detail(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_product_stock_transfer(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+        result=DappDbF11Faam_view.dft_dbi_product_stock_transfer(inputData)
+#         except Exception:
+#             result=False
+        return result
+    def dft_product_stock_removal_new(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_product_stock_removal_new(inputData)
+        except Exception:
+            result=False
+        return result
+    def dft_product_stock_history(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_product_stock_history(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_get_product_stock_history_detail(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_product_stock_history_detail(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_dbi_material_stock_new(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_material_stock_new(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_get_material_stock_list(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_material_stock_list()
+        except Exception:
+            result={}
+        return result
+    def dft_get_material_empty_stock(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_material_empty_stock()
+        except Exception:
+            result={}
+        return result
+    def dft_empty_material_stock_del(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_empty_material_stock_del(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_material_stock_table(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_material_stock_table(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_get_material_stock_detail(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_material_stock_detail(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_material_stock_income_new(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_material_stock_income_new(inputData)
+        except Exception:
+            result=False
+        return result
+    def dft_material_stock_remova_new(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_material_stock_remova_new(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_material_stock_history(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_material_stock_history(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_get_material_stock_history_deatil(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_get_material_stock_history_deatil(inputData)
+        except Exception:
+            result={}
+        return result
+    def dft_material_stock_income_mod(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_material_stock_income_mod(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_material_stock_removal_mod(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_material_stock_removal_mod(inputData)
+        except Exception:
+            result=False
+        return result
+    def dft_material_stock_removal_del(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_material_stock_removal_del(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_product_stock_removal_mod(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_product_stock_removal_mod(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_product_stock_removal_del(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_product_stock_removal_del(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
+    def dft_faam_table_query(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_faam_table_query(inputData)
+        except Exception:
+            result={}
+        return result

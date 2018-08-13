@@ -129,7 +129,7 @@ class dct_t_l3f11faam_product_history(models.Model):
     productnum = models.IntegerField(default=0,null=True,)
     number = models.IntegerField(default=0,null=True,)
     containerID=models.CharField(max_length=30,null=True)
-    platenumber=models.IntegerField(default=0)
+    platenumber=models.CharField(default=0)
     drivername=models.CharField(max_length=10)
     driverphone=models.CharField(max_length=15)
     receivingunit=models.CharField(max_length=15)
