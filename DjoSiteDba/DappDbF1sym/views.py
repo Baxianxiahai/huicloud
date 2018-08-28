@@ -106,6 +106,7 @@ class dct_classDbiL3apF1sym:
         'PGTable':0X0204,
         'PGProj':0X0205,
         'ProjectPGList':0X0206,
+        'GetPGNum':0X0207,
         'ProjectList':0X0220,
         'UserProj':0X0221,
         'ProjTable':0X0222,
@@ -255,7 +256,7 @@ class dct_classDbiL3apF1sym:
     def __init__(self):
         pass
         
-    def __dft_https_request(self,url):
+    def dft_https_request(self,url):
         c=pycurl.Curl()
         c.setopt(pycurl.COOKIEFILE, "cookie_file_name")#把cookie保存在该文件中
         c.setopt(pycurl.COOKIEJAR, "cookie_file_name")
@@ -326,7 +327,7 @@ class dct_classDbiL3apF1sym:
             msg = "网页长时间没有操作，会话超时"
         else:
             result=dct_t_l3f1sym_account_primary.objects.filter(uid=uid)
-            grade=result[0].grade_lever
+            grade=result[0].grade_level
             account=result[0].login_name
             if(action not in self.__MENUACTIONINDEX['actionauth'].keys()):
                 auth='false'
@@ -356,7 +357,7 @@ class dct_classDbiL3apF1sym:
         if result.exists():
             pwd=result[0].pass_word
             uid=result[0].uid
-            grade=result[0].grade_lever
+            grade=result[0].grade_level
             if grade==0:
                 admin='true'
             else:
@@ -397,7 +398,7 @@ class dct_classDbiL3apF1sym:
             authcode=result[0].auth_code
             print(authcode)
             uid=result[0].uid
-            grade=result[0].grade_lever
+            grade=result[0].grade_level
             if grade==0:
                 admin="true"
             else:
@@ -428,7 +429,7 @@ class dct_classDbiL3apF1sym:
             lastupdate = session[0].timestamp
             city=dct_t_l3f1sym_account_secondary.objects.filter(uid_id=uid).first().city
             if(lastupdate<now+900):
-                grade_idx=session[0].uid.grade_lever
+                grade_idx=session[0].uid.grade_level
                 menugroup=session[0].uid.menu_group
                 name=session[0].uid.login_name
                 
@@ -455,23 +456,20 @@ class dct_classDbiL3apF1sym:
         return userinfo
     def dft_dbi_usernum_inquery(self):
         result=dct_t_l3f1sym_account_primary.objects.all()
-        i=0
-        for line in result:
-            i=i+1
-        return i
+        return len(result)
     
     def dft_dbi_usertable_req(self,uid,keyword):
         usertable=[]
         if keyword=="":
-            result=dct_t_l3f1sym_account_secondary.objects.filter(uid__grade_lever__gte=dct_t_l3f1sym_account_secondary.objects.get(uid__uid=uid).uid.grade_lever)
+            result=dct_t_l3f1sym_account_secondary.objects.filter(uid__grade_level__gte=dct_t_l3f1sym_account_secondary.objects.get(uid__uid=uid).uid.grade_level)
             for line in result:
                 temp = {'id': line.uid_id,
                         'name': line.uid.login_name,
                         'nickname': line.nick_name,
                         'mobile': line.telephone,
                         'mail': line.uid.email,
-                        'type': line.uid.grade_lever,
-                        'date':str(line.uid.red_date),
+                        'type': line.uid.grade_level,
+                        'date':str(line.uid.reg_date),
                         'memo': line.uid.backup}
                 usertable.append(temp)
         else:
@@ -482,8 +480,8 @@ class dct_classDbiL3apF1sym:
                       'nickname':line.nick_name,
                       'mobile':line.telephone,
                       'mail':line.uid.email,
-                      'type':line.uid.grade_lever,
-                      'date':str(line.uid.red_date),
+                      'type':line.uid.grade_level,
+                      'date':str(line.uid.reg_date),
                       'memo': line.uid.backup}
                 usertable.append(temp)
         return usertable
@@ -511,11 +509,11 @@ class dct_classDbiL3apF1sym:
         result=dct_t_l3f1sym_account_primary.objects.filter(login_name=user)
         if result.exists():
             result.delete()
-            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_lever=grade,backup=backup)
+            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
             result.save()
             result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
         else:
-            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_lever=grade,backup=backup)
+            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
             result.save()
             result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
         if 'auth' in vars():
@@ -542,25 +540,23 @@ class dct_classDbiL3apF1sym:
         if 'memo' not in inputData.keys():backup=""
         else:backup=inputData['memo'].replace(' ','')
         if 'auth' not in inputData.keys():auth=""
-        else: auth=inputData['auth'].replace(' ','')
+        else: auth=inputData['auth']
         if (pwd != ""):
-            dct_t_l3f1sym_account_primary.objects.filter(uid=uid).update(login_name=user,pass_word=pwd,grade_lever=grade,email=email,backup=backup,red_date=now)
+            dct_t_l3f1sym_account_primary.objects.filter(uid=uid).update(login_name=user,pass_word=pwd,grade_level=grade,email=email,backup=backup,reg_date=now)
             dct_t_l3f1sym_account_secondary.objects.filter(uid__uid=uid).update(nick_name=nick,telephone=phone)
         else:
             print(backup)
 #             dct_t_l3f1sym_account_secondary.objects.filter(uid__uid=uid).update(uid__login_name=user,uid__grade_lever=grade,uid__email=email,uid__backup=backup,uid__red_date=now,nick_name=nick,telephone=phone)
-            dct_t_l3f1sym_account_primary.objects.filter(uid=uid).update(login_name=user,grade_lever=grade,email=email,backup=backup,red_date=now)
+            dct_t_l3f1sym_account_primary.objects.filter(uid=uid).update(login_name=user,grade_level=grade,email=email,backup=backup,reg_date=now)
             dct_t_l3f1sym_account_secondary.objects.filter(uid__uid=uid).update(nick_name=nick,telephone=phone)
         result=dct_t_l3f1sym_user_right_project.objects.filter(uid_id=uid).delete()
         if 'auth' in vars():
             for i in range(len(auth)):
-                if auth[i]['id']=="":authcode='PG_0000'
-                else:authcode=auth[i]['id']
-                auth_array=authcode.split('_')
-                auth_type=auth_array[0]
-                auth_code=auth_array[1]
-                auth_type=auth_type.upper()
-                if(auth_type=="PG"):
+                if auth[i]['id']=="":
+                    auth_code=1
+                else:
+                    auth_code=int(auth[i]['id'])
+                if auth_code<10000000:
                     auth_type=1
                 else:
                     auth_type=2
@@ -570,3 +566,7 @@ class dct_classDbiL3apF1sym:
         uid=inputData['userid'].replace(' ','')
         result=dct_t_l3f1sym_account_primary.objects.filter(uid=uid).delete()
         return result
+    
+    def dft_dbi_test_response_msg(self,inputData):
+        response_msg={'error':'error','msg':inputData}
+        return response_msg

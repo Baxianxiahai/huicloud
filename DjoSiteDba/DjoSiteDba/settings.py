@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # SET WOKRING ENV AND DB PASSWORD
 # COULD SET MULTIPUL TARGET SERVER
-SERVER_HOSTNAME_SET = 'iZbp1iil3e0qqrfbczpmkhZ' + ' ' + '' 
+SERVER_HOSTNAME_SET = 'iZbp1iil3e0qqrfbczpmkhZ' + 'PGS-20180113SZM' + '' 
 
 LOCAL_HOSTNAME = socket.gethostname()
 #ip = socket.gethostbyname(hostname)
@@ -38,10 +38,10 @@ LOCAL_HOSTNAME = socket.gethostname()
 #print(LOCAL_HOSTNAME)
 if (SERVER_HOSTNAME_SET.find(LOCAL_HOSTNAME) < 0):
     IS_FORMAL_DEPLOYMENT = False
-    LOCAL_DB_PASSWORD = 'bxxhbxxh';
+    LOCAL_DB_PASSWORD = 'xiaohui@bxxh';
 else:
     IS_FORMAL_DEPLOYMENT = True
-    LOCAL_DB_PASSWORD = '123456';
+    LOCAL_DB_PASSWORD = 'bxxhbxxh';
 
 # Application definition
 INSTALLED_APPS = [
@@ -61,7 +61,9 @@ INSTALLED_APPS = [
     'DappDbF7ads',
     'DappDbF8psm',
     'DappDbF9gism',
+    'DappDbF10oam',
     'DappDbF11faam',
+    'DappDbFxprcm',
     'DappDbSnr',
 ]
 

@@ -488,7 +488,6 @@ class dct_classDbiL3apF11Faam:
         else:
             nickname= inputData['nickname']
         now = time.strftime("%Y-%m-%d", time.localtime(int(time.time())))
-        print(nickname)
         file_link = self.__MFUN_HCU_FAAM_EMPLOYEE_PHOTO_WWW_DIR+ photo
         if (os.path.exists(file_link)):
             file_new_name = staffId + '.jpg'
@@ -512,7 +511,6 @@ class dct_classDbiL3apF11Faam:
         uid=inputData['uid']
         nameList=[]
         pjCode=self.__dft_get_user_auth_factory(uid)
-        print(pjCode)
         result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
         for line in result:
             temp={'id':line.mid,'name':line.employee}
@@ -523,10 +521,7 @@ class dct_classDbiL3apF11Faam:
         uid=inputData['uid']
         pjCode=self.__dft_get_user_auth_factory(uid)
         result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
-        i=0
-        for line in result:
-            i=i+1
-        return i
+        return len(result)
     
     def dft_dbi_staff_table_query(self,inputData):
         uid=inputData['uid']
@@ -615,13 +610,12 @@ class dct_classDbiL3apF11Faam:
             for line in result:
                 employee=line.employee
                 unitPrice=line.unitprice
-                print(employee)
-                print(unitPrice)
+                daystandnumbet=line.standardnum
                 Daily=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode,employee=employee,workday=workDay)
                 if Daily.exists():
                     pass
                 else:
-                    dct_t_l3f11faam_daily_sheet.objects.create(pjcode=pjCode,employee=employee,workday=workDay,arraytime=workStart,leavetime=workEnd,offwork=offWorkTime,worktime=workTime,unitprice=unitPrice,laterflag=laterWorkFlag,earlyflag=earlyLeaveFlag)
+                    dct_t_l3f11faam_daily_sheet.objects.create(pjcode=pjCode,daystandardnum=daystandnumbet,employee=employee,workday=workDay,arraytime=workStart,leavetime=workEnd,offwork=offWorkTime,worktime=workTime,unitprice=unitPrice,laterflag=laterWorkFlag,earlyflag=earlyLeaveFlag)
                     
     def dft_dbi_attendance_history_query(self,inputData):
         ColumnName=[]
@@ -742,7 +736,6 @@ class dct_classDbiL3apF11Faam:
         ColumnName.append('工作天数')
         ColumnName.append('工作时长')
         pjCode=self.__dft_get_user_auth_factory(uid)
-        print(pjCode)
         buffer=[]
         if(keyWord==""):
             result=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode)
@@ -824,12 +817,12 @@ class dct_classDbiL3apF11Faam:
                 temp.append(zone)
                 temp.append(str(timeStart))
                 temp.append(str(timeEnd))
-                temp.append(lateWorkDay[employee])
-                temp.append(earlyLeaveDay[employee])
-                temp.append(offWorkDay[employee])
-                temp.append(totalOffWorkTime[employee])
-                temp.append(workingDay[employee])
-                temp.append(totalWorkTime[employee])
+                temp.append(str(lateWorkDay[employee]))
+                temp.append(str(earlyLeaveDay[employee]))
+                temp.append(str(offWorkDay[employee]))
+                temp.append(str(totalOffWorkTime[employee]))
+                temp.append(str(workingDay[employee]))
+                temp.append(str(totalWorkTime[employee]))
                 TableData.append(temp)
         history = {'ColumnName': ColumnName, 'TableData': TableData}
         return history
@@ -893,7 +886,7 @@ class dct_classDbiL3apF11Faam:
                         dct_t_l3f11faam_daily_sheet.objects.filter(employee=employee,pjcode=pjCode,workday=workDay).update(arrivetime=arriveTime,leavetime=leaveTime,offwork=offWorkTime,
                                                                                                                            unitprice=unitPrice,laterflag=laterWorkFlag,earlyflag=earlyLeaveFlag)
                     else:
-                        print(pjCode,employee,workDay,arriveTime,leaveTime,offWorkTime,workTime,unitPrice,laterWorkFlag,earlyLeaveFlag)
+#                         print(pjCode,employee,workDay,arriveTime,leaveTime,offWorkTime,workTime,unitPrice,laterWorkFlag,earlyLeaveFlag)
                         dct_t_l3f11faam_daily_sheet.objects.create(pjcode=pjCode,employee=employee,workday=workDay,arraytime=arriveTime,leavetime=leaveTime,offwork=offWorkTime,worktime=workTime,unitprice=unitPrice,laterflag=laterWorkFlag,earlyflag=earlyLeaveFlag,daystandardnum=standnumber)
                 else:
                     return False
@@ -961,7 +954,7 @@ class dct_classDbiL3apF11Faam:
                     timeInterval=leaveTimeInt-arriveTimeInt
                 else:
                     timeInterval=0
-                workTime=round(timeInterval/3600,1)-int(offWorkTime)
+                workTime=round(timeInterval/3600,1)-float(offWorkTime)
                 if workTime<0:
                     workTime=0
                 if arriveTimeInt<=stdWorkStart:laterWorkFlag=False
@@ -1067,11 +1060,15 @@ class dct_classDbiL3apF11Faam:
         for i in range(len(buffer)):
             employee=buffer[i].owner
             typeCode=buffer[i].typecode
-            package[employee]={}
+            if employee in package.keys():
+                pass
+            else:
+                package[employee]={}
             if typeCode in package[employee].keys():
                 package[employee][typeCode]=package[employee][typeCode]+1
             else:
                 package[employee][typeCode]=1
+
         if lever>1:
             week=datetime.date.today()
             week = week + datetime.timedelta(days=-1)
@@ -1112,7 +1109,6 @@ class dct_classDbiL3apF11Faam:
                                 temp.append(totalNum)
                                 temp.append(str(totalWeight))
                                 TableData.append(temp)
-        
                                 packageSum = packageSum + totalPackage;
                                 numSum = numSum + totalNum
                                 weightSum = weightSum + totalWeight
@@ -1230,7 +1226,6 @@ class dct_classDbiL3apF11Faam:
             result = dct_t_l3f11faam_production.objects.filter(pjcode=pjCode, owner=keyWord)
             for line in result:
                 activeTime = line.activetime
-                print(activeTime)
                 if activeTime >= dayTimeStart and activeTime <= dayTimeEnd:
                     productBuf.append(line)
         else:
@@ -1239,7 +1234,6 @@ class dct_classDbiL3apF11Faam:
                 activeTime = line.activetime
                 if activeTime >= dayTimeStart and activeTime <= dayTimeEnd:
                     productBuf.append(line)
-        print(productBuf)
         result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
         nameList=[]
         for line in result:
@@ -1279,7 +1273,10 @@ class dct_classDbiL3apF11Faam:
         for i in range(len(productBuf)):
             employee=productBuf[i].owner
             typeCode=productBuf[i].typecode
-            package[employee]={}
+            if employee in package.keys():
+                pass
+            else:
+                package[employee]={}
             if typeCode in package[employee].keys():
                 package[employee][typeCode]=package[employee][typeCode]+1
             else:
@@ -1322,7 +1319,7 @@ class dct_classDbiL3apF11Faam:
                 else:totalStandardNum=0
 
                 if totalStandardNum!=0:
-                    kpiSalary=str(round((tempNumSum/totalStandardNum)*100,2))+'%'
+                    kpiSalary=str(round((tempPackageSum/totalStandardNum)*100,2))+'%'
                 else:
                     kpiSalary='%'
                 sid=sid+1
@@ -1383,7 +1380,6 @@ class dct_classDbiL3apF11Faam:
         unit_price=inputData['unit']
         total_price=inputData['total']
         datype=inputData['type']
-        print(datatype)
         if datatype=='1':contype='纸箱'
         elif datatype=='2':contype='保鲜袋'
         elif datatype=='3':contype='胶带'
@@ -1393,7 +1389,6 @@ class dct_classDbiL3apF11Faam:
         elif datatype=='7':contype='网套'
         elif datatype=='8':contype='打包带'
         storage_time=datetime.datetime.now()
-        print(storage_time)
         dct_t_l3f11faam_buy_consumables.objects.create(supplier=supplier,contype=contype,amount=number,unitprice=unit_price,totalprice=total_price,createtime=storage_time,datatype=datype)
         result=dct_t_l3f11faam_buy_consumables.objects.filter(createtime=storage_time)
         if result.exists():
@@ -1565,7 +1560,6 @@ class dct_classDbiL3apF11Faam:
             ConsumablesTable=dict(zip(consumables_key,consumables_value))
         return ConsumablesTable
     def dft_dbi_consumables_purchase_mod(self,inputData):
-        print(inputData)
         storage_time = datetime.datetime.now()
         sid=inputData['consumablespurchaseID']
         item=inputData['item']
@@ -1683,19 +1677,9 @@ class dct_classDbiL3apF11Faam:
         ColumnName.append('仓库地址')
         ColumnName.append('最后操作时间')
         ColumnName.append('备注')
-        if inputData['StockID']!='all':id=int(inputData['StockID'])
-        else:id=""
-        if inputData['Period']!='all':Period=float(inputData['Period'])
-        else:Period=""
-        if inputData['KeyWord']!='all':KeyWord=int(inputData['KeyWord'])
-        else:KeyWord=""
-
-        if KeyWord=='特级':size='A'
-        elif KeyWord=='一级':size='1'
-        elif KeyWord=='二级':size='2'
-        elif KeyWord=='三级':size='3'
-        elif KeyWord=='混合':size='S'
-        else:size=""
+        id=inputData['StockID']
+        Period=inputData['Period']
+        size=inputData['KeyWord']
         if id=="":
             if Period=="" and size=="":
                 result = dct_t_l3f11faam_product_stock_sheet.objects.all()
@@ -1744,7 +1728,7 @@ class dct_classDbiL3apF11Faam:
         result=dct_t_l3f11faam_product_stock_sheet.objects.filter(sid=sid)
         for line in result:
             name=line.stockname
-            weight=str(line.productweight)+'KG'
+            weight=str(line.productweight*1.0)+'KG'
             if line.puoductsize == "A":
                 type = "特级"
             elif line.puoductsize == '1':
@@ -1760,7 +1744,8 @@ class dct_classDbiL3apF11Faam:
             for i in range(len(list)):
                 if name==list[i]['name']:
                     id=str(list[i]['id'])
-            table={"ID":sid,'storageID':str(id),'size':type,'weight':weight,'maxStorage':'100'}
+            #table={"ID":sid,'storageID':str(id),'size':type,'weight':weight,'maxStorage':'100'}
+            table={'storageID':str(id),'size':type,'weight':weight,'maxStorage':'100'}
         return table
     #因为部分数据暂时无法进行实际的实现
     def dft_dbi_product_stock_transfer(self,inputData):
@@ -2149,8 +2134,6 @@ class dct_classDbiL3apF11Faam:
         elif day=='all':timeStart='0001-01-01'
         timeStart = datetime.datetime.strptime((str(timeStart) + ' 00:00:00.000000'), '%Y-%m-%d %H:%M:%S.%f')
         timeEnd = datetime.datetime.strptime((str(timeEnd) + ' 23:59:59.999999'), '%Y-%m-%d %H:%M:%S.%f')
-        print(timeStart)
-        print(timeEnd)
         if(ID=='all'):
             if keyWord=="":
                 result=dct_t_l3f11faam_material_history.objects.filter(time__gte=timeStart,time__lte=timeEnd)
@@ -2392,6 +2375,227 @@ class dct_classDbiL3apF11Faam:
             i=i+1
         Table={'ColumnName':ColumnName,'TableData':TableData}
         return Table
+    
+    
+    '''*****************************微信小程序*****************************************'''
+    def dft_dbi_faam_qrcode_kq_process(self,inputData):
+        scanCode=inputData['scanCode']
+        latitude=inputData['latitude']
+        longitude=inputData['longitude']
+        nickname=inputData['nickname']
+        pagephone=inputData['pagephone']
+        timeStamp=int(time.time())
+        workDay=time.strftime("%Y-%m-%d",timeStamp)
+        currentTime=time.strftime("%H:%M:%S",timeStamp)
+        result=dct_t_l3f11faam_factory_sheet.objects.filter(pjcode=scanCode)
+        if result.exists():
+            for line in result:
+                restStart=str(line.reststart)
+                restEnd=str(line.restend)
+                stdWorkStart=str(line.workstart)
+                stdWorkEnd=str(line.workend)
+                targetLatitude=int(line.latitude)
+                targetLongitude=int(line.longitude)
+                delta_latitude=abs(latitude-targetLatitude)
+                delta_longitude=abs(longitude-targetLongitude)
+                if delta_latitude>50000 or delta_longitude>50000:
+                    resp={'employee':nickname,'message':'考勤位置错误'}
+                    return resp
+        else:
+            resp = {'employee': nickname, 'message': '二维码无效'}
+            return resp
+        membersheet=dct_t_l3f11faam_member_sheet.objects.filter(openid=nickname,pjcode=scanCode)
+        if membersheet.exists():
+            for line in membersheet:
+                employee=line.employee
+                standardnum=line.standardnum
+                if employee!="":
+                    unitPrice=line.unitprice
+                    dailysheet=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay)
+                    if dailysheet.exists():
+                        for line_daily in dailysheet:
+                            arriveTimeInt=str(line_daily.arraytime)
+                            leaverTimeInt=str(currentTime)
+                            offWorkTime=round(line_daily.offwork,1)
+                            arriveTimeStr=workDay+" "+arriveTimeInt
+                            leaverTimeStr=workDay+" " +leaverTimeInt
+                            restStartStr=workDay+" "+restStart
+                            restEndStr=workDay+" "+restEnd
+                            stdWorkStartStr=workDay+" "+stdWorkStart
+                            stdWorkEndStr=workDay+" "+stdWorkEnd
+                            arriveTimeInt = time.strptime(arriveTimeStr, "%Y-%m-%d %H:%M:%S")
+                            arriveTimeInt = time.mktime(arriveTimeInt)
+                            leaverTimeInt = time.strptime(leaverTimeStr, "%Y-%m-%d %H:%M:%S")
+                            leaverTimeInt = time.mktime(leaverTimeInt)
+                            restStartInt = time.strptime(restStartStr, "%Y-%m-%d %H:%M:%S")
+                            restStartInt = time.mktime(restStartInt)
+                            restEndInt = time.strptime(restEndStr, "%Y-%m-%d %H:%M:%S")
+                            restEndInt = time.mktime(restEndInt)
+                            stdWorkStartInt = time.strptime(stdWorkStartStr, "%Y-%m-%d %H:%M:%S")
+                            stdWorkStartInt = time.mktime(stdWorkStartInt)
+                            stdWorkEndInt = time.strptime(stdWorkEndStr, "%Y-%m-%d %H:%M:%S")
+                            stdWorkEndInt = time.mktime(stdWorkEndInt)
+                            if arriveTimeInt<restStartInt and leaverTimeInt>restEndInt:
+                                timeInterval=restStartInt-arriveTimeInt+leaverTimeInt-restEndInt
+                            elif arriveTimeInt>=restStartInt and arriveTimeInt<restEndInt:
+                                timeInterval=leaverTimeInt-restEndInt
+                            elif leaverTimeInt>restStartInt and leaverTimeInt<restEndInt:
+                                timeInterval=restStartInt-arriveTimeInt
+                            elif arriveTimeInt>restEndInt:
+                                timeInterval=leaverTimeInt-arriveTimeInt
+                            elif leaverTimeInt<restStartInt:
+                                timeInterval=leaverTimeInt-arriveTimeInt
+                            else:
+                                timeInterval=0
+
+                            hour=int((timeInterval%(3600*24))/3600)
+                            min=int((timeInterval%3600)/60)
+                            WorkTime=hour+round(min/60,1)-offWorkTime
+                            if WorkTime<0:WorkTime=0
+                            if arriveTimeInt<=stdWorkStartInt:
+                                lateWorkFlag=0
+                            else:
+                                lateWorkFlag=1
+                            if leaverTimeInt<=stdWorkEndInt:
+                                earlyLeaveFlag=0
+                            else:
+                                earlyLeaveFlag=1
+                            dayStandardNum=standardnum*WorkTime
+                            dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay,daystandardnum=dayStandardNum).update(leavetime=currentTime,worktime=WorkTime,unitprice=unitPrice,laterflag=lateWorkFlag,earlyflag=earlyLeaveFlag)
+                            resp = {'employee': employee, 'message': '考勤成功'}
+                    else:
+                        dct_t_l3f11faam_daily_sheet.objects.create(pjcode=scanCode,employee=employee,workday=workDay,arraytime=currentTime)
+                        resp={'employee':employee,'message':'考勤成功'}
+
+                else:
+                    resp = {'employee': nickname, 'message': '用户注册未审核'}
+        else:
+            if pagephone=="":
+                resp = {'employee': nickname, 'message': '请输入手机号'}
+                return resp
+            else:
+                member_by_phone_sheet=dct_t_l3f11faam_member_sheet.objects.filter(phone=pagephone)
+                if member_by_phone_sheet.exists():
+                    dct_t_l3f11faam_member_sheet.objects.filter(phone=pagephone).update(openid=nickname)
+                    resp={'employee': nickname, 'message': '注册成功'}
+                else:
+                    resp = {'employee': nickname, 'message': '用户未注册'}
+        return resp
+    def dft_dbi_faam_qrcode_sc_process(self,inputData):
+        scanCode=inputData['scanCode']
+        nickName=inputData['nickname']
+        tiamstamp=int(time.time())
+        currentTime=time.strftime("%Y-%m-%d %H:%M:%S",tiamstamp)
+        codeResult=dct_t_l3f11faam_production.objects.filter(qrcode=scanCode)
+        if codeResult.exists():
+            for line in codeResult:
+                activeTime=line.activetime
+                pjCode=line.pjcode
+                qrcode_owner=line.owner
+                appleGrade=line.typecode
+                memberResult=dct_t_l3f11faam_member_sheet.objects.filter(openid=nickName,pjcode=pjCode)
+                if memberResult.exists():
+                    for line in memberResult:
+                        scan_operator=line.employee
+                        if activeTime=="":
+                            dct_t_l3f11faam_production.objects.filter(qrcode=scanCode).update(activeman=scan_operator,activetime=currentTime)
+                            resp={'flag':True,'employee':scan_operator,'message':'统计成功'}
+                        else:
+                            dct_t_l3f11faam_production.objects.filter(qrcode=scanCode).update(lastactivetime=currentTime)
+                            resp = {'flag': False, 'employee': scan_operator, 'message': '姓名：'+qrcode_owner+'；粒数：'+appleGrade}
+                else:
+                    resp = {'flag': False, 'employee': nickName, 'message': '扫描用户未注册'}
+        else:
+            resp = {'flag': False, 'employee': nickName, 'message': '二维码无效'}
+        return resp
+    def dft_dbi_faam_qrcode_sh_process(self):
+        return True
+
+    def dft_dbi_huitp_xmlmsg_equlable_apply_report(self,inputData):
+        week=inputData['week']
+        pjCode=inputData['pjcode']
+        applyNum=inputData['applynum']
+        labelBaseInfo=inputData['labelBaseInfo']
+        userTabTL=inputData['userTabTL']
+        currentTime=inputData['currentTime']
+        userTabTR=inputData['userTabTR']
+        start = 0
+        end = 0
+        result=dct_t_l3f11faam_production.objects.filter(applyweek=week,pjcode=pjCode).order_by('-sid')
+        if result.exists():
+            line=result[0]
+            lastCode=line.qrcode
+            lastNum=int(lastCode[-5:])
+            if lastNum+applyNum<99999:
+                start=lastNum+1
+                end=start+applyNum
+                for i in range(start,end):
+                    digNum=str(i).rjust(5,'0')
+                    qrcode=labelBaseInfo+digNum
+                    product_result=dct_t_l3f11faam_production.objects.filter(qrcode=qrcode)
+                    if product_result.exists():
+                        pass
+                    else:
+                        dct_t_l3f11faam_production.objects.create(pjcode=pjCode,qrcode=qrcode,owner=userTabTL,typecode=userTabTR,applyweek=week,applytime=currentTime)
+                allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_TRUE
+                comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_YES
+            else:
+                allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
+                comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_NO
+        else:
+            if applyNum<99999:
+                start=1
+                end = start + applyNum
+                for i in range(start, end):
+                    digNum = str(i).rjust(5, '0')
+                    qrcode = labelBaseInfo + digNum
+                    product_result = dct_t_l3f11faam_production.objects.filter(qrcode=qrcode)
+                    if product_result.exists():
+                        pass
+                    else:
+                        dct_t_l3f11faam_production.objects.create(pjcode=pjCode, qrcode=qrcode, owner=userTabTL,
+                                                                  typecode=userTabTR, applyweek=week,
+                                                                  applytime=currentTime)
+                allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_TRUE
+                comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_YES
+            else:
+                allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
+                comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_NO
+        resp={'start':start,'end':end,'allocateResp':allocateResp,'comConfirm':comConfirm}
+        return resp
+    def dft_dbi_huitp_xmlmsg_equlable_userlist_sync_report(self,inputData):
+        userList=inputData['userlist']
+        pjcode=inputData['pjcode']
+        syncStart=inputData['syncstart']
+        currrntNum=0
+        counter=0
+        memberResult=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjcode,onjob=1)
+        if memberResult.exists():
+            total_num=len(memberResult)
+            if  total_num<syncStart+100:
+                for line in memberResult:
+                    counter=counter+1
+                    if syncStart>counter:
+                        continue
+                    workid=line.mid
+                    employee=line.employee
+                    userList=userList+employee+" "+workid+";"
+                    currrntNum=currrntNum+1
+            else:
+                if currrntNum<100:
+                    counter=counter+1
+                    for line in memberResult:
+                        if syncStart>counter:
+                            continue
+                        workid = line.mid
+                        employee = line.employee
+                        userList = userList + employee + " " + workid + ";"
+                        currrntNum = currrntNum + 1
+            comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_YES
+        else:
+            comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_NO
+        resp={'comConfirm':comConfirm}
+        return resp
         
         
         

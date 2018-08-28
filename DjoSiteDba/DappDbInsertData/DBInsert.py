@@ -278,7 +278,15 @@ def select_menu():
             print(result[i].action_name)
         else:
             print('Error')
-        
+            
+def dft_select_menu():
+    result=dct_t_l3f1sym_user_right_menu.objects.filter(menu_code_id=257)
+    if result.exists():
+        for line in result:
+            print(line.sid)
+            print(line.menu_group)
+            print(line.menu_name)
+            print(line.menu_code_id)
 def select_user():
     s='MFUN_WORKING_PROGRAM_NAME_UNIQUE_NBIOT_AGC'
     if s in faam1['group'].keys():
@@ -314,4 +322,4 @@ def insert_factory():
             print(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12])
             #dct_t_l3f11faam_factory_sheet.objects.create(pjcode=row[1],workstart=row[2],workend=row[3],reststart=row[4],restend=row[5],fullwork=row[6],address=row[7],latitude=row[8],longitude=row[9],trafficmoney=row[10],factorybonus=row[11],memo=row[12])
 if __name__=="__main__":
-    insert_factory()
+    insert_type()

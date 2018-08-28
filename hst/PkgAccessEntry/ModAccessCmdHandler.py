@@ -113,7 +113,9 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_F7ads                    = 0x1700
     __HUIREST_ACTIONID_DBA_F8psm                    = 0x1800
     __HUIREST_ACTIONID_DBA_F9gism                   = 0x1900
+    __HUIREST_ACTIONID_DBA_F10oam                   = 0x1A00
     __HUIREST_ACTIONID_DBA_F11faam                  = 0x1B00
+    __HUIREST_ACTIONID_DBA_Fxprcm                   = 0x1C00
     __HUIREST_ACTIONID_DBA_L2snr                    = 0x1F00
     #END FLAG
     __HUIREST_ACTIONID_DBA_max                      = 0X2000
@@ -136,40 +138,51 @@ class ClassHuirestDbaInputCmdHandler:
         if self.publicOutputResultFlag==True:
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F1sym:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.publicReturnResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])    
+                self.publicReturnResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])  
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F2cm:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F2cm_Send_Message(inputStr['parContent'])
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F3dm:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F3dm_Send_Message(inputStr['parContent'])
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F4icm:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F4icm_Send_Message(inputStr['parContent'])
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F5fm:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F5fm_Send_Message(inputStr['parContent']) 
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F6pm:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F6pm_Send_Message(inputStr['parContent']) 
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F7ads:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F7ads_Send_Message(inputStr['parContent']) 
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F8psm:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F8psm_Send_Message(inputStr['parContent'])   
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F9gism:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F9gism_Send_Message(inputStr['parContent'])
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F11faam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F11Faam_Send_Message(inputStr['parContent'])
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_L2snr:
-                pass
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_Snr_Send_Message(inputStr['parContent'])
+            else:
+                self.publicOutputResultFlag=False
         else:
-            self.publicOutputResultFlag==False
-        outputStr= {}
-        outputStr['restTag'] = self.__HUIREST_SVTAG;
-        outputStr['actionId'] = inputStr["actionId"];
-        outputStr['parFlag'] = int(True);
-        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-        parContentStrErr={'sucFlag':int(False), 'errCode':1}
-        if (self.publicOutputResultFlag == True):
-            outputStr['parContent'] = parContentStrSuc;
-        else:
-            outputStr['parContent'] = parContentStrErr;
+            self.publicOutputResultFlag=False
+#         outputStr= {}
+#         outputStr['restTag'] = self.__HUIREST_SVTAG;
+#         outputStr['actionId'] = inputStr["actionId"];
+#         outputStr['parFlag'] = int(True);
+#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
+#         if (self.publicOutputResultFlag == True):
+#             outputStr['parContent'] = parContentStrSuc;
+#         else:
+#             outputStr['parContent'] = parContentStrErr;
         return self.publicReturnResult
 #         return outputStr
    
@@ -370,7 +383,7 @@ class ClassHuirestSensorInputCmdHandler:
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_SENSOR_test1):
                 proc = ModSensorGeneral.ClassModSensorTest1()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
             else:
                 print("ClassHuirestSensorInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_SENSOR_min, self.__HUIREST_ACTIONID_SENSOR_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False

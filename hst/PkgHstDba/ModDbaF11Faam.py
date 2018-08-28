@@ -153,6 +153,15 @@ class ClassDbaF11Faam:
                 DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
                 result=DappDbF11Faam_view.dft_dbi_staff_namelist_query(inputData)
         except Exception:
+            result=0
+        return result
+    
+    def dft_dbi_employee_number_inquery(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_employee_number_inquery(inputData)
+        except Exception:
             result=[]
         return result
     
@@ -392,12 +401,12 @@ class ClassDbaF11Faam:
             result=False
         return result
     def dft_product_stock_table(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
-                result=DappDbF11Faam_view.dft_dbi_product_stock_table(inputData)
-        except Exception:
-            result={}
+#         try:
+#             with transaction.atomic():
+        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+        result=DappDbF11Faam_view.dft_dbi_product_stock_table(inputData)
+#         except Exception:
+#             result={}
         return result
     def dft_get_product_stock_detail(self,inputData):
         try:
@@ -408,12 +417,12 @@ class ClassDbaF11Faam:
             result={}
         return result
     def dft_product_stock_transfer(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
-        result=DappDbF11Faam_view.dft_dbi_product_stock_transfer(inputData)
-#         except Exception:
-#             result=False
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_product_stock_transfer(inputData)
+        except Exception:
+            result=False
         return result
     def dft_product_stock_removal_new(self,inputData):
         try:

@@ -1,12 +1,13 @@
 from django.db import models
 from DappDbF1sym.models import dct_t_l3f1sym_account_primary
+from django.template.defaultfilters import default
 
 # Create your models here.
 class dct_t_l3f2cm_pg_common(models.Model):
     pg_code = models.AutoField(primary_key=True)
     pg_name = models.CharField(max_length=20)
     pg_creator = models.CharField(max_length=10)
-    create_date = models.DateTimeField(auto_now=True, blank=True)
+    create_date = models.DateTimeField(auto_now_add=True, blank=True)
     superintendent = models.CharField(max_length=20, null=True, blank=True)
     telephone = models.CharField(max_length=15, null=True, blank=True)
     department = models.CharField(max_length=50, null=True, blank=True)
@@ -17,7 +18,7 @@ class dct_t_l3f2cm_pg_common(models.Model):
 class dct_t_l3f2cm_project_common(models.Model):
     prj_code = models.AutoField(primary_key=True)
     prj_name = models.CharField(max_length=20)
-    pg_code = models.ForeignKey(dct_t_l3f2cm_pg_common, on_delete=models.CASCADE)
+    pg_code = models.ForeignKey(dct_t_l3f2cm_pg_common, on_delete=models.SET_NULL,null=True)
     prj_creator = models.CharField(max_length=10)
     create_date = models.DateTimeField(auto_now=True)
     superintendent = models.CharField(max_length=20, null=True, blank=True)
@@ -26,17 +27,23 @@ class dct_t_l3f2cm_project_common(models.Model):
     address = models.CharField(max_length=50, null=True, blank=True)
     comments = models.TextField(null=True)
 
+
 class dct_t_l3f2cm_site_common(models.Model):
     site_code = models.AutoField(primary_key=True)
     site_name = models.CharField(max_length=20)
-    prj_code = models.ForeignKey(dct_t_l3f2cm_project_common, on_delete=models.CASCADE)
+    prj_code = models.ForeignKey(dct_t_l3f2cm_project_common, on_delete=models.CASCADE,null=True)
     site_creator = models.CharField(max_length=10)
+    status=models.CharField(max_length=2,null=True)
     create_date = models.DateTimeField(auto_now=True)
     superintendent = models.CharField(max_length=20, null=True, blank=True)
+    department=models.CharField(max_length=50,null=True,blank=True)
     telephone = models.CharField(max_length=15, null=True, blank=True)
+    district=models.CharField(max_length=15,null=True)
+    site_area = models.FloatField(null=True, default=0,blank=True)
+    street = models.CharField(max_length=50, null=True, blank=True)
     address = models.CharField(max_length=50, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=10, decimal_places=6)
-    latitude = models.DecimalField(max_digits=10, decimal_places=6)
+    longitude = models.DecimalField(max_digits=10, decimal_places=6,default=0)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6,default=0)
     comments = models.TextField(null=True, blank=True)
 
 
@@ -44,14 +51,15 @@ class dct_t_l3f2cm_device_common(models.Model):
     # null=true显示的是数据库中该字段可以为空，blank=true表示在admin后台管理界面上该字段可以不填
     dev_code = models.CharField(max_length=20, primary_key=True)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
-    create_date = models.DateTimeField(auto_now=True)
+    create_date = models.DateField(null=True,blank=True)
     socket_id = models.IntegerField(null=True, blank=True)
     hw_type = models.IntegerField(null=True, blank=True)
     hw_ver = models.IntegerField(null=True, blank=True)
     sw_rel = models.IntegerField(null=True, blank=True)
     sw_ver = models.IntegerField(null=True, blank=True)
-    sw_update=models.IntegerField(null=True,default=0)
-    db_update=models.IntegerField(null=True,default=0)
+    sw_update = models.IntegerField(null=True, default=0)
+    db_update = models.IntegerField(null=True, default=0)
+
 
 class dct_t_l3f2cm_favour_site(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -85,11 +93,12 @@ class dct_t_l3f2cm_project_aqyc(models.Model):
 
 class dct_t_l3f2cm_device_aqyc(models.Model):
     dev_code = models.OneToOneField(dct_t_l3f2cm_device_common, on_delete=models.CASCADE, primary_key=True)
-    ip_addr = models.GenericIPAddressField(default="0.0.0.0")
-    mac_addr = models.CharField(max_length=20)
-    cam_url = models.CharField(max_length=100)
-    ctrl_url = models.CharField(max_length=100)
-    ctrl_port = models.IntegerField(default=0)
+    status=models.CharField(null=True,max_length=2)
+    ip_addr = models.GenericIPAddressField(null=True)
+    mac_addr = models.CharField(null=True,max_length=20)
+    cam_url = models.CharField(null=True,max_length=100)
+    ctrl_url = models.CharField(null=True,max_length=100)
+    ctrl_port = models.IntegerField(default=0,null=True)
     rtsp_port = models.IntegerField(default=0)
     service_port = models.IntegerField(default=0)
     ssh_port = models.IntegerField(default=0)
@@ -109,40 +118,47 @@ class dct_t_l3f2cm_site_fstt(models.Model):
     tower_code = models.CharField(max_length=15)
     tower_type = models.IntegerField(default=0, blank=True)
     tower_conf = models.IntegerField(default=0, blank=True)
-    tower_date = models.DateTimeField(default=0, blank=True)
-    install_date = models.DateTimeField(default=0, blank=True)
+    tower_date = models.DateField(default=0, blank=True)
+    install_date = models.DateTimeField(auto_now=True, blank=True)
+    lamp_start=models.TimeField(null=True,default="00:00:00")
+    lamp_stop=models.TimeField(null=True,default="00:00:00")
+    lamp_mode=models.IntegerField(default=0,null=True)
+    snr_light=models.IntegerField(default=0)
 
 
 class dct_t_l3f2cm_device_fstt(models.Model):
     dev_code = models.OneToOneField(dct_t_l3f2cm_device_common, primary_key=True, on_delete=models.CASCADE)
     cam_url = models.CharField(max_length=100)
     ctrl_url = models.CharField(max_length=100)
-    ctrl1_port = models.IntegerField(default=0)
-    rtsp1_port = models.IntegerField(default=0)
-    service_port = models.IntegerField(default=0)
-    ssh_port = models.IntegerField(default=0)
-    vnc_port = models.IntegerField(default=0)
+    ctrl1_port = models.IntegerField
+    rtsp1_port = models.IntegerField
+    service_port = models.IntegerField
+    ssh_port = models.IntegerField
+    vnc_port = models.IntegerField
     ctrl2_port = models.IntegerField(null=True, blank=True)
     rtsp2_port = models.IntegerField(null=True, blank=True)
     ctrl3_port = models.IntegerField(null=True, blank=True)
     rtsp3_port = models.IntegerField(null=True, blank=True)
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+class dct_t_l3f2cm_virtual_key_fhys(models.Model):
+    keyid=models.CharField(primary_key=True,max_length=10)
+    keyname=models.CharField(max_length=20)
+    prj_code=models.ForeignKey(dct_t_l3f2cm_project_common,on_delete=models.CASCADE)
+    ownerid=models.CharField(null=True,max_length=15)
+    ownername=models.CharField(null=True,max_length=20)
+    keystatus=models.CharField(max_length=1)
+    keytype=models.CharField(max_length=1)
+    hwcode=models.CharField(max_length=50)
+    memo=models.TextField(null=True)
+    class Meta:
+        index_together=['keytype']
+
+class dct_t_l3f2cm_key_auth_fhys(models.Model):
+    sid=models.AutoField(primary_key=True)
+    keyid=models.ForeignKey(dct_t_l3f2cm_virtual_key_fhys,on_delete=models.CASCADE)
+    authlevel=models.CharField(max_length=1)
+    authobj=models.IntegerField(default=0)
+    authtype=models.CharField(max_length=1)
+    validnum=models.IntegerField(default=0)
+    validstart=models.DateField(null=True)
+    validend=models.DateField(null=True)

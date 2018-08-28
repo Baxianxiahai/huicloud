@@ -133,3 +133,12 @@ class ClassDbaF1sym():
         except Exception:
             result=False
         return result
+    def dft_dbi_test_response_msg(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                DappDbF1sym_view.dft_dbi_test_response_msg(inputData)
+                result=True
+        except Exception:
+            result=False
+        return result
