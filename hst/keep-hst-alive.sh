@@ -22,10 +22,10 @@ export PYTHONPATH=$PYTHONPATH:/var/www/html/huicloud/DjoSiteDba/
 cmdExec="${pyExec} /var/www/html/huicloud/hst/hstMain.py"
 
 if pgrep -f hstMain.py > /dev/null  ; then
-	echo "hst is running"
+	echo $(date +%Y-%m-%d_%H:%M:%S) "hst is running"
 	exit 1
 else
-	echo "hst not running"
+	echo $(date +%Y-%m-%d_%H:%M:%S) "hst not running, restarting now"
 	cd /var/www/html/huicloud/hst/
 	${pyExec} hstMain.py &
 	cd /
@@ -33,10 +33,10 @@ fi
 
 #Direct method, not used anymore, but keep for later on test purpose!
 	#if pgrep -f hstMain.py > /dev/null; then
-	#	echo "hst is running"
+	#	echo $(date +%Y-%m-%d_%H:%M:%S) "hst is running"
 	#	exit 1
 	#else
-	#	echo "hst not running" 
+	#	echo $(date +%Y-%m-%d_%H:%M:%S) "hst not running, restarting now"
 	#	cd /var/www/html/huicloud/hst/
 	#	python3 hstMain.py > /dev/null &
 	#	cd /
