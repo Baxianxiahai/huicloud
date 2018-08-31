@@ -47,26 +47,57 @@ class dct_t_l3f2cm_site_common(models.Model):
     comments = models.TextField(null=True, blank=True)
 
 
-class dct_t_l3f2cm_device_common(models.Model):
+class dct_t_l3f2cm_device_inventory(models.Model):
     # null=true显示的是数据库中该字段可以为空，blank=true表示在admin后台管理界面上该字段可以不填
     dev_code = models.CharField(max_length=20, primary_key=True)
+    valid_flag=models.BooleanField(default=False)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     create_date = models.DateField(null=True,blank=True)
-    socket_id = models.IntegerField(null=True, blank=True)
     hw_type = models.IntegerField(null=True, blank=True)
-    hw_ver = models.IntegerField(null=True, blank=True)
-    sw_rel = models.IntegerField(null=True, blank=True)
     sw_ver = models.IntegerField(null=True, blank=True)
-    sw_update = models.IntegerField(null=True, default=0)
-    db_update = models.IntegerField(null=True, default=0)
+    zhb_label = models.CharField(max_length=20)
+    upgradeflag = models.IntegerField(default=0)
+    rebootflag = models.IntegerField(default=0)
+    base_port = models.IntegerField(default=0)
+    dust_coefmax = models.FloatField(default=1)
+    dust_coefmin = models.FloatField(default=0)
+    dust_coefK = models.FloatField(default=1)
+    dust_coefB = models.FloatField(default=0)
+    dust_threshold=models.FloatField(default=0)
+    temp_coefmax = models.FloatField(default=1)
+    temp_coefmin = models.FloatField(default=0)
+    temp_coefK = models.FloatField(default=1)
+    temp_coefB = models.FloatField(default=0)
+    humid_coefmax = models.FloatField(default=1)
+    humid_coefmin = models.FloatField(default=0)
+    humid_coefK = models.FloatField(default=1)
+    humid_coefB = models.FloatField(default=0)
+    noise_coefmax = models.FloatField(default=1)
+    noise_coefmin = models.FloatField(default=0)
+    noise_coefK = models.FloatField(default=1)
+    noise_coefB = models.FloatField(default=0)
+    windspd_coefmax = models.FloatField(default=1)
+    windspd_coefmin = models.FloatField(default=0)
+    windspd_coefK = models.FloatField(default=1)
+    windspd_coefB = models.FloatField(default=0)
+    winddir_coefmax = models.FloatField(default=1)
+    winddir_coefmin = models.FloatField(default=0)
+    winddir_coefK = models.FloatField(default=1)
+    winddir_coefB = models.FloatField(default=0)
+    winddir_delta = models.FloatField(default=0)
 
-
+class dct_t_l3f2cm_device_holops(models.Model):
+    cpu_id=models.CharField(primary_key=True,max_length=50)
+    valid_flag=models.BooleanField(default=False)
+    last_update=models.DateTimeField(null=True)
+    dev_code=models.CharField(max_length=20)
+    socket_id=models.IntegerField(default=0)
+    
 class dct_t_l3f2cm_favour_site(models.Model):
     sid = models.AutoField(primary_key=True)
     uid = models.ForeignKey(dct_t_l3f1sym_account_primary, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     create_time = models.DateTimeField(auto_now=True)
-
 
 class dct_t_l3f2cm_project_aqyc(models.Model):
     prj_code = models.OneToOneField(dct_t_l3f2cm_project_common, on_delete=models.CASCADE, primary_key=True)
@@ -92,7 +123,7 @@ class dct_t_l3f2cm_project_aqyc(models.Model):
 
 
 class dct_t_l3f2cm_device_aqyc(models.Model):
-    dev_code = models.OneToOneField(dct_t_l3f2cm_device_common, on_delete=models.CASCADE, primary_key=True)
+    dev_code = models.OneToOneField(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE, primary_key=True)
     status=models.CharField(null=True,max_length=2)
     ip_addr = models.GenericIPAddressField(null=True)
     mac_addr = models.CharField(null=True,max_length=20)
@@ -127,7 +158,7 @@ class dct_t_l3f2cm_site_fstt(models.Model):
 
 
 class dct_t_l3f2cm_device_fstt(models.Model):
-    dev_code = models.OneToOneField(dct_t_l3f2cm_device_common, primary_key=True, on_delete=models.CASCADE)
+    dev_code = models.OneToOneField(dct_t_l3f2cm_device_inventory, primary_key=True, on_delete=models.CASCADE)
     cam_url = models.CharField(max_length=100)
     ctrl_url = models.CharField(max_length=100)
     ctrl1_port = models.IntegerField

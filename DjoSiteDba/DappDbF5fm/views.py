@@ -319,7 +319,7 @@ class dct_classDbiL3apF5fm:
         inputDate=inputData['inputDate']
         inputDate=datetime.datetime.strptime(inputDate,"%Y-%m-%d")
         alarmtype=inputData['alarmtype']
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -457,7 +457,7 @@ class dct_classDbiL3apF5fm:
     def dft_dbi_aqyc_dev_alarmhistory_realtime_req(self,inputData):
         statcode=inputData['statcode']
         alarm_type=inputData['alarmtype']
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statcode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statcode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -989,7 +989,7 @@ class dct_classDbiL3apF5fm:
         vcrlink=[]
         vcrlist=[]
         devCode=""
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code

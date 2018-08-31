@@ -4,7 +4,7 @@ Created on 2018年7月13日
 
 @author: Administrator
 '''
-
+import time,json
 from PkgHstDba import ModDbaF1sym
 from PkgHstDba import ModDbaF2cm
 from PkgHstDba import ModDbaF3dm
@@ -466,4 +466,35 @@ class ClassDbaMainEntry():
         return False
     def dft_Snr_Send_Message(self,inputData): 
         return False
+    
+class ClassHCUDbaMainEntry():
+    def dft_F2cm_Send_Message(self,socketId,inputData): 
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_response_HCU_data(socketId,inputData)
+        return result
+    
+    def dft_F2cm_Heart_Data_Report(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_device_heart_report_data(socketId, inputData)
+        return result
+    
+    
+    
+    def dft_F3dm_Data_Current_Report(self,socketId,inputData):
+        F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
+        FrUsr=inputData['FrUsr']
+        ToUsr=inputData["ToUsr"]
+        dev_code=FrUsr.split("_")[2]
+        if dev_code=="AQYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        else:
+            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            msg_len=len(json.dumps(result))
+            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            return Msg_final
+        
+    
+            
+    
         

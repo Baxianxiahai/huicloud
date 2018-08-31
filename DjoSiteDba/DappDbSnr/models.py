@@ -1,5 +1,5 @@
 from django.db import models
-from DappDbF2cm.models import dct_t_l3f2cm_device_common,dct_t_l3f2cm_site_common
+from DappDbF2cm.models import dct_t_l3f2cm_device_inventory,dct_t_l3f2cm_site_common
 
 # Create your models here.
 class dct_t_l2snr_sensor_type(models.Model):
@@ -23,7 +23,7 @@ class dct_t_l2snr_sensor_ctrl(models.Model):
 
 class dct_t_l2snr_dust(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     tsp = models.FloatField(default=0,blank=True, verbose_name="TSP")
     pm01 = models.FloatField(default=0,blank=True, verbose_name="PM0.1")
     pm25 = models.FloatField(default=0,blank=True, verbose_name="PM2.5")
@@ -35,7 +35,7 @@ class dct_t_l2snr_dust(models.Model):
 
 class dct_t_l2snr_noise(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     noise = models.FloatField(default=0,blank=True, verbose_name="噪声")
     dataflag = models.CharField(max_length=1)
     report_data = models.DateField(auto_now=True)
@@ -44,7 +44,7 @@ class dct_t_l2snr_noise(models.Model):
 
 class dct_t_l2snr_temperature(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     temperature = models.FloatField(default=0,blank=True, verbose_name="温度值")
     dataflag = models.CharField(max_length=1)
     report_data = models.DateField(auto_now=True)
@@ -53,7 +53,7 @@ class dct_t_l2snr_temperature(models.Model):
 
 class dct_t_l2snr_humidity(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     humidity = models.FloatField(default=0,blank=True, verbose_name="湿度值")
     dataflag = models.CharField(max_length=1)
     report_data = models.DateField(auto_now=True)
@@ -62,7 +62,7 @@ class dct_t_l2snr_humidity(models.Model):
 
 class dct_t_l2snr_winddir(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     windir = models.FloatField(default=0,blank=True, verbose_name="风向")
     dataflag = models.CharField(max_length=1)
     report_data = models.DateField(auto_now=True)
@@ -71,7 +71,7 @@ class dct_t_l2snr_winddir(models.Model):
 
 class dct_t_l2snr_windspd(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     windspd = models.FloatField(default=0,blank=True,  verbose_name="风速")
     dataflag = models.CharField(max_length=1)
     report_data = models.DateField(auto_now=True)

@@ -4,11 +4,13 @@ Created on 2018年7月12日
 
 @author: Administrator
 '''
-
-import os
+import time
+import os,sys
 import pymysql
-os.environ['DJANGO_SETTINGS_MODULE']='DjoSiteDba.settings'
 import django
+# sys.path.append('C:\wamp\www\huicloud\DjoSiteDba')
+sys.path.append('/var/www/html/huicloud/DjoSiteDba')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 django.setup()
 from DappDbF1sym.models import dct_t_l3f1sym_menu_code_mapping,dct_t_l3f1sym_user_right_action,dct_t_l3f1sym_user_right_menu,dct_t_l3f1sym_account_primary,dct_t_l3f1sym_account_secondary
 from DappDbF1sym import views
@@ -298,17 +300,33 @@ def show_menu():
         print(i)
         
 def insert_type():
-    db=pymysql.connect('127.0.0.1','root','bxxhbxxh','bxxhl1l2l3')
+    db=pymysql.connect(host='127.0.0.1',user='root',password='xiaohui@naxian',database='bxxhl1l2l3',charset='utf8')
+#     db=pymysql.connect('127.0.0.1','root','bxxhbxxh','bxxhl1l2l3')
+    cursor=db.cursor()
+    sql='SELECT * FROM t_l3f11faam_typesheet'
+    cursor.execute(sql)
+    results=cursor.fetchall()
+    i=0
+    for row in results:
+        i=i+1
+        if dct_t_l3f11faam_type_sheet.objects.filter(typecode=row[2]).exists():
+            print(row[2]+"IS EXIST")
+        else:
+            dct_t_l3f11faam_type_sheet.objects.create(sid=i,pjcode=row[1],typecode=row[2],applenum=row[3],appleweight=row[4],applegrade=row[5],memo=row[6])
+        print(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+        
+def type_del():
+    dct_t_l3f11faam_type_sheet.objects.all().delete()
+def show_type():
+    db=pymysql.connect(host='127.0.0.1',user='root',password='xiaohui@naxian',database='bxxhl1l2l3',charset='utf8')
+#     db=pymysql.connect(host='127.0.0.1',user='root',password='bxxhbxxh',database='bxxhl1l2l3',charset='utf8')
     cursor=db.cursor()
     sql='SELECT * FROM t_l3f11faam_typesheet'
     cursor.execute(sql)
     results=cursor.fetchall()
     for row in results:
-        if dct_t_l3f11faam_type_sheet.objects.filter(typecode=row[2]).exists():
-            pass
-        else:
-            dct_t_l3f11faam_type_sheet.objects.create(pjcode=row[1],typecode=row[2],applenum=row[3],appleweight=row[4],applegrade=row[5],memo=row[6])
         print(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+
 def insert_factory():
     db=pymysql.connect('127.0.0.1','root','bxxhbxxh','bxxhl1l2l3')
     cursor=db.cursor()
@@ -322,4 +340,9 @@ def insert_factory():
             print(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12])
             #dct_t_l3f11faam_factory_sheet.objects.create(pjcode=row[1],workstart=row[2],workend=row[3],reststart=row[4],restend=row[5],fullwork=row[6],address=row[7],latitude=row[8],longitude=row[9],trafficmoney=row[10],factorybonus=row[11],memo=row[12])
 if __name__=="__main__":
-    insert_type()
+    insert_menu_code_mapping()
+    time.sleep(3)
+    insert_action_menu()
+    time.sleep(3)
+    insert_right_menu()
+    time.sleep(3)

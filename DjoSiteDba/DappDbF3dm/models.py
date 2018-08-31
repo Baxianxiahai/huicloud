@@ -1,10 +1,10 @@
 from django.db import models
-from DappDbF2cm.models import dct_t_l3f2cm_device_common,dct_t_l3f2cm_site_common
+from DappDbF2cm.models import dct_t_l3f2cm_device_inventory,dct_t_l3f2cm_site_common
 from email.policy import default
 # Create your models here.
 class dct_t_l3f3dm_current_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     report_time = models.DateTimeField(auto_now=True)
     tsp = models.FloatField(default=0, verbose_name="TSP")
@@ -22,7 +22,7 @@ class dct_t_l3f3dm_current_report_aqyc(models.Model):
 
 class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     report_date = models.DateTimeField(auto_now=True)
     hourminindex = models.IntegerField(default=0)
@@ -41,7 +41,7 @@ class dct_t_l3f3dm_minute_report_aqyc(models.Model):
 
 class dct_t_l3f3dm_alarm_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     alarmflag = models.CharField(max_length=1)
     alarmseverity = models.IntegerField(default=0, blank=True)
@@ -57,7 +57,7 @@ class dct_t_l3f3dm_alarm_report_aqyc(models.Model):
 
 class dct_t_l3f3dm_current_report_fhys(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     report_time = models.DateTimeField(auto_now=True)
     door_1 = models.IntegerField(default=0,null=True)
@@ -81,7 +81,7 @@ class dct_t_l3f3dm_current_report_fhys(models.Model):
 
 class dct_t_l3f3dm_minute_report_fhys(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     report_date = models.DateTimeField(auto_now_add=True)
     hourminindex = models.IntegerField(default=0)
@@ -106,7 +106,7 @@ class dct_t_l3f3dm_minute_report_fhys(models.Model):
 
 class dct_t_l3f3dm_alarm_report_fhys(models.Model):
     sid=models.AutoField(primary_key=True)
-    dec_code=models.ForeignKey(dct_t_l3f2cm_device_common,on_delete=models.CASCADE)
+    dec_code=models.ForeignKey(dct_t_l3f2cm_device_inventory,on_delete=models.CASCADE)
     site_code=models.ForeignKey(dct_t_l3f2cm_site_common,on_delete=models.CASCADE)
     alarmflag=models.CharField(max_length=1,null=True)
     alaemseverity=models.IntegerField(default=0)
@@ -118,7 +118,7 @@ class dct_t_l3f3dm_alarm_report_fhys(models.Model):
 
 class dct_t_l3f3dm_minute_report_fstt(models.Model):
     sid = models.AutoField(primary_key=True)
-    dev_code = models.ForeignKey(dct_t_l3f2cm_device_common, on_delete=models.CASCADE)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
     report_date = models.DateTimeField(auto_now=True)
     hourminindex = models.IntegerField(default=0)

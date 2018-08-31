@@ -456,6 +456,40 @@ class ClassHuirestSpecialInputCmdHandler:
         else:
             outputStr['parContent'] = self.publicOutputResultFlag;
         return outputStr
+    
+
+class ClassHCUReportDataToDba:
+    __HCUDATAMSGIDCURRENTREPORT=0X3090
+    __HCUDATAMSGIDCPUIDRAND=0X5CFF
+    __HCUDATAMSGIDCPUIDREPORT=0XF0C0
+    __HCUDATAMSGIDCONFIRM=0XF040
+    def __init__(self):
+        self.publicOutputResultFlag = True
+    def inputCmdHandlerEntry(self,inputData):
+        socketId=inputData['socketid']
+        inputData=json.loads(inputData['data'])
+        if inputData['ToUsr']!='XHZN' and inputData['ToUsr']!='XHTS':
+            self.publicOutputResultFlag=False
+        if self.publicOutputResultFlag==False:
+            return 
+        else:
+            if inputData['MsgId']==self.__HCUDATAMSGIDCPUIDREPORT:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F2cm_Send_Message(socketId,inputData)
+                return result
+            elif inputData['MsgId']==self.__HCUDATAMSGIDCURRENTREPORT:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F3dm_Data_Current_Report(socketId, inputData)
+                return result
+            elif inputData['MsgId']==self.__HCUDATAMSGIDCPUIDRAND:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F2cm_Heart_Data_Report(socketId, inputData)
+                return result
+            else:
+                return
+                
+            
+        
 
 
 

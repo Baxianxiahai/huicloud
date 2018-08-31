@@ -111,7 +111,7 @@ class dct_classDbiL3apF4icm:
         status=inputData['status']
         paraList=inputData['ParaList']
         result=dct_t_l2snr_sensor_ctrl.objects.filter(dev_code=devCode,snrtype=sensorCode)
-        resp=dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode)
+        resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         socket_id=""
         for line in resp:
             socket_id=line.socket_id
@@ -191,7 +191,7 @@ class dct_classDbiL3apF4icm:
     def dft_dbi_get_hcu_camweb_link(self,inputData):
         camweb=[]
         statcode=inputData['statcode']
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statcode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statcode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -226,7 +226,7 @@ class dct_classDbiL3apF4icm:
         return hsmmp_list
     def dft_dbi_get_camera_status(self,inputData):
         statCode=inputData['statcode']
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         resp=[]
         if result.exists():
             for line in result:
@@ -285,7 +285,7 @@ class dct_classDbiL3apF4icm:
     def dft_dbi_get_three_camera_status(self,inputData):
         statCode=inputData['statcode']
         resp=[]
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -443,7 +443,7 @@ class dct_classDbiL3apF4icm:
         adj=inputData['adj']
         camID=inputData['camid']
         devCode=""
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -520,7 +520,7 @@ class dct_classDbiL3apF4icm:
         adj=inputData['adj']
         camID=inputData['camid']
         devCode=""
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -597,7 +597,7 @@ class dct_classDbiL3apF4icm:
         adj=inputData['adj']
         camID=inputData['camid']
         devCode=""
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -673,7 +673,7 @@ class dct_classDbiL3apF4icm:
         statCode=inputData['statCode']
         camID=inputData['camid']
         devCode=""
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code
@@ -739,7 +739,7 @@ class dct_classDbiL3apF4icm:
     def dft_dbi_aqyc_tbswr_gettempstatus(self,inputData):
         uid=inputData("uid")
         statCode=inputData('statcode')
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code

@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     'DappDbF10oam',
     'DappDbF11faam',
     'DappDbFxprcm',
-    'DappDbSnr',
+    'DappDbSnr'
 ]
 
 MIDDLEWARE = [
@@ -101,13 +101,33 @@ WSGI_APPLICATION = 'DjoSiteDba.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # Comments Options setting will remove running WARNING.
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'NAME': 'djztest6',
+#         'USER': 'root',
+#         'PASSWORD': LOCAL_DB_PASSWORD,
+#         'HOST': '127.0.0.1',
+#         'PORT': 3306,
+# #         'OPTIONS': {
+# #             'autocommit': True,
+# #             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+# #         },
+#         'CONN_MAX_AGE': None,
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'djztest6',
-        'USER': 'root',
-        'PASSWORD': LOCAL_DB_PASSWORD,
+        'NAME': 'Django',
+        'USER': 'mfunhcu',
+        'PASSWORD': 'xiaohui@bxxh',
         'HOST': '127.0.0.1',
         'PORT': 3306,
 #         'OPTIONS': {
@@ -117,7 +137,6 @@ DATABASES = {
         'CONN_MAX_AGE': None,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators

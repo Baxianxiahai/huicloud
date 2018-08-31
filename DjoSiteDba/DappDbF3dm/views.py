@@ -1,5 +1,5 @@
 from django.shortcuts import render
-import os,glob
+import os,json
 from django.db.models import Q
 from django.db.models.functions import Concat
 from DappDbF1sym.models import *
@@ -322,7 +322,7 @@ class dct_classDbiL3apF3dm():
         vcrname=[]
         vcrlink=[]
         vcrlist=[]
-        result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code__site_code__dct_t_l3f2cm_device_common=statCode)
+        result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code__site_code__dct_t_l3f2cm_device_inventory=statCode)
         if result.exists():
             for line in result:
                 vcrname.append("RTSP")
@@ -1044,3 +1044,54 @@ class dct_classDbiL3apF3dm():
                 temp={'name':file_name,'url':file_url}
                 pic_list.append(temp)
         return pic_list
+
+class dct_t_HCU_Data_Report():
+    def __init__(self):
+        pass
+    def dft_dbi_aqyc_current_report(self,socketId,inputData):
+        devCode=inputData['FrUsr']
+        ServerName=inputData['ToUsr']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        if result.exists():
+            currentTime=inputData['CrTim']
+            currentData = inputData['IeCnt']
+            pm1d0Value = currentData['pm1d0Value']
+            pm2d5Value = currentData['pm2d5Value']
+            pm10Value = currentData['pm10Value']
+            tspValue = currentData['tspValue']
+            tempValue = currentData['tempValue']
+            humidValue = currentData['humidValue']
+            winddirValue = currentData['winddirValue']
+            windspdValue = currentData['windspdValue']
+            noiseValue = currentData['noiseValue']
+            # lightstrValue = currentData['lightstrValue']
+            # so2Value = currentData["so2Value"]
+            # co1Value = currentData["co1Value"]
+            # co2Value = currentData["co2Value"]
+            # no1Value = currentData["no1Value"]
+            # hsValue = currentData["hsValue"]
+            # hchoValue = currentData["hchoValue"]
+            # toxicgasValue = currentData["toxicgasValue"]
+            # rssiValue = ["rssiValue"]
+            # workContMins = currentData["workContMins"]
+            # pwrInd = currentData["pwrInd"]
+            timeArray=time.localtime(currentTime)
+            hourminindex=timeArray.tm_hour*60+timeArray.tm_min
+            dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,
+                                                           hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,
+                                                           pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
+                                                           humidity=humidValue,winddir=winddirValue,windspd=windspdValue)
+            if dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode,site_code=result[0].site_code).exists():
+                dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode,site_code=result[0].site_code).update(report_time=datetime.datetime.now(),tsp=tspValue,pm01=pm1d0Value,
+                                                           pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
+                                                           humidity=humidValue,winddir=winddirValue,windspd=windspdValue)
+            else:
+                dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,tsp=tspValue, pm01=pm1d0Value,pm25=pm2d5Value, pm10=pm10Value, noise=noiseValue, temperature=tempValue,humidity=humidValue, winddir=winddirValue, windspd=windspdValue)
+            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
+            msg_len=len(json.dumps(result))
+            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
+        else:
+            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            msg_len=len(json.dumps(result))
+            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+        return Msg_final

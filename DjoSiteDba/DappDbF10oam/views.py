@@ -49,7 +49,7 @@ class dct_DappF10Class():
         devCode = inputData['devCode']
         latitude=inputData['latitude']
         longitude=inputData['longitude']
-        result=dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if result.exists():
             site_code=result[0].site_code
             site_code.latitude=latitude

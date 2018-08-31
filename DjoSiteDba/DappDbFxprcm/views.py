@@ -141,7 +141,7 @@ class dct_classDbiL3apFxPrcm:
 
     def dft_dbi_get_three_camera_status(self,statCode):
         resp=[]
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
                 devCode=line.dev_code

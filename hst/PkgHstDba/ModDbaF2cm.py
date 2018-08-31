@@ -5,7 +5,7 @@ Created on 2018年8月20日
 @author: Administrator
 '''
 import sys
-import os
+import os,time
 import django
 sys.path.append('../DjoSiteDba/')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
@@ -28,30 +28,30 @@ class classDappDbF2cm:
         return result
     
     def dft_dbi_user_all_projpglist_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_user_all_projpglist_req()
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_user_all_projpglist_req()
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_user_all_projlist_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_user_all_projlist_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_user_all_projlist_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_user_projpglist_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_user_projpglist_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_user_projpglist_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_all_pgnum_inquery(self):
@@ -483,6 +483,28 @@ class classDappDbF2cm:
 #         except Exception:
 #             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
+    
+
+class HCUF2cmDataBaseConfirm():
+    
+    def dft_dbi_response_HCU_data(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
+                result=DappDbF2cm_view.dft_dbi_response_HCU_data(socketId,inputData)
+                return result
+        except Exception:
+            return False
+    def dft_dbi_device_heart_report_data(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
+                result=DappDbF2cm_view.dft_dbi_device_heart_report(socketId,inputData)
+                return result
+        except Exception:
+            msg_final = {'socketid': socketId,'data': {'ToUsr': inputData['FrUsr'], 'FrUsr': inputData['ToUsr'], "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': 152, "IeCnt": {"rand":0},"FnFlg": 0}}
+            return msg_final
+        
     
     
     

@@ -22,7 +22,7 @@ class dct_classDbiL3apF11Faam:
         sessionid=inputData
         result=dct_t_l3f1sym_user_login_session.objects.get(session_id=sessionid)
         if result:
-            userLever=result.uid.grade_lever
+            userLever=result.uid.grade_level
         else:
             userLever=''
         return userLever
@@ -404,7 +404,7 @@ class dct_classDbiL3apF11Faam:
         file_link=self.__MFUN_HCU_FAAM_EMPLOYEE_PHOTO_WWW_DIR+photo
         if(os.path.exists(file_link)):
             file_new_name=mid+'.jpg'
-            file_link_new='D:/sss'+file_new_name
+            file_link_new=self.__MFUN_HCU_FAAM_EMPLOYEE_PHOTO_WWW_DIR+file_new_name
             os.chmod(file_link,stat.S_IRWXU|stat.S_IRWXG|stat.S_IRWXO)
             if os.path.exists(file_link_new):
                 os.unlink(file_link_new)
@@ -1037,14 +1037,12 @@ class dct_classDbiL3apF11Faam:
             result=dct_t_l3f11faam_production.objects.filter(pjcode=pjCode)
             for line in result:
                 activeTime=line.activetime
-#                 activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
                 if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
                     buffer.append(line)
         else:
             result = dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),Q(owner__icontains=keyWord)|Q(typecode__icontains=keyWord))
             for line in result:
                 activeTime=line.activetime
-#                 activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
                 if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
                     buffer.append(line)
         if len(buffer)==0:

@@ -1,11 +1,13 @@
 from django.shortcuts import render
 import random
 import time
+import datetime
 from DappDbF2cm.models import *
 from DappDbF1sym.models import *
 from DappDbF3dm.models import *
 from django.db.models import Q
 from DappDbF10oam.models import *
+import json
 
 # Create your views here.
 class dct_classDbiL3apF2cm:
@@ -272,7 +274,7 @@ class dct_classDbiL3apF2cm:
         site_list=self.__dft_dbi_get_user_auth_site(inputData)
         for i in range(len(site_list)):
             statcode=site_list[i]['id']
-            result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statcode)
+            result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statcode)
             if result.exists():
                 for line in result:
                     devcode=line.dev_code
@@ -808,7 +810,7 @@ class dct_classDbiL3apF2cm:
         hcuTable=[]
         for i in range(startSeq+query_length):
             statCode=siteList[i]['id']
-            result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+            result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
             if result.exists():
                 for line in result:
                     devcode=line.dev_code
@@ -843,7 +845,7 @@ class dct_classDbiL3apF2cm:
 
     def dft_dbi_site_devlist_req(self,inputData):
         statCode=inputData['statcode']
-        result=dct_t_l3f2cm_device_common.objects.filter(site_code_id=statCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
         devList=[]
         if result.exists():
             for line in result:
@@ -858,11 +860,11 @@ class dct_classDbiL3apF2cm:
 
     def dft_dbi_aqyc_deviceinfo_delete(self,inputData):
         devCode=inputData['devcode']
-        dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode).delete()
+        dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode).delete()
         return True
 
     def dft_dbi_all_hcunum_inquery(self):
-        result=dct_t_l3f2cm_device_common.objects.all()
+        result=dct_t_l3f2cm_device_inventory.objects.all()
         return len(result)
     def dft_dbi_aqyc_devinfo_update(self,inputData):
         devCode=inputData['DevCode']
@@ -876,7 +878,7 @@ class dct_classDbiL3apF2cm:
             devstatus='Y'
         else:
             devstatus='N'
-        devCode1=dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode)
+        devCode1=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if devCode1.exists():
             result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
             if result.exists():
@@ -887,7 +889,7 @@ class dct_classDbiL3apF2cm:
                 result.cam_url=videourl
                 result.save()
         else:
-            dct_t_l3f2cm_device_common.objects.create(dev_code=devCode,site_code_id=statcode,create_date=starttime)
+            dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode,site_code_id=statcode,create_date=starttime)
             dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,status=devstatus,cam_url=videourl)
         status="C"
         print(statcode)
@@ -916,11 +918,11 @@ class dct_classDbiL3apF2cm:
         timestamp = int(time.time())
         timeStamp = time.localtime(timestamp)
         openDate = time.strftime("%Y-%m-%d", timeStamp)
-        result=dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if result.exists():
-            dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode).update(site_code_id=statCode,create_date=openDate)
+            dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode).update(site_code_id=statCode,create_date=openDate)
         else:
-            dct_t_l3f2cm_device_common.objects.create(dev_code=devCode,site_code_id=statCode,create_date=openDate)
+            dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode,site_code_id=statCode,create_date=openDate)
         status="A"
         dct_t_l3f2cm_site_common.objects.filter(site_code=statCode).update(status=status,latitude=latitude,longitude=longitude)
         return True
@@ -960,7 +962,7 @@ class dct_classDbiL3apF2cm:
         devCode=inputData['devcode']
         latitude=inputData['latitude']
         longitude=inputData['longitude']
-        result=dct_t_l3f2cm_device_common.objects.filter(dev_code=devCode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if result.exists():
             for line in result:
                 statCode=line.site_code
@@ -1080,14 +1082,14 @@ class dct_classDbiL3apF2cm:
 
     def dft_dbi_fhys_deviceinfo_delete(self,inputData):
         devcode=inputData['devcode']
-        result=dct_t_l3f2cm_device_common.objects.filter(dev_code=devcode)
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devcode)
         if result.exists():
             for line in result:
                 statCode=line.site_code
                 status="I"
                 statCode.status=status
                 statCode.save()
-        dct_t_l3f2cm_device_common.objects.filter(dev_code=devcode).delete()
+        dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devcode).delete()
         return True
 
     def dft_dbi_all_projkeyuser_process(self,inputData):
@@ -1417,7 +1419,123 @@ class dct_classDbiL3apF2cm:
         return bindinfo
 
 
-
+class HCUReportAndConfirm():
+    def __init__(self):
+        pass
+    def dft_dbi_response_HCU_data(self,socketId,inputData):
+        InsertTime=datetime.datetime.now()
+        ServerName=inputData["ToUsr"]
+        cpuId=inputData['IeCnt']['cpuId']
+        dev_Code = inputData['FrUsr']
+        if cpuId=="" or cpuId==None:
+            return
+        result=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpuId)
+        if result.exists():
+            result.update(last_update=datetime.datetime.now(), dev_code=dev_Code, socket_id=socketId)
+            for line in result:
+                if line.valid_flag:
+                    resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)
+                    if resp.exists():
+                        for line_dev in resp:
+                            hwtype=line_dev.hw_type
+                            ngrokPort=line_dev.base_port
+                            hcuLable=line_dev.dev_code
+                            zhbLable=line_dev.zhb_label
+                            upgradeFlag=line_dev.upgradeflag
+                            restartRightNow=line_dev.rebootflag
+                            calWinddir=line_dev.winddir_delta
+                            calWinddirCoefMax=line_dev.winddir_coefmax
+                            calWinddirCoefMin=line_dev.winddir_coefmin
+                            calWinddirCoefK=line_dev.winddir_coefK
+                            calWinddirCoefB=line_dev.winddir_coefB
+                            calPm25CoefMax=line_dev.dust_coefmax
+                            calPm25CoefMin=line_dev.dust_coefmin
+                            calPm25CoefK=line_dev.dust_coefK
+                            calPm25CoefB=line_dev.dust_coefB
+                            dust_threshold=line_dev.dust_threshold
+                            calTempCoefMax=line_dev.temp_coefmax
+                            calTempCoefMin=line_dev.temp_coefmin
+                            calTempCoefK=line_dev.temp_coefK
+                            calTempCoefB=line_dev.temp_coefB
+                            calHumidCoefMax=line_dev.humid_coefmax
+                            calHumidCoefMin=line_dev.humid_coefmin
+                            calHumidCoefK=line_dev.humid_coefK
+                            calHumidCoefB=line_dev.humid_coefB
+                            calWindspdCoefMax=line_dev.windspd_coefmax
+                            calWindspdCoefMin=line_dev.windspd_coefmin
+                            calWindspdCoefK=line_dev.winddir_coefK
+                            calWindspdCoefB=line_dev.windspd_coefB
+                            calNoiseCoefMax=line_dev.noise_coefmax
+                            calNoiseCoefMin=line_dev.noise_coefmin
+                            calNoiseCoefK=line_dev.noise_coefK
+                            calNoiseCoefB=line_dev.noise_coefB
+                            msgIeCnt = {
+                                "hwType": hwtype,
+                                'ngrokPort': ngrokPort,
+                                'hcuLable': hcuLable,
+                                'zhbLable': zhbLable,
+                                'upgradeFlag': upgradeFlag,
+                                'restartRightNow': restartRightNow,
+                                'calWinddir': calWinddir,
+                                'calPm25CoefMax': calPm25CoefMax,
+                                'calPm25CoefMin': calPm25CoefMin,
+                                'calPm25CoefK': calPm25CoefK,
+                                'calPm25CoefB': calPm25CoefB,
+                                'calPm25ThdCannon':dust_threshold,
+                                'calTempCoefMax': calTempCoefMax,
+                                'calTempCoefMin': calTempCoefMin,
+                                'calTempCoefK': calTempCoefK,
+                                'calTempCoefB': calTempCoefB,
+                                'calHumidCoefMax': calHumidCoefMax,
+                                'calHumidCoefMin': calHumidCoefMin,
+                                'calHumidCoefK': calHumidCoefK,
+                                'calHumidCoefB': calHumidCoefB,
+                                'calWinddirCoefMax': calWinddirCoefMax,
+                                'calWinddirCoefMin': calWinddirCoefMin,
+                                'calWinddirCoefK': calWinddirCoefK,
+                                'calWinddirCoefB': calWinddirCoefB,
+                                'calWindspdCoefMax': calWindspdCoefMax,
+                                'calWindspdCoefMin': calWindspdCoefMin,
+                                'calWindspdCoefK': calWindspdCoefK,
+                                'calWindspdCoefB': calWindspdCoefB,
+                                'calNoiseCoefMax': calNoiseCoefMax,
+                                'calNoiseCoefMin': calNoiseCoefMin,
+                                'calNoiseCoefK': calNoiseCoefK,
+                                'calNoiseCoefB': calNoiseCoefB,
+                            }
+                            msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
+                            msg_len=len(json.dumps(msg))
+                            msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":msgIeCnt,"FnFlg":0}}
+                            return msg_final
+                    else:
+                        msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{},"FnFlg":0}}
+                        msg_len=len(json.dumps(msg))
+                        msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
+                        return msg_final
+                    
+                else:
+                    msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{},"FnFlg":0}}
+                    msg_len=len(json.dumps(msg))
+                    msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
+                    return msg_final   
+        else:
+            dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId,dev_code=dev_Code,socket_id=socketId,last_update=InsertTime)
+            return False
+        
+    def dft_dbi_device_heart_report(self,socketId,inputData):
+        dev_Code = inputData['FrUsr']
+        ServerName = inputData["ToUsr"]
+        dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(last_update=datetime.datetime.now(),socket_id=socketId)
+        msg = {'socketid': socketId,
+               'data': {'ToUsr': dev_Code, 'FrUsr': ServerName, "CrTim": int(time.time()),
+                        'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': 115, "IeCnt": {"rand":random.randint(10000,9999999)}, "FnFlg": 0}}
+        msg_len = len(json.dumps(msg))
+        msg_final = {'socketid': socketId,
+                     'data': {'ToUsr': dev_Code, 'FrUsr': ServerName, "CrTim": int(time.time()),
+                              'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': msg_len, "IeCnt": {"rand":random.randint(10000,9999999)},
+                              "FnFlg": 0}}
+        return msg_final
+        
 
 
 
