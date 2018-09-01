@@ -90,7 +90,7 @@ class dct_t_l3f2cm_device_holops(models.Model):
     cpu_id=models.CharField(primary_key=True,max_length=50)
     valid_flag=models.BooleanField(default=False)
     last_update=models.DateTimeField(null=True)
-    dev_code=models.CharField(max_length=20)
+    dev_code=models.CharField(max_length=20,null=True)
     socket_id=models.IntegerField(default=0)
     
 class dct_t_l3f2cm_favour_site(models.Model):

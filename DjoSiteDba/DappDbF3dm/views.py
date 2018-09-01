@@ -1087,11 +1087,11 @@ class dct_t_HCU_Data_Report():
                                                            humidity=humidValue,winddir=winddirValue,windspd=windspdValue)
             else:
                 dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,tsp=tspValue, pm01=pm1d0Value,pm25=pm2d5Value, pm10=pm10Value, noise=noiseValue, temperature=tempValue,humidity=humidValue, winddir=winddirValue, windspd=windspdValue)
-            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
+            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
         else:
-            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return Msg_final

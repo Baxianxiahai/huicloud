@@ -18,6 +18,7 @@ from PkgHstDba import ModDbaF10oam
 from PkgHstDba import ModDbaF11Faam
 from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
+from PkgAccessEntry.ModAccessDict import *
 class ClassDbaMainEntry():
     def __init__(self):
         pass
@@ -489,9 +490,9 @@ class ClassHCUDbaMainEntry():
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:
-            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0X3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0X3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
         
     

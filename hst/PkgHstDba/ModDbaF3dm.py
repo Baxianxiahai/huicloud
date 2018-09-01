@@ -158,10 +158,10 @@ class HCUF3dmDataBaseConfirm():
                 DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
                 result=DappDbF3dm_view.dft_dbi_aqyc_current_report(socketId, inputData)
         except Exception:
-            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            msg_final={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-        return msg_final
+            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+        return result
     
     
     

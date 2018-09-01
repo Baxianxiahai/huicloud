@@ -1431,10 +1431,10 @@ class HCUReportAndConfirm():
             return
         result=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpuId)
         if result.exists():
-            result.update(last_update=datetime.datetime.now(), dev_code=dev_Code, socket_id=socketId)
+            result.update(last_update=datetime.datetime.now(),socket_id=socketId)
             for line in result:
                 if line.valid_flag:
-                    resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)
+                    resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=line.dev_code)
                     if resp.exists():
                         for line_dev in resp:
                             hwtype=line_dev.hw_type
@@ -1519,7 +1519,7 @@ class HCUReportAndConfirm():
                     msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
                     return msg_final   
         else:
-            dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId,dev_code=dev_Code,socket_id=socketId,last_update=InsertTime)
+            dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId,socket_id=socketId,last_update=InsertTime)
             return False
         
     def dft_dbi_device_heart_report(self,socketId,inputData):
