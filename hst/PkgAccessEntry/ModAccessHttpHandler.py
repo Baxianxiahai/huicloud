@@ -80,12 +80,16 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestPrinterInputCmdHandler()
             elif (jsonInput['restTag'] == 'dba'):
                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestDbaInputCmdHandler()
-            elif (jsonInput['restTag'] == 'vision'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
-            elif (jsonInput['restTag'] == 'sensor'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
-            elif (jsonInput['restTag'] == 'special'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
+                    
+# Following part will be surpressed until MATE solve CV2 and TENSORFLOW solve.               
+#             elif (jsonInput['restTag'] == 'vision'):
+#                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
+#             elif (jsonInput['restTag'] == 'sensor'):
+#                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
+#             elif (jsonInput['restTag'] == 'special'):
+#                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
+
+            
             else:
                 print("HUIREST: Receiving restTag domain error!")
                 return
@@ -104,3 +108,11 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         strOutputData2 = json.dumps(varProcessResult, ensure_ascii=False)
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Sending Post Data Buf = ", strOutputData2)
         self.wfile.write(bytes(strOutputData2, "UTF-8"))
+        
+        
+        
+        
+        
+        
+        
+        

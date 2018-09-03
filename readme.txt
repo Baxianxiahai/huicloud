@@ -1,6 +1,11 @@
 ﻿====HUICLOUD=====
 
 
+
+//=ZJL, 2018 Sep.3, CURRENT_SW_DELIVERY R1.38 =>HST
+= Surpress Vision + Sensor, as MATE system not solve CV2 and TensorFlow installation issue.
+
+
 //=LZH, 2018 June.22, CURRENT_SW_DELIVERY R1.37 =>DjoSiteDba
 = 增加后台F1sym - F11Faam Django Dba App
 

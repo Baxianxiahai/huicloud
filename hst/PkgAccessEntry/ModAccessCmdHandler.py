@@ -13,16 +13,14 @@ import re
 import urllib
 import http
 import socket
-#from http.server import BaseHTTPRequestHandler, HTTPServer
+from builtins import int
 
-#
 from PkgHstPrinter import ModPrinterGeneral
 from PkgHstDba import ModDbaMainEntry
-from PkgHstVision import ModVisionGeneral
-from PkgHstAiwgt import ModAiwgtGeneral
-from PkgHstSensor import ModSensorGeneral    #Sensor access
-from PkgHstSpecial import ModSpecialGeneral  #Special Usage
-from builtins import int
+# from PkgHstVision import ModVisionGeneral
+# from PkgHstAiwgt import ModAiwgtGeneral
+# from PkgHstSensor import ModSensorGeneral    #Sensor access
+# from PkgHstSpecial import ModSpecialGeneral  #Special Usage
 
 class ClassEntryCmdHandler:
     '''
@@ -246,217 +244,223 @@ class ClassHuirestDbaInputCmdHandler:
 #             outputStr['parContent'] = parContentStrErr;
 #         return outputStr
     
-#
-class ClassHuirestVisionInputCmdHandler:
-    __HUIREST_SVTAG = "vision"
-    __HUIREST_ACTIONID_VISION_min     = 0x2000
-    __HUIREST_ACTIONID_VISION_test1   = 0x2000
-    __HUIREST_ACTIONID_VISION_test2   = 0x2001
-    __HUIREST_ACTIONID_VISION_worm_clasify_single   = 0x2002
-    __HUIREST_ACTIONID_VISION_worm_clasify_batch    = 0x2003
-    __HUIREST_ACTIONID_VISION_max     = 0x2004
-    publicOutputResultFlag = False
-    parContentStrExt = ""
-    
-    def __init__(self):
-        self.publicOutputResultFlag = True
-        self.parContentStrExt = ""
 
-    #HUIREST
-    def inputCmdHandlerEntry(self, inputStr):
-        #
-        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_VISION_min):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_VISION_max):
-            self.publicOutputResultFlag = False;
-        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.publicOutputResultFlag = False;
-                    
-        #
-        if (self.publicOutputResultFlag == True):
-            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_test1):
-                #proc = ClassHuirestVisionActionTest1Handler()
-                proc = ModVisionGeneral.ClassModVisionTest1()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_test2):
-                proc = ModVisionGeneral.ClassModVisionTest2()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_worm_clasify_single):
-                proc = ModVisionGeneral.ClassModVisionWormClasifySingle()
-                self.publicOutputResultFlag = 2
-                self.parContentStrExt = proc.cmdHandleProcedure(inputStr['parContent'])
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_worm_clasify_batch):
-                proc = ModVisionGeneral.ClassModVisionWormClasifyBatch()
-                self.publicOutputResultFlag = 2
-                self.parContentStrExt = proc.cmdHandleProcedure(inputStr['parContent'])                
-            else:
-                print("ClassHuirestVisionInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_VISION_min, self.__HUIREST_ACTIONID_VISION_max, inputStr['actionId']))
-                self.publicOutputResultFlag = False
-        #
-        outputStr= {}
-        outputStr['restTag'] = self.__HUIREST_SVTAG;
-        outputStr['actionId'] = inputStr["actionId"];
-        outputStr['parFlag'] = int(True);
-        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-        parContentStrErr={'sucFlag':int(False), 'errCode':1}
-        if (self.publicOutputResultFlag == 2):
-            outputStr['parContent'] = self.parContentStrExt;
-        elif (self.publicOutputResultFlag == True):
-            outputStr['parContent'] = parContentStrSuc;
-        else:
-            outputStr['parContent'] = parContentStrErr;
-        return outputStr
-    
-#
-class ClassHuirestAiwgtInputCmdHandler:
-    __HUIREST_SVTAG = "aiwgt"
-    __HUIREST_ACTIONID_AIWGT_min                      = 0x3000
-    __HUIREST_ACTIONID_AIWGT_test1                    = 0x3000
-    __HUIREST_ACTIONID_AIWGT_max                      = 0x3001
-    publicOutputResultFlag = False
-    
-    def __init__(self):
-        self.publicOutputResultFlag = True
-
-    #HUIREST
-    def inputCmdHandlerEntry(self, inputStr):
-        #
-        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_AIWGT_min):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_AIWGT_max):
-            self.publicOutputResultFlag = False;
-        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.publicOutputResultFlag = False;
-                    
-        #
-        if (self.publicOutputResultFlag == True):
-            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_AIWGT_test1):
-                proc = ModAiwgtGeneral.ClassModAiwgtTest1()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
-            else:
-                print("ClassHuirestAiwgtInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_AIWGT_min, self.__HUIREST_ACTIONID_AIWGT_max, inputStr['actionId']))
-                self.publicOutputResultFlag = False
-        #
-        outputStr= {}
-        outputStr['restTag'] = self.__HUIREST_SVTAG;
-        outputStr['actionId'] = inputStr["actionId"];
-        outputStr['parFlag'] = int(True);
-        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-        parContentStrErr={'sucFlag':int(False), 'errCode':1}
-        if (self.publicOutputResultFlag == True):
-            outputStr['parContent'] = parContentStrSuc;
-        elif (self.publicOutputResultFlag == False):
-            outputStr['parContent'] = parContentStrErr;
-        else:
-            outputStr['parContent'] = self.publicOutputResultFlag;
-        return outputStr
 
 
 #
-class ClassHuirestSensorInputCmdHandler:
-    __HUIREST_SVTAG = "sensor"
-    __HUIREST_ACTIONID_SENSOR_min                      = 0x4000
-    __HUIREST_ACTIONID_SENSOR_test1                    = 0x4000
-    __HUIREST_ACTIONID_SENSOR_max                      = 0x400F
-    publicOutputResultFlag = False
-    
-    def __init__(self):
-        self.publicOutputResultFlag = True
-
-    #HUIREST
-    def inputCmdHandlerEntry(self, inputStr):
-        #
-        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_SENSOR_min):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_SENSOR_max):
-            self.publicOutputResultFlag = False;
-        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.publicOutputResultFlag = False;
-                    
-        #
-        if (self.publicOutputResultFlag == True):
-            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_SENSOR_test1):
-                proc = ModSensorGeneral.ClassModSensorTest1()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-            else:
-                print("ClassHuirestSensorInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_SENSOR_min, self.__HUIREST_ACTIONID_SENSOR_max, inputStr['actionId']))
-                self.publicOutputResultFlag = False
-        #
-        outputStr= {}
-        outputStr['restTag'] = self.__HUIREST_SVTAG;
-        outputStr['actionId'] = inputStr["actionId"];
-        outputStr['parFlag'] = int(True);
-        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-        parContentStrErr={'sucFlag':int(False), 'errCode':1}
-        if (self.publicOutputResultFlag == True):
-            outputStr['parContent'] = parContentStrSuc;
-        elif (self.publicOutputResultFlag == False):
-            outputStr['parContent'] = parContentStrErr;
-        else:
-            outputStr['parContent'] = self.publicOutputResultFlag;
-        return outputStr
-
-
+# Following part will be surpress for a while, until MATE system solve CV2 and Tensorflow installation issue
 #
-class ClassHuirestSpecialInputCmdHandler:
-    __HUIREST_SVTAG = "special"
-    __HUIREST_ACTIONID_SPECIAL_min                      = 0x5000
-    __HUIREST_ACTIONID_SPECIAL_test1                    = 0x5000
-    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode  = 0x5001
-    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode  = 0x5002
-    __HUIREST_ACTIONID_SPECIAL_max                      = 0x500F
-    publicOutputResultFlag = False
-    
-    def __init__(self):
-        self.publicOutputResultFlag = True
-
-    #HUIREST
-    def inputCmdHandlerEntry(self, inputStr):
-        #
-        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_SPECIAL_min):
-            self.publicOutputResultFlag = False;
-        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_SPECIAL_max):
-            self.publicOutputResultFlag = False;
-        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.publicOutputResultFlag = False;
-                    
-        #
-        if (self.publicOutputResultFlag == True):
-            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_SPECIAL_test1):
-                proc = ModSpecialGeneral.ClassModSpecialTest1()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode):
-                proc = ModSpecialGeneral.ClassGtjyWaterMeter()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'], "encoding")
-            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode):
-                proc = ModSpecialGeneral.ClassGtjyWaterMeter()
-                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'], "decoding")
-            else:
-                print("ClassHuirestSpecialInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_SPECIAL_min, self.__HUIREST_ACTIONID_SPECIAL_max, inputStr['actionId']))
-                self.publicOutputResultFlag = False
-        #
-        outputStr= {}
-        outputStr['restTag'] = self.__HUIREST_SVTAG;
-        outputStr['actionId'] = inputStr["actionId"];
-        outputStr['parFlag'] = int(True);
-        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-        parContentStrErr={'sucFlag':int(False), 'errCode':1}
-        if (self.publicOutputResultFlag == True):
-            outputStr['parContent'] = parContentStrSuc;
-        elif (self.publicOutputResultFlag == False):
-            outputStr['parContent'] = parContentStrErr;
-        else:
-            outputStr['parContent'] = self.publicOutputResultFlag;
-        return outputStr
-    
+#
+# class ClassHuirestVisionInputCmdHandler:
+#     __HUIREST_SVTAG = "vision"
+#     __HUIREST_ACTIONID_VISION_min     = 0x2000
+#     __HUIREST_ACTIONID_VISION_test1   = 0x2000
+#     __HUIREST_ACTIONID_VISION_test2   = 0x2001
+#     __HUIREST_ACTIONID_VISION_worm_clasify_single   = 0x2002
+#     __HUIREST_ACTIONID_VISION_worm_clasify_batch    = 0x2003
+#     __HUIREST_ACTIONID_VISION_max     = 0x2004
+#     publicOutputResultFlag = False
+#     parContentStrExt = ""
+#     
+#     def __init__(self):
+#         self.publicOutputResultFlag = True
+#         self.parContentStrExt = ""
+# 
+#     #HUIREST
+#     def inputCmdHandlerEntry(self, inputStr):
+#         #
+#         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_VISION_min):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_VISION_max):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.publicOutputResultFlag = False;
+#                     
+#         #
+#         if (self.publicOutputResultFlag == True):
+#             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_test1):
+#                 #proc = ClassHuirestVisionActionTest1Handler()
+#                 proc = ModVisionGeneral.ClassModVisionTest1()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_test2):
+#                 proc = ModVisionGeneral.ClassModVisionTest2()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_worm_clasify_single):
+#                 proc = ModVisionGeneral.ClassModVisionWormClasifySingle()
+#                 self.publicOutputResultFlag = 2
+#                 self.parContentStrExt = proc.cmdHandleProcedure(inputStr['parContent'])
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_VISION_worm_clasify_batch):
+#                 proc = ModVisionGeneral.ClassModVisionWormClasifyBatch()
+#                 self.publicOutputResultFlag = 2
+#                 self.parContentStrExt = proc.cmdHandleProcedure(inputStr['parContent'])                
+#             else:
+#                 print("ClassHuirestVisionInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_VISION_min, self.__HUIREST_ACTIONID_VISION_max, inputStr['actionId']))
+#                 self.publicOutputResultFlag = False
+#         #
+#         outputStr= {}
+#         outputStr['restTag'] = self.__HUIREST_SVTAG;
+#         outputStr['actionId'] = inputStr["actionId"];
+#         outputStr['parFlag'] = int(True);
+#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
+#         if (self.publicOutputResultFlag == 2):
+#             outputStr['parContent'] = self.parContentStrExt;
+#         elif (self.publicOutputResultFlag == True):
+#             outputStr['parContent'] = parContentStrSuc;
+#         else:
+#             outputStr['parContent'] = parContentStrErr;
+#         return outputStr
+#     
+# #
+# class ClassHuirestAiwgtInputCmdHandler:
+#     __HUIREST_SVTAG = "aiwgt"
+#     __HUIREST_ACTIONID_AIWGT_min                      = 0x3000
+#     __HUIREST_ACTIONID_AIWGT_test1                    = 0x3000
+#     __HUIREST_ACTIONID_AIWGT_max                      = 0x3001
+#     publicOutputResultFlag = False
+#     
+#     def __init__(self):
+#         self.publicOutputResultFlag = True
+# 
+#     #HUIREST
+#     def inputCmdHandlerEntry(self, inputStr):
+#         #
+#         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_AIWGT_min):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_AIWGT_max):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.publicOutputResultFlag = False;
+#                     
+#         #
+#         if (self.publicOutputResultFlag == True):
+#             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_AIWGT_test1):
+#                 proc = ModAiwgtGeneral.ClassModAiwgtTest1()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+#             else:
+#                 print("ClassHuirestAiwgtInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_AIWGT_min, self.__HUIREST_ACTIONID_AIWGT_max, inputStr['actionId']))
+#                 self.publicOutputResultFlag = False
+#         #
+#         outputStr= {}
+#         outputStr['restTag'] = self.__HUIREST_SVTAG;
+#         outputStr['actionId'] = inputStr["actionId"];
+#         outputStr['parFlag'] = int(True);
+#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
+#         if (self.publicOutputResultFlag == True):
+#             outputStr['parContent'] = parContentStrSuc;
+#         elif (self.publicOutputResultFlag == False):
+#             outputStr['parContent'] = parContentStrErr;
+#         else:
+#             outputStr['parContent'] = self.publicOutputResultFlag;
+#         return outputStr
+# 
+# 
+# #
+# class ClassHuirestSensorInputCmdHandler:
+#     __HUIREST_SVTAG = "sensor"
+#     __HUIREST_ACTIONID_SENSOR_min                      = 0x4000
+#     __HUIREST_ACTIONID_SENSOR_test1                    = 0x4000
+#     __HUIREST_ACTIONID_SENSOR_max                      = 0x400F
+#     publicOutputResultFlag = False
+#     
+#     def __init__(self):
+#         self.publicOutputResultFlag = True
+# 
+#     #HUIREST
+#     def inputCmdHandlerEntry(self, inputStr):
+#         #
+#         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_SENSOR_min):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_SENSOR_max):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.publicOutputResultFlag = False;
+#                     
+#         #
+#         if (self.publicOutputResultFlag == True):
+#             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_SENSOR_test1):
+#                 proc = ModSensorGeneral.ClassModSensorTest1()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+#             else:
+#                 print("ClassHuirestSensorInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_SENSOR_min, self.__HUIREST_ACTIONID_SENSOR_max, inputStr['actionId']))
+#                 self.publicOutputResultFlag = False
+#         #
+#         outputStr= {}
+#         outputStr['restTag'] = self.__HUIREST_SVTAG;
+#         outputStr['actionId'] = inputStr["actionId"];
+#         outputStr['parFlag'] = int(True);
+#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
+#         if (self.publicOutputResultFlag == True):
+#             outputStr['parContent'] = parContentStrSuc;
+#         elif (self.publicOutputResultFlag == False):
+#             outputStr['parContent'] = parContentStrErr;
+#         else:
+#             outputStr['parContent'] = self.publicOutputResultFlag;
+#         return outputStr
+# 
+# 
+# #
+# class ClassHuirestSpecialInputCmdHandler:
+#     __HUIREST_SVTAG = "special"
+#     __HUIREST_ACTIONID_SPECIAL_min                      = 0x5000
+#     __HUIREST_ACTIONID_SPECIAL_test1                    = 0x5000
+#     __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode  = 0x5001
+#     __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode  = 0x5002
+#     __HUIREST_ACTIONID_SPECIAL_max                      = 0x500F
+#     publicOutputResultFlag = False
+#     
+#     def __init__(self):
+#         self.publicOutputResultFlag = True
+# 
+#     #HUIREST
+#     def inputCmdHandlerEntry(self, inputStr):
+#         #
+#         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_SPECIAL_min):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_SPECIAL_max):
+#             self.publicOutputResultFlag = False;
+#         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.publicOutputResultFlag = False;
+#                     
+#         #
+#         if (self.publicOutputResultFlag == True):
+#             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_SPECIAL_test1):
+#                 proc = ModSpecialGeneral.ClassModSpecialTest1()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode):
+#                 proc = ModSpecialGeneral.ClassGtjyWaterMeter()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'], "encoding")
+#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode):
+#                 proc = ModSpecialGeneral.ClassGtjyWaterMeter()
+#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'], "decoding")
+#             else:
+#                 print("ClassHuirestSpecialInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_SPECIAL_min, self.__HUIREST_ACTIONID_SPECIAL_max, inputStr['actionId']))
+#                 self.publicOutputResultFlag = False
+#         #
+#         outputStr= {}
+#         outputStr['restTag'] = self.__HUIREST_SVTAG;
+#         outputStr['actionId'] = inputStr["actionId"];
+#         outputStr['parFlag'] = int(True);
+#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
+#         if (self.publicOutputResultFlag == True):
+#             outputStr['parContent'] = parContentStrSuc;
+#         elif (self.publicOutputResultFlag == False):
+#             outputStr['parContent'] = parContentStrErr;
+#         else:
+#             outputStr['parContent'] = self.publicOutputResultFlag;
+#         return outputStr
+#     
 
 class ClassHCUReportDataToDba:
     __HCUDATAMSGIDCURRENTREPORT=0X3090
