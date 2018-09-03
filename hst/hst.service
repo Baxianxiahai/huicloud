@@ -8,8 +8,8 @@ TimeoutStartSec=0
 ExecStart=/var/www/html/huicloud/hst/hst.sh
 Restart=always
 RestartSec=10
-#StandardOutput=hst.log
-#StandardError=hsterr.log
+#StandardOutput=/var/www/html/huicloud/hst/hst.log
+#StandardError=/var/www/html/huicloud/hst/hsterr.log
 RemainAfterExit=yes
 SysVStartPriority=99
 
