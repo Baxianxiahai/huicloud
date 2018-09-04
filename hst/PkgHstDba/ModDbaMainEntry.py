@@ -57,12 +57,16 @@ class ClassDbaMainEntry():
         elif inputData['action']=="UserMod":
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_userinfo_update(inputData['body'])
+        elif inputData['action']=="HCU_Login_Binding":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_HCU_Login_Binding(inputData['body'])
         else:
             result=""
         return result
     
     def dft_F2cm_Send_Message(self,inputData): 
         F2cm=ModDbaF2cm.classDappDbF2cm()
+        F2cmHCU=ModDbaF2cm.HCUF2cmDataBaseConfirm()
         if inputData['action']=='TableQuery':
             result=F2cm.dft_dbi_print_excel_table_query_process(inputData['body'])
         elif inputData['action']=='ProjectPGList':
@@ -163,12 +167,30 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_login_req(inputData['body'])
         elif inputData['action']=='FhysSiteDel':
             result=F2cm.dft_dbi_site_keyauth_delete(inputData['body'])  
+            
+            
+        elif inputData['action']=='HCU_CPU_Query':
+            result=F2cmHCU.dft_dbi_HCU_CPU_Query()
+        elif inputData['action']=='HCU_CPU_Binding':
+            result=F2cmHCU.dft_dbi_HCU_CPU_Binding(inputData['body'])
+        elif inputData['action']=='HCUProjectList':
+            result=F2cmHCU.dft_dbi_HCU_project_list()
+        elif inputData['action']=='HCU_Get_Free_Station':
+            result=F2cmHCU.dft_dbi_HCU_Get_Free_Station()
+        elif inputData['action']=='HCU_sys_config':
+            result=F2cmHCU.dft_dbi_HCU_sys_config(inputData['body'])
+        elif inputData['action']=='HCU_sys_config_save':
+            result=F2cmHCU.dft_dbi_HCU_sys_config_save(inputData['body'])
+        elif inputData['action']=="HCU_Lock_Activate":
+            result=F2cmHCU.dct_t_HCU_Lock_Activate(inputData['body'])
+        
         else:
             result=""
         return result
     
     def dft_F3dm_Send_Message(self,inputData): 
         F3dm=ModDbaF3dm.classDappDbF3dm()
+        F3dmHCU=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         if inputData['action']=='MonitorList':
             result=F3dm.dft_dbi_map_active_siteinfo_req(inputData['body'])
         elif inputData['action']=='FakeMonitorList':
@@ -191,6 +213,8 @@ class ClassDbaMainEntry():
             result=F3dm.dft_dbi_key_event_history_process(inputData['body'])
         elif inputData['action']=='GetOpenImg':
             result=F3dm.dft_dbi_door_open_picture_process(inputData['body'])
+        elif inputData['action']=='HCU_Info_Query':
+            result=F3dmHCU.dft_dbi_HCU_Info_Query(inputData['body'])
         else:
             result=""
         return result
@@ -255,14 +279,32 @@ class ClassDbaMainEntry():
         else:
             result=""
         return result
+    
+    
     def dft_F7ads_Send_Message(self,inputData): 
         return False
+    
+    
     def dft_F8psm_Send_Message(self,inputData): 
         return False
+    
+    
     def dft_F9gism_Send_Message(self,inputData): 
         return False
+    
+    
     def dft_F10oam_Send_Message(self,inputData): 
-        return False
+        F10oam=ModDbaF10oam.classDappDbF10oam()
+        result=''
+        if inputData['action']=="GetZipFileList":
+            result=F10oam.dft_dbi_tools_qrcode_filelist(inputData['body'])
+        elif inputData['action']=="NewQrcode":
+            result=F10oam.dft_dbi_tools_qrcode_newapply(inputData['body'])
+        elif inputData['action']=="InsertQrcode":
+            result=F10oam.dft_dbi_qrcode_data_insert(inputData['body'])
+        return result
+    
+    
     def dft_F11Faam_Send_Message(self,inputData):    
         if inputData['action']=='FactoryCodeList':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
@@ -479,20 +521,21 @@ class ClassHCUDbaMainEntry():
         result=F2cm.dft_dbi_device_heart_report_data(socketId, inputData)
         return result
     
-    
-    
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         FrUsr=inputData['FrUsr']
         ToUsr=inputData["ToUsr"]
-        dev_code=FrUsr.split("_")[2]
-        if dev_code=="AQYC":
+        dev_code=FrUsr.split("_")
+        if dev_code[2]=="AQYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2400ZNXX":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:
-            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0X3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId': GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0X3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
         
     

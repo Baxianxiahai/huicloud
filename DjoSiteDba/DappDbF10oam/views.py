@@ -3,17 +3,19 @@ import math
 import time
 import os
 import stat
+import datetime
 
 # Create your views here.
 from DappDbF10oam.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
+from Demos.print_desktop import pDC
 class dct_DappF10Class():
     __MFUN_CLOUD_QRCODE_ABS_DIR="/var/www/html/avorion/hcu_qrcode/"
     __MFUN_CLOUD_QRCODE_WWW_DIR="/avorion/hcu_qrcode/"
     __MFUN_CLOUD_TEMP_DIR='./temp/'
 
-    __MFUN_CLOUD_ADMINTOOLS_QRCODE_DIGCODE_LEN=6
+    __MFUN_CLOUD_ADMINTOOLS_QRCODE_DIGCODE_LEN=5
     __MFUN_CLOUD_ADMINTOOLS_QRCODE_APPLY_MAX=100
     __MFUN_CLOUD_ADMINTOOLS_FHYS_QRCODE_BASE="http://www.foome.com.cn/mfunhcu/l4hcuinstall/index.html?code="
     __MFUN_CLOUD_ADMINTOOLS_AQYC_QRCODE_BASE="http://www.hkrob.com/mfunhcu/l4aqycactive/index.html?code="
@@ -94,7 +96,13 @@ class dct_DappF10Class():
             msg="申请的数量不能超过"+str(self.__MFUN_CLOUD_ADMINTOOLS_QRCODE_APPLY_MAX)
             resp={'auth':'false','msg':msg}
             return resp
-
+        if(len(pdCode)>=5):
+            pdCode=pdCode[0:5]
+        if len(pdCode)>4:
+            pdCode_base=pdCode
+        else:
+            pdCode_middle="G"+pdCode
+            pdCode_base=pdCode_middle.ljust(5).replace(" ","_")
         if pjCode=='AQYC':
             qrcode_base=self.__MFUN_CLOUD_ADMINTOOLS_AQYC_QRCODE_BASE
         elif pjCode=='FHYS':
@@ -137,12 +145,14 @@ class dct_DappF10Class():
                     'digstop':digStop,
                     'diglen':digLen,
                     'qrcode_base':qrcode_base,
-                    'approvenum':approveNum}
+                    'approvenum':approveNum,
+                    'pdcodebase':pdCode_base,
+                    }
             return resp
     def dft_dbi_qrcode_data_insert(self,inputData):
         digStart=inputData['digstart']
         digStop=inputData['digstop']
-        devCode=inputData['devcode']
+        devCodeArray=inputData['DevCodeArray']
         user=inputData['user']
         zipfile=inputData['zipfile']
         approvenum=inputData['approvenum']
@@ -153,8 +163,44 @@ class dct_DappF10Class():
         productType = inputData['ProductType']
         formalFlag = inputData['FormalFlag']
         applyNum = int(inputData['ApplyNbr'])
-        for digStart in range(digStop+1):
-            dct_t_l3f10oam_qrcodeinfo.objects.create(pdtype=productType,pdcode=pdCode,pjcode=pjCode,dev_code=devCode)
+        qrcode_insert_list=list()
+        pj_insert_list=list()
+        for devCode in devCodeArray:
+            qrcode_insert_list.append(dct_t_l3f2cm_device_inventory(dev_code=devCode,create_date=datetime.date.today(),hw_type=int(pdCode)))
+        dct_t_l3f2cm_device_inventory.objects.bulk_create(qrcode_insert_list)
+        time.sleep(1)
+        if pjCode=='AQYC':
+            for devCode in devCodeArray:
+                result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+                basePort=result[0].base_port
+                weburl="http://"+str(devCode)+"ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+                pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "2" + "/ISAPI /PTZCtrl/channels/1/continuous"
+                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "3" + "ISAPI/Streaming/Channels/1"
+                pj_insert_list.append(dct_t_l3f2cm_device_aqyc(dev_code_id=devCode,web_url=weburl,pic1_url=pic1url,ctrl1_url=ctrl1url,video1_url=video1url))
+            dct_t_l3f2cm_device_aqyc.objects.bulk_create(pj_insert_list)
+
+        time.sleep(1)
+        if pjCode == 'FSTT':
+            for devCode in devCodeArray:
+                result = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+                basePort = result[0].base_port
+                weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+                pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "2" + "/ISAPI /PTZCtrl/channels/1/continuous"
+                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "3" + "ISAPI/Streaming/Channels/1"
+                pic2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "6" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "6" + "/ISAPI /PTZCtrl/channels/1/continuous"
+                video2url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "7" + "ISAPI/Streaming/Channels/1"
+                pic3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "8" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "8" + "/ISAPI /PTZCtrl/channels/1/continuous"
+                video3url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "9" + "ISAPI/Streaming/Channels/1"
+                pj_insert_list.append(
+                    dct_t_l3f2cm_device_fstt(dev_code_id=devCode,web_url=weburl,pic1_url=pic1url,ctrl1_url=ctrl1url,video1_url=video1url,pic2_url=pic2url,ctrl2_url=ctrl2url,video2_url=video2url,
+                                             pic3_url=pic3url,ctrl3_url=ctrl3url,video3_url=video3url))
+            dct_t_l3f2cm_device_fstt.objects.bulk_create(pj_insert_list)
+        else:
+            pass
         dct_t_l3f10oam_regqrcode.objects.create(applyuser=user,faccode=facCode,pdtype=productType,pdcode=pdCode,pjcode=pjCode,usercode=userCode,isformal=formalFlag,applynum=applyNum,approvenum=approvenum,digstart=digStart,digstop=digStop,zipfile=zipfile)
         return 'true'
 

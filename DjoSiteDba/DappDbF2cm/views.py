@@ -1420,6 +1420,13 @@ class dct_classDbiL3apF2cm:
 
 
 class HCUReportAndConfirm():
+    
+    __HCU_DUST = True
+    __HCU_TEMP = True
+    __HCU_HUMID = True
+    __HCU_NOISE = True
+    __HCU_WINDSPD = True
+    __HCU_WINDDIR = True
     def __init__(self):
         pass
     def dft_dbi_response_HCU_data(self,socketId,inputData):
@@ -1503,21 +1510,20 @@ class HCUReportAndConfirm():
                                 'calNoiseCoefK': calNoiseCoefK,
                                 'calNoiseCoefB': calNoiseCoefB,
                             }
-                            msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
-                            msg_len=len(json.dumps(msg))
-                            msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":msgIeCnt,"FnFlg":0}}
-                            return msg_final
+                        msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
+                        msg_len=len(json.dumps(msg))
+                        msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":msgIeCnt,"FnFlg":0}}
+                        return msg_final
                     else:
                         msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{},"FnFlg":0}}
                         msg_len=len(json.dumps(msg))
                         msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
-                        return msg_final
-                    
+                        return msg_final   
                 else:
                     msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{},"FnFlg":0}}
                     msg_len=len(json.dumps(msg))
                     msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
-                    return msg_final   
+                    return msg_final
         else:
             dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId,socket_id=socketId,last_update=InsertTime)
             return False
@@ -1535,9 +1541,249 @@ class HCUReportAndConfirm():
                               'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': msg_len, "IeCnt": {"rand":random.randint(10000,9999999)},
                               "FnFlg": 0}}
         return msg_final
+    
+    
+    
+    def dft_dbi_HCU_CPU_Query(self):
+        retlist=[]
+        result=dct_t_l3f2cm_device_holops.objects.all()
+        i=1
+        if result.exists():
+            for line in result:
+                if line.dev_code==None or line.dev_code=="":
+                    map={"cpucode":line.cpu_id,'cpuname':"cpu["+str(i)+"]",'cpudetail':"最后一次上报时间："+str(line.last_update)}
+                    retlist.append(map)
+        retval={
+            'status':'true',
+            'auth':'true',
+            'msg':'',
+            'ret':retlist,
+        }
+        return retval
+    
+    def dft_dbi_HCU_CPU_Binding(self,inputData):
+        dev_code=inputData['code']
+        cpu_id=inputData['cpu']
+        result=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_id)
+        if result.exists():
+            result.update(dev_code=dev_code,last_update=datetime.datetime.now())
+            msg={'status':'true','auth':'true','msg':'绑定成功'}
+        else:
+            msg={'status':'false','auth':'true','msg':'绑定失败'}
+        return msg
         
-
-
+    def dft_dbi_HCU_project_list(self):
+        projlist=[]
+        result=dct_t_l3f2cm_project_common.objects.all()
+        if result.exists():
+            for line in result:
+                temp={'id':line.prj_code,'name':line.prj_name}
+                projlist.append(temp)
+        retval={'status':'true','ret':projlist,'auth':'true','msg':''}
+        return retval
+    
+    def dft_dbi_HCU_Get_Free_Station(self):
+        pointtable = []
+        result = dct_t_l3f2cm_site_common.objects.all()
+        if result.exists():
+            for line in result:
+                resp = dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=line.site_code)
+                if resp.exists():
+                    pass
+                else:
+                    temp = {'StatCode': line.site_code,
+                            'StatName': line.site_name,
+                            'ProjCode': line.prj_code_id,
+                            'ChargeMan': line.superintendent,
+                            'Telephone': line.telephone,
+                            'Longitude': str(line.longitude),
+                            'Latitude': str(line.latitude),
+                            'Department': line.department,
+                            'Address': line.address,
+                            'Country': line.district,
+                            'Street': line.street,
+                            'Square': line.site_area,
+                            'ProStartTime': str(line.create_date),
+                            'Stage': line.comments,
+                            }
+                    pointtable.append(temp)
+        retval = {'status': 'true', 'ret': pointtable, 'auth': 'true', 'msg': '获取空站点列表成功'}
+        return retval
+    
+    
+    def dft_dbi_HCU_sys_config(self,inputData):
+        dev_code=inputData['code']
+        print(dev_code)
+        groups=[]
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if result.exists():
+            for line in result:
+                if self.__HCU_DUST == True:
+                    list = []
+                    dust_max = {'paraname': '数据上限','type':'float','max':'700','min':'10', 'value':str(line.dust_coefmax),'note':"粉尘数据最大值设置"}
+                    list.append(dust_max)
+                    dust_min = {'paraname': '数据下限','type': 'float','max': '700','min': '10','value': str(line.dust_coefmin),'note': "粉尘数据最小值设置"}
+                    list.append(dust_min)
+                    dust_K = {'paraname': '数据K值','type': 'float','max': '700','min': '','value': str(line.dust_coefK),'note': "粉尘数据K值设置"}
+                    list.append(dust_K)
+                    dust_B = {'paraname': '数据B值','type': 'float','max': '700','min': '','value': str(line.dust_coefB),'note': "粉尘数据B值设置"}
+                    list.append(dust_B)
+                    dust_group={'groupname':"粉尘参数设置",'list':list}
+                    groups.append(dust_group)
+                if self.__HCU_TEMP == True:
+                    list = []
+                    temp_max = {'paraname': '数据上限','type':'float','max':'100','min':'0','value':str(line.temp_coefmax),'note':"温度数据最大值设置",}
+                    list.append(temp_max)
+                    temp_min = {'paraname': '数据下限','type': 'float','max': '100','min': '-40','value': str(line.temp_coefmin),'note': "温度数据最小值设置",}
+                    list.append(temp_min)
+                    temp_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.temp_coefK),'note': "温度数据K值设置",}
+                    list.append(temp_K)
+                    temp_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.temp_coefB),'note': "温度数据B值设置",}
+                    list.append(temp_B)
+                    temp_group={'groupname':"温度参数设置",'list':list}
+                    groups.append(temp_group)
+                if self.__HCU_NOISE == True:
+                    list = []
+                    noise_max = {'paraname': '数据上限','type':'float','max':'130','min':'30','value':str(line.noise_coefmax),'note':"噪声数据最大值设置",}
+                    list.append(noise_max)
+                    noise_min = {'paraname': '数据下限','type': 'float','max': '130','min': '30','value': str(line.noise_coefmin),'note': "噪声数据最小值设置",}
+                    list.append(noise_min)
+                    noise_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.noise_coefK),'note': "噪声数据K值设置",}
+                    list.append(noise_K)
+                    noise_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.noise_coefB),'note': "噪声数据B值设置",}
+                    list.append(noise_B)
+                    noise_group={'groupname':"噪声参数设置",'list':list}
+                    groups.append(noise_group)
+                if self.__HCU_HUMID == True:
+                    list = []
+                    humid_max = {'paraname': '数据上限','type':'float','max':'100','min':'0','value':str(line.humid_coefmax),'note':"湿度数据最大值设置",}
+                    list.append(humid_max)
+                    humid_min = {'paraname': '数据下限','type': 'float','max': '100','min': '0','value': str(line.humid_coefmin),'note': "湿度数据最小值设置",}
+                    list.append(humid_min)
+                    humid_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.humid_coefK),'note': "湿度数据K值设置",}
+                    list.append(humid_K)
+                    humid_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.humid_coefB),'note': "湿度数据B值设置",}
+                    list.append(humid_B)
+                    humid_group={'groupname':"湿度参数设置",'list':list}
+                    groups.append(humid_group)
+                if self.__HCU_WINDSPD == True:
+                    list = []
+                    windspd_max = {'paraname': '数据上限','type':'float','max':'1500','min':'0','value':str(line.windspd_coefmax),'note':"风速数据最大值设置",}
+                    list.append(windspd_max)
+                    windspd_min = {'paraname': '数据下限','type': 'float','max': '1500','min': '0','value': str(line.windspd_coefmin),'note': "风速数据最小值设置",}
+                    list.append(windspd_min)
+                    windspd_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.windspd_coefK),'note': "风速数据K值设置",}
+                    list.append(windspd_K)
+                    windspd_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.windspd_coefB),'note': "风速数据B值设置",}
+                    list.append(windspd_B)
+                    windspd_group={'groupname':"风速参数设置",'list':list}
+                    groups.append(windspd_group)
+                if self.__HCU_WINDDIR == True:
+                    list = []
+                    winddir_max = {'paraname': '数据上限','type':'float','max':'360','min':'0','value':str(line.winddir_coefmax),'note':"风向数据最大值设置",}
+                    list.append(winddir_max)
+                    winddir_min = {'paraname': '数据下限','type': 'float','max': '360','min': '0','value': str(line.winddir_coefmin),'note': "风向数据最小值设置",}
+                    list.append(winddir_min)
+                    winddir_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.winddir_coefK),'note': "风向数据K值设置",}
+                    list.append(winddir_K)
+                    winddir_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.winddir_coefB),'note': "风向数据B值设置",}
+                    list.append(winddir_B)
+                    winddir_delta = {'paraname': '数据θ值', 'type': 'float', 'max': '360', 'min': '0','value': str(line.winddir_delta), 'note': "风向数据θ值设置", }
+                    list.append(winddir_delta)
+                    winddir_group={'groupname':"风向参数设置",'list':list}
+                    groups.append(winddir_group)
+        ret={'name':'configure','owner':'system','parameter':{'groups':groups}}
+        msg={'status':'true','auth':'true','ret':ret,'msg':'获取配置参数成功'}
+        return msg
+    
+    def dft_dbi_HCU_sys_config_save(self,inputData):
+        dev_code = inputData['code']
+        data=inputData['configure']['parameter']['groups']
+        print(dev_code)
+        for i in range(len(data)):
+            if data[i]['groupname']=='粉尘参数设置':
+                dust_max=data[i]['list'][0]['value']
+                dust_min=data[i]['list'][1]['value']
+                dust_K=data[i]['list'][2]['value']
+                dust_B=data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(dust_coefmax=dust_max,
+                                                                                       dust_coefmin=dust_min,
+                                                                                       dust_coefK=dust_K,
+                                                                                       dust_coefB=dust_B)
+                status = 'true'
+            elif data[i]['groupname']=='温度参数设置':
+                temp_max = data[i]['list'][0]['value']
+                temp_min = data[i]['list'][1]['value']
+                temp_K = data[i]['list'][2]['value']
+                temp_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(temp_coefmax=temp_max,
+                                                                                       temp_coefmin=temp_min,
+                                                                                       temp_coefK=temp_K,
+                                                                                       temp_coefB=temp_B)
+                status = 'true'
+            elif data[i]['groupname']=='噪声参数设置':
+                noise_max = data[i]['list'][0]['value']
+                noise_min = data[i]['list'][1]['value']
+                noise_K = data[i]['list'][2]['value']
+                noise_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(noise_coefmax=noise_max,
+                                                                                       noise_coefmin=noise_min,
+                                                                                       noise_coefK=noise_K,
+                                                                                       noise_coefB=noise_B)
+                status = 'true'
+            elif data[i]['groupname']=='湿度参数设置':
+                humid_max = data[i]['list'][0]['value']
+                humid_min = data[i]['list'][1]['value']
+                humid_K = data[i]['list'][2]['value']
+                humid_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(humid_coefmax=humid_max,
+                                                                                       humid_coefmin=humid_min,
+                                                                                       humid_coefK=humid_K,
+                                                                                       humid_coefB=humid_B)
+                status = 'true'
+            elif data[i]['groupname']=='风速参数设置':
+                windspd_max = data[i]['list'][0]['value']
+                windspd_min = data[i]['list'][1]['value']
+                windspd_K = data[i]['list'][2]['value']
+                windspd_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(windspd_coefmax=windspd_max,
+                                                                                       windspd_coefmin=windspd_min,
+                                                                                       windspd_coefK=windspd_K,
+                                                                                       windspd_coefB=windspd_B)
+                status = 'true'
+            elif data[i]['groupname']=='风向参数设置':
+                winddir_max = data[i]['list'][0]['value']
+                winddir_min = data[i]['list'][1]['value']
+                winddir_K = data[i]['list'][2]['value']
+                winddir_B = data[i]['list'][3]['value']
+                winddir_delta=data[i]['list'][4]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(winddir_coefmax=winddir_max,
+                                                                                       winddir_coefmin=winddir_min,
+                                                                                       winddir_coefK=winddir_K,
+                                                                                       winddir_coefB=winddir_B,
+                                                                                       winddir_delta=winddir_delta)
+                status='true'
+            else:
+                status='false'
+        if status=='true':
+            msg={'status':status,'auth':'true','msg':'保存成功'}
+        else:
+            msg = {'status': status, 'auth': 'true', 'msg': '保存失败'}
+        return msg
+    
+    def dct_t_HCU_Lock_Activate(self,inputData):
+        site_code=inputData['StatCode']
+        dev_code=inputData['code']
+        latitude=inputData['latitude']
+        longitude=inputData['longitude']
+        result1=dct_t_l3f2cm_site_common.objects.filter(site_code=site_code,status='I')
+        result2=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if result1 and result2:
+            result1.update(status='A',latitude=latitude,longitude=longitude)
+            result2.update(site_code_id=site_code)
+            return True
+        else:
+            return False
 
 
 

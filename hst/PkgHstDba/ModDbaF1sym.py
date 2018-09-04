@@ -109,7 +109,6 @@ class ClassDbaF1sym():
             with transaction.atomic():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
                 result=DappDbF1sym_view.dft_dbi_userinfo_req(session)
-                print(result)
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
@@ -141,4 +140,13 @@ class ClassDbaF1sym():
                 result=True
         except Exception:
             result=False
+        return result
+    
+    def dft_dbi_HCU_Login_Binding(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_HCU_Login_Binding(inputData)
+        except Exception:
+            result={'status':"false",'auth':'true','ret':{},'msg':"数据库发生错误，请稍后"}
         return result

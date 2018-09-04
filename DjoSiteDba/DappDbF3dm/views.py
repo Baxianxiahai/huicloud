@@ -922,7 +922,6 @@ class dct_classDbiL3apF3dm():
                 statCode=line.site_code
                 statName=line.site_name
                 if keyWord!="":
-                    print("JJJJJJIF")
                     resp=dct_t_l3fxprcm_locklog_fhys.objects.filter(site_code=statCode,createtime__gte=start,createtime__lte=end,ownername__icontains=keyWord)
                     if resp.exists():
                         for li in resp:
@@ -1048,6 +1047,29 @@ class dct_classDbiL3apF3dm():
 class dct_t_HCU_Data_Report():
     def __init__(self):
         pass
+    
+    def __dft_dbi_winddir_convert(self,inputData):
+        degree=inputData
+        if (degree>=337.5 and degree<360) or degree<22.5:
+            winddir='北风'
+        elif (degree>=22.5 and degree<67.5):
+            winddir='东北风'
+        elif (degree>=67.5 and degree<112.5):
+            winddir='东风'
+        elif (degree>=112.5 and degree<157.5):
+            winddir='东南风'
+        elif (degree>=157.5 and degree<202.5):
+            winddir='南风'
+        elif (degree>=202.5 and degree<247.5):
+            winddir='西南风'
+        elif (degree>=247.5 and degree<292.5):
+            winddir='西风'
+        elif (degree>=292.5 and degree<337.5):
+            winddir='西北风'
+        else:
+            winddir='未知'
+        return winddir
+    
     def dft_dbi_aqyc_current_report(self,socketId,inputData):
         devCode=inputData['FrUsr']
         ServerName=inputData['ToUsr']
@@ -1095,3 +1117,33 @@ class dct_t_HCU_Data_Report():
             msg_len=len(json.dumps(result))
             Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return Msg_final
+    
+    
+    def dft_dbi_HCU_Info_Query(self,inputData):
+        dev_code=inputData['key']
+        result=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code)
+        retlist=[]
+        if result.exists():
+            for line in result:
+                map='最后一次上报时间：'+str(line.report_time)
+                retlist.append(map)
+                map = 'TSP：' + str(line.tsp)+'μg/m³'
+                retlist.append(map)
+                map = 'PM01：' + str(line.pm01)+'μg/m³'
+                retlist.append(map)
+                map = 'PM2.5：' + str(line.pm25)+'μg/m³'
+                retlist.append(map)
+                map = 'PM10：' + str(line.pm10)+'μg/m³ '
+                retlist.append(map)
+                map = '噪音：' + str(line.noise)+'dB'
+                retlist.append(map)
+                map = '温度：' + str(line.temperature)+"℃"
+                retlist.append(map)
+                map = '湿度：' + str(line.humidity)+"%"
+                retlist.append(map)
+                map = '风向：' + str(self.__dft_dbi_winddir_convert(line.winddir))
+                retlist.append(map)
+                map = '风速：' + str(line.windspd)+"m/s"
+                retlist.append(map)
+        retval={'status':'true','auth':'true','msg':'获取设备状态成功','ret':retlist}
+        return retval
