@@ -22,7 +22,6 @@ from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
 from PkgHstSpecial import ModSpecialGeneral  #Special Usage
-from builtins import int
 from PkgAccessEntry.ModAccessDict import *
 
 class ClassEntryCmdHandler:
