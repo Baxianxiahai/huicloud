@@ -60,6 +60,12 @@ class ClassDbaMainEntry():
         elif inputData['action']=="HCU_Login_Binding":
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_HCU_Login_Binding(inputData['body'])
+        elif inputData['action']=="GetUsrInfo":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_get_user_info(inputData['body'])
+        elif inputData['action']=="UpdateTel":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_openid_name_binding(inputData['body'])
         else:
             result=""
         return result
@@ -167,22 +173,28 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_login_req(inputData['body'])
         elif inputData['action']=='FhysSiteDel':
             result=F2cm.dft_dbi_site_keyauth_delete(inputData['body'])  
-            
+        elif inputData['action']=='GetDevCali':
+            result=F2cm.dft_dbi_get_device_cali(inputData['body'])  
+        elif inputData['action']=='SetDevCali':
+            result=F2cm.dft_dbi_set_device_cali(inputData['body'])  
             
         elif inputData['action']=='HCU_CPU_Query':
-            result=F2cmHCU.dft_dbi_HCU_CPU_Query()
+            result=F2cm.dft_dbi_HCU_CPU_Query(inputData['body'])
         elif inputData['action']=='HCU_CPU_Binding':
-            result=F2cmHCU.dft_dbi_HCU_CPU_Binding(inputData['body'])
+            result=F2cm.dft_dbi_HCU_CPU_Binding(inputData['body'])
         elif inputData['action']=='HCUProjectList':
-            result=F2cmHCU.dft_dbi_HCU_project_list()
+            result=F2cm.dft_dbi_HCU_project_list()
         elif inputData['action']=='HCU_Get_Free_Station':
-            result=F2cmHCU.dft_dbi_HCU_Get_Free_Station()
+            result=F2cm.dft_dbi_HCU_Get_Free_Station()
         elif inputData['action']=='HCU_sys_config':
-            result=F2cmHCU.dft_dbi_HCU_sys_config(inputData['body'])
+            result=F2cm.dft_dbi_HCU_sys_config(inputData['body'])
         elif inputData['action']=='HCU_sys_config_save':
-            result=F2cmHCU.dft_dbi_HCU_sys_config_save(inputData['body'])
+            result=F2cm.dft_dbi_HCU_sys_config_save(inputData['body'])
         elif inputData['action']=="HCU_Lock_Activate":
-            result=F2cmHCU.dct_t_HCU_Lock_Activate(inputData['body'])
+            result=F2cm.dft_dbi_HCU_Lock_Activate(inputData['body'])
+            
+        elif inputData['action']=="GetDevDetail":
+            result=F2cm.dft_dbi_get_device_detail(inputData['body'])
         
         else:
             result=""
@@ -214,7 +226,7 @@ class ClassDbaMainEntry():
         elif inputData['action']=='GetOpenImg':
             result=F3dm.dft_dbi_door_open_picture_process(inputData['body'])
         elif inputData['action']=='HCU_Info_Query':
-            result=F3dmHCU.dft_dbi_HCU_Info_Query(inputData['body'])
+            result=F3dm.dft_dbi_HCU_Info_Query(inputData['body'])
         else:
             result=""
         return result
@@ -530,6 +542,9 @@ class ClassHCUDbaMainEntry():
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         elif dev_code[1]=="G2400ZNXX":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2008SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:

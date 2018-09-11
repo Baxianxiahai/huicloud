@@ -249,12 +249,12 @@ class classDappDbF2cm:
         return result
     
     def dft_dbi_all_hcutable_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_all_hcutable_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_all_hcutable_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_aqyc_devinfo_new(self,inputData):
@@ -484,6 +484,96 @@ class classDappDbF2cm:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
+    
+    def dft_dbi_HCU_CPU_Query(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_CPU_Query(inputData)
+        except Exception:
+            result ={'status':'false','auth':'true', 'msg':'数据库发生错误，请刷新页面','ret':[]}
+        return result
+    def dft_dbi_HCU_CPU_Binding(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_CPU_Binding(inputData)
+        except Exception:
+            result ={'status':'false','auth':'true', 'msg':'数据库发生错误，请刷新页面'}
+        return result
+    
+    def dft_dbi_HCU_project_list(self):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_project_list()
+        except Exception:
+            result ={'status':'false','auth':'true', 'msg':'数据异常，请刷新页面','ret':[]}
+        return result
+    
+    def dft_dbi_HCU_Get_Free_Station(self):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_Get_Free_Station()
+        except Exception:
+            result ={'status':'false','auth':'true', 'msg':'数据异常，请刷新页面','ret':[]}
+        return result
+    
+    def dft_dbi_HCU_sys_config(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_sys_config(inputData)
+        except Exception:
+            result={'status':'true','auth':'true','ret':{},'msg':'获取参数设置失败'}
+        return result
+    
+    def dft_dbi_HCU_sys_config_save(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_sys_config_save(inputData)
+        except Exception:
+            result = {'status': 'false', 'auth': 'true', 'msg': '数据异常'}
+        return result
+    
+    def dft_dbi_HCU_Lock_Activate(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_HCU_Lock_Activate(inputData)
+        except Exception:
+            result = False
+        return result
+    
+    def dft_dbi_get_device_cali(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_get_device_cali(inputData)
+        except Exception:
+            result = {'status':'false','auth':'true','ret':{},'msg':'数据异常'}
+        return result
+    
+    def dft_dbi_set_device_cali(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_set_device_cali(inputData)
+        except Exception:
+            result = False
+        return result
+    
+    '''WeChart App 界面入口'''
+    def dft_dbi_get_device_detail(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_get_device_detail(inputData)
+        except Exception:
+            result = {'status': 'false', 'auth': 'true', 'DevDetail': []}
+        return result
 
 class HCUF2cmDataBaseConfirm():
     
@@ -505,68 +595,7 @@ class HCUF2cmDataBaseConfirm():
             msg_final = {'socketid': socketId,'data': {'ToUsr': inputData['FrUsr'], 'FrUsr': inputData['ToUsr'], "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': 152, "IeCnt": {"rand":0},"FnFlg": 0}}
             return msg_final      
        
-    '''HCU DataBase''' 
-    def dft_dbi_HCU_CPU_Query(self):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_HCU_CPU_Query()
-        except Exception:
-            result ={'status':'false','auth':'true', 'msg':'数据库发生错误，请刷新页面','ret':[]}
-        return result
-    def dft_dbi_HCU_CPU_Binding(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_HCU_CPU_Binding(inputData)
-        except Exception:
-            result ={'status':'false','auth':'true', 'msg':'数据库发生错误，请刷新页面'}
-        return result
     
-    def dft_dbi_HCU_project_list(self):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_HCU_project_list()
-        except Exception:
-            result ={'status':'false','auth':'true', 'msg':'数据库发生错误，请刷新页面','ret':[]}
-        return result
-    
-    def dft_dbi_HCU_Get_Free_Station(self):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_HCU_Get_Free_Station()
-        except Exception:
-            result ={'status':'false','auth':'true', 'msg':'数据库发生错误，请刷新页面','ret':[]}
-        return result
-    
-    def dft_dbi_HCU_sys_config(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_HCU_sys_config(inputData)
-        except Exception:
-            result={'status':'true','auth':'true','ret':{},'msg':'获取参数设置失败'}
-        return result
-    
-    def dft_dbi_HCU_sys_config_save(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_HCU_sys_config_save(inputData)
-        except Exception:
-            result = {'status': 'false', 'auth': 'true', 'msg': '数据库发生错误'}
-        return result
-    
-    def dct_t_HCU_Lock_Activate(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dct_t_HCU_Lock_Activate(inputData)
-        except Exception:
-            result = False
-        return result
     
     
         

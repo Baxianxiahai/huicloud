@@ -139,12 +139,21 @@ class classDappDbF3dm:
         return result
     
     def dft_dbi_point_install_picture_process(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_point_install_picture_process(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_point_install_picture_process(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_HCU_Info_Query(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_HCU_Info_Query(inputData)
+        except Exception:
+            result={'status':'true','auth':'true','msg':'获取设备状态失败','ret':[]}
         return result
     
     
@@ -163,14 +172,7 @@ class HCUF3dmDataBaseConfirm():
             result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
-    def dft_dbi_HCU_Info_Query(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
-                result=DappDbF3dm_view.dft_dbi_HCU_Info_Query(inputData)
-        except Exception:
-            result={'status':'true','auth':'true','msg':'获取设备状态失败','ret':[]}
-        return result
+    
     
     
     
