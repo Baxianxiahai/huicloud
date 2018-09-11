@@ -32,11 +32,10 @@ class dct_classDbiL3apF3dm():
 
     #FHYS
     __MFUN_HCU_FHYS_PIC_ABS_FOLDER='/var/www/html/avorion/upload/'
-
     __MFUN_HCU_SITE_PIC_FILE_TYPE=".jpg"
 
-
     #云控锁
+    
     #锁状态
     __HUITP_IEID_UNI_LOCK_STATE_NULL=0X00
     __HUITP_IEID_UNI_LOCK_STATE_OPEN=0X01
@@ -103,8 +102,6 @@ class dct_classDbiL3apF3dm():
     __MFUN_L3APL_F2CM_EVENT_TYPE_XJ='X'
     __MFUN_L3APL_F2CM_EVENT_TYPE_ALARM='A'
 
-
-
     def __dft_dbi_user_statproj_inquery(self,inputData):
         p_list=[]
         pg_list=[]
@@ -169,6 +166,7 @@ class dct_classDbiL3apF3dm():
                 for line in result:
                     resp=line.cam_url
         return resp
+    
     def dft_dbi_map_active_siteinfo_req(self,inputData):
         uid=inputData['uid']
         auth_list=self.__dft_dbi_user_statproj_inquery(uid)
@@ -1043,81 +1041,6 @@ class dct_classDbiL3apF3dm():
                 temp={'name':file_name,'url':file_url}
                 pic_list.append(temp)
         return pic_list
-
-class dct_t_HCU_Data_Report():
-    def __init__(self):
-        pass
-    
-    def __dft_dbi_winddir_convert(self,inputData):
-        degree=inputData
-        if (degree>=337.5 and degree<360) or degree<22.5:
-            winddir='北风'
-        elif (degree>=22.5 and degree<67.5):
-            winddir='东北风'
-        elif (degree>=67.5 and degree<112.5):
-            winddir='东风'
-        elif (degree>=112.5 and degree<157.5):
-            winddir='东南风'
-        elif (degree>=157.5 and degree<202.5):
-            winddir='南风'
-        elif (degree>=202.5 and degree<247.5):
-            winddir='西南风'
-        elif (degree>=247.5 and degree<292.5):
-            winddir='西风'
-        elif (degree>=292.5 and degree<337.5):
-            winddir='西北风'
-        else:
-            winddir='未知'
-        return winddir
-    
-    def dft_dbi_aqyc_current_report(self,socketId,inputData):
-        devCode=inputData['FrUsr']
-        ServerName=inputData['ToUsr']
-        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
-        if result.exists():
-            currentTime=inputData['CrTim']
-            currentData = inputData['IeCnt']
-            pm1d0Value = currentData['pm1d0Value']
-            pm2d5Value = currentData['pm2d5Value']
-            pm10Value = currentData['pm10Value']
-            tspValue = currentData['tspValue']
-            tempValue = currentData['tempValue']
-            humidValue = currentData['humidValue']
-            winddirValue = currentData['winddirValue']
-            windspdValue = currentData['windspdValue']
-            noiseValue = currentData['noiseValue']
-            # lightstrValue = currentData['lightstrValue']
-            # so2Value = currentData["so2Value"]
-            # co1Value = currentData["co1Value"]
-            # co2Value = currentData["co2Value"]
-            # no1Value = currentData["no1Value"]
-            # hsValue = currentData["hsValue"]
-            # hchoValue = currentData["hchoValue"]
-            # toxicgasValue = currentData["toxicgasValue"]
-            # rssiValue = ["rssiValue"]
-            # workContMins = currentData["workContMins"]
-            # pwrInd = currentData["pwrInd"]
-            timeArray=time.localtime(currentTime)
-            hourminindex=timeArray.tm_hour*60+timeArray.tm_min
-            dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,
-                                                           hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,
-                                                           pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
-                                                           humidity=humidValue,winddir=winddirValue,windspd=windspdValue)
-            if dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode,site_code=result[0].site_code).exists():
-                dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode,site_code=result[0].site_code).update(report_time=datetime.datetime.now(),tsp=tspValue,pm01=pm1d0Value,
-                                                           pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
-                                                           humidity=humidValue,winddir=winddirValue,windspd=windspdValue)
-            else:
-                dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,tsp=tspValue, pm01=pm1d0Value,pm25=pm2d5Value, pm10=pm10Value, noise=noiseValue, temperature=tempValue,humidity=humidValue, winddir=winddirValue, windspd=windspdValue)
-            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
-            msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
-        else:
-            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-            msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-        return Msg_final
-    
     
     def dft_dbi_HCU_Info_Query(self,inputData):
         dev_code=inputData['key']
@@ -1125,7 +1048,13 @@ class dct_t_HCU_Data_Report():
         retlist=[]
         if result.exists():
             for line in result:
+                map='设备编号：'+str(dev_code)
+                retlist.append(map)
                 map='最后一次上报时间：'+str(line.report_time)
+                retlist.append(map)
+                map = 'BASE_PORT：' + str(line.dev_code.base_port).ljust(5).replace(" ",'0') 
+                retlist.append(map)
+                map = '第三方编号：' + line.dev_code.zhb_label
                 retlist.append(map)
                 map = 'TSP：' + str(line.tsp)+'μg/m³'
                 retlist.append(map)
@@ -1147,3 +1076,64 @@ class dct_t_HCU_Data_Report():
                 retlist.append(map)
         retval={'status':'true','auth':'true','msg':'获取设备状态成功','ret':retlist}
         return retval
+
+class dct_t_HCU_Data_Report():
+    def __init__(self):
+        pass
+    
+    def dft_dbi_aqyc_current_report(self,socketId,inputData):
+        devCode=inputData['FrUsr']
+        ServerName=inputData['ToUsr']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        if result.exists():
+            currentTime=inputData['CrTim']
+            currentData = inputData['IeCnt']
+            pm1d0Value = currentData['pm1d0Value']
+            pm2d5Value = currentData['pm2d5Value']
+            pm10Value = currentData['pm10Value']
+            tspValue = currentData['tspValue']
+            tempValue = currentData['tempValue']
+            humidValue = currentData['humidValue']
+            winddirValue = currentData['winddirValue']
+            windspdValue = currentData['windspdValue']
+            noiseValue = currentData['noiseValue']
+            lightstrValue = currentData['lightstrValue']
+            so2Value = currentData["so2Value"]
+            co1Value = currentData["co1Value"]
+            co2Value = currentData["co2Value"]
+            no1Value = currentData["no1Value"]
+            hsValue = currentData["hsValue"]
+            hchoValue = currentData["hchoValue"]
+            toxicgasValue = currentData["toxicgasValue"]
+            rssiValue = currentData["rssiValue"]
+            workContMins = currentData["workContMins"]
+            pwrInd = currentData["pwrInd"]
+            timeArray=time.localtime(currentTime)
+            hourminindex=timeArray.tm_hour*60+timeArray.tm_min
+            dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,
+                                                           hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,
+                                                           pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
+                                                           humidity=humidValue,winddir=winddirValue,windspd=windspdValue,
+                                                           lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
+                                                           hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+            if dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).exists():
+                dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).update(site_code=result[0].site_code,report_time=datetime.datetime.now(),tsp=tspValue,pm01=pm1d0Value,
+                                                           pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
+                                                           humidity=humidValue,winddir=winddirValue,windspd=windspdValue,
+                                                           lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
+                                                           hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+            else:
+                dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,tsp=tspValue, pm01=pm1d0Value,pm25=pm2d5Value, pm10=pm10Value, noise=noiseValue, temperature=tempValue,humidity=humidValue, winddir=winddirValue, windspd=windspdValue,
+                                                                lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
+                                                                hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
+            msg_len=len(json.dumps(result))
+            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
+        else:
+            result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            msg_len=len(json.dumps(result))
+            Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+        return Msg_final
+    
+    
+    

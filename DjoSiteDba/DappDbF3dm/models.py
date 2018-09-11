@@ -18,6 +18,15 @@ class dct_t_l3f3dm_current_report_aqyc(models.Model):
     windspd = models.FloatField(default=0, verbose_name="风速")
     rain = models.FloatField(default=0, verbose_name="雨量")
     airpresure = models.FloatField(default=0, verbose_name="气压")
+    lightstr = models.FloatField(default=0, verbose_name="光照")
+    so2 = models.FloatField(default=0, verbose_name="二氧化硫")
+    co1 = models.FloatField(default=0, verbose_name="一氧化碳")
+    no1 = models.FloatField(default=0, verbose_name="一氧化氮")
+    h2s = models.FloatField(default=0, verbose_name="硫化氢")
+    hcho = models.FloatField(default=0, verbose_name="酒精")
+    toxicgas = models.FloatField(default=0, verbose_name="煤气")
+    rssi = models.FloatField(default=0, verbose_name="信号强度")
+    pwrind = models.FloatField(default=0, verbose_name="电量强度")
 
 
 class dct_t_l3f3dm_minute_report_aqyc(models.Model):
@@ -37,6 +46,15 @@ class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     windspd = models.FloatField(default=0, verbose_name="风速")
     rain = models.FloatField(default=0, verbose_name="雨量")
     airpresure = models.FloatField(default=0, verbose_name="气压")
+    lightstr = models.FloatField(default=0, verbose_name="光照")
+    so2 = models.FloatField(default=0, verbose_name="二氧化硫")
+    co1 = models.FloatField(default=0, verbose_name="一氧化碳")
+    no1 = models.FloatField(default=0, verbose_name="一氧化氮")
+    h2s = models.FloatField(default=0, verbose_name="硫化氢")
+    hcho = models.FloatField(default=0, verbose_name="酒精")
+    toxicgas = models.FloatField(default=0, verbose_name="煤气")
+    rssi = models.FloatField(default=0, verbose_name="信号强度")
+    pwrind = models.FloatField(default=0, verbose_name="电量强度")
 
 
 class dct_t_l3f3dm_alarm_report_aqyc(models.Model):

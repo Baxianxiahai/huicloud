@@ -144,6 +144,8 @@ class dct_classDbiL3apF1sym:
         'KeyGrant':0X02AA,
         'KeyAuthNew':0X02AB,
         'KeyAuthDel':0X02AC,
+        'GetDevCali':0X02AD,
+        'SetDevCali':0X02AE,
         #FUM3DMA
         'DevSensor':0X0301,
         'SensorList':0X0302,
@@ -293,7 +295,7 @@ class dct_classDbiL3apF1sym:
         str_array=['0','1','2','3','4','5','6','7','8','9']
         uid=''.join(random.sample(str_array,strlen))
         return uid
-    def __dft_updateSession(self,uid,sessionid):
+    def  __dft_updateSession(self,uid,sessionid):
         now_time=int(time.time())
         result=dct_t_l3f1sym_user_login_session.objects.filter(uid_id=uid)
         if result.exists():
@@ -604,3 +606,51 @@ class dct_classDbiL3apF1sym:
             'msg':msg
         }
         return confirm_msg
+    
+    def dft_dbi_openid_name_binding(self,inputData):
+        openid = inputData['code']
+        userName=inputData['username']
+        password=inputData['password']
+        telephone=inputData['telephone']
+        result=dct_t_l3f1sym_account_primary.objects.filter(login_name=userName,pass_word=password)
+        if result.exists():
+            status='true'
+            resp=dct_t_l3f1sym_account_secondary.objects.filter(uid_id=result[0].uid)
+            if resp.exists():
+                if resp[0].telephone!=None or resp[0].telephone!="":
+                    if telephone!=resp[0].telephone:
+                        status='false'
+                        user=""
+                        msg = '微信绑定失败'
+                    else:
+                        resp.update(openid=openid)
+                        user = result[0].uid
+                        msg = '微信绑定成功'
+                else:
+                    resp.update(openid=openid,telephone=telephone)
+                    user = result[0].uid
+                    msg = '微信绑定成功'
+            else:
+                status = 'false'
+                user = ''
+                msg = '微信绑定失败'
+        else:
+            user=""
+            status='false'
+            msg='用户名或密码错误'
+        data={'uid':user}
+        response_msg={'status':status,'auth':'true','data':data,'msg':msg}
+        return response_msg
+    
+    def dft_dbi_get_user_info(self,inputData):
+        openid=inputData['code']
+        result=dct_t_l3f1sym_account_secondary.objects.filter(openid=openid)
+        if result.exists():
+            for line in result:
+                status='true'
+                uid=line.uid_id
+        else:
+            status = 'false'
+            uid=""
+        response_msg={'status':status,'auth':'true','uid':uid,'openid':openid}
+        return response_msg

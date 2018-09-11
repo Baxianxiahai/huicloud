@@ -16,6 +16,7 @@ class dct_t_l3f1sym_account_secondary(models.Model):
     uid=models.OneToOneField(dct_t_l3f1sym_account_primary,on_delete=models.CASCADE,primary_key=True)
     nick_name=models.CharField(max_length=20,null=True,blank=True)
     true_name=models.CharField(max_length=20,null=True,blank=True)
+    openid=models.CharField(max_length=50,null=True)
     gender=models.IntegerField(choices=CHOICES,default=1)
     age=models.IntegerField(null=True,blank=True)
     telephone=models.CharField(max_length=11,null=True,blank=True)

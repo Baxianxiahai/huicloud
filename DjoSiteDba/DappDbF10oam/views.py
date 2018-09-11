@@ -9,7 +9,6 @@ import datetime
 from DappDbF10oam.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
-from Demos.print_desktop import pDC
 class dct_DappF10Class():
     __MFUN_CLOUD_QRCODE_ABS_DIR="/var/www/html/avorion/hcu_qrcode/"
     __MFUN_CLOUD_QRCODE_WWW_DIR="/avorion/hcu_qrcode/"
@@ -18,7 +17,7 @@ class dct_DappF10Class():
     __MFUN_CLOUD_ADMINTOOLS_QRCODE_DIGCODE_LEN=5
     __MFUN_CLOUD_ADMINTOOLS_QRCODE_APPLY_MAX=100
     __MFUN_CLOUD_ADMINTOOLS_FHYS_QRCODE_BASE="http://www.foome.com.cn/mfunhcu/l4hcuinstall/index.html?code="
-    __MFUN_CLOUD_ADMINTOOLS_AQYC_QRCODE_BASE="http://www.hkrob.com/mfunhcu/l4aqycactive/index.html?code="
+    __MFUN_CLOUD_ADMINTOOLS_AQYC_QRCODE_BASE="http://ngrok2.hkrob.com/mfunhcu/l4aqycactive/index.html?code="
 
     __HUITP_IEID_UNI_EQU_ENTRY_NONE=0
     __HUITP_IEID_UNI_EQU_ENTRY_HCU_SW=1
@@ -103,9 +102,9 @@ class dct_DappF10Class():
         else:
             pdCode_middle="G"+pdCode
             pdCode_base=pdCode_middle.ljust(5).replace(" ","_")
-        if pjCode=='AQYC':
+        if (pjCode=='AQYC') | (pjCode=='ANXX'):
             qrcode_base=self.__MFUN_CLOUD_ADMINTOOLS_AQYC_QRCODE_BASE
-        elif pjCode=='FHYS':
+        elif pjCode=='FHYS' :
             qrcode_base=self.__MFUN_CLOUD_ADMINTOOLS_FHYS_QRCODE_BASE
         else:
             resp = {'auth': 'false', 'msg': "申请的项目代码不存在"}
@@ -165,8 +164,13 @@ class dct_DappF10Class():
         applyNum = int(inputData['ApplyNbr'])
         qrcode_insert_list=list()
         pj_insert_list=list()
+        base_port_max=dct_t_l3f2cm_device_inventory.objects.all().order_by("-base_port")[0].base_port
         for devCode in devCodeArray:
-            qrcode_insert_list.append(dct_t_l3f2cm_device_inventory(dev_code=devCode,create_date=datetime.date.today(),hw_type=int(pdCode)))
+            if dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode).exists():
+                pass
+            else:
+                base_port_max=base_port_max+1
+                qrcode_insert_list.append(dct_t_l3f2cm_device_inventory(dev_code=devCode, create_date=datetime.date.today(),hw_type=int(pdCode),base_port=base_port_max))
         dct_t_l3f2cm_device_inventory.objects.bulk_create(qrcode_insert_list)
         time.sleep(1)
         if pjCode=='AQYC':

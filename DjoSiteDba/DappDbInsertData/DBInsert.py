@@ -17,6 +17,7 @@ from DappDbF1sym.models import dct_t_l3f1sym_menu_code_mapping,dct_t_l3f1sym_use
 from DappDbF1sym import views
 from DappDbF11faam.models import *
 from DappDbF2cm.models import dct_t_l3f2cm_device_inventory
+from DappDbF3dm.models import *
 faam1={
     'webauth':{
         #FUM1SYM
@@ -146,6 +147,8 @@ faam1={
         'KeyGrant':0X02AA,
         'KeyAuthNew':0X02AB,
         'KeyAuthDel':0X02AC,
+        'GetDevCali':0X02AD,
+        'SetDevCali':0X02AE,
         #FUM3DMA
         'DevSensor':0X0301,
         'SensorList':0X0302,
@@ -393,9 +396,73 @@ def hcu_delete(dev_Code):
 def hcu_update_hw_type(hw_type):
     dct_t_l3f2cm_device_inventory.objects.filter(dev_code__icontains=str(hw_type)).update(hw_type=hw_type)
 
+def insert_old_hcu_data():
+    old_hcu = [
+        'HCU_G201_AQYC_SH015',
+        'HCU_G201_AQYC_SH016',
+        'HCU_G201_AQYC_SH017',
+        'HCU_G201_AQYC_SH050',
+        'HCU_G201_AQYC_SH051',
+        'HCU_G201_AQYC_SH052',
+        'HCU_G201_AQYC_SH053',
+        'HCU_G201_AQYC_SH054',
+        'HCU_G201_AQYC_SH055',
+        'HCU_G201_AQYC_SH056',
+        'HCU_G201_AQYC_SH057',
+        'HCU_G201_AQYC_SH058',
+        'HCU_G201_AQYC_SH059',
+        'HCU_G201_AQYC_SH060',
+        'HCU_G201_AQYC_SH061',
+        'HCU_G201_AQYC_SH062',
+        'HCU_G201_AQYC_SH063',
+        'HCU_G201_AQYC_SH064',
+        'HCU_G201_AQYC_SH065',
+        'HCU_G201_AQYC_SH066',
+        'HCU_G201_AQYC_SH067',
+        'HCU_G201_AQYC_SH069',
+        'HCU_G201_AQYC_SH070',
+        'HCU_G201_AQYC_SH071',
+        'HCU_G201_AQYC_SH073',
+    ]
+    print(len(old_hcu))
+    result = dct_t_l3f2cm_device_inventory.objects.all().order_by('-base_port')
+    base_port = result[0].base_port
+    old_hcu_list=list()
+    for i in range(len(old_hcu)):
+        old_hcu_list.append(dct_t_l3f2cm_device_inventory(dev_code=old_hcu[i],create_date=datetime.date.today(),valid_flag=1,
+                                                          hw_type=2008,sw_ver=375,
+                                                          zhb_label='ABCDEF',upgradeflag=1,rebootflag=0,base_port=base_port+i+1,dust_coefmax=700,
+                                                          dust_coefmin=10,dust_coefK=1,dust_coefB=0,dust_threshold=30,temp_coefmax=100,temp_coefmin=-40,
+                                                          temp_coefK=1,temp_coefB=0,humid_coefmax=100,humid_coefmin=0,humid_coefK=1,humid_coefB=0,
+                                                          noise_coefmax=130,noise_coefmin=30,noise_coefK=1,noise_coefB=0,windspd_coefmax=1500,
+                                                          windspd_coefmin=0,windspd_coefK=1,windspd_coefB=0,winddir_delta=0,winddir_coefmax=360,
+                                                          winddir_coefmin=0,winddir_coefK=1,winddir_coefB=0))
+    dct_t_l3f2cm_device_inventory.objects.bulk_create(old_hcu_list)
+    print('hello world')
+
+def dft_delete_hcu(a):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=a).delete()
+
 if __name__ == "__main__":
+    a='HCU_G201_AQYC_SH088'
+    dft_delete_hcu(a)
+    #insert_old_hcu_data()
     
-    print("Hello World")
+    
+    
+    
+    
+#     resp_dev_data = dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id='HCU_G2400ZNXX_SH003')
+#     date_time_now=datetime.datetime.now()
+#     report_time=resp_dev_data[0].report_time
+#     int_date_time=time.mktime(date_time_now.timetuple())
+#     int_report_time=time.mktime(report_time.timetuple())
+#     print(date_time_now-report_time)
+#     print(int_date_time)
+#     print(int_report_time)
+    
+    
+#     insert_menu_code_mapping()
     
 #     hcu_update_hw_type(8001)
 #     hcu_update_hw_type(8002)
@@ -404,7 +471,7 @@ if __name__ == "__main__":
 #     hcu_update_hw_type(2302)
 #     hcu_update_hw_type(2013)
 #     hcu_update_hw_type(2012)
-#     hcu_update_hw_type(2008)
+#     hcu_update_hw_type(2008) 
     
     
     
@@ -422,14 +489,6 @@ if __name__ == "__main__":
 #     ]
 #     for dev in delete_array:
 #         hcu_delete(dev)
-
-
-
-
-
-
-
-
 
 
     # result=dct_t_l3f2cm_device_inventory.objects.latest('base_port')
