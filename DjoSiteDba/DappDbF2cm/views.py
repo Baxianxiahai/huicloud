@@ -8,6 +8,7 @@ from DappDbF3dm.models import *
 from django.db.models import Q
 from DappDbF10oam.models import *
 import json
+from DappDbInsertData.DappDbMsgDefine import *
 
 # Create your views here.
 class dct_classDbiL3apF2cm:
@@ -1790,6 +1791,87 @@ class dct_classDbiL3apF2cm:
         else:
             return False
     
+#     def dft_dbi_hcu_loop_test_view(self, inputData):
+#         time.sleep(0.5)
+#         print(HCUReportAndConfirm().HCU_DEV_STATUS)
+#         print(HCUReportAndConfirm().HCU_DEV_NAME)
+#         devCode = inputData['code']
+#         result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+#         msg = {}
+#         if result.exists():
+#             socketID=result[0].socket_id
+#             if HCUReportAndConfirm().HCU_DEV_STATUS == "":
+#                 msg = {'status':"pending",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#             elif HCUReportAndConfirm().HCU_DEV_STATUS=="False":
+#                 msg={'status':"false"}
+#             else:
+#                 if HCUReportAndConfirm().HCU_DEV_NAME != devCode:
+#                     msg = {'status':"pending",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#                 else:
+#                     msg = {'status':"true",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#         return msg
+# 
+#     def dft_dbi_hcu_reboot(self, inputData):
+#         time.sleep(1)
+#         print(HCUReportAndConfirm().HCU_REBOOT_STATUS)
+#         print(HCUReportAndConfirm().HCU_REBOOT_NAME)
+#         devCode = inputData['code']
+#         result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+#         if result.exists():
+#             for line in result:
+#                 socketId = line.socket_id
+#                 if HCUReportAndConfirm().HCU_REBOOT_STATUS=="":
+#                     msg = {'status':"pending",'loop_resp':{'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF042, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#                 elif HCUReportAndConfirm().HCU_REBOOT_STATUS=="True":
+#                     if HCUReportAndConfirm().HCU_REBOOT_NAME!=devCode:
+#                         msg = {'status':"pending",'loop_resp':{'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF042, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#                     else:
+#                         msg = {'status':"true"}
+#         else:
+#             msg = {'status':"false"}
+#         return msg
+    
+    
+    def dft_dbi_hcu_loop_test_view(self, inputData):
+        devCode = inputData['code']
+        result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+        msg = {}
+        if result.exists():
+            socketID=result[0].socket_id
+            if result[0].cmd_flag==GOLBALVAR.HCU_LOOP_TETS_RESP:
+                msg={'status':'true'}
+            else:
+                msg = {'status': "pending", 'loop_resp': {'socketid': socketID,'data':
+                    {'ToUsr': devCode, 'FrUsr': "XHTS","CrTim": int(time.time()),
+                     'MsgTp': 'huitp_json','MsgId': 0XF041, 'MsgLn': 115,
+                     "IeCnt": {"rand": random.randint(10000, 20000)},"FnFlg": 0}}}
+        return msg
+
+    def dft_dbi_hcu_loop_test_start_view(self,inputData):
+        devCode = inputData['code']
+        dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode).update(cmd_flag=GOLBALVAR.HCU_LOOP_TETS_REQ)
+        msg={"status":"true","auth":"true",'msg':'测试开始'}
+        return msg
+
+    def dft_dbi_hcu_reboot(self, inputData):
+        devCode = inputData['code']
+        req_time=inputData['time']
+        result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+        if result.exists():
+            socketId = result[0].socket_id
+            if req_time==0:
+                result.update(cmd_flag=GOLBALVAR.HCU_RESTART_REQ)
+            if result[0].cmd_flag==GOLBALVAR.HCU_RESTART_RESP:
+                msg = {'status': 'true'}
+            else:
+                msg = {'status': "pending", 'loop_resp': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
+                                                                                        "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                                                                                        'MsgId': 0XF042, 'MsgLn': 115,
+                                                                                        "IeCnt": {"rand": random.randint(10000, 20000)},
+                                                                                        "FnFlg": 0}}}
+            return msg
+        else:
+            return False
     
     def dft_dbi_get_device_detail(self,inputData):
         user_id=inputData['uid']
@@ -1868,6 +1950,10 @@ class dct_classDbiL3apF2cm:
 class HCUReportAndConfirm():
     
     def __init__(self):
+        self.HCU_DEV_STATUS=""
+        self.HCU_DEV_NAME=""
+        self.HCU_REBOOT_STATUS=""
+        self.HCU_REBOOT_NAME=""
         pass
     def dft_dbi_response_HCU_data(self,socketId,inputData):
         InsertTime=datetime.datetime.now()
@@ -1918,39 +2004,76 @@ class HCUReportAndConfirm():
                             calNoiseCoefMin=line_dev.noise_coefmin
                             calNoiseCoefK=line_dev.noise_coefK
                             calNoiseCoefB=line_dev.noise_coefB
+                            
+#                             msgIeCnt = {
+#                                 "hwType": hwtype,
+#                                 'ngrokPort': ngrokPort,
+#                                 'hcuLable': hcuLable,
+#                                 'zhbLable': zhbLable,
+#                                 'upgradeFlag': upgradeFlag,
+#                                 'restartRightNow': restartRightNow,
+#                                 'calWinddir': calWinddir,
+#                                 'calPm25CoefMax': calPm25CoefMax,
+#                                 'calPm25CoefMin': calPm25CoefMin,
+#                                 'calPm25CoefK': calPm25CoefK,
+#                                 'calPm25CoefB': calPm25CoefB,
+#                                 'calPm25ThdCannon':dust_threshold,
+#                                 'calTempCoefMax': calTempCoefMax,
+#                                 'calTempCoefMin': calTempCoefMin,
+#                                 'calTempCoefK': calTempCoefK,
+#                                 'calTempCoefB': calTempCoefB,
+#                                 'calHumidCoefMax': calHumidCoefMax,
+#                                 'calHumidCoefMin': calHumidCoefMin,
+#                                 'calHumidCoefK': calHumidCoefK,
+#                                 'calHumidCoefB': calHumidCoefB,
+#                                 'calWinddirCoefMax': calWinddirCoefMax,
+#                                 'calWinddirCoefMin': calWinddirCoefMin,
+#                                 'calWinddirCoefK': calWinddirCoefK,
+#                                 'calWinddirCoefB': calWinddirCoefB,
+#                                 'calWindspdCoefMax': calWindspdCoefMax,
+#                                 'calWindspdCoefMin': calWindspdCoefMin,
+#                                 'calWindspdCoefK': calWindspdCoefK,
+#                                 'calWindspdCoefB': calWindspdCoefB,
+#                                 'calNoiseCoefMax': calNoiseCoefMax,
+#                                 'calNoiseCoefMin': calNoiseCoefMin,
+#                                 'calNoiseCoefK': calNoiseCoefK,
+#                                 'calNoiseCoefB': calNoiseCoefB,
+#                             }
+
+                            
                             msgIeCnt = {
-                                "hwType": hwtype,
-                                'ngrokPort': ngrokPort,
-                                'hcuLable': hcuLable,
-                                'zhbLable': zhbLable,
-                                'upgradeFlag': upgradeFlag,
-                                'restartRightNow': restartRightNow,
-                                'calWinddir': calWinddir,
-                                'calPm25CoefMax': calPm25CoefMax,
-                                'calPm25CoefMin': calPm25CoefMin,
-                                'calPm25CoefK': calPm25CoefK,
-                                'calPm25CoefB': calPm25CoefB,
-                                'calPm25ThdCannon':dust_threshold,
-                                'calTempCoefMax': calTempCoefMax,
-                                'calTempCoefMin': calTempCoefMin,
-                                'calTempCoefK': calTempCoefK,
-                                'calTempCoefB': calTempCoefB,
-                                'calHumidCoefMax': calHumidCoefMax,
-                                'calHumidCoefMin': calHumidCoefMin,
-                                'calHumidCoefK': calHumidCoefK,
-                                'calHumidCoefB': calHumidCoefB,
-                                'calWinddirCoefMax': calWinddirCoefMax,
-                                'calWinddirCoefMin': calWinddirCoefMin,
-                                'calWinddirCoefK': calWinddirCoefK,
-                                'calWinddirCoefB': calWinddirCoefB,
-                                'calWindspdCoefMax': calWindspdCoefMax,
-                                'calWindspdCoefMin': calWindspdCoefMin,
-                                'calWindspdCoefK': calWindspdCoefK,
-                                'calWindspdCoefB': calWindspdCoefB,
-                                'calNoiseCoefMax': calNoiseCoefMax,
-                                'calNoiseCoefMin': calNoiseCoefMin,
-                                'calNoiseCoefK': calNoiseCoefK,
-                                'calNoiseCoefB': calNoiseCoefB,
+                                "htp": hwtype,
+                                'npt': ngrokPort,
+                                'hlb': hcuLable,
+                                'zlb': zhbLable,
+                                'ufg': upgradeFlag,
+                                'rrn': restartRightNow,
+                                'cwd': calWinddir,
+                                'p25x': calPm25CoefMax,
+                                'p25i': calPm25CoefMin,
+                                'p25k': calPm25CoefK,
+                                'p25b': calPm25CoefB,
+                                'tpx': calTempCoefMax,
+                                'tpi': calTempCoefMin,
+                                'tpk': calTempCoefK,
+                                'tpb': calTempCoefB,
+                                'hmx': calHumidCoefMax,
+                                'hmi': calHumidCoefMin,
+                                'hmk': calHumidCoefK,
+                                'hmb': calHumidCoefB,
+                                'wdx': calWinddirCoefMax,
+                                'wdi': calWinddirCoefMin,
+                                'wdk': calWinddirCoefK,
+                                'wdb': calWinddirCoefB,
+                                'wsx': calWindspdCoefMax,
+                                'wsi': calWindspdCoefMin,
+                                'wsk': calWindspdCoefK,
+                                'wsb': calWindspdCoefB,
+                                'nsm': calNoiseCoefMax,
+                                'nsi': calNoiseCoefMin,
+                                'nsk': calNoiseCoefK,
+                                'nsb': calNoiseCoefB,
+                                'ptc':dust_threshold,
                             }
                         msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
                         msg_len=len(json.dumps(msg))
@@ -1977,6 +2100,19 @@ class HCUReportAndConfirm():
                               'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': msg_len, "IeCnt": {"rand":random.randint(10000,9999999)},
                               "FnFlg": 0}}
         return msg_final
+      
+    def dft_dbi_hcu_loop_test_view(self, socketId, inputData):
+        dev_Code = inputData['FrUsr']
+        rand = inputData['IeCnt']['rand']
+        if rand > 0:
+            dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_LOOP_TETS_RESP)
+
+    def dft_dbi_device_reboot_view(self,socketId, inputData):
+        dev_Code = inputData['FrUsr']
+        rand = inputData['IeCnt']['rand']
+        if rand > 0:
+            dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_RESTART_RESP)
+        
     
     
     

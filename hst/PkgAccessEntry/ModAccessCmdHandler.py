@@ -22,7 +22,8 @@ from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
 from PkgHstSpecial import ModSpecialGeneral  #Special Usage
-from PkgAccessEntry.ModAccessDict import *
+from builtins import int
+from PkgAccessEntry import ModAccessDict
 
 class ClassEntryCmdHandler:
     '''
@@ -163,9 +164,11 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F9gism:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F9gism_Send_Message(inputStr['parContent'])
+                
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F10oam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F10oam_Send_Message(inputStr['parContent'])
+                
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F11faam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F11Faam_Send_Message(inputStr['parContent'])
@@ -476,17 +479,29 @@ class ClassHCUReportDataToDba:
         if self.publicOutputResultFlag==False:
             return 
         else:
-            if inputData['MsgId']==GOLBALVAR.HUITPJSON_MSGID_YCHOLOPSREPORT:
+            if inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHOLOPSREPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F2cm_Send_Message(socketId,inputData)
                 return result
-            elif inputData['MsgId']==GOLBALVAR.HUITPJSON_MSGID_YCDATAREPORT:
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCDATAREPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F3dm_Data_Current_Report(socketId, inputData)
                 return result
-            elif inputData['MsgId']==GOLBALVAR.HUITPJSON_MSGID_YCHEARTREPORT:
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHEARTREPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F2cm_Heart_Data_Report(socketId, inputData)
+                return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_LOOP_TEST_RESP:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F2cm_Device_Loop_Test(socketId, inputData)
+                return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_REBOOT_RESP:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_dbi_device_reboot(socketId, inputData)
+                return result  
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_INVENTORY_REQ:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F10oam_HCU_Inventory_Report(socketId, inputData)
                 return result
             else:
                 return

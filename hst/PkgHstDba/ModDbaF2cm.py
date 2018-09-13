@@ -440,12 +440,12 @@ class classDappDbF2cm:
         return result
     
     def dft_dbi_key_grant_process(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_key_grant_process(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_key_grant_process(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_key_authnew_process(self,inputData):
@@ -565,6 +565,35 @@ class classDappDbF2cm:
             result = False
         return result
     
+    #界面回环测试
+    def dft_dbi_hcu_loop_test(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_hcu_loop_test_view(inputData)
+        except Exception:
+            result ={'status':"false"}
+        return result
+    
+    def dft_dbi_hcu_reboot(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_hcu_reboot(inputData)
+        except Exception:
+            result = {'status':"false"}
+        return result
+    
+    def dft_dbi_hcu_loop_test_start(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_hcu_loop_test_start_view(inputData)
+        except Exception:
+            msg={"status":"false","auth":"true",'msg':'测试失败'}
+        return result
+    
+    
     '''WeChart App 界面入口'''
     def dft_dbi_get_device_detail(self,inputData):
         try:
@@ -594,6 +623,24 @@ class HCUF2cmDataBaseConfirm():
         except Exception:
             msg_final = {'socketid': socketId,'data': {'ToUsr': inputData['FrUsr'], 'FrUsr': inputData['ToUsr'], "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': 152, "IeCnt": {"rand":0},"FnFlg": 0}}
             return msg_final      
+    
+    def dft_dbi_device_loop_test(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
+                result=DappDbF2cm_view.dft_dbi_hcu_loop_test_view(socketId,inputData)
+                return result
+        except Exception:
+            return 
+        
+    def dft_dbi_device_reboot(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
+                result=DappDbF2cm_view.dft_dbi_device_reboot_view(socketId,inputData)
+                return result
+        except Exception:
+            return 
        
     
     

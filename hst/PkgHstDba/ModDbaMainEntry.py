@@ -193,8 +193,17 @@ class ClassDbaMainEntry():
         elif inputData['action']=="HCU_Lock_Activate":
             result=F2cm.dft_dbi_HCU_Lock_Activate(inputData['body'])
             
+        elif inputData['action']=="HCU_Loop_Status":
+            result=F2cm.dft_dbi_hcu_loop_test(inputData['body'])
+            
         elif inputData['action']=="GetDevDetail":
             result=F2cm.dft_dbi_get_device_detail(inputData['body'])
+            
+        elif inputData['action']=="HCU_Reboot":
+            result=F2cm.dft_dbi_hcu_reboot(inputData['body'])
+        
+        elif inputData['action']=="HCU_Start_Loop":
+            result=F2cm.dft_dbi_hcu_loop_test_start(inputData['body'])
         
         else:
             result=""
@@ -314,6 +323,14 @@ class ClassDbaMainEntry():
             result=F10oam.dft_dbi_tools_qrcode_newapply(inputData['body'])
         elif inputData['action']=="InsertQrcode":
             result=F10oam.dft_dbi_qrcode_data_insert(inputData['body'])
+        elif inputData['action']=="GetSoftwareLoadTable":
+            result=F10oam.dft_dbi_tools_swload_table_get(inputData['body'])
+        elif inputData['action']=="SoftwareLoadNew":
+            result=F10oam.dft_dbi_tools_swload_info_add(inputData['body'])
+        elif inputData['action']=="SoftwareLoadDel":
+            result=F10oam.dft_dbi_tools_swload_info_delete(inputData['body'])
+        elif inputData['action']=="SoftwareLoadStatusChange":
+            result=F10oam.dft_dbi_tools_swload_validflag_change(inputData['body'])
         return result
     
     
@@ -533,6 +550,15 @@ class ClassHCUDbaMainEntry():
         result=F2cm.dft_dbi_device_heart_report_data(socketId, inputData)
         return result
     
+    def dft_dbi_device_reboot(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_device_reboot(socketId,inputData)
+        return result
+    def dft_F2cm_Device_Loop_Test(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_device_loop_test(socketId, inputData)
+        return result
+    
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         FrUsr=inputData['FrUsr']
@@ -547,12 +573,20 @@ class ClassHCUDbaMainEntry():
         elif dev_code[1]=="G2008SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
+        elif dev_code[1]=="G2012NALT":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
         else:
             result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId': GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
             Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
-        
+    
+    
+    def dft_F10oam_HCU_Inventory_Report(self,socketId,inputData):
+        F10oam=ModDbaF10oam.classDappDbF10oam()
+        result=F10oam.dft_dbi_hcu_inventory_confirm(socketId, inputData)
+        return result
     
             
     
