@@ -200,8 +200,8 @@ class dct_classDbiL3apF4icm:
         result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
         if result.exists():
             for line in result:
-                cam_ctrl=line.ctrl_url
-                rtsp=line.cam_url
+                cam_ctrl=line.ctrl1_url
+                rtsp=line.pic1_url
                 camweb={'video':rtsp,'camera':cam_ctrl}
         return camweb
     def dft_dbi_hcu_hsmmplist_inquery(self,inputData):
@@ -236,7 +236,7 @@ class dct_classDbiL3apF4icm:
         result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
         if result.exists():
             for line in result:
-                url=line.cam_url
+                url=line.pic1_url
                 filename=""
                 username=self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
@@ -294,7 +294,7 @@ class dct_classDbiL3apF4icm:
         result=dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=devCode)
         if result.exists():
             for line in result:
-                url_1=line.cam_url
+                url_1=line.pic1_url
                 filename = ""
                 username = self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password = self.__MFUN_HCU_AQYC_CAM_PASSWORD
@@ -340,7 +340,7 @@ class dct_classDbiL3apF4icm:
                     else:
                         cam_1 = {}
 
-                url_2 = line.cam_url
+                url_2 = line.pic2_url
                 filename = ""
                 username = self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password = self.__MFUN_HCU_AQYC_CAM_PASSWORD
@@ -386,7 +386,7 @@ class dct_classDbiL3apF4icm:
                     else:
                         cam_2 = {}
 
-                url_3 = line.cam_url
+                url_3 = line.pic3_url
                 filename = ""
                 username = self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password = self.__MFUN_HCU_AQYC_CAM_PASSWORD
@@ -452,13 +452,13 @@ class dct_classDbiL3apF4icm:
         resp=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
         if resp.exists():
             for line in resp:
-                pic_url=line.cam_url
-                vcrurl=line.ctrl_url
+                pic_url=line.pic1_url
+                vcrurl=line.ctrl1_url
         else:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
         password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
-        ctrl_url=vcrurl+"/PTZCtrl/channels/1/continuous"
+        ctrl_url=vcrurl
         if adj=="1":
             start_xml_string = "<PTZData version=\"2.0\" xmlns=\"http://www.hikvision.com/ver20/XMLSchema\"><pan>0</pan><tilt>60</tilt></PTZData>"
         elif adj=="-1":
@@ -529,13 +529,13 @@ class dct_classDbiL3apF4icm:
         resp=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
         if resp.exists():
             for line in resp:
-                pic_url=line.cam_url
-                vcrurl=line.ctrl_url
+                pic_url=line.pic1_url
+                vcrurl=line.ctrl1_url
         else:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
         password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
-        ctrl_url=vcrurl+"/PTZCtrl/channels/1/continuous"
+        ctrl_url=vcrurl
         if adj=="1":
             start_xml_string = "<PTZData version=\"2.0\" xmlns=\"http://www.hikvision.com/ver20/XMLSchema\"><pan>60</pan><tilt>0</tilt></PTZData>"
         elif adj=="-1":
@@ -606,8 +606,8 @@ class dct_classDbiL3apF4icm:
         resp=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
         if resp.exists():
             for line in resp:
-                pic_url=line.cam_url
-                vcrurl=line.ctrl_url
+                pic_url=line.pic1_url
+                vcrurl=line.ctrl1_url
         else:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
@@ -620,7 +620,6 @@ class dct_classDbiL3apF4icm:
         else:
             position = abs(adj)*10
             input_xml_string = "<PTZData version=\"2.0\" xmlns=\"http://www.hikvision.com/ver20/XMLSchema\"><AbsoluteHigh><elevation>000</elevation><azimuth>"+str(position)+"</azimuth><absoluteZoom>1</absoluteZoom></AbsoluteHigh></PTZData>"
-        print("XXXXXXXXX:"+input_xml_string)
         curl = pycurl.Curl()
         curl.setopt(pycurl.URL, ctrl_url)
         curl.setopt(pycurl.HEADER, 0)
@@ -682,13 +681,13 @@ class dct_classDbiL3apF4icm:
         resp=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
         if resp.exists():
             for line in resp:
-                pic_url=line.cam_url
-                vcrurl=line.ctrl_url
+                pic_url=line.pic1_url
+                vcrurl=line.ctrl1_url
         else:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
         password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
-        ctrl_url=vcrurl+"/PTZCtrl/channels/1/homeposition/goto"
+        ctrl_url=(vcrurl.split("PTZCtrl")[0])+"/PTZCtrl/channels/1/homeposition/goto"
         curl = pycurl.Curl()
         curl.setopt(pycurl.URL, ctrl_url)
         curl.setopt(pycurl.HEADER, 0)

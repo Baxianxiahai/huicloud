@@ -5,7 +5,7 @@ from email.policy import default
 class dct_t_l3f3dm_current_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     report_time = models.DateTimeField(auto_now=True)
     tsp = models.FloatField(default=0, verbose_name="TSP")
     pm01 = models.FloatField(default=0, verbose_name="PM0.1")
@@ -18,12 +18,21 @@ class dct_t_l3f3dm_current_report_aqyc(models.Model):
     windspd = models.FloatField(default=0, verbose_name="风速")
     rain = models.FloatField(default=0, verbose_name="雨量")
     airpresure = models.FloatField(default=0, verbose_name="气压")
+    lightstr = models.FloatField(default=0, verbose_name="光照")
+    so2 = models.FloatField(default=0, verbose_name="二氧化硫")
+    co1 = models.FloatField(default=0, verbose_name="一氧化碳")
+    no1 = models.FloatField(default=0, verbose_name="一氧化氮")
+    h2s = models.FloatField(default=0, verbose_name="硫化氢")
+    hcho = models.FloatField(default=0, verbose_name="酒精")
+    toxicgas = models.FloatField(default=0, verbose_name="煤气")
+    rssi = models.FloatField(default=0, verbose_name="信号强度")
+    pwrind = models.FloatField(default=0, verbose_name="电量强度")
 
 
 class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     report_date = models.DateTimeField(auto_now=True)
     hourminindex = models.IntegerField(default=0)
     tsp = models.FloatField(default=0, verbose_name="TSP")
@@ -37,12 +46,21 @@ class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     windspd = models.FloatField(default=0, verbose_name="风速")
     rain = models.FloatField(default=0, verbose_name="雨量")
     airpresure = models.FloatField(default=0, verbose_name="气压")
+    lightstr = models.FloatField(default=0, verbose_name="光照")
+    so2 = models.FloatField(default=0, verbose_name="二氧化硫")
+    co1 = models.FloatField(default=0, verbose_name="一氧化碳")
+    no1 = models.FloatField(default=0, verbose_name="一氧化氮")
+    h2s = models.FloatField(default=0, verbose_name="硫化氢")
+    hcho = models.FloatField(default=0, verbose_name="酒精")
+    toxicgas = models.FloatField(default=0, verbose_name="煤气")
+    rssi = models.FloatField(default=0, verbose_name="信号强度")
+    pwrind = models.FloatField(default=0, verbose_name="电量强度")
 
 
 class dct_t_l3f3dm_alarm_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     alarmflag = models.CharField(max_length=1)
     alarmseverity = models.IntegerField(default=0, blank=True)
     alarmcontent = models.IntegerField(default=0, blank=True)
@@ -58,7 +76,7 @@ class dct_t_l3f3dm_alarm_report_aqyc(models.Model):
 class dct_t_l3f3dm_current_report_fhys(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     report_time = models.DateTimeField(auto_now=True)
     door_1 = models.IntegerField(default=0,null=True)
     door_2 = models.IntegerField(default=0,null=True)
@@ -82,7 +100,7 @@ class dct_t_l3f3dm_current_report_fhys(models.Model):
 class dct_t_l3f3dm_minute_report_fhys(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     report_date = models.DateTimeField(auto_now_add=True)
     hourminindex = models.IntegerField(default=0)
     door_1 = models.IntegerField(default=0)
@@ -107,7 +125,7 @@ class dct_t_l3f3dm_minute_report_fhys(models.Model):
 class dct_t_l3f3dm_alarm_report_fhys(models.Model):
     sid=models.AutoField(primary_key=True)
     dec_code=models.ForeignKey(dct_t_l3f2cm_device_inventory,on_delete=models.CASCADE)
-    site_code=models.ForeignKey(dct_t_l3f2cm_site_common,on_delete=models.CASCADE)
+    site_code=models.ForeignKey(dct_t_l3f2cm_site_common,on_delete=models.CASCADE,null=True)
     alarmflag=models.CharField(max_length=1,null=True)
     alaemseverity=models.IntegerField(default=0)
     alarmcode=models.IntegerField(default=0)
@@ -119,7 +137,7 @@ class dct_t_l3f3dm_alarm_report_fhys(models.Model):
 class dct_t_l3f3dm_minute_report_fstt(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     report_date = models.DateTimeField(auto_now=True)
     hourminindex = models.IntegerField(default=0)
     dataflag=models.CharField(max_length=1,default="Y")

@@ -8,6 +8,7 @@ import time
 import os,sys
 import pymysql
 import django
+import datetime
 # sys.path.append('C:\wamp\www\huicloud\DjoSiteDba')
 sys.path.append('/var/www/html/huicloud/DjoSiteDba')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
@@ -15,6 +16,8 @@ django.setup()
 from DappDbF1sym.models import dct_t_l3f1sym_menu_code_mapping,dct_t_l3f1sym_user_right_action,dct_t_l3f1sym_user_right_menu,dct_t_l3f1sym_account_primary,dct_t_l3f1sym_account_secondary
 from DappDbF1sym import views
 from DappDbF11faam.models import *
+from DappDbF2cm.models import dct_t_l3f2cm_device_inventory
+from DappDbF3dm.models import *
 faam1={
     'webauth':{
         #FUM1SYM
@@ -144,6 +147,8 @@ faam1={
         'KeyGrant':0X02AA,
         'KeyAuthNew':0X02AB,
         'KeyAuthDel':0X02AC,
+        'GetDevCali':0X02AD,
+        'SetDevCali':0X02AE,
         #FUM3DMA
         'DevSensor':0X0301,
         'SensorList':0X0302,
@@ -339,10 +344,232 @@ def insert_factory():
         else:
             print(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12])
             #dct_t_l3f11faam_factory_sheet.objects.create(pjcode=row[1],workstart=row[2],workend=row[3],reststart=row[4],restend=row[5],fullwork=row[6],address=row[7],latitude=row[8],longitude=row[9],trafficmoney=row[10],factorybonus=row[11],memo=row[12])
-if __name__=="__main__":
-    insert_menu_code_mapping()
-    time.sleep(3)
-    insert_action_menu()
-    time.sleep(3)
-    insert_right_menu()
-    time.sleep(3)
+def insert_dev_inventory(dev_code):
+    result = dct_t_l3f2cm_device_inventory.objects.all()
+    if result.exists():
+        for line in result:
+            base_port = line.base_port
+    resp = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+    if resp.exists():
+        print(dev_code + "is exist")
+    else:
+        dct_t_l3f2cm_device_inventory.objects.create(dev_code=dev_code,
+                                                     valid_flag=True,
+                                                     create_date=datetime.date.today(),
+                                                     hw_type=result[0].hw_type,
+                                                     sw_ver=result[0].sw_ver,
+                                                     zhb_label=result[0].zhb_label,
+                                                     upgradeflag=result[0].upgradeflag,
+                                                     rebootflag=result[0].rebootflag,
+                                                     base_port=base_port + 1,
+                                                     dust_coefmax=result[0].dust_coefmax,
+                                                     dust_coefmin=result[0].dust_coefmin,
+                                                     dust_coefK=result[0].dust_coefK,
+                                                     dust_coefB=result[0].dust_coefB,
+                                                     dust_threshold=result[0].dust_threshold,
+                                                     temp_coefmax=result[0].temp_coefmax,
+                                                     temp_coefmin=result[0].temp_coefmin,
+                                                     temp_coefK=result[0].temp_coefK,
+                                                     temp_coefB=result[0].temp_coefB,
+                                                     humid_coefmax=result[0].humid_coefmax,
+                                                     humid_coefmin=result[0].humid_coefmin,
+                                                     humid_coefK=result[0].humid_coefK,
+                                                     humid_coefB=result[0].humid_coefB,
+                                                     noise_coefmax=result[0].noise_coefmax,
+                                                     noise_coefmin=result[0].noise_coefmin,
+                                                     noise_coefK=result[0].noise_coefK,
+                                                     noise_coefB=result[0].noise_coefB,
+                                                     windspd_coefmax=result[0].windspd_coefmax,
+                                                     windspd_coefmin=result[0].windspd_coefmin,
+                                                     windspd_coefK=result[0].windspd_coefK,
+                                                     windspd_coefB=result[0].windspd_coefB,
+                                                     winddir_coefmax=result[0].winddir_coefmax,
+                                                     winddir_coefmin=result[0].winddir_coefmin,
+                                                     winddir_coefB=result[0].winddir_coefB,
+                                                     winddir_delta=result[0].winddir_delta
+                                                     )
+def hcu_update(oldDev,newDev,base_Port):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=oldDev).update(dev_code=newDev,base_port=base_Port)
+def hcu_delete(dev_Code):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code).delete()
+    print(dev_Code+" is delete")
+def hcu_update_hw_type(hw_type):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code__icontains=str(hw_type)).update(hw_type=hw_type)
+
+def insert_old_hcu_data():
+    old_hcu = [
+        'HCU_G201_AQYC_SH015',
+        'HCU_G201_AQYC_SH016',
+        'HCU_G201_AQYC_SH017',
+        'HCU_G201_AQYC_SH050',
+        'HCU_G201_AQYC_SH051',
+        'HCU_G201_AQYC_SH052',
+        'HCU_G201_AQYC_SH053',
+        'HCU_G201_AQYC_SH054',
+        'HCU_G201_AQYC_SH055',
+        'HCU_G201_AQYC_SH056',
+        'HCU_G201_AQYC_SH057',
+        'HCU_G201_AQYC_SH058',
+        'HCU_G201_AQYC_SH059',
+        'HCU_G201_AQYC_SH060',
+        'HCU_G201_AQYC_SH061',
+        'HCU_G201_AQYC_SH062',
+        'HCU_G201_AQYC_SH063',
+        'HCU_G201_AQYC_SH064',
+        'HCU_G201_AQYC_SH065',
+        'HCU_G201_AQYC_SH066',
+        'HCU_G201_AQYC_SH067',
+        'HCU_G201_AQYC_SH069',
+        'HCU_G201_AQYC_SH070',
+        'HCU_G201_AQYC_SH071',
+        'HCU_G201_AQYC_SH073',
+    ]
+    print(len(old_hcu))
+    result = dct_t_l3f2cm_device_inventory.objects.all().order_by('-base_port')
+    base_port = result[0].base_port
+    old_hcu_list=list()
+    for i in range(len(old_hcu)):
+        old_hcu_list.append(dct_t_l3f2cm_device_inventory(dev_code=old_hcu[i],create_date=datetime.date.today(),valid_flag=1,
+                                                          hw_type=2008,sw_ver=375,
+                                                          zhb_label='ABCDEF',upgradeflag=1,rebootflag=0,base_port=base_port+i+1,dust_coefmax=700,
+                                                          dust_coefmin=10,dust_coefK=1,dust_coefB=0,dust_threshold=30,temp_coefmax=100,temp_coefmin=-40,
+                                                          temp_coefK=1,temp_coefB=0,humid_coefmax=100,humid_coefmin=0,humid_coefK=1,humid_coefB=0,
+                                                          noise_coefmax=130,noise_coefmin=30,noise_coefK=1,noise_coefB=0,windspd_coefmax=1500,
+                                                          windspd_coefmin=0,windspd_coefK=1,windspd_coefB=0,winddir_delta=0,winddir_coefmax=360,
+                                                          winddir_coefmin=0,winddir_coefK=1,winddir_coefB=0))
+    dct_t_l3f2cm_device_inventory.objects.bulk_create(old_hcu_list)
+    print('hello world')
+
+def dft_delete_hcu(a):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=a).delete()
+
+if __name__ == "__main__":
+    a='HCU_G201_AQYC_SH088'
+    dft_delete_hcu(a)
+    #insert_old_hcu_data()
+    
+    
+    
+    
+    
+#     resp_dev_data = dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id='HCU_G2400ZNXX_SH003')
+#     date_time_now=datetime.datetime.now()
+#     report_time=resp_dev_data[0].report_time
+#     int_date_time=time.mktime(date_time_now.timetuple())
+#     int_report_time=time.mktime(report_time.timetuple())
+#     print(date_time_now-report_time)
+#     print(int_date_time)
+#     print(int_report_time)
+    
+    
+#     insert_menu_code_mapping()
+    
+#     hcu_update_hw_type(8001)
+#     hcu_update_hw_type(8002)
+#     hcu_update_hw_type(8100)
+#     hcu_update_hw_type(8200)
+#     hcu_update_hw_type(2302)
+#     hcu_update_hw_type(2013)
+#     hcu_update_hw_type(2012)
+#     hcu_update_hw_type(2008) 
+    
+    
+    
+#     delete_array = [
+#         'HCU_G2302ZNXX_SH001',
+#         'HCU_G2302ZNXX_SH002',
+#         'HCU_G2302ZNXX_SH003',
+#         'HCU_G2302ZNXX_SH004',
+#         'HCU_G2302ZNXX_SH005',
+#         'HCU_G2302ZNXX_SH006',
+#         'HCU_G2302ZNXX_SH007',
+#         'HCU_G2302ZNXX_SH008',
+#         'HCU_G2302ZNXX_SH009',
+#         'HCU_G2302ZNXX_SH010',
+#     ]
+#     for dev in delete_array:
+#         hcu_delete(dev)
+
+
+    # result=dct_t_l3f2cm_device_inventory.objects.latest('base_port')
+    # print(result.base_port,result.dev_code)
+
+
+
+
+    # dev_code_array = ['HCU_G2008SHYC_SH001',
+    #                   'HCU_G2008SHYC_SH002',
+    #                   'HCU_G2008SHYC_SH003',
+    #                   'HCU_G2008SHYC_SH004',
+    #                   'HCU_G2008SHYC_SH005',
+    #
+    #                   'HCU_G2008FSTT_SH001',
+    #                   'HCU_G2008FSTT_SH002',
+    #                   'HCU_G2008FSTT_SH003',
+    #                   'HCU_G2008FSTT_SH004',
+    #                   'HCU_G2008FSTT_SH005',
+    #
+    #                   'HCU_G2008XCLH_SH001',
+    #                   'HCU_G2008XCLH_SH002',
+    #                   'HCU_G2008XCLH_SH003',
+    #                   'HCU_G2008XCLH_SH004',
+    #                   'HCU_G2008XCLH_SH005',
+    #
+    #                   'HCU_G2012NALT_SH001',
+    #                   'HCU_G2012NALT_SH002',
+    #
+    #                   'HCU_G2013SHFC_SH001',
+    #                   'HCU_G2013SHFC_SH002',
+    #                   'HCU_G2013SHFC_SH003',
+    #                   'HCU_G2013SHFC_SH004',
+    #                   'HCU_G2013SHFC_SH005',
+    #
+    #                   'HCU_G2013ZNHE_SH001',
+    #                   'HCU_G2013ZNHE_SH002',
+    #                   'HCU_G2013ZNHE_SH003',
+    #                   'HCU_G2013ZNHE_SH004',
+    #                   'HCU_G2013ZNHE_SH005',
+    #
+    #                   'HCU_G2302DAHE_CD001',
+    #                   'HCU_G2302DAHE_CD002',
+    #                   'HCU_G2302DAHE_CD003',
+    #                   'HCU_G2302DAHE_CD004',
+    #                   'HCU_G2302DAHE_CD005',
+    #
+    #                   'HCU_G2302ZNXX_SH001',
+    #                   'HCU_G2302ZNXX_SH002',
+    #                   'HCU_G2302ZNXX_SH003',
+    #                   'HCU_G2302ZNXX_SH004',
+    #                   'HCU_G2302ZNXX_SH005',
+    #                   'HCU_G2302ZNXX_SH006',
+    #                   'HCU_G2302ZNXX_SH007',
+    #                   'HCU_G2302ZNXX_SH008',
+    #                   'HCU_G2302ZNXX_SH009',
+    #                   'HCU_G2302ZNXX_SH010',
+    #
+    #                   'HCU_G8001BFSC_SH001',
+    #                   'HCU_G8001BFSC_SH002',
+    #                   'HCU_G8001BFSC_SH003',
+    #                   'HCU_G8001BFSC_SH004',
+    #                   'HCU_G8001BFSC_SH005',
+    #
+    #                   'HCU_G8002BFSC_SH001',
+    #                   'HCU_G8002BFSC_SH002',
+    #                   'HCU_G8002BFSC_SH003',
+    #                   'HCU_G8002BFSC_SH004',
+    #                   'HCU_G8002BFSC_SH005',
+    #
+    #                   'HCU_G8100BFDF_SH001',
+    #                   'HCU_G8100BFDF_SH002',
+    #                   'HCU_G8100BFDF_SH003',
+    #                   'HCU_G8100BFDF_SH004',
+    #                   'HCU_G8100BFDF_SH005',
+    #
+    #                   'HCU_G8200BFHS_SH001',
+    #                   'HCU_G8200BFHS_SH002',
+    #                   'HCU_G8200BFHS_SH003',
+    #                   'HCU_G8200BFHS_SH004',
+    #                   'HCU_G8200BFHS_SH005',
+    #                   ]
+    # for dev_code in dev_code_array:
+    #     insert_dev_inventory(dev_code)

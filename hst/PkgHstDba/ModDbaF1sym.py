@@ -55,7 +55,6 @@ class ClassDbaF1sym():
             with transaction.atomic():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
                 result=DappDbF1sym_view.dft_dbi_session_check(session)
-                print(result)
         except Exception:
             result={"body":"","msg":"数据库发生错误，请重试"}
         return result
@@ -76,7 +75,6 @@ class ClassDbaF1sym():
             with transaction.atomic():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
                 result=DappDbF1sym_view.dft_dbi_userinfo_new(inputData['userinfo'])
-                print(result)
         except Exception:
             result=''
         if result!='':
@@ -105,13 +103,12 @@ class ClassDbaF1sym():
         return result
     def dft_dbi_userinfo_req(self,inputData):
         session=inputData['sessionid']
-        try:
-            with transaction.atomic():
-                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
-                result=DappDbF1sym_view.dft_dbi_userinfo_req(session)
-                print(result)
-        except Exception:
-            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+#         try:
+#             with transaction.atomic():
+        DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+        result=DappDbF1sym_view.dft_dbi_userinfo_req(session)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     def dft_dbi_usertable_req(self,inputData):
         uid=inputData['uid']
@@ -120,7 +117,6 @@ class ClassDbaF1sym():
             with transaction.atomic():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
                 result=DappDbF1sym_view.dft_dbi_usertable_req(uid, keyword)
-                print(result)
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
@@ -142,3 +138,36 @@ class ClassDbaF1sym():
         except Exception:
             result=False
         return result
+    
+    def dft_dbi_HCU_Login_Binding(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_HCU_Login_Binding(inputData)
+        except Exception:
+            result={'status':"false",'auth':'true','ret':{},'msg':"数据库发生错误，请稍后"}
+        return result
+    
+    
+    
+    
+    '''WeChart App 界面入口'''
+    def dft_dbi_get_user_info(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_get_user_info(inputData)
+        except Exception:
+            result={'status':"false",'auth':'true','uid':""}
+        return result
+    
+    def dft_dbi_openid_name_binding(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_openid_name_binding(inputData)
+        except Exception:
+            result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
+        return result
+    
+    

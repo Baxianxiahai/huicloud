@@ -18,6 +18,7 @@ from PkgHstDba import ModDbaF10oam
 from PkgHstDba import ModDbaF11Faam
 from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
+from PkgAccessEntry.ModAccessDict import *
 class ClassDbaMainEntry():
     def __init__(self):
         pass
@@ -56,12 +57,22 @@ class ClassDbaMainEntry():
         elif inputData['action']=="UserMod":
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_userinfo_update(inputData['body'])
+        elif inputData['action']=="HCU_Login_Binding":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_HCU_Login_Binding(inputData['body'])
+        elif inputData['action']=="GetUsrInfo":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_get_user_info(inputData['body'])
+        elif inputData['action']=="UpdateTel":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_openid_name_binding(inputData['body'])
         else:
             result=""
         return result
     
     def dft_F2cm_Send_Message(self,inputData): 
         F2cm=ModDbaF2cm.classDappDbF2cm()
+        F2cmHCU=ModDbaF2cm.HCUF2cmDataBaseConfirm()
         if inputData['action']=='TableQuery':
             result=F2cm.dft_dbi_print_excel_table_query_process(inputData['body'])
         elif inputData['action']=='ProjectPGList':
@@ -162,12 +173,45 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_login_req(inputData['body'])
         elif inputData['action']=='FhysSiteDel':
             result=F2cm.dft_dbi_site_keyauth_delete(inputData['body'])  
+        elif inputData['action']=='GetDevCali':
+            result=F2cm.dft_dbi_get_device_cali(inputData['body'])  
+        elif inputData['action']=='SetDevCali':
+            result=F2cm.dft_dbi_set_device_cali(inputData['body'])  
+            
+        elif inputData['action']=='HCU_CPU_Query':
+            result=F2cm.dft_dbi_HCU_CPU_Query(inputData['body'])
+        elif inputData['action']=='HCU_CPU_Binding':
+            result=F2cm.dft_dbi_HCU_CPU_Binding(inputData['body'])
+        elif inputData['action']=='HCUProjectList':
+            result=F2cm.dft_dbi_HCU_project_list()
+        elif inputData['action']=='HCU_Get_Free_Station':
+            result=F2cm.dft_dbi_HCU_Get_Free_Station()
+        elif inputData['action']=='HCU_sys_config':
+            result=F2cm.dft_dbi_HCU_sys_config(inputData['body'])
+        elif inputData['action']=='HCU_sys_config_save':
+            result=F2cm.dft_dbi_HCU_sys_config_save(inputData['body'])
+        elif inputData['action']=="HCU_Lock_Activate":
+            result=F2cm.dft_dbi_HCU_Lock_Activate(inputData['body'])
+            
+        elif inputData['action']=="HCU_Loop_Status":
+            result=F2cm.dft_dbi_hcu_loop_test(inputData['body'])
+            
+        elif inputData['action']=="GetDevDetail":
+            result=F2cm.dft_dbi_get_device_detail(inputData['body'])
+            
+        elif inputData['action']=="HCU_Reboot":
+            result=F2cm.dft_dbi_hcu_reboot(inputData['body'])
+        
+        elif inputData['action']=="HCU_Start_Loop":
+            result=F2cm.dft_dbi_hcu_loop_test_start(inputData['body'])
+        
         else:
             result=""
         return result
     
     def dft_F3dm_Send_Message(self,inputData): 
         F3dm=ModDbaF3dm.classDappDbF3dm()
+        F3dmHCU=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         if inputData['action']=='MonitorList':
             result=F3dm.dft_dbi_map_active_siteinfo_req(inputData['body'])
         elif inputData['action']=='FakeMonitorList':
@@ -190,6 +234,8 @@ class ClassDbaMainEntry():
             result=F3dm.dft_dbi_key_event_history_process(inputData['body'])
         elif inputData['action']=='GetOpenImg':
             result=F3dm.dft_dbi_door_open_picture_process(inputData['body'])
+        elif inputData['action']=='HCU_Info_Query':
+            result=F3dm.dft_dbi_HCU_Info_Query(inputData['body'])
         else:
             result=""
         return result
@@ -254,14 +300,40 @@ class ClassDbaMainEntry():
         else:
             result=""
         return result
+    
+    
     def dft_F7ads_Send_Message(self,inputData): 
         return False
+    
+    
     def dft_F8psm_Send_Message(self,inputData): 
         return False
+    
+    
     def dft_F9gism_Send_Message(self,inputData): 
         return False
+    
+    
     def dft_F10oam_Send_Message(self,inputData): 
-        return False
+        F10oam=ModDbaF10oam.classDappDbF10oam()
+        result=''
+        if inputData['action']=="GetZipFileList":
+            result=F10oam.dft_dbi_tools_qrcode_filelist(inputData['body'])
+        elif inputData['action']=="NewQrcode":
+            result=F10oam.dft_dbi_tools_qrcode_newapply(inputData['body'])
+        elif inputData['action']=="InsertQrcode":
+            result=F10oam.dft_dbi_qrcode_data_insert(inputData['body'])
+        elif inputData['action']=="GetSoftwareLoadTable":
+            result=F10oam.dft_dbi_tools_swload_table_get(inputData['body'])
+        elif inputData['action']=="SoftwareLoadNew":
+            result=F10oam.dft_dbi_tools_swload_info_add(inputData['body'])
+        elif inputData['action']=="SoftwareLoadDel":
+            result=F10oam.dft_dbi_tools_swload_info_delete(inputData['body'])
+        elif inputData['action']=="SoftwareLoadStatusChange":
+            result=F10oam.dft_dbi_tools_swload_validflag_change(inputData['body'])
+        return result
+    
+    
     def dft_F11Faam_Send_Message(self,inputData):    
         if inputData['action']=='FactoryCodeList':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
@@ -478,22 +550,43 @@ class ClassHCUDbaMainEntry():
         result=F2cm.dft_dbi_device_heart_report_data(socketId, inputData)
         return result
     
-    
+    def dft_dbi_device_reboot(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_device_reboot(socketId,inputData)
+        return result
+    def dft_F2cm_Device_Loop_Test(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_device_loop_test(socketId, inputData)
+        return result
     
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         FrUsr=inputData['FrUsr']
         ToUsr=inputData["ToUsr"]
-        dev_code=FrUsr.split("_")[2]
-        if dev_code=="AQYC":
+        dev_code=FrUsr.split("_")
+        if dev_code[2]=="AQYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2400ZNXX":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2008SHYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2012NALT":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:
-            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId': GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
-        
+    
+    
+    def dft_F10oam_HCU_Inventory_Report(self,socketId,inputData):
+        F10oam=ModDbaF10oam.classDappDbF10oam()
+        result=F10oam.dft_dbi_hcu_inventory_confirm(socketId, inputData)
+        return result
     
             
     

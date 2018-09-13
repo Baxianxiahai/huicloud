@@ -51,11 +51,11 @@ class dct_t_l3f2cm_device_inventory(models.Model):
     # null=true显示的是数据库中该字段可以为空，blank=true表示在admin后台管理界面上该字段可以不填
     dev_code = models.CharField(max_length=20, primary_key=True)
     valid_flag=models.BooleanField(default=False)
-    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
     create_date = models.DateField(null=True,blank=True)
-    hw_type = models.IntegerField(null=True, blank=True)
+    hw_type = models.IntegerField(default=0,blank=True)
     sw_ver = models.IntegerField(null=True, blank=True)
-    zhb_label = models.CharField(max_length=20)
+    zhb_label = models.CharField(max_length=20,null=True)
     upgradeflag = models.IntegerField(default=0)
     rebootflag = models.IntegerField(default=0)
     base_port = models.IntegerField(default=0)
@@ -90,8 +90,11 @@ class dct_t_l3f2cm_device_holops(models.Model):
     cpu_id=models.CharField(primary_key=True,max_length=50)
     valid_flag=models.BooleanField(default=False)
     last_update=models.DateTimeField(null=True)
-    dev_code=models.CharField(max_length=20)
+    dev_code=models.CharField(max_length=20,null=True)
     socket_id=models.IntegerField(default=0)
+    cmd_flag=models.IntegerField(default=0)
+    prjid=models.IntegerField(default=0)
+    prjname=models.CharField(max_length=50,null=True)
     
 class dct_t_l3f2cm_favour_site(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -124,18 +127,12 @@ class dct_t_l3f2cm_project_aqyc(models.Model):
 
 class dct_t_l3f2cm_device_aqyc(models.Model):
     dev_code = models.OneToOneField(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE, primary_key=True)
-    status=models.CharField(null=True,max_length=2)
     ip_addr = models.GenericIPAddressField(null=True)
     mac_addr = models.CharField(null=True,max_length=20)
-    cam_url = models.CharField(null=True,max_length=100)
-    ctrl_url = models.CharField(null=True,max_length=100)
-    ctrl_port = models.IntegerField(default=0,null=True)
-    rtsp_port = models.IntegerField(default=0)
-    service_port = models.IntegerField(default=0)
-    ssh_port = models.IntegerField(default=0)
-    vnc_port = models.IntegerField(default=0)
-    nvr_web_port = models.IntegerField(default=0)
-    nvr_rstp_port = models.IntegerField(default=0)
+    web_url=models.CharField(null=True,max_length=100)
+    pic1_url = models.CharField(null=True,max_length=100)
+    ctrl1_url = models.CharField(null=True,max_length=100)
+    video1_url = models.CharField(null=True,max_length=100)
 
 
 class dct_t_l3f2cm_project_fstt(models.Model):
@@ -158,18 +155,19 @@ class dct_t_l3f2cm_site_fstt(models.Model):
 
 
 class dct_t_l3f2cm_device_fstt(models.Model):
-    dev_code = models.OneToOneField(dct_t_l3f2cm_device_inventory, primary_key=True, on_delete=models.CASCADE)
-    cam_url = models.CharField(max_length=100)
-    ctrl_url = models.CharField(max_length=100)
-    ctrl1_port = models.IntegerField
-    rtsp1_port = models.IntegerField
-    service_port = models.IntegerField
-    ssh_port = models.IntegerField
-    vnc_port = models.IntegerField
-    ctrl2_port = models.IntegerField(null=True, blank=True)
-    rtsp2_port = models.IntegerField(null=True, blank=True)
-    ctrl3_port = models.IntegerField(null=True, blank=True)
-    rtsp3_port = models.IntegerField(null=True, blank=True)
+    dev_code = models.OneToOneField(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE, primary_key=True)
+    ip_addr = models.GenericIPAddressField(null=True)
+    mac_addr = models.CharField(null=True,max_length=20)
+    web_url=models.CharField(null=True,max_length=100)
+    pic1_url = models.CharField(null=True,max_length=100)
+    ctrl1_url = models.CharField(null=True,max_length=100)
+    video1_url = models.CharField(null=True,max_length=100)
+    pic2_url = models.CharField(null=True,max_length=100)
+    ctrl2_url = models.CharField(null=True,max_length=100)
+    video2_url = models.CharField(null=True,max_length=100)
+    pic3_url = models.CharField(null=True,max_length=100)
+    ctrl3_url = models.CharField(null=True,max_length=100)
+    video3_url = models.CharField(null=True,max_length=100)
 
 class dct_t_l3f2cm_virtual_key_fhys(models.Model):
     keyid=models.CharField(primary_key=True,max_length=10)

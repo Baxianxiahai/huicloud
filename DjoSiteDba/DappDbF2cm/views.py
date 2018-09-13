@@ -8,6 +8,7 @@ from DappDbF3dm.models import *
 from django.db.models import Q
 from DappDbF10oam.models import *
 import json
+from DappDbInsertData.DappDbMsgDefine import *
 
 # Create your views here.
 class dct_classDbiL3apF2cm:
@@ -24,6 +25,13 @@ class dct_classDbiL3apF2cm:
 
     __MFUN_HCU_FHYS_KEY_VALID="Y"
     __MFUN_HCU_FHYS_KEY_INVALID="N"
+    
+    __HCU_DUST = True
+    __HCU_TEMP = True
+    __HCU_HUMID = True
+    __HCU_NOISE = True
+    __HCU_WINDSPD = True
+    __HCU_WINDDIR = True
 
 
     def __dft_getRandomDigID(self, strlen):
@@ -94,6 +102,29 @@ class dct_classDbiL3apF2cm:
         if name=="":
             name=uid
         return name
+    
+    
+    def __dft_dbi_winddir_convert(self,inputData):
+        degree=inputData
+        if (degree>=337.5 and degree<360) or degree<22.5:
+            winddir='北风'
+        elif (degree>=22.5 and degree<67.5):
+            winddir='东北风'
+        elif (degree>=67.5 and degree<112.5):
+            winddir='东风'
+        elif (degree>=112.5 and degree<157.5):
+            winddir='东南风'
+        elif (degree>=157.5 and degree<202.5):
+            winddir='南风'
+        elif (degree>=202.5 and degree<247.5):
+            winddir='西南风'
+        elif (degree>=247.5 and degree<292.5):
+            winddir='西风'
+        elif (degree>=292.5 and degree<337.5):
+            winddir='西北风'
+        else:
+            winddir='未知'
+        return winddir
 
     def __dft_dbi_get_tower_info(self,inputData):
         result=dct_t_l3f2cm_site_fstt.objects.filter(site_code=inputData)
@@ -821,7 +852,7 @@ class dct_classDbiL3apF2cm:
                             macaddr=line.mac_addr
                             ipaddr=line.ip_addr
                             devstatus='true'
-                            url=line.cam_url
+                            url=line.pic1_url
                             if keyWord=="":
                                 projInfo=dct_t_l3f2cm_site_common.objects.filter(site_code=statCode)
                                 projCode=projInfo[0].prj_code_id
@@ -866,6 +897,7 @@ class dct_classDbiL3apF2cm:
     def dft_dbi_all_hcunum_inquery(self):
         result=dct_t_l3f2cm_device_inventory.objects.all()
         return len(result)
+    
     def dft_dbi_aqyc_devinfo_update(self,inputData):
         devCode=inputData['DevCode']
         statcode=inputData['StatCode']
@@ -880,14 +912,15 @@ class dct_classDbiL3apF2cm:
             devstatus='N'
         devCode1=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if devCode1.exists():
+            devCode1.update(create_date=starttime,site_code_id=statcode)
             result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
             if result.exists():
                 result=dct_t_l3f2cm_device_aqyc.objects.get(dev_code_id=devCode)
-                result.dev_code.create_date=starttime
-                result.dev_code.site_code_id=statcode
-                result.status=devCode
-                result.cam_url=videourl
+                if videourl=="" or videourl==None:
+                    result.cam_url=videourl
                 result.save()
+            else:
+                dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode)
         else:
             dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode,site_code_id=statcode,create_date=starttime)
             dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,status=devstatus,cam_url=videourl)
@@ -1417,24 +1450,526 @@ class dct_classDbiL3apF2cm:
             msg='用户微信钥匙绑定成功'
         bindinfo={'usercheck':usercheck,'msg':msg,'username':username,'userid':userid}
         return bindinfo
+    
+    def dft_dbi_HCU_CPU_Query(self,inputData):
+        retlist=[]
+        result=dct_t_l3f2cm_device_holops.objects.all()
+        i=1
+        if result.exists():
+            for line in result:
+                if line.dev_code==None or line.dev_code=="":
+                    map={"cpucode":line.cpu_id,'cpuname':"CPU["+line.cpu_id+"]",'cpudetail':"最后一次上报时间："+str(line.last_update)+"    所属项目信息："+line.prjname+"    设备信息："+inputData["key"]}
+                    retlist.append(map)
+        retval={
+            'status':'true',
+            'auth':'true',
+            'msg':'',
+            'ret':retlist,
+        }
+        return retval
 
+    def dft_dbi_HCU_CPU_Binding(self,inputData):
+        dev_code=inputData['code']
+        cpu_id=inputData['cpu']
+        result=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_id)
+        if result.exists():
+            result.update(dev_code=dev_code,last_update=datetime.datetime.now(),valid_flag=True)
+        msg={'status':'true','auth':'true','msg':'绑定成功'}
+        return msg
+        
+    def dft_dbi_HCU_project_list(self):
+        projlist=[]
+        result=dct_t_l3f2cm_project_common.objects.all()
+        if result.exists():
+            for line in result:
+                temp={'id':line.prj_code,'name':line.prj_name}
+                projlist.append(temp)
+        retval={'status':'true','ret':projlist,'auth':'true','msg':''}
+        return retval
+    
+    def dft_dbi_HCU_Get_Free_Station(self):
+        pointtable = []
+        result = dct_t_l3f2cm_site_common.objects.all()
+        if result.exists():
+            for line in result:
+                resp = dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=line.site_code)
+                if resp.exists():
+                    pass
+                else:
+                    temp = {'StatCode': line.site_code,
+                            'StatName': line.site_name,
+                            'ProjCode': line.prj_code_id,
+                            'ChargeMan': line.superintendent,
+                            'Telephone': line.telephone,
+                            'Longitude': str(line.longitude),
+                            'Latitude': str(line.latitude),
+                            'Department': line.department,
+                            'Address': line.address,
+                            'Country': line.district,
+                            'Street': line.street,
+                            'Square': line.site_area,
+                            'ProStartTime': str(line.create_date),
+                            'Stage': line.comments,
+                            }
+                    pointtable.append(temp)
+        retval = {'status': 'true', 'ret': pointtable, 'auth': 'true', 'msg': '获取空站点列表成功'}
+        return retval
+    
+    
+    def dft_dbi_HCU_sys_config(self,inputData):
+        dev_code=inputData['code']
+        print(dev_code)
+        groups=[]
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if result.exists():
+            for line in result:
+                if self.__HCU_DUST == True:
+                    list = []
+                    dust_max = {'paraname': '数据上限','type':'float','max':'700','min':'10', 'value':str(line.dust_coefmax),'note':"粉尘数据最大值设置"}
+                    list.append(dust_max)
+                    dust_min = {'paraname': '数据下限','type': 'float','max': '700','min': '10','value': str(line.dust_coefmin),'note': "粉尘数据最小值设置"}
+                    list.append(dust_min)
+                    dust_K = {'paraname': '数据K值','type': 'float','max': '700','min': '','value': str(line.dust_coefK),'note': "粉尘数据K值设置"}
+                    list.append(dust_K)
+                    dust_B = {'paraname': '数据B值','type': 'float','max': '700','min': '','value': str(line.dust_coefB),'note': "粉尘数据B值设置"}
+                    list.append(dust_B)
+                    dust_group={'groupname':"粉尘参数设置",'list':list}
+                    groups.append(dust_group)
+                if self.__HCU_TEMP == True:
+                    list = []
+                    temp_max = {'paraname': '数据上限','type':'float','max':'100','min':'0','value':str(line.temp_coefmax),'note':"温度数据最大值设置",}
+                    list.append(temp_max)
+                    temp_min = {'paraname': '数据下限','type': 'float','max': '100','min': '-40','value': str(line.temp_coefmin),'note': "温度数据最小值设置",}
+                    list.append(temp_min)
+                    temp_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.temp_coefK),'note': "温度数据K值设置",}
+                    list.append(temp_K)
+                    temp_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.temp_coefB),'note': "温度数据B值设置",}
+                    list.append(temp_B)
+                    temp_group={'groupname':"温度参数设置",'list':list}
+                    groups.append(temp_group)
+                if self.__HCU_NOISE == True:
+                    list = []
+                    noise_max = {'paraname': '数据上限','type':'float','max':'130','min':'30','value':str(line.noise_coefmax),'note':"噪声数据最大值设置",}
+                    list.append(noise_max)
+                    noise_min = {'paraname': '数据下限','type': 'float','max': '130','min': '30','value': str(line.noise_coefmin),'note': "噪声数据最小值设置",}
+                    list.append(noise_min)
+                    noise_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.noise_coefK),'note': "噪声数据K值设置",}
+                    list.append(noise_K)
+                    noise_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.noise_coefB),'note': "噪声数据B值设置",}
+                    list.append(noise_B)
+                    noise_group={'groupname':"噪声参数设置",'list':list}
+                    groups.append(noise_group)
+                if self.__HCU_HUMID == True:
+                    list = []
+                    humid_max = {'paraname': '数据上限','type':'float','max':'100','min':'0','value':str(line.humid_coefmax),'note':"湿度数据最大值设置",}
+                    list.append(humid_max)
+                    humid_min = {'paraname': '数据下限','type': 'float','max': '100','min': '0','value': str(line.humid_coefmin),'note': "湿度数据最小值设置",}
+                    list.append(humid_min)
+                    humid_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.humid_coefK),'note': "湿度数据K值设置",}
+                    list.append(humid_K)
+                    humid_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.humid_coefB),'note': "湿度数据B值设置",}
+                    list.append(humid_B)
+                    humid_group={'groupname':"湿度参数设置",'list':list}
+                    groups.append(humid_group)
+                if self.__HCU_WINDSPD == True:
+                    list = []
+                    windspd_max = {'paraname': '数据上限','type':'float','max':'1500','min':'0','value':str(line.windspd_coefmax),'note':"风速数据最大值设置",}
+                    list.append(windspd_max)
+                    windspd_min = {'paraname': '数据下限','type': 'float','max': '1500','min': '0','value': str(line.windspd_coefmin),'note': "风速数据最小值设置",}
+                    list.append(windspd_min)
+                    windspd_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.windspd_coefK),'note': "风速数据K值设置",}
+                    list.append(windspd_K)
+                    windspd_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.windspd_coefB),'note': "风速数据B值设置",}
+                    list.append(windspd_B)
+                    windspd_group={'groupname':"风速参数设置",'list':list}
+                    groups.append(windspd_group)
+                if self.__HCU_WINDDIR == True:
+                    list = []
+                    winddir_max = {'paraname': '数据上限','type':'float','max':'360','min':'0','value':str(line.winddir_coefmax),'note':"风向数据最大值设置",}
+                    list.append(winddir_max)
+                    winddir_min = {'paraname': '数据下限','type': 'float','max': '360','min': '0','value': str(line.winddir_coefmin),'note': "风向数据最小值设置",}
+                    list.append(winddir_min)
+                    winddir_K = {'paraname': '数据K值','type': 'float','max': '100','min': '','value': str(line.winddir_coefK),'note': "风向数据K值设置",}
+                    list.append(winddir_K)
+                    winddir_B = {'paraname': '数据B值', 'type': 'float','max': '100','min': '','value': str(line.winddir_coefB),'note': "风向数据B值设置",}
+                    list.append(winddir_B)
+                    winddir_delta = {'paraname': '数据θ值', 'type': 'float', 'max': '360', 'min': '0','value': str(line.winddir_delta), 'note': "风向数据θ值设置", }
+                    list.append(winddir_delta)
+                    winddir_group={'groupname':"风向参数设置",'list':list}
+                    groups.append(winddir_group)
+        ret={'name':'configure','owner':'system','parameter':{'groups':groups}}
+        msg={'status':'true','auth':'true','ret':ret,'msg':'获取配置参数成功'}
+        return msg
+    
+    def dft_dbi_HCU_sys_config_save(self,inputData):
+        dev_code = inputData['code']
+        data=inputData['configure']['parameter']['groups']
+        print(dev_code)
+        for i in range(len(data)):
+            if data[i]['groupname']=='粉尘参数设置':
+                dust_max=data[i]['list'][0]['value']
+                dust_min=data[i]['list'][1]['value']
+                dust_K=data[i]['list'][2]['value']
+                dust_B=data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(dust_coefmax=dust_max,
+                                                                                       dust_coefmin=dust_min,
+                                                                                       dust_coefK=dust_K,
+                                                                                       dust_coefB=dust_B)
+                status = 'true'
+            elif data[i]['groupname']=='温度参数设置':
+                temp_max = data[i]['list'][0]['value']
+                temp_min = data[i]['list'][1]['value']
+                temp_K = data[i]['list'][2]['value']
+                temp_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(temp_coefmax=temp_max,
+                                                                                       temp_coefmin=temp_min,
+                                                                                       temp_coefK=temp_K,
+                                                                                       temp_coefB=temp_B)
+                status = 'true'
+            elif data[i]['groupname']=='噪声参数设置':
+                noise_max = data[i]['list'][0]['value']
+                noise_min = data[i]['list'][1]['value']
+                noise_K = data[i]['list'][2]['value']
+                noise_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(noise_coefmax=noise_max,
+                                                                                       noise_coefmin=noise_min,
+                                                                                       noise_coefK=noise_K,
+                                                                                       noise_coefB=noise_B)
+                status = 'true'
+            elif data[i]['groupname']=='湿度参数设置':
+                humid_max = data[i]['list'][0]['value']
+                humid_min = data[i]['list'][1]['value']
+                humid_K = data[i]['list'][2]['value']
+                humid_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(humid_coefmax=humid_max,
+                                                                                       humid_coefmin=humid_min,
+                                                                                       humid_coefK=humid_K,
+                                                                                       humid_coefB=humid_B)
+                status = 'true'
+            elif data[i]['groupname']=='风速参数设置':
+                windspd_max = data[i]['list'][0]['value']
+                windspd_min = data[i]['list'][1]['value']
+                windspd_K = data[i]['list'][2]['value']
+                windspd_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(windspd_coefmax=windspd_max,
+                                                                                       windspd_coefmin=windspd_min,
+                                                                                       windspd_coefK=windspd_K,
+                                                                                       windspd_coefB=windspd_B)
+                status = 'true'
+            elif data[i]['groupname']=='风向参数设置':
+                winddir_max = data[i]['list'][0]['value']
+                winddir_min = data[i]['list'][1]['value']
+                winddir_K = data[i]['list'][2]['value']
+                winddir_B = data[i]['list'][3]['value']
+                winddir_delta=data[i]['list'][4]['value']
+                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(winddir_coefmax=winddir_max,
+                                                                                       winddir_coefmin=winddir_min,
+                                                                                       winddir_coefK=winddir_K,
+                                                                                       winddir_coefB=winddir_B,
+                                                                                       winddir_delta=winddir_delta)
+                status='true'
+            else:
+                status='false'
+        if status=='true':
+            msg={'status':status,'auth':'true','msg':'保存成功'}
+        else:
+            msg = {'status': status, 'auth': 'true', 'msg': '保存失败'}
+        return msg
+    
+    def dft_dbi_HCU_Lock_Activate(self,inputData):
+        site_code=inputData['StatCode']
+        dev_code=inputData['code']
+        latitude=inputData['latitude']
+        longitude=inputData['longitude']
+        result1=dct_t_l3f2cm_site_common.objects.filter(site_code=site_code,status='I')
+        result2=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if result1 and result2:
+            result1.update(status='A',latitude=latitude,longitude=longitude)
+            result2.update(site_code_id=site_code)
+            return True
+        else:
+            return False
+    
+    def dft_dbi_get_device_cali(self, inputData):
+        devCode = inputData["DevCode"]
+        resp = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        if resp.exists():
+            for line in resp:
+                msg={
+                    "dust_coefmax":line.dust_coefmax,
+                    "dust_coefmin":line.dust_coefmin,
+                    "dust_coefK":line.dust_coefK,
+                    "dust_coefB":line.dust_coefB,
+                    "temp_coefmax":line.temp_coefmax,
+                    "temp_coefmin":line.temp_coefmin,
+                    "temp_coefK":line.temp_coefK,
+                    "temp_coefB":line.temp_coefB,
+                    "humid_coefmax":line.humid_coefmax,
+                    "humid_coefmin":line.humid_coefmin,
+                    "humid_coefK":line.humid_coefK,
+                    "humid_coefB":line.humid_coefB,
+                    "noise_coefmax":line.noise_coefmax,
+                    "noise_coefmin":line.noise_coefmin,
+                    "noise_coefK":line.noise_coefK,
+                    "noise_coefB":line.noise_coefB,
+                    "windspd_coefmax":line.windspd_coefmax,
+                    "windspd_coefmin":line.windspd_coefmin,
+                    "windspd_coefK":line.windspd_coefK,
+                    "windspd_coefB":line.windspd_coefB,
+                    "winddir_coefmax":line.winddir_coefmax,
+                    "winddir_coefmin":line.windspd_coefmin,
+                    "winddir_coefK":line.winddir_coefK,
+                    "winddir_coefB":line.winddir_coefB,
+                    "winddir_delta":line.winddir_delta,
+                }
+        else:
+            msg = {}
+        retval={'status':'true','auth':'true','ret':msg,'msg':''}
+        return retval
+    def dft_dbi_set_device_cali(self,inputData):
+        devCode=inputData["DevCode"]
+        data=inputData['Calibration']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        if result.exists():
+            if 'dust_coefmax' in data.keys():dust_coefmax=data['dust_coefmax']
+            else:dust_coefmax=result[0].dust_coefmax
+            if 'dust_coefmin' in data.keys():dust_coefmin=data['dust_coefmin']
+            else:dust_coefmin=result[0].dust_coefmin
+            if 'dust_coefK' in data.keys():dust_coefK=data['dust_coefK']
+            else:dust_coefK=result[0].dust_coefK
+            if 'dust_coefB' in data.keys():dust_coefB=data['dust_coefB']
+            else:dust_coefB=result[0].dust_coefB
+            if 'temp_coefmax' in data.keys():temp_coefmax=data['temp_coefmax']
+            else:temp_coefmax=result[0].temp_coefmax
+            if 'temp_coefmin' in data.keys():temp_coefmin=data['temp_coefmin']
+            else:temp_coefmin=result[0].temp_coefmin
+            if 'temp_coefK' in data.keys():temp_coefK=data['temp_coefK']
+            else:temp_coefK=result[0].temp_coefK
+            if 'temp_coefB' in data.keys():temp_coefB=data['temp_coefB']
+            else:temp_coefB=result[0].temp_coefB
+            if 'humid_coefmax' in data.keys():humid_coefmax=data['humid_coefmax']
+            else:humid_coefmax=result[0].humid_coefmax
+            if 'humid_coefmin' in data.keys():humid_coefmin=data['humid_coefmin']
+            else:humid_coefmin=result[0].humid_coefmin
+            if 'humid_coefK' in data.keys():humid_coefK=data['humid_coefK']
+            else:humid_coefK=result[0].humid_coefK
+            if 'humid_coefB' in data.keys():humid_coefB=data['humid_coefB']
+            else:humid_coefB=result[0].humid_coefB
+            if 'noise_coefmax' in data.keys():noise_coefmax=data['noise_coefmax']
+            else:noise_coefmax=result[0].noise_coefmax
+            if 'noise_coefmin' in data.keys():noise_coefmin=data['noise_coefmin']
+            else:noise_coefmin=result[0].noise_coefmin
+            if 'noise_coefK' in data.keys():noise_coefK=data['noise_coefK']
+            else:noise_coefK=result[0].noise_coefK
+            if 'noise_coefB' in data.keys():noise_coefB=data['noise_coefB']
+            else:noise_coefB=result[0].noise_coefB
+            if 'windspd_coefmax' in data.keys():windspd_coefmax=data['windspd_coefmax']
+            else:windspd_coefmax=result[0].windspd_coefmax
+            if 'windspd_coefmin' in data.keys():windspd_coefmin=data['windspd_coefmin']
+            else:windspd_coefmin=result[0].windspd_coefmin
+            if 'windspd_coefK' in data.keys():windspd_coefK=data['windspd_coefK']
+            else:windspd_coefK=result[0].windspd_coefK
+            if 'windspd_coefB' in data.keys():windspd_coefB=data['windspd_coefB']
+            else:windspd_coefB=result[0].windspd_coefB
+            if 'winddir_coefmax' in data.keys():winddir_coefmax=data['winddir_coefmax']
+            else:winddir_coefmax=result[0].winddir_coefmax
+            if 'winddir_coefmin' in data.keys():winddir_coefmin=data['winddir_coefmin']
+            else:winddir_coefmin=result[0].winddir_coefmin
+            if 'winddir_coefK' in data.keys():winddir_coefK=data['winddir_coefK']
+            else:winddir_coefK=result[0].winddir_coefK
+            if 'winddir_coefB' in data.keys():winddir_coefB=data['winddir_coefB']
+            else:winddir_coefB=result[0].winddir_coefB
+            if 'winddir_delta' in data.keys():winddir_delta=data['winddir_delta']
+            else:winddir_delta=result[0].winddir_delta
+            result.update(dust_coefmax=dust_coefmax,dust_coefmin=dust_coefmin,dust_coefK=dust_coefK,dust_coefB=dust_coefB,
+                          temp_coefmax=temp_coefmax,temp_coefmin=temp_coefmin,temp_coefK=temp_coefK,temp_coefB=temp_coefB,
+                          humid_coefmax=humid_coefmax,humid_coefmin=humid_coefmin,humid_coefK=humid_coefK,humid_coefB=humid_coefB,
+                          noise_coefmax=noise_coefmax,noise_coefmin=noise_coefmin,noise_coefK=noise_coefK,noise_coefB=noise_coefB,
+                          windspd_coefmax=windspd_coefmax,windspd_coefmin=windspd_coefmin,windspd_coefK=windspd_coefK,windspd_coefB=windspd_coefB,
+                          winddir_coefmax=winddir_coefmax,winddir_coefmin=winddir_coefmin,winddir_coefK=winddir_coefK,winddir_coefB=winddir_coefB,winddir_delta=winddir_delta)
+            return True
+        else:
+            return False
+    
+#     def dft_dbi_hcu_loop_test_view(self, inputData):
+#         time.sleep(0.5)
+#         print(HCUReportAndConfirm().HCU_DEV_STATUS)
+#         print(HCUReportAndConfirm().HCU_DEV_NAME)
+#         devCode = inputData['code']
+#         result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+#         msg = {}
+#         if result.exists():
+#             socketID=result[0].socket_id
+#             if HCUReportAndConfirm().HCU_DEV_STATUS == "":
+#                 msg = {'status':"pending",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#             elif HCUReportAndConfirm().HCU_DEV_STATUS=="False":
+#                 msg={'status':"false"}
+#             else:
+#                 if HCUReportAndConfirm().HCU_DEV_NAME != devCode:
+#                     msg = {'status':"pending",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#                 else:
+#                     msg = {'status':"true",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#         return msg
+# 
+#     def dft_dbi_hcu_reboot(self, inputData):
+#         time.sleep(1)
+#         print(HCUReportAndConfirm().HCU_REBOOT_STATUS)
+#         print(HCUReportAndConfirm().HCU_REBOOT_NAME)
+#         devCode = inputData['code']
+#         result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+#         if result.exists():
+#             for line in result:
+#                 socketId = line.socket_id
+#                 if HCUReportAndConfirm().HCU_REBOOT_STATUS=="":
+#                     msg = {'status':"pending",'loop_resp':{'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF042, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#                 elif HCUReportAndConfirm().HCU_REBOOT_STATUS=="True":
+#                     if HCUReportAndConfirm().HCU_REBOOT_NAME!=devCode:
+#                         msg = {'status':"pending",'loop_resp':{'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF042, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
+#                     else:
+#                         msg = {'status':"true"}
+#         else:
+#             msg = {'status':"false"}
+#         return msg
+    
+    
+    def dft_dbi_hcu_loop_test_view(self, inputData):
+        devCode = inputData['code']
+        result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+        msg = {}
+        if result.exists():
+            socketID=result[0].socket_id
+            if result[0].cmd_flag==GOLBALVAR.HCU_LOOP_TETS_RESP:
+                msg={'status':'true'}
+            else:
+                msg = {'status': "pending", 'loop_resp': {'socketid': socketID,'data':
+                    {'ToUsr': devCode, 'FrUsr': "XHTS","CrTim": int(time.time()),
+                     'MsgTp': 'huitp_json','MsgId': 0XF041, 'MsgLn': 115,
+                     "IeCnt": {"rand": random.randint(10000, 20000)},"FnFlg": 0}}}
+        return msg
+
+    def dft_dbi_hcu_loop_test_start_view(self,inputData):
+        devCode = inputData['code']
+        dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode).update(cmd_flag=GOLBALVAR.HCU_LOOP_TETS_REQ)
+        msg={"status":"true","auth":"true",'msg':'测试开始'}
+        return msg
+
+    def dft_dbi_hcu_reboot(self, inputData):
+        devCode = inputData['code']
+        req_time=inputData['time']
+        result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+        if result.exists():
+            socketId = result[0].socket_id
+            if req_time==0:
+                result.update(cmd_flag=GOLBALVAR.HCU_RESTART_REQ)
+            if result[0].cmd_flag==GOLBALVAR.HCU_RESTART_RESP:
+                msg = {'status': 'true'}
+            else:
+                msg = {'status': "pending", 'loop_resp': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
+                                                                                        "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                                                                                        'MsgId': 0XF042, 'MsgLn': 115,
+                                                                                        "IeCnt": {"rand": random.randint(10000, 20000)},
+                                                                                        "FnFlg": 0}}}
+            return msg
+        else:
+            return False
+    
+    def dft_dbi_get_device_detail(self,inputData):
+        user_id=inputData['uid']
+        dev_array=[]
+        date_time_now = datetime.datetime.now()
+        int_date_time_now=int(time.mktime(date_time_now.timetuple()))
+        result=dct_t_l3f1sym_user_right_project.objects.filter(uid_id=user_id)
+        project_array=[]
+        status = 'true'
+        response_msg = {'status': 'false', 'auth': 'true', 'DevDetail': dev_array}
+        if result.exists():
+            for line in result:
+                if line.auth_type==1:
+                    resp=dct_t_l3f2cm_project_common.objects.filter(pg_code_id=line.auth_code)
+                    if resp.exists():
+                        for line_pg in resp:
+                            project_array.append(line_pg.prj_code)
+                elif line.auth_type==2:
+                    project_array.append(line.auth_code)
+                else:
+                    pass
+        else:
+            return response_msg
+        dev_code_array=[]
+        site_name_array=[]
+        for prj_code in project_array:
+            resp_site=dct_t_l3f2cm_site_common.objects.filter(prj_code_id=prj_code)
+            if resp_site.exists():
+                for line_site in resp_site:
+                    statname=line_site.site_name
+                    resp_dev=dct_t_l3f2cm_device_inventory.objects.filter(site_code=line_site.site_code)
+                    if resp_dev.exists():
+                        for line_dev in resp_dev:
+                            site_name_array.append(statname)
+                            dev_code_array.append(line_dev.dev_code)
+                    else:
+                        pass
+            else:
+
+                return response_msg
+        for i in range(len(dev_code_array)):
+            resp_dev_data=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code_array[i])
+            site_name = site_name_array[i]
+            if resp_dev_data.exists():
+                for line_dev_data in resp_dev_data:
+                    last_report=line_dev_data.report_time
+                    int_last_report=int(time.mktime(last_report.timetuple()))
+                    time_difference=int_date_time_now-int_last_report
+                    day_time=int(time_difference/86400)
+                    hour_time=int((time_difference-day_time*86400)/3600)
+                    min_time=int((time_difference-day_time*86400-hour_time*3600)/60)
+                    senc_time=int(time_difference-day_time*86400-hour_time*3600-min_time*60)
+                    color='#00F7DE'
+                    if time_difference>=180:
+                        color="#FFB800"
+                    if time_difference>=3600:
+                        color='#FF5722'
+                    last_report=str(day_time)+'天'+str(hour_time)+'时'+str(min_time)+'分'+str(senc_time)+'秒'
+                    tsp=line_dev_data.tsp
+                    pm01=line_dev_data.pm01
+                    pm25=line_dev_data.pm25
+                    pm10=line_dev_data.pm10
+                    windspd=line_dev_data.windspd
+                    noise=line_dev_data.noise
+                    winddir=line_dev_data.winddir
+                    temp=line_dev_data.temperature
+                    humi=line_dev_data.humidity
+                    dev_dev={'StatName':site_name,'Color':color,'LastReport':last_report,'TSP':tsp,
+                             'PM01':pm01,'PM25':pm25,'PM10':pm10,'Windspd':windspd,'Noise':noise,
+                             'Winddir':winddir,'Temp':temp,'Humi':humi}
+                    dev_array.append(dev_dev)
+        response_msg = {'status':status, 'auth': 'true', 'DevDetail': dev_array}
+        return response_msg
+    
 
 class HCUReportAndConfirm():
+    
     def __init__(self):
+        self.HCU_DEV_STATUS=""
+        self.HCU_DEV_NAME=""
+        self.HCU_REBOOT_STATUS=""
+        self.HCU_REBOOT_NAME=""
         pass
     def dft_dbi_response_HCU_data(self,socketId,inputData):
         InsertTime=datetime.datetime.now()
         ServerName=inputData["ToUsr"]
         cpuId=inputData['IeCnt']['cpuId']
+        prjId=inputData['IeCnt']['prjId']
+        prjName=inputData['IeCnt']['prjName']
         dev_Code = inputData['FrUsr']
         if cpuId=="" or cpuId==None:
             return
         result=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpuId)
         if result.exists():
-            result.update(last_update=datetime.datetime.now(), dev_code=dev_Code, socket_id=socketId)
+            result.update(last_update=datetime.datetime.now(),socket_id=socketId,prjid=prjId,prjname=prjName)
             for line in result:
                 if line.valid_flag:
-                    resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)
+                    resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=line.dev_code)
                     if resp.exists():
                         for line_dev in resp:
                             hwtype=line_dev.hw_type
@@ -1469,58 +2004,88 @@ class HCUReportAndConfirm():
                             calNoiseCoefMin=line_dev.noise_coefmin
                             calNoiseCoefK=line_dev.noise_coefK
                             calNoiseCoefB=line_dev.noise_coefB
+                            
+#                             msgIeCnt = {
+#                                 "hwType": hwtype,
+#                                 'ngrokPort': ngrokPort,
+#                                 'hcuLable': hcuLable,
+#                                 'zhbLable': zhbLable,
+#                                 'upgradeFlag': upgradeFlag,
+#                                 'restartRightNow': restartRightNow,
+#                                 'calWinddir': calWinddir,
+#                                 'calPm25CoefMax': calPm25CoefMax,
+#                                 'calPm25CoefMin': calPm25CoefMin,
+#                                 'calPm25CoefK': calPm25CoefK,
+#                                 'calPm25CoefB': calPm25CoefB,
+#                                 'calPm25ThdCannon':dust_threshold,
+#                                 'calTempCoefMax': calTempCoefMax,
+#                                 'calTempCoefMin': calTempCoefMin,
+#                                 'calTempCoefK': calTempCoefK,
+#                                 'calTempCoefB': calTempCoefB,
+#                                 'calHumidCoefMax': calHumidCoefMax,
+#                                 'calHumidCoefMin': calHumidCoefMin,
+#                                 'calHumidCoefK': calHumidCoefK,
+#                                 'calHumidCoefB': calHumidCoefB,
+#                                 'calWinddirCoefMax': calWinddirCoefMax,
+#                                 'calWinddirCoefMin': calWinddirCoefMin,
+#                                 'calWinddirCoefK': calWinddirCoefK,
+#                                 'calWinddirCoefB': calWinddirCoefB,
+#                                 'calWindspdCoefMax': calWindspdCoefMax,
+#                                 'calWindspdCoefMin': calWindspdCoefMin,
+#                                 'calWindspdCoefK': calWindspdCoefK,
+#                                 'calWindspdCoefB': calWindspdCoefB,
+#                                 'calNoiseCoefMax': calNoiseCoefMax,
+#                                 'calNoiseCoefMin': calNoiseCoefMin,
+#                                 'calNoiseCoefK': calNoiseCoefK,
+#                                 'calNoiseCoefB': calNoiseCoefB,
+#                             }
+
+                            
                             msgIeCnt = {
-                                "hwType": hwtype,
-                                'ngrokPort': ngrokPort,
-                                'hcuLable': hcuLable,
-                                'zhbLable': zhbLable,
-                                'upgradeFlag': upgradeFlag,
-                                'restartRightNow': restartRightNow,
-                                'calWinddir': calWinddir,
-                                'calPm25CoefMax': calPm25CoefMax,
-                                'calPm25CoefMin': calPm25CoefMin,
-                                'calPm25CoefK': calPm25CoefK,
-                                'calPm25CoefB': calPm25CoefB,
-                                'calPm25ThdCannon':dust_threshold,
-                                'calTempCoefMax': calTempCoefMax,
-                                'calTempCoefMin': calTempCoefMin,
-                                'calTempCoefK': calTempCoefK,
-                                'calTempCoefB': calTempCoefB,
-                                'calHumidCoefMax': calHumidCoefMax,
-                                'calHumidCoefMin': calHumidCoefMin,
-                                'calHumidCoefK': calHumidCoefK,
-                                'calHumidCoefB': calHumidCoefB,
-                                'calWinddirCoefMax': calWinddirCoefMax,
-                                'calWinddirCoefMin': calWinddirCoefMin,
-                                'calWinddirCoefK': calWinddirCoefK,
-                                'calWinddirCoefB': calWinddirCoefB,
-                                'calWindspdCoefMax': calWindspdCoefMax,
-                                'calWindspdCoefMin': calWindspdCoefMin,
-                                'calWindspdCoefK': calWindspdCoefK,
-                                'calWindspdCoefB': calWindspdCoefB,
-                                'calNoiseCoefMax': calNoiseCoefMax,
-                                'calNoiseCoefMin': calNoiseCoefMin,
-                                'calNoiseCoefK': calNoiseCoefK,
-                                'calNoiseCoefB': calNoiseCoefB,
+                                "htp": hwtype,
+                                'npt': ngrokPort,
+                                'hlb': hcuLable,
+                                'zlb': zhbLable,
+                                'ufg': upgradeFlag,
+                                'rrn': restartRightNow,
+                                'cwd': calWinddir,
+                                'p25x': calPm25CoefMax,
+                                'p25i': calPm25CoefMin,
+                                'p25k': calPm25CoefK,
+                                'p25b': calPm25CoefB,
+                                'tpx': calTempCoefMax,
+                                'tpi': calTempCoefMin,
+                                'tpk': calTempCoefK,
+                                'tpb': calTempCoefB,
+                                'hmx': calHumidCoefMax,
+                                'hmi': calHumidCoefMin,
+                                'hmk': calHumidCoefK,
+                                'hmb': calHumidCoefB,
+                                'wdx': calWinddirCoefMax,
+                                'wdi': calWinddirCoefMin,
+                                'wdk': calWinddirCoefK,
+                                'wdb': calWinddirCoefB,
+                                'wsx': calWindspdCoefMax,
+                                'wsi': calWindspdCoefMin,
+                                'wsk': calWindspdCoefK,
+                                'wsb': calWindspdCoefB,
+                                'nsm': calNoiseCoefMax,
+                                'nsi': calNoiseCoefMin,
+                                'nsk': calNoiseCoefK,
+                                'nsb': calNoiseCoefB,
+                                'ptc':dust_threshold,
                             }
-                            msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
-                            msg_len=len(json.dumps(msg))
-                            msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":msgIeCnt,"FnFlg":0}}
-                            return msg_final
-                    else:
-                        msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{},"FnFlg":0}}
+                        msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
                         msg_len=len(json.dumps(msg))
-                        msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
+                        msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":msgIeCnt,"FnFlg":0}}
                         return msg_final
-                    
+                    else:
+                        return    
                 else:
-                    msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":{},"FnFlg":0}}
-                    msg_len=len(json.dumps(msg))
-                    msg_final={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':msg_len,"IeCnt":{},"FnFlg":0}}
-                    return msg_final   
+                    return
         else:
-            dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId,dev_code=dev_Code,socket_id=socketId,last_update=InsertTime)
-            return False
+            dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId,socket_id=socketId,last_update=InsertTime,prjid=prjId,prjname=prjName)
+            return
         
     def dft_dbi_device_heart_report(self,socketId,inputData):
         dev_Code = inputData['FrUsr']
@@ -1535,10 +2100,23 @@ class HCUReportAndConfirm():
                               'MsgTp': 'huitp_json', 'MsgId': 0X5C7F, 'MsgLn': msg_len, "IeCnt": {"rand":random.randint(10000,9999999)},
                               "FnFlg": 0}}
         return msg_final
+      
+    def dft_dbi_hcu_loop_test_view(self, socketId, inputData):
+        dev_Code = inputData['FrUsr']
+        rand = inputData['IeCnt']['rand']
+        if rand > 0:
+            dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_LOOP_TETS_RESP)
+
+    def dft_dbi_device_reboot_view(self,socketId, inputData):
+        dev_Code = inputData['FrUsr']
+        rand = inputData['IeCnt']['rand']
+        if rand > 0:
+            dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_RESTART_RESP)
         
-
-
-
+    
+    
+    
+    
 
 
 

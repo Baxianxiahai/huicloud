@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+'''下表因为软件的升级已经舍弃，但暂时保留，下次更新是记得删除'''
 class dct_t_l3f10oam_qrcodeinfo(models.Model):
     sid=models.AutoField(primary_key=True)
     pdtype=models.CharField(max_length=3,null=True)
@@ -11,6 +12,8 @@ class dct_t_l3f10oam_qrcodeinfo(models.Model):
     validdate=models.DateField(null=True)
     class Meta:
         index_together=['pdtype','pdcode','pjcode']
+        
+        
 class dct_t_l3f10oam_regqrcode(models.Model):
     sid=models.AutoField(primary_key=True)
     applytime=models.DateTimeField(auto_now_add=True)
