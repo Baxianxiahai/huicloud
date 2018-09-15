@@ -509,7 +509,7 @@ class dct_classDbiL3apF1sym:
         if 'memo' not in userinfo.keys():backup=""
         else:backup=userinfo['memo'].replace(' ','')
         if 'auth' not in userinfo.keys():auth=""
-        else:auth=userinfo['auth'].replace(' ','')
+        else:auth=userinfo['auth']
         city="上海"
 #         print(user,nick,password,type,mobile,mail,backup,auth)
         result=dct_t_l3f1sym_account_primary.objects.filter(login_name=user)
@@ -522,10 +522,19 @@ class dct_classDbiL3apF1sym:
             result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
             result.save()
             result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
-        if 'auth' in vars():
-            for ss in auth:
-                print(ss['id'])
-        return result
+        if len(auth)>0:
+            for i in range(len(auth)):
+                if auth[i]['id'] == "":
+                    continue
+                else:
+                    auth_code = int(auth[i]['id'])
+                if auth_code < 10000000:
+                    auth_type = 1
+                else:
+                    auth_type = 2
+                result = dct_t_l3f1sym_user_right_project.objects.create(
+                    uid=dct_t_l3f1sym_account_primary.objects.get(uid=uid), auth_type=auth_type,auth_code=auth_code)
+        return True
     
     def dft_dbi_userinfo_update(self,inputData):
         now=datetime.datetime.today()
@@ -598,6 +607,15 @@ class dct_classDbiL3apF1sym:
             cpuactive='true'
         else:
             cpuactive='false'
+        resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if resp.exists():
+            if resp[0].site_code_id==None or resp[0].site_code_id=="":
+                station_status='false'
+            else:
+                station_status='true'
+        else:
+            status='false'
+            msg='错误的设备编号'
         user={'username':username,'userid':userid,'CPU':cpuactive}
         confirm_msg={
             'status':status,
@@ -654,3 +672,40 @@ class dct_classDbiL3apF1sym:
             uid=""
         response_msg={'status':status,'auth':'true','uid':uid,'openid':openid}
         return response_msg
+    
+    def dft_dbi_re_login(self, inputData):
+        dev_code = inputData['code']
+        userid = inputData['userid']
+        result = dct_t_l3f1sym_account_primary.objects.filter(uid=userid)
+        if result.exists():
+            status = "true"
+            user_id = result[0].uid
+            username=result[0].login_name
+            msg = '用户校验成功'
+        else:
+            status = 'false'
+            username = ""
+            user_id = ""
+            msg = "错误的用户"
+        resp = dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)
+        if resp.exists():
+            cpuactive = 'true'
+        else:
+            cpuactive = 'false'
+        resp = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if resp.exists():
+            if resp[0].site_code_id == None or resp[0].site_code_id == "":
+                station_status = 'false'
+            else:
+                station_status = 'true'
+        else:
+            status = 'false'
+            msg = '错误的设备编号'
+        user = {'username': username, 'userid': user_id, 'CPU': cpuactive, 'station': station_status}
+        confirm_msg = {
+            'status': status,
+            'auth': 'true',
+            'ret': user,
+            'msg': msg
+        }
+        return confirm_msg

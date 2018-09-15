@@ -442,10 +442,11 @@ def insert_old_hcu_data():
 
 def dft_delete_hcu(a):
     dct_t_l3f2cm_device_inventory.objects.filter(dev_code=a).delete()
-
+    
+def dft_dbi_update_inventory():
+    dct_t_l3f2cm_device_inventory.objects.all().update(rebootflag=0)
 if __name__ == "__main__":
-    a='HCU_G201_AQYC_SH088'
-    dft_delete_hcu(a)
+    dft_dbi_update_inventory()
     #insert_old_hcu_data()
     
     

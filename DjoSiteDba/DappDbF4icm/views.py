@@ -201,7 +201,7 @@ class dct_classDbiL3apF4icm:
         if result.exists():
             for line in result:
                 cam_ctrl=line.ctrl1_url
-                rtsp=line.pic1_url
+                rtsp=line.video1_url
                 camweb={'video':rtsp,'camera':cam_ctrl}
         return camweb
     def dft_dbi_hcu_hsmmplist_inquery(self,inputData):
@@ -234,6 +234,7 @@ class dct_classDbiL3apF4icm:
         else:
             return resp
         result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
+        print(devCode)
         if result.exists():
             for line in result:
                 url=line.pic1_url
@@ -241,7 +242,7 @@ class dct_classDbiL3apF4icm:
                 username=self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
                 curl = pycurl.Curl()
-                curl.setopt(pycurl.URL, url)
+                curl.setopt(pycurl.URL,url)
                 curl.setopt(pycurl.HEADER, 0)
                 curl.setopt(pycurl.HTTPAUTH, pycurl.HTTPAUTH_ANY)
                 curl.setopt(pycurl.PROXYUSERPWD, username + ":" + password)
@@ -458,7 +459,7 @@ class dct_classDbiL3apF4icm:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
         password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
-        ctrl_url=vcrurl
+        ctrl_url=vcrurl+"/PTZCtrl/channels/1/continuous"
         if adj=="1":
             start_xml_string = "<PTZData version=\"2.0\" xmlns=\"http://www.hikvision.com/ver20/XMLSchema\"><pan>0</pan><tilt>60</tilt></PTZData>"
         elif adj=="-1":
@@ -535,7 +536,7 @@ class dct_classDbiL3apF4icm:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
         password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
-        ctrl_url=vcrurl
+        ctrl_url=vcrurl+"/PTZCtrl/channels/1/continuous"
         if adj=="1":
             start_xml_string = "<PTZData version=\"2.0\" xmlns=\"http://www.hikvision.com/ver20/XMLSchema\"><pan>60</pan><tilt>0</tilt></PTZData>"
         elif adj=="-1":
@@ -687,7 +688,7 @@ class dct_classDbiL3apF4icm:
             return False
         username=self.__MFUN_HCU_AQYC_CAM_USERNAME
         password=self.__MFUN_HCU_AQYC_CAM_PASSWORD
-        ctrl_url=(vcrurl.split("PTZCtrl")[0])+"/PTZCtrl/channels/1/homeposition/goto"
+        ctrl_url=vcrurl+"/PTZCtrl/channels/1/homeposition/goto"
         curl = pycurl.Curl()
         curl.setopt(pycurl.URL, ctrl_url)
         curl.setopt(pycurl.HEADER, 0)

@@ -363,39 +363,75 @@ class dct_DappF10Class():
         ptNodeSwVer=MsgData['pnsv']
         ptNodeSwCheckSum=MsgData['pnsc']
         ptNodeSwTotalLen=MsgData['pnsl']
-        result=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,upgradeflag=upgradeFlag,hwtype=hwType,hwid=hwPemId)
-        ht=0;hi=0;ssr=0;ssv=0;sdv=0;ssc=0;ssl=0;sdc=0;sdl=0;tsr=0;tsv=0;tdv=0;tsc=0;tsl=0;tdc=0;tdl=0;psr=0;psv=0;pdv=0;psc=0;psl=0;
-        pdc=0;pdl=0;up=0;snsr=0;snsv=0;snsc=0;snsl=0;tnsr=0;tnsv=0;tnsc=0;tnsl=0;pnsv=0;pnsc=0;pnsl=0;pnsr=0
+        result=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,upgradeflag=upgradeFlag,hwtype=hwType).order_by("-swrel","-swver")
+        ht=hwType;hi=hwPemId;ssr=stSwRel;ssv=stSwVer;sdv=stDbVer;ssc=stSwCheckSum;ssl=stSwTotalLen;sdc=stDbCheckSum;sdl=stDbTotalLen;tsr=trSwRel;
+        tsv=trSwVer;tdv=trDbVer;tsc=trSwCheckSum;tsl=trSwTotalLen;tdc=trDbCheckSum;tdl=trDbTotalLen;psr=ptSwRel;psv=ptSwVer;pdv=ptDbVer;psc=ptSwCheckSum;psl=ptSwTotalLen;
+        pdc=ptDbCheckSum;pdl=ptDbTotalLen;up=upgradeFlag;snsr=stNodeSwRel;snsv=stNodeSwVer;snsc=stNodeSwCheckSum;snsl=stNodeSwTotalLen;tnsr=trNodeSwRel;
+        tnsv=trNodeSwVer;tnsc=trNodeSwCheckSum;tnsl=trNodeSwTotalLen;pnsv=ptNodeSwRel;pnsc=ptNodeSwVer;pnsl=ptNodeSwCheckSum;pnsr=ptNodeSwTotalLen
         if result.exists():
             ht = hwType
             hi = hwPemId
             up = upgradeFlag
             for line in result:
                 if line.upgradeflag==1:
-                    return
+                    return 
                 elif line.upgradeflag==2:
                     ssr=line.swrel
                     ssv=line.swver
                     sdv=line.dbver
                     ssc=line.checksum
                     ssl=line.filesize
+                    '''DB查询'''
+                    resp_db=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,dbver__gte=sdv).order_by("-dbver")
+                    if resp_db.exists():
+                        sdc=resp_db[0].checksum
+                        sdl=resp_db[0].filesize
+                    resp_ihu=dct_t_l3f10oam_swloadinfo.objects.filter(equentry=3,hwType=ht).order_by("-swrel","-swver")
+                    if resp_ihu.exists():
+                        snsr=resp_ihu[0].swver
+                        snsv=resp_ihu[0].swrel
+                        snsc=resp_ihu[0].checksum
+                        snsl=resp_ihu[0].filesize
+                    break
                 elif line.upgradeflag == 3:
                     tsr = line.swrel
                     tsv = line.swver
                     tdv = line.dbver
                     tsc = line.checksum
                     tsl = line.filesize
+                    '''DB查询'''
+                    resp_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1, dbver__gte=sdv).order_by("-dbver")
+                    if resp_db.exists():
+                        tdc = resp_db[0].checksum
+                        tdl = resp_db[0].filesize
+                    resp_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=3, hwType=ht).order_by("-swrel","-swver")
+                    if resp_ihu.exists():
+                        tnsr = resp_ihu[0].swver
+                        tnsv = resp_ihu[0].swrel
+                        tnsc = resp_ihu[0].checksum
+                        tnsl = resp_ihu[0].filesize
+                    break
                 elif line.upgradeflag == 4:
                     psr = line.swrel
                     psv = line.swver
                     pdv = line.dbver
                     psc = line.checksum
                     psl = line.filesize
+                    '''DB查询'''
+                    resp_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1, dbver__gte=sdv).order_by("-dbver")
+                    if resp_db.exists():
+                        pdc = resp_db[0].checksum
+                        pdl = resp_db[0].filesize
+                    resp_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=3, hwType=ht).order_by("-swrel",
+                                                                                                        "-swver")
+                    if resp_ihu.exists():
+                        pnsr = resp_ihu[0].swver
+                        pnsv = resp_ihu[0].swrel
+                        pnsc = resp_ihu[0].checksum
+                        pnsl = resp_ihu[0].filesize
+                    break
                 else:
                     return
-        else:
-            return
-
         msg = {'socketid': socketId,
                'data': {'ToUsr': Frusr, 'FrUsr': ToUsr, "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
                         'MsgId': 0XA021, 'MsgLn': 115, "IeCnt":
@@ -404,8 +440,7 @@ class dct_DappF10Class():
                              "tdl": tdl, "psr": psr, "psv": psv, "pdv": pdv, "psc": psc, "psl": psl, "pdc": pdc,
                              "pdl": pdl, "up": up, "snsr": snsr, "snsv": snsv, "snsc": snsc, "snsl": snsl, "tnsr": tnsr,
                              "tnsv": tnsv, "tnsc": tnsc, "tnsl": tnsl, "pnsr": pnsr, "pnsv": pnsv, "pnsc": pnsc,
-                             "pnsl": pnsl, "ts": int(time.time())},
-                        "FnFlg": 0}}
+                             "pnsl": pnsl, "ts": int(time.time())},"FnFlg": 0}}
         msg_len = len(json.dumps(msg))
         msg_final = {'socketid': socketId,'data': {'ToUsr': Frusr, 'FrUsr': ToUsr, "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XA021, 'MsgLn': msg_len,"IeCnt":
             {"ht": ht, "hi": hi, "ssr": ssr, "ssv": ssv, "sdv": sdv, "ssc": ssc, "ssl": ssl, "sdc": sdc, "sdl": sdl,
@@ -413,6 +448,5 @@ class dct_DappF10Class():
              "tdl": tdl, "psr": psr, "psv": psv, "pdv": pdv, "psc": psc, "psl": psl, "pdc": pdc, "pdl": pdl, "up": up,
              "snsr": snsr, "snsv": snsv, "snsc": snsc, "snsl": snsl, "tnsr": tnsr,
              "tnsv": tnsv, "tnsc": tnsc, "tnsl": tnsl, "pnsr": pnsr, "pnsv": pnsv, "pnsc": pnsc, "pnsl": pnsl,
-             "ts": int(time.time())},
-                                                   "FnFlg": 0}}
+             "ts": int(time.time())},"FnFlg": 0}}
         return msg_final

@@ -494,7 +494,7 @@ class dct_classDbiL3apF5fm:
             result=dct_t_l2snr_dust.objects.filter(Q(dev_code_id=devCode,report_data=today)|Q(report_data=dayStart,hourminindex=index_base)).order_by('-sid')
             if result.exists():
                 for line in result:
-                    value=line.pm01
+                    value=line.tsp
                     hourminindex=line.hourminindex
                     reportDate=line.report_data
                     hour_index=int((hourminindex*1.0)/60)

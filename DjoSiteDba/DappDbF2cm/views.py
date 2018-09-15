@@ -565,22 +565,25 @@ class dct_classDbiL3apF2cm:
                         pg_code=dct_t_l3f2cm_pg_common.objects.get(pg_code=pgcode))
         return True
 
-    def dft_dbi_projinfo_new(self,inputData):
-        uid=inputData['uid']
-        p_code=self.__dft_getRandomDigID(8)
-        pname=inputData['pname']
-        chargeman=inputData['chargeman']
-        telephone=inputData['telephone']
-        department=inputData['department']
-        addr=inputData['addr']
-        starttime=inputData['starttime']
-        stage=inputData['stage']
-        result=dct_t_l3f2cm_project_common.objects.filter(prj_code=p_code)
+    def dft_dbi_projinfo_new(self, inputData):
+        uid = inputData['uid']
+        p_code = self.__dft_getRandomDigID(8)
+        pname = inputData['pname']
+        chargeman = inputData['chargeman']
+        telephone = inputData['telephone']
+        department = inputData['department']
+        addr = inputData['addr']
+        starttime = inputData['starttime']
+        stage = inputData['stage']
+        result = dct_t_l3f2cm_project_common.objects.filter(prj_code=p_code)
         if result.exists():
             self.dft_dbi_projinfo_new(inputData)
         else:
-            dct_t_l3f2cm_project_common.objects.create(prj_code=p_code,prj_name=pname,prj_creator=uid,superintendent=chargeman,telephone=telephone,address=addr,comments=stage,department=department)
-        dct_t_l3f1sym_user_right_project.objects.create(auth_type=2,auth_code=p_code,uid=(dct_t_l3f1sym_account_primary.objects.get(uid=uid)))
+            dct_t_l3f2cm_project_common.objects.create(prj_code=p_code, prj_name=pname, prj_creator=uid,
+                                                       superintendent=chargeman, telephone=telephone, address=addr,
+                                                       comments=stage, department=department,create_date=starttime)
+        dct_t_l3f1sym_user_right_project.objects.create(auth_type=2, auth_code=p_code,
+                                                        uid=(dct_t_l3f1sym_account_primary.objects.get(uid=uid)))
         return True
 
     def dft_dbi_projinfo_modify(self,inputData):
@@ -601,6 +604,7 @@ class dct_classDbiL3apF2cm:
             resp.department=department
             resp.address=addr
             resp.comments=stage
+            resp.create_date=starttime
             resp.save()
             # dct_t_l3f2cm_project_common.objects.filter(prj_code=pcode).update(prj_name=pname,superintendent=chargeman,telephone=telephone,department=department,address=addr,comments=stage)
         return True
@@ -769,50 +773,57 @@ class dct_classDbiL3apF2cm:
         dct_t_l3f2cm_site_common.objects.filter(site_code=statCode).update(status=status)
         return True
 
-    def dft_dbi_siteInfo_new(self,inputData):
-        statCode=self.__dft_getRandomDigID(9)
-        statname=inputData['StatName']
-        pcode=inputData['ProjCode']
-        ChargeMan=inputData['ChargeMan']
-        Telephone=inputData['Telephone']
-        Longitude=inputData['Longitude']
-        Latitude=inputData['Latitude']
-        Department=inputData['Department']
-        Address=inputData['Address']
-        Country=inputData['Country']
-        Street=inputData['Street']
-        Square=inputData['Square']
-        ProStartTime=inputData['ProStartTime']
-        Stage=inputData['Stage']
-        status='I'
+    def dft_dbi_siteInfo_new(self, inputData):
+        statCode = self.__dft_getRandomDigID(9)
+        statname = inputData['StatName']
+        pcode = inputData['ProjCode']
+        ChargeMan = inputData['ChargeMan']
+        Telephone = inputData['Telephone']
+        Longitude = inputData['Longitude']
+        Latitude = inputData['Latitude']
+        Department = inputData['Department']
+        Address = inputData['Address']
+        Country = inputData['Country']
+        Street = inputData['Street']
+        Square = inputData['Square']
+        ProStartTime = inputData['ProStartTime']
+        Stage = inputData['Stage']
+        status = 'I'
         result = dct_t_l3f2cm_site_common.objects.filter(site_code=statCode)
         if result.exists():
             dct_t_l3f2cm_site_common.objects.filter(site_code=statCode).update(site_name=statname, status=status,
-                                                    prj_code_id=pcode, superintendent=ChargeMan, telephone=Telephone,
-                                                    address=Address, longitude=Longitude, latitude=Latitude,
-                                                    comments=Stage,department=Department,district=Country,street=Street,site_area=Square,create_date=ProStartTime)
+                                                                               prj_code_id=pcode,
+                                                                               superintendent=ChargeMan,
+                                                                               telephone=Telephone,
+                                                                               address=Address, longitude=Longitude,
+                                                                               latitude=Latitude,
+                                                                               comments=Stage, department=Department,
+                                                                               district=Country, street=Street,
+                                                                               site_area=Square,
+                                                                               create_date=ProStartTime)
         else:
             dct_t_l3f2cm_site_common.objects.create(site_code=statCode, site_name=statname, status=status,
                                                     prj_code_id=pcode, superintendent=ChargeMan, telephone=Telephone,
-                                                    address=Address,comments=Stage,department=Department,district=Country,street=Street,site_area=Square,create_date=ProStartTime)
+                                                    address=Address, comments=Stage, department=Department,
+                                                    district=Country, street=Street, site_area=Square,
+                                                    create_date=ProStartTime)
         return True
 
-    def dft_dbi_siteinfo_modify(self,inputData):
-        StatCode=int(inputData['StatCode'])
-        StatName=inputData['StatName']
-        ProjCode=inputData['ProjCode']
-        ChargeMan=inputData['ChargeMan']
-        Telephone=inputData['Telephone']
-        Longitude=inputData['Longitude']
-        Latitude=inputData['Latitude']
-        Department=inputData['Department']
-        Address=inputData['Address']
-        Country=inputData['Country']
-        Street=inputData['Street']
-        Square=inputData['Square']
-        ProStartTime=inputData['ProStartTime']
-        Stage=inputData['Stage']
-        print(StatCode)
+    def dft_dbi_siteinfo_modify(self, inputData):
+        StatCode = int(inputData['StatCode'])
+        StatName = inputData['StatName']
+        ProjCode = inputData['ProjCode']
+        ChargeMan = inputData['ChargeMan']
+        Telephone = inputData['Telephone']
+        Longitude = inputData['Longitude']
+        Latitude = inputData['Latitude']
+        Department = inputData['Department']
+        Address = inputData['Address']
+        Country = inputData['Country']
+        Street = inputData['Street']
+        Square = inputData['Square']
+        ProStartTime = inputData['ProStartTime']
+        Stage = inputData['Stage']
         result = dct_t_l3f2cm_site_common.objects.filter(site_code=StatCode)
         if result.exists():
             dct_t_l3f2cm_site_common.objects.filter(site_code=StatCode).update(site_name=StatName,
@@ -821,7 +832,10 @@ class dct_classDbiL3apF2cm:
                                                                                telephone=Telephone,
                                                                                address=Address, longitude=Longitude,
                                                                                latitude=Latitude,
-                                                                               comments=Stage,department=Department,district=Country,street=Street,site_area=Square,create_date=ProStartTime
+                                                                               comments=Stage, department=Department,
+                                                                               district=Country, street=Street,
+                                                                               site_area=Square,
+                                                                               create_date=ProStartTime
                                                                                )
         else:
             self.dft_dbi_siteInfo_new(inputData)
@@ -914,13 +928,18 @@ class dct_classDbiL3apF2cm:
         if devCode1.exists():
             devCode1.update(create_date=starttime,site_code_id=statcode)
             result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
+            base_port=devCode1[0].base_port
             if result.exists():
                 result=dct_t_l3f2cm_device_aqyc.objects.get(dev_code_id=devCode)
                 if videourl=="" or videourl==None:
                     result.cam_url=videourl
                 result.save()
             else:
-                dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode)
+                weburl="http://"+str(devCode)+".ngrok2.hkrob.com:8080/phpmyadmin"
+                pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI"
+                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "3" + "/ISAPI/Streaming/Channels/1"
+                dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,web_url=weburl,pic1_url=pic1url,ctrl1_url=ctrl1url,video1_url=video1url)
         else:
             dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode,site_code_id=statcode,create_date=starttime)
             dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,status=devstatus,cam_url=videourl)
@@ -1468,13 +1487,17 @@ class dct_classDbiL3apF2cm:
         }
         return retval
 
-    def dft_dbi_HCU_CPU_Binding(self,inputData):
-        dev_code=inputData['code']
-        cpu_id=inputData['cpu']
-        result=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_id)
-        if result.exists():
-            result.update(dev_code=dev_code,last_update=datetime.datetime.now(),valid_flag=True)
-        msg={'status':'true','auth':'true','msg':'绑定成功'}
+    def dft_dbi_HCU_CPU_Binding(self, inputData):
+        dev_code = inputData['code']
+        cpu_id = inputData['cpu']
+        resp=dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)
+        if resp.exists():
+            resp.update(dev_code=None)
+            dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_id).update(dev_code=dev_code,valid_flag=True)
+            msg = {'status': 'true', 'auth': 'true', 'msg': '重新绑定成功'}
+        else:
+            dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_id).update(dev_code=dev_code, valid_flag=True)
+            msg = {'status': 'true', 'auth': 'true', 'msg': '绑定成功'}
         return msg
         
     def dft_dbi_HCU_project_list(self):
@@ -1681,7 +1704,7 @@ class dct_classDbiL3apF2cm:
         dev_code=inputData['code']
         latitude=inputData['latitude']
         longitude=inputData['longitude']
-        result1=dct_t_l3f2cm_site_common.objects.filter(site_code=site_code,status='I')
+        result1=dct_t_l3f2cm_site_common.objects.filter(site_code=site_code)
         result2=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
         if result1 and result2:
             result1.update(status='A',latitude=latitude,longitude=longitude)
@@ -1790,46 +1813,6 @@ class dct_classDbiL3apF2cm:
             return True
         else:
             return False
-    
-#     def dft_dbi_hcu_loop_test_view(self, inputData):
-#         time.sleep(0.5)
-#         print(HCUReportAndConfirm().HCU_DEV_STATUS)
-#         print(HCUReportAndConfirm().HCU_DEV_NAME)
-#         devCode = inputData['code']
-#         result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
-#         msg = {}
-#         if result.exists():
-#             socketID=result[0].socket_id
-#             if HCUReportAndConfirm().HCU_DEV_STATUS == "":
-#                 msg = {'status':"pending",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
-#             elif HCUReportAndConfirm().HCU_DEV_STATUS=="False":
-#                 msg={'status':"false"}
-#             else:
-#                 if HCUReportAndConfirm().HCU_DEV_NAME != devCode:
-#                     msg = {'status':"pending",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
-#                 else:
-#                     msg = {'status':"true",'loop_resp':{'socketid': socketID,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF041, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
-#         return msg
-# 
-#     def dft_dbi_hcu_reboot(self, inputData):
-#         time.sleep(1)
-#         print(HCUReportAndConfirm().HCU_REBOOT_STATUS)
-#         print(HCUReportAndConfirm().HCU_REBOOT_NAME)
-#         devCode = inputData['code']
-#         result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
-#         if result.exists():
-#             for line in result:
-#                 socketId = line.socket_id
-#                 if HCUReportAndConfirm().HCU_REBOOT_STATUS=="":
-#                     msg = {'status':"pending",'loop_resp':{'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF042, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
-#                 elif HCUReportAndConfirm().HCU_REBOOT_STATUS=="True":
-#                     if HCUReportAndConfirm().HCU_REBOOT_NAME!=devCode:
-#                         msg = {'status':"pending",'loop_resp':{'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS", "CrTim": int(time.time()),'MsgTp': 'huitp_json', 'MsgId': 0XF042, 'MsgLn': 115,"IeCnt": {"rand": random.randint(10000,20000)}, "FnFlg": 0}}}
-#                     else:
-#                         msg = {'status':"true"}
-#         else:
-#             msg = {'status':"false"}
-#         return msg
     
     
     def dft_dbi_hcu_loop_test_view(self, inputData):
@@ -1945,6 +1928,42 @@ class dct_classDbiL3apF2cm:
                     dev_array.append(dev_dev)
         response_msg = {'status':status, 'auth': 'true', 'DevDetail': dev_array}
         return response_msg
+    
+    def dft_dbi_hcu_get_binding_station_view(self,inputData):
+        devCode=inputData['key']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        temp={}
+        if result.exists():
+            status='true'
+            msg = ''
+            StationDetail=result[0].site_code
+            statcode=StationDetail.site_code
+            statname=StationDetail.site_name
+            projcode=StationDetail.prj_code_id
+            chargeman=StationDetail.superintendent
+            telephone=StationDetail.telephone
+            longitude=str(StationDetail.longitude)
+            latitude=str(StationDetail.latitude)
+            department=StationDetail.department
+            address=StationDetail.address
+            country=StationDetail.district
+            street=StationDetail.street
+            square=StationDetail.site_area
+            prostarttime=str(StationDetail.prj_code.create_date)
+            stage=StationDetail.comments
+            temp={'StatCode':statcode,'StatName':statname,'ProjCode':projcode,'ChargeMan':chargeman,'Telephone':telephone,'Longitude':longitude,'Latitude':latitude,'Department':department,
+                  'Address':address,'Country':country,'Street':street,'Square':square,'ProStartTime':prostarttime,'Stage':stage,}
+        else:
+            status='false'
+            msg='错误的设备号'
+        retval={'status':status,'auth':'true','ret':temp,'msg':msg}
+        return retval
+
+    def dft_dbi_hcu_station_unbind_view(self,inputData):
+        devCode=inputData['code']
+        dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode).update(site_code_id=None)
+        retval={'status':'true','auth':'true','msg':'解绑成功'}
+        return retval
     
 
 class HCUReportAndConfirm():
