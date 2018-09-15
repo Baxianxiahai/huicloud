@@ -66,6 +66,9 @@ class ClassDbaMainEntry():
         elif inputData['action']=="UpdateTel":
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_openid_name_binding(inputData['body'])
+        elif inputData['action']=="HCU_Re_Login":
+            F1sym=ModDbaF1sym.ClassDbaF1sym()
+            result=F1sym.dft_dbi_user_re_login(inputData['body'])
         else:
             result=""
         return result
@@ -177,7 +180,6 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_get_device_cali(inputData['body'])  
         elif inputData['action']=='SetDevCali':
             result=F2cm.dft_dbi_set_device_cali(inputData['body'])  
-            
         elif inputData['action']=='HCU_CPU_Query':
             result=F2cm.dft_dbi_HCU_CPU_Query(inputData['body'])
         elif inputData['action']=='HCU_CPU_Binding':
@@ -190,21 +192,20 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_HCU_sys_config(inputData['body'])
         elif inputData['action']=='HCU_sys_config_save':
             result=F2cm.dft_dbi_HCU_sys_config_save(inputData['body'])
-        elif inputData['action']=="HCU_Lock_Activate":
-            result=F2cm.dft_dbi_HCU_Lock_Activate(inputData['body'])
-            
+        elif inputData['action']=="HCU_Station_Bind":
+            result=F2cm.dft_dbi_HCU_Lock_Activate(inputData['body']) 
+        elif inputData['action']=="HCU_Get_Binding_Station":
+            result=F2cm.dft_dbi_hcu_get_binding_station(inputData['body'])
+        elif inputData['action']=="HCU_Station_Unbind":
+            result=F2cm.dft_dbi_hcu_station_unbind(inputData['body'])
         elif inputData['action']=="HCU_Loop_Status":
-            result=F2cm.dft_dbi_hcu_loop_test(inputData['body'])
-            
+            result=F2cm.dft_dbi_hcu_loop_test(inputData['body'])  
         elif inputData['action']=="GetDevDetail":
-            result=F2cm.dft_dbi_get_device_detail(inputData['body'])
-            
+            result=F2cm.dft_dbi_get_device_detail(inputData['body']) 
         elif inputData['action']=="HCU_Reboot":
             result=F2cm.dft_dbi_hcu_reboot(inputData['body'])
-        
         elif inputData['action']=="HCU_Start_Loop":
             result=F2cm.dft_dbi_hcu_loop_test_start(inputData['body'])
-        
         else:
             result=""
         return result

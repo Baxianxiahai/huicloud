@@ -2,6 +2,7 @@ from django.shortcuts import render
 import os,json
 from django.db.models import Q
 from django.db.models.functions import Concat
+from DappDbSnr.models import *
 from DappDbF1sym.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
@@ -443,7 +444,7 @@ class dct_classDbiL3apF3dm():
         column.append('联系电话')
         column.append('上次报告时间')
         column.append('设备状态')
-        column.append('PM2.5')
+        column.append('TSP')
         column.append('温度')
         column.append('湿度')
         column.append('噪音')
@@ -475,7 +476,7 @@ class dct_classDbiL3apF3dm():
             status='休眠中'
             if resp.exists():
                 for line in resp:
-                    tsp=line.pm01
+                    tsp=line.tsp
                     temperature=line.temperature
                     humidity=line.humidity
                     noise=line.noise
@@ -1116,6 +1117,12 @@ class dct_t_HCU_Data_Report():
                                                            humidity=humidValue,winddir=winddirValue,windspd=windspdValue,
                                                            lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
                                                            hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+            dct_t_l2snr_dust.objects.create(dev_code_id=devCode,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,hourminindex=hourminindex,dataflag='Y')
+            dct_t_l2snr_windspd.objects.create(dev_code_id=devCode,windspd=windspdValue,dataflag='Y',hourminindex=hourminindex)
+            dct_t_l2snr_noise.objects.create(dev_code_id=devCode,noise=noiseValue,dataflag='Y',hourminindex=hourminindex)
+            dct_t_l2snr_temperature.objects.filter(dev_code_id=devCode,temperature=tempValue,dataflag='Y',hourminindex=hourminindex)
+            dct_t_l2snr_humidity.objects.filter(dev_code_id=devCode,humidity=humidValue,dataflag='Y',hourminindex=hourminindex)
+            dct_t_l2snr_winddir.objects.create(dev_code_id=devCode,windir=winddirValue,dataflag='Y',hourminindex=hourminindex)
             if dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).exists():
                 dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).update(site_code=result[0].site_code,report_time=datetime.datetime.now(),tsp=tspValue,pm01=pm1d0Value,
                                                            pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,

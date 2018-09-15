@@ -547,6 +547,24 @@ class classDappDbF2cm:
             result = False
         return result
     
+    def dft_dbi_hcu_get_binding_station(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_hcu_get_binding_station_view(inputData)
+        except Exception:
+            result={'status':'false','auth':'true','ret':{},'msg':'显示失败'}
+        return result
+    
+    def dft_dbi_hcu_station_unbind(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_hcu_station_unbind_view(inputData)
+        except Exception:
+            result={'status':'false','auth':'true','msg':'解绑失败'}
+        return result
+    
     def dft_dbi_get_device_cali(self,inputData):
         try:
             with transaction.atomic():

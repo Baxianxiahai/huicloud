@@ -76,12 +76,12 @@ class classDappDbF3dm:
         return result
     
     def dft_dbi_aqyc_user_dataaggregate_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_aqyc_user_dataaggregate_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_aqyc_user_dataaggregate_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_bfsc_user_dataaggregate_req(self,inputData):

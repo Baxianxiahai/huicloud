@@ -76,10 +76,6 @@ class ClassDbaF1sym():
                 DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
                 result=DappDbF1sym_view.dft_dbi_userinfo_new(inputData['userinfo'])
         except Exception:
-            result=''
-        if result!='':
-            result=True
-        else:
             result=False
         return result
     def dft_dbi_userinfo_delete(self,inputData):
@@ -103,12 +99,12 @@ class ClassDbaF1sym():
         return result
     def dft_dbi_userinfo_req(self,inputData):
         session=inputData['sessionid']
-#         try:
-#             with transaction.atomic():
-        DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
-        result=DappDbF1sym_view.dft_dbi_userinfo_req(session)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_userinfo_req(session)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     def dft_dbi_usertable_req(self,inputData):
         uid=inputData['uid']
@@ -168,6 +164,15 @@ class ClassDbaF1sym():
                 result=DappDbF1sym_view.dft_dbi_openid_name_binding(inputData)
         except Exception:
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
+        return result
+    
+    def dft_dbi_user_re_login(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_re_login(inputData)
+        except Exception:
+            result={'status': 'false','auth': 'true','ret': {},'msg': '用户验证失败'}
         return result
     
     
