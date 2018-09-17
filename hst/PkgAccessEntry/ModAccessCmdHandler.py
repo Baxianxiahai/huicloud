@@ -17,19 +17,16 @@ from builtins import int
 
 from PkgHstPrinter import ModPrinterGeneral
 from PkgHstDba import ModDbaMainEntry
-<<<<<<< HEAD
 # from PkgHstVision import ModVisionGeneral
 # from PkgHstAiwgt import ModAiwgtGeneral
 # from PkgHstSensor import ModSensorGeneral    #Sensor access
 # from PkgHstSpecial import ModSpecialGeneral  #Special Usage
-=======
 from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
 from PkgHstSpecial import ModSpecialGeneral  #Special Usage
 from builtins import int
 from PkgAccessEntry import ModAccessDict
->>>>>>> feature
 
 class ClassEntryCmdHandler:
     '''
