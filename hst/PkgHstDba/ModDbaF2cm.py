@@ -611,6 +611,14 @@ class classDappDbF2cm:
             msg={"status":"false","auth":"true",'msg':'测试失败'}
         return result
     
+    def dft_dbi_aqyc_install_picture_process(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+        result=DappDbF2cm_view.dft_dbi_point_install_picture_process(inputData)
+#         except Exception:
+#             msg={"status":"false","auth":"true",'msg':'获取数据失败'}
+        return result
     
     '''WeChart App 界面入口'''
     def dft_dbi_get_device_detail(self,inputData):
@@ -659,7 +667,24 @@ class HCUF2cmDataBaseConfirm():
                 return result
         except Exception:
             return 
+    
+    def dft_dbi_ngrok_restart(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
+                result=DappDbF2cm_view.dft_dbi_hcu_ngrok_restart_view(socketId,inputData)
+                return result
+        except Exception:
+            return 
        
+    def dft_dbi_hcu_sw_restart(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
+                result=DappDbF2cm_view.dft_dbi_hcu_sw_restart_view(socketId,inputData)
+                return result
+        except Exception:
+            return 
     
     
     

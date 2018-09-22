@@ -38,12 +38,12 @@ class classDappDbF5fm:
         return result
     
     def dft_dbi_aqyc_dev_alarmhistory_realtime_req(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF5fm_view=DappDbF5fm.dct_classDbiL3apF5fm()
-                result=DappDbF5fm_view.dft_dbi_aqyc_dev_alarmhistory_realtime_req(inputData)
-        except Exception:
-            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+#         try:
+#             with transaction.atomic():
+        DappDbF5fm_view=DappDbF5fm.dct_classDbiL3apF5fm()
+        result=DappDbF5fm_view.dft_dbi_aqyc_dev_alarmhistory_realtime_req(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_all_alarmtype_req(self,inputData):

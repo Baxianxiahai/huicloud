@@ -273,8 +273,8 @@ class dct_classDbiL3apF5fm:
                 resp=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
                 if resp.exists():
                     for line_info in resp:
-                        port=line_info.rtsp_port
-                        rtsp_url="rtsp://admin:Bxxh!123@ngrok.hkrob.com:"+port+"/Streaming/tracks/101/"
+                        rtsp_url=line_info.video1_url
+                        #rtsp_url="rtsp://admin:Bxxh!123@ngrok2.hkrob.com:"+str(port)+"/Streaming/tracks/101/"
                         rtsp_result={"StatCode":statCode,"StatName":site_name,"AlarmReason":alarmReason,"rtspurl":rtsp_url,"AlarmDate":str(alarmDate)}
         return rtsp_result
     def dft_dbi_aqyc_alarm_handle_process(self,inputData):
@@ -328,7 +328,7 @@ class dct_classDbiL3apF5fm:
         monthStart=inputDate-datetime.timedelta(days=30)
         monthStartInt=time.strptime(str(monthStart),"%Y-%m-%d %H:%M:%S")
         monthStartInt=int(time.mktime(monthStartInt))
-
+        
         dayValue=[]
         for dayIndex in range(0,31):
             a={'sum':0,'counter':0,'average':0}
@@ -343,7 +343,7 @@ class dct_classDbiL3apF5fm:
                 for line in result:
                     value=float(line.pm01)
                     reportDate=str(line.report_data)
-                    dateInt = time.strptime(reportDate, "%Y-%m-%d %H:%M:%S.%f")
+                    dateInt = time.strptime(reportDate, "%Y-%m-%d")
                     dateInt = int(time.mktime(dateInt))
                     if dateInt>=monthStartInt:
                         day_index=int((dateInt-monthStartInt)/86400)-1
@@ -363,7 +363,7 @@ class dct_classDbiL3apF5fm:
                 for line in result:
                     value=float(line.windspd)
                     reportDate=str(line.report_data)
-                    dateInt = time.strptime(reportDate, "%Y-%m-%d %H:%M:%S.%f")
+                    dateInt = time.strptime(reportDate, "%Y-%m-%d")
                     dateInt = int(time.mktime(dateInt))
                     if dateInt>=monthStartInt:
                         day_index=int((dateInt-monthStartInt)/86400)-1
@@ -383,7 +383,7 @@ class dct_classDbiL3apF5fm:
                 for line in result:
                     value=float(line.temperature)
                     reportDate=str(line.report_data)
-                    dateInt = time.strptime(reportDate, "%Y-%m-%d %H:%M:%S.%f")
+                    dateInt = time.strptime(reportDate, "%Y-%m-%d")
                     dateInt = int(time.mktime(dateInt))
                     if dateInt>=monthStartInt:
                         day_index=int((dateInt-monthStartInt)/86400)-1
@@ -403,7 +403,7 @@ class dct_classDbiL3apF5fm:
                 for line in result:
                     value=float(line.humidity)
                     reportDate=str(line.report_data)
-                    dateInt = time.strptime(reportDate, "%Y-%m-%d %H:%M:%S.%f")
+                    dateInt = time.strptime(reportDate, "%Y-%m-%d")
                     dateInt = int(time.mktime(dateInt))
                     if dateInt>=monthStartInt:
                         day_index=int((dateInt-monthStartInt)/86400)-1
@@ -423,7 +423,7 @@ class dct_classDbiL3apF5fm:
                 for line in result:
                     value=float(line.noise)
                     reportDate=str(line.report_data)
-                    dateInt = time.strptime(reportDate, "%Y-%m-%d %H:%M:%S.%f")
+                    dateInt = time.strptime(reportDate, "%Y-%m-%d")
                     dateInt = int(time.mktime(dateInt))
                     if dateInt>=monthStartInt:
                         day_index=int((dateInt-monthStartInt)/86400)-1
@@ -491,7 +491,7 @@ class dct_classDbiL3apF5fm:
             alarm_unit='微克/立方米'
             warning=self.__MFUN_L3APL_F3DM_TH_ALARM_PM25
             line_name='TSP'
-            result=dct_t_l2snr_dust.objects.filter(Q(dev_code_id=devCode,report_data=today)|Q(report_data=dayStart,hourminindex=index_base)).order_by('-sid')
+            result=dct_t_l2snr_dust.objects.filter(Q(dev_code_id=devCode),(Q(report_data=today)|Q(report_data=dayStart,hourminindex__gte=index_base))).order_by('-sid')
             if result.exists():
                 for line in result:
                     value=line.tsp
@@ -509,8 +509,7 @@ class dct_classDbiL3apF5fm:
             alarm_unit = '分贝'
             warning = self.__MFUN_L3APL_F3DM_TH_ALARM_NOISE
             line_name = '噪声'
-            result = dct_t_l2snr_noise.objects.filter(Q(dev_code_id=devCode,report_data=today) | Q(report_data=dayStart,hourminindex=index_base)).order_by(
-                'sid')
+            result = dct_t_l2snr_noise.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
             if result.exists():
                 for line in result:
                     value = line.noise
@@ -528,13 +527,12 @@ class dct_classDbiL3apF5fm:
             alarm_unit = '摄氏度'
             warning = self.__MFUN_L3APL_F3DM_TH_ALARM_TEMP
             line_name = '温度'
-            result = dct_t_l2snr_temperature.objects.filter(Q(dev_code_id=devCode,report_data=today) | Q(report_data=dayStart,hourminindex=index_base)).order_by('-sid')
-            print(result)
+            result = dct_t_l2snr_temperature.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
             if result.exists():
                 for line in result:
                     value = line.temperature
                     hourminindex = line.hourminindex
-                    
+
                     reportDate = line.report_data
                     hour_index = int((hourminindex * 1.0) / 60)
                     if reportDate == today and (hourminindex >= hourminindex_now - 60):
@@ -548,11 +546,10 @@ class dct_classDbiL3apF5fm:
             alarm_unit = '%'
             warning = self.__MFUN_L3APL_F3DM_TH_ALARM_HUMID
             line_name = '湿度'
-            result = dct_t_l2snr_humidity.objects.filter(Q(dev_code_id=devCode,report_data=today) | Q(report_data=dayStart,hourminindex=index_base)).order_by(
-                '-sid')
+            result = dct_t_l2snr_humidity.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
             if result.exists():
                 for line in result:
-                    value = line.pm01
+                    value = line.humidity
                     hourminindex = line.hourminindex
                     reportDate = line.report_data
                     hour_index = int((hourminindex * 1.0) / 60)
@@ -567,8 +564,7 @@ class dct_classDbiL3apF5fm:
             alarm_unit = '米/秒'
             warning = self.__MFUN_L3APL_F3DM_TH_ALARM_WINDSPD
             line_name = '风速'
-            result = dct_t_l2snr_windspd.objects.filter(Q(dev_code_id=devCode,report_data=today) | Q(report_data=dayStart,hourminindex=index_base)).order_by(
-                '-sid')
+            result = dct_t_l2snr_windspd.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
             if result.exists():
                 for line in result:
                     value = line.windspd

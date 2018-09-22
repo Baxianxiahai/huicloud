@@ -46,7 +46,7 @@ class classDappDbF10oam:
         try:
             with transaction.atomic():
                 DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
-                result=DappDbF10oam_view.dft_dbi_tools_swload_table_get()
+                result=DappDbF10oam_view.dft_dbi_tools_swload_table_get(inputData)
         except Exception:
             result={'ColumnName':[],'TableData':[]}
         return result
@@ -80,10 +80,10 @@ class classDappDbF10oam:
     
     '''从下位机发上来的消息处理'''
     def dft_dbi_hcu_inventory_confirm(self,socketId,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
-                result=DappDbF10oam_view.dft_dbi_hcu_inventory_confirm_view(socketId, inputData)
-        except Exception:
-            result=None
+#         try:
+#             with transaction.atomic():
+        DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
+        result=DappDbF10oam_view.dft_dbi_hcu_inventory_confirm_view(socketId, inputData)
+#         except Exception:
+#             result=None
         return result

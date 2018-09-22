@@ -10,5 +10,9 @@ class Dapp_Db_Msg_Define_Dict():
         self.HCU_LOOP_TETS_RESP=2
         self.HCU_RESTART_REQ=3
         self.HCU_RESTART_RESP=4
+        self.HCU_NGROK_RESTART_REQ=5
+        self.HCU_NGROK_RESTART_RESP=6
+        self.HCU_SW_RESTART_REQ=7
+        self.HCU_SW_RESTART_RESP=8
 
 GOLBALVAR=Dapp_Db_Msg_Define_Dict()

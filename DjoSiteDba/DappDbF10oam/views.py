@@ -181,7 +181,7 @@ class dct_DappF10Class():
                 weburl="http://"+str(devCode)+"ngrok2.hkrob.com:8080/yii2basic/web/index.php"
                 pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "2" + "/ISAPI /PTZCtrl/channels/1/continuous"
-                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "3" + "ISAPI/Streaming/Channels/101"
+                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(basePort) + "3" + "ISAPI/Streaming/Channels/1"
                 pj_insert_list.append(dct_t_l3f2cm_device_aqyc(dev_code_id=devCode,web_url=weburl,pic1_url=pic1url,ctrl1_url=ctrl1url,video1_url=video1url))
             dct_t_l3f2cm_device_aqyc.objects.bulk_create(pj_insert_list)
 
@@ -209,7 +209,7 @@ class dct_DappF10Class():
         dct_t_l3f10oam_regqrcode.objects.create(applyuser=user,faccode=facCode,pdtype=productType,pdcode=pdCode,pjcode=pjCode,usercode=userCode,isformal=formalFlag,applynum=applyNum,approvenum=approvenum,digstart=digStart,digstop=digStop,zipfile=zipfile)
         return 'true'
 
-    def dft_dbi_tools_swload_table_get(self):
+    def dft_dbi_tools_swload_table_get(self,inputData):
         ColumnName=[]
         TableData=[]
         ColumnName.append('SID')
@@ -224,58 +224,83 @@ class dct_DappF10Class():
         ColumnName.append('FILE_LINK')
         ColumnName.append('FILE_SIZE')
         ColumnName.append('FILE_CHECKSUM')
-        result=dct_t_l3f10oam_swloadinfo.objects.all()
-        if result.exists():
-            for line in result:
-                sid=line.sid
-                equentry=line.equentry
-                validflag=line.validflag
-                upgradeflag=line.upgradeflag
-                hwtype=line.hwtype
-                hwid=line.hwid
-                swrel=line.swrel
-                swver=line.swver
-                dbver=line.dbver
-                filelink=line.filelink
-                filesize=line.filesize
-                checknum=line.checksum
-                if equentry==self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_SW:
-                    equentry="HCU_SW"
-                elif equentry==self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB:
-                    equentry='HCU_DB'
-                elif equentry==self.__HUITP_IEID_UNI_EQU_ENTRY_IHU:
-                    equentry='IHU_SW'
-                else:
-                    equentry='INVALID'
+        equEntry = inputData['filter'][0]['value']
+        validFlag = inputData['filter'][1]['value']
+        upgradeFlag = inputData['filter'][2]['value']
+        hwType = inputData['filter'][3]['value']
+        hwPem = inputData['filter'][4]['value']
+        swRel = inputData['filter'][5]['value']
+        swVer = inputData['filter'][6]['value']
+        dbVer = inputData['filter'][7]['value']
+        if equEntry=="HCU_SW":equentry_d=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_SW
+        elif equEntry=="HCU_DB":equentry_d=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB
+        elif equEntry=="IHU_SW":equentry_d=self.__HUITP_IEID_UNI_EQU_ENTRY_IHU
+        else :equentry_d=""
 
-                if upgradeflag==self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE:
-                    upgradeflag='STABLE'
-                elif upgradeflag==self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL:
-                    upgradeflag="TRAIL"
-                elif upgradeflag==self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH:
-                    upgradeflag='PATCH'
-                else:
-                    upgradeflag="INVALID"
-                if validflag==0:
-                    Flag="N"
-                elif validflag==1:
-                    Flag="Y"
-                else:
-                    Flag="Unknow"
-                temp=[]
-                temp.append(sid)
-                temp.append(equentry)
-                temp.append(Flag)
-                temp.append(upgradeflag)
-                temp.append(hwtype)
-                temp.append(hwid)
-                temp.append(swrel)
-                temp.append(swver)
-                temp.append(dbver)
-                temp.append(filelink)
-                temp.append(filesize)
-                temp.append(checknum)
-                TableData.append(temp)
+        if validFlag=="INVALID":validflag_d=self.__MFUN_HCU_SW_LOAD_FLAG_INVALID
+        elif validFlag=="VALID":validflag_d=self.__MFUN_HCU_SW_LOAD_FLAG_VALID
+        else :validflag_d=""
+
+        if upgradeFlag=="UPGRADE_NO":upgradeflag_d=self.__HUITP_IEID_UNI_FW_UPGRADE_NO
+        elif upgradeFlag=="STABLE_YES":upgradeflag_d=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE
+        elif upgradeFlag=="TRAIL_YES":upgradeflag_d=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL
+        elif upgradeFlag=="PATCH_YES":upgradeflag_d=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH
+        else :upgradeflag_d=""
+        
+        sql = "SELECT * FROM DappDbF10oam_dct_t_l3f10oam_swloadinfo WHERE((CONCAT(equentry) LIKE '%%" + str(equentry_d) + "%%' ) " \
+                                                                                                                   "AND (CONCAT(validflag) LIKE '%%" + str(validflag_d) + "%%')" \
+                                                                                                                   "AND (CONCAT(upgradeflag) LIKE '%%" + str(upgradeflag_d) + "%%')" \
+                                                                                                                   "AND (CONCAT(hwtype) LIKE '%%" + str(hwType) + "%%')" \
+                                                                                                                   "AND (CONCAT(hwid) LIKE '%%" + str(hwPem) + "%%')" \
+                                                                                                                   "AND (CONCAT(swrel) LIKE '%%" + str(swRel) + "%%')" \
+                                                                                                                   "AND (CONCAT(swver) LIKE '%%" + str(swVer) + "%%')" \
+                                                                                                                   "AND (CONCAT(dbver) LIKE '%%" + str(dbVer) + "%%')" \
+                                                                                                                                                                   ")"
+        result=dct_t_l3f10oam_swloadinfo.objects.raw(sql)
+        for line in result:
+            sid=line.sid
+            equentry=line.equentry
+            validflag=line.validflag
+            upgradeflag=line.upgradeflag
+            hwtype=line.hwtype
+            hwid=line.hwid
+            swrel=line.swrel
+            swver=line.swver
+            dbver=line.dbver
+            filelink=line.filelink
+            filesize=line.filesize
+            checknum=line.checksum
+            if equentry==self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_SW:
+                equentry="HCU_SW"
+            elif equentry==self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB:
+                equentry='HCU_DB'
+            elif equentry==self.__HUITP_IEID_UNI_EQU_ENTRY_IHU:
+                equentry='IHU_SW'
+            else:
+                equentry='INVALID'
+
+            if upgradeflag==self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE:
+                upgradeflag='STABLE'
+            elif upgradeflag==self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL:
+                upgradeflag="TRAIL"
+            elif upgradeflag==self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH:
+                upgradeflag='PATCH'
+            else:
+                upgradeflag="INVALID"
+            temp=[]
+            temp.append(sid)
+            temp.append(equentry)
+            temp.append(validflag)
+            temp.append(upgradeflag)
+            temp.append(hwtype)
+            temp.append(hwid)
+            temp.append(swrel)
+            temp.append(swver)
+            temp.append(dbver)
+            temp.append(filelink)
+            temp.append(filesize)
+            temp.append(checknum)
+            TableData.append(temp)
         sw_table={'ColumnName':ColumnName,'TableData':TableData}
         return sw_table
 
@@ -324,7 +349,7 @@ class dct_DappF10Class():
     
     '''处理从下位机发上来的消息'''
     def dft_dbi_hcu_inventory_confirm_view(self, socketId, inputData):
-        Frusr=inputData['Frusr']
+        Frusr=inputData['FrUsr']
         ToUsr=inputData['ToUsr']
         MsgData=inputData['IeCnt']
         hwType=MsgData['ht']
@@ -363,75 +388,88 @@ class dct_DappF10Class():
         ptNodeSwVer=MsgData['pnsv']
         ptNodeSwCheckSum=MsgData['pnsc']
         ptNodeSwTotalLen=MsgData['pnsl']
-        result=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,upgradeflag=upgradeFlag,hwtype=hwType).order_by("-swrel","-swver")
         ht=hwType;hi=hwPemId;ssr=stSwRel;ssv=stSwVer;sdv=stDbVer;ssc=stSwCheckSum;ssl=stSwTotalLen;sdc=stDbCheckSum;sdl=stDbTotalLen;tsr=trSwRel;
         tsv=trSwVer;tdv=trDbVer;tsc=trSwCheckSum;tsl=trSwTotalLen;tdc=trDbCheckSum;tdl=trDbTotalLen;psr=ptSwRel;psv=ptSwVer;pdv=ptDbVer;psc=ptSwCheckSum;psl=ptSwTotalLen;
         pdc=ptDbCheckSum;pdl=ptDbTotalLen;up=upgradeFlag;snsr=stNodeSwRel;snsv=stNodeSwVer;snsc=stNodeSwCheckSum;snsl=stNodeSwTotalLen;tnsr=trNodeSwRel;
         tnsv=trNodeSwVer;tnsc=trNodeSwCheckSum;tnsl=trNodeSwTotalLen;pnsv=ptNodeSwRel;pnsc=ptNodeSwVer;pnsl=ptNodeSwCheckSum;pnsr=ptNodeSwTotalLen
-        if result.exists():
-            ht = hwType
-            hi = hwPemId
-            up = upgradeFlag
-            for line in result:
-                if line.upgradeflag==1:
-                    return 
-                elif line.upgradeflag==2:
-                    ssr=line.swrel
-                    ssv=line.swver
-                    sdv=line.dbver
-                    ssc=line.checksum
-                    ssl=line.filesize
-                    '''DB查询'''
-                    resp_db=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,dbver__gte=sdv).order_by("-dbver")
-                    if resp_db.exists():
-                        sdc=resp_db[0].checksum
-                        sdl=resp_db[0].filesize
-                    resp_ihu=dct_t_l3f10oam_swloadinfo.objects.filter(equentry=3,hwType=ht).order_by("-swrel","-swver")
-                    if resp_ihu.exists():
-                        snsr=resp_ihu[0].swver
-                        snsv=resp_ihu[0].swrel
-                        snsc=resp_ihu[0].checksum
-                        snsl=resp_ihu[0].filesize
-                    break
-                elif line.upgradeflag == 3:
-                    tsr = line.swrel
-                    tsv = line.swver
-                    tdv = line.dbver
-                    tsc = line.checksum
-                    tsl = line.filesize
-                    '''DB查询'''
-                    resp_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1, dbver__gte=sdv).order_by("-dbver")
-                    if resp_db.exists():
-                        tdc = resp_db[0].checksum
-                        tdl = resp_db[0].filesize
-                    resp_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=3, hwType=ht).order_by("-swrel","-swver")
-                    if resp_ihu.exists():
-                        tnsr = resp_ihu[0].swver
-                        tnsv = resp_ihu[0].swrel
-                        tnsc = resp_ihu[0].checksum
-                        tnsl = resp_ihu[0].filesize
-                    break
-                elif line.upgradeflag == 4:
-                    psr = line.swrel
-                    psv = line.swver
-                    pdv = line.dbver
-                    psc = line.checksum
-                    psl = line.filesize
-                    '''DB查询'''
-                    resp_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1, dbver__gte=sdv).order_by("-dbver")
-                    if resp_db.exists():
-                        pdc = resp_db[0].checksum
-                        pdl = resp_db[0].filesize
-                    resp_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=3, hwType=ht).order_by("-swrel",
-                                                                                                        "-swver")
-                    if resp_ihu.exists():
-                        pnsr = resp_ihu[0].swver
-                        pnsv = resp_ihu[0].swrel
-                        pnsc = resp_ihu[0].checksum
-                        pnsl = resp_ihu[0].filesize
-                    break
-                else:
-                    return
+        result_s=dct_t_l3f10oam_swloadinfo.objects.filter(equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_SW,
+                                                          validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                          upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE,
+                                                          hwtype=hwType).order_by("-swrel","-swver")
+        if result_s.exists():
+            ssr=result_s[0].swrel
+            ssv=result_s[0].swver
+            sdv=result_s[0].dbver
+            ssc=result_s[0].checksum
+            ssl=result_s[0].filesize
+            resp_s_db=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                               equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB,
+                                                               upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE,
+                                                               dbver__gte=sdv).order_by('-dbver')
+            if resp_s_db.exists():
+                sdc=resp_s_db[0].checksum
+                sdl=resp_s_db[0].filesize
+        result_t = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_SW,
+                                                            validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                            upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL
+                                                            , hwtype=hwType).order_by("-swrel", "-swver")
+        if result_t.exists():
+            tsr = result_t[0].swrel
+            tsv = result_t[0].swver
+            tdv = result_t[0].dbver
+            tsc = result_t[0].checksum
+            tsl = result_t[0].filesize
+            resp_t_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                                 equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB,
+                                                                 upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL,
+                                                                 dbver__gte=tdv).order_by('-dbver')
+            if resp_t_db.exists():
+                tdc = resp_t_db[0].checksum
+                tdl = resp_t_db[0].filesize
+        result_p = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_SW,
+                                                            validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                            upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH
+                                                            , hwtype=hwType).order_by("-swrel", "-swver")
+        if result_p.exists():
+            psr = result_p[0].swrel
+            psv = result_p[0].swver
+            pdv = result_p[0].dbver
+            psc = result_p[0].checksum
+            psl = result_p[0].filesize
+            resp_p_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                                 equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB,
+                                                                 upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH,
+                                                                 dbver__gte=pdv).order_by('-dbver')
+            if resp_p_db.exists():
+                pdc = resp_p_db[0].checksum
+                pdl = resp_p_db[0].filesize
+        resp_s_ihu=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                            equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_IHU,
+                                                            upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE,
+                                                            hwtype=hwType).order_by("-swrel", "-swver")
+        if resp_s_ihu.exists():
+            snsr=resp_s_ihu[0].swrel
+            snsv=resp_s_ihu[0].swver
+            snsc=resp_s_ihu[0].checksum
+            snsl=resp_s_ihu[0].filesize
+        resp_t_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                              equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_IHU,
+                                                              upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL,
+                                                              hwtype=hwType).order_by("-swrel", "-swver")
+        if resp_t_ihu.exists():
+            tnsr = resp_s_ihu[0].swrel
+            tnsv = resp_s_ihu[0].swver
+            tnsc = resp_s_ihu[0].checksum
+            tnsl = resp_s_ihu[0].filesize
+        resp_p_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
+                                                              equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_IHU,
+                                                              upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH,
+                                                              hwtype=hwType).order_by("-swrel", "-swver")
+        if resp_p_ihu.exists():
+            pnsr = resp_s_ihu[0].swrel
+            pnsv = resp_s_ihu[0].swver
+            pnsc = resp_s_ihu[0].checksum
+            pnsl = resp_s_ihu[0].filesize
         msg = {'socketid': socketId,
                'data': {'ToUsr': Frusr, 'FrUsr': ToUsr, "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
                         'MsgId': 0XA021, 'MsgLn': 115, "IeCnt":

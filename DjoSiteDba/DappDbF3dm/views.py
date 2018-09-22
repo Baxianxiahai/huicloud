@@ -339,7 +339,7 @@ class dct_classDbiL3apF3dm():
                 winddir=line.winddir
                 humidity=line.humidity
                 temperature=line.temperature
-                tsp=line.pm01
+                tsp=line.tsp
                 windspeed=line.windspd
                 last_report=line.report_time
                 time_array=time.strptime(str(last_report),"%Y-%m-%d %H:%M:%S.%f")
@@ -1120,8 +1120,8 @@ class dct_t_HCU_Data_Report():
             dct_t_l2snr_dust.objects.create(dev_code_id=devCode,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,hourminindex=hourminindex,dataflag='Y')
             dct_t_l2snr_windspd.objects.create(dev_code_id=devCode,windspd=windspdValue,dataflag='Y',hourminindex=hourminindex)
             dct_t_l2snr_noise.objects.create(dev_code_id=devCode,noise=noiseValue,dataflag='Y',hourminindex=hourminindex)
-            dct_t_l2snr_temperature.objects.filter(dev_code_id=devCode,temperature=tempValue,dataflag='Y',hourminindex=hourminindex)
-            dct_t_l2snr_humidity.objects.filter(dev_code_id=devCode,humidity=humidValue,dataflag='Y',hourminindex=hourminindex)
+            dct_t_l2snr_temperature.objects.create(dev_code_id=devCode,temperature=tempValue,dataflag='Y',hourminindex=hourminindex)
+            dct_t_l2snr_humidity.objects.create(dev_code_id=devCode,humidity=humidValue,dataflag='Y',hourminindex=hourminindex)
             dct_t_l2snr_winddir.objects.create(dev_code_id=devCode,windir=winddirValue,dataflag='Y',hourminindex=hourminindex)
             if dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).exists():
                 dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).update(site_code=result[0].site_code,report_time=datetime.datetime.now(),tsp=tspValue,pm01=pm1d0Value,

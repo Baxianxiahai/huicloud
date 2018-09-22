@@ -17,19 +17,12 @@ from builtins import int
 
 from PkgHstPrinter import ModPrinterGeneral
 from PkgHstDba import ModDbaMainEntry
-<<<<<<< HEAD
-# from PkgHstVision import ModVisionGeneral
-# from PkgHstAiwgt import ModAiwgtGeneral
-# from PkgHstSensor import ModSensorGeneral    #Sensor access
-# from PkgHstSpecial import ModSpecialGeneral  #Special Usage
-=======
 from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
 from PkgHstSpecial import ModSpecialGeneral  #Special Usage
 from builtins import int
 from PkgAccessEntry import ModAccessDict
->>>>>>> feature
 
 class ClassEntryCmdHandler:
     '''
@@ -514,6 +507,14 @@ class ClassHCUReportDataToDba:
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_INVENTORY_REQ:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F10oam_HCU_Inventory_Report(socketId, inputData)
+                return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_NGROKRES_RESP:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F2cm_Ngrok_Restart_Test(socketId, inputData)
+                return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_SWRESTART_RESP:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F2cm_Hcu_Sw_Restart_Test(socketId, inputData)
                 return result
             else:
                 return

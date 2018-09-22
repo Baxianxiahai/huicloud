@@ -14,6 +14,8 @@ class All_Golbal_Variable_Dictionary():
         self.HUITPJSON_MSGID_LOOP_TEST_REQ=0XF041
         self.HUITPJSON_MSGID_REBOOT_REQ=0XF042    
         self.HUITPJSON_MSGID_INVENTORY_REQ=0XA0A1
+        self.HUITPJSON_MSGID_NGROKRES_REQ=0XF043
+        self.HUITPJSON_MSGID_SWRESTART_REQ=0XF044
         
         '''HCU Data Confirm Variable'''
         self.HUITPJSON_MSGID_YCDATACONFIRM=0X3010
@@ -22,5 +24,7 @@ class All_Golbal_Variable_Dictionary():
         self.HUITPJSON_MSGID_LOOP_TEST_RESP=0XF0C1
         self.HUITPJSON_MSGID_REBOOT_RESP=0XF0C2    
         self.HUITPJSON_MSGID_INVENTORY_CONFIRM=0XA021
+        self.HUITPJSON_MSGID_NGROKRES_RESP=0XF0C3
+        self.HUITPJSON_MSGID_SWRESTART_RESP=0XF0C4
 
 GOLBALVAR=All_Golbal_Variable_Dictionary()

@@ -144,6 +144,15 @@ class ClassDbaF1sym():
             result={'status':"false",'auth':'true','ret':{},'msg':"数据库发生错误，请稍后"}
         return result
     
+    def dft_dbi_HCU_Session_Binding(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+                result=DappDbF1sym_view.dft_dbi_HCU_Session_Binding(inputData)
+        except Exception:
+            result={'status':"false",'auth':'true','ret':{},'msg':"数据库发生错误，请稍后"}
+        return result
+    
     
     
     

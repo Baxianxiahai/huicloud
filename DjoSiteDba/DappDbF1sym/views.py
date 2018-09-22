@@ -280,7 +280,6 @@ class dct_classDbiL3apF1sym:
         c.setopt(pycurl.HTTPHEADER, head)
         c.perform()
         the_page = buf.getvalue()
-        # print the_page
         buf.close()
         if the_page:
             return 'true'
@@ -338,21 +337,37 @@ class dct_classDbiL3apF1sym:
             else:
                 if grade==0:
                     result = dct_t_l3f1sym_user_right_action.objects.filter(action_code=self.__MENUACTIONINDEX['actionauth'][action], l1_auth=1)
+                    if result.exists():
+                        auth="true"
+                    else:
+                        auth="false" 
                 elif grade==1:
                     result = dct_t_l3f1sym_user_right_action.objects.filter(action_code=self.__MENUACTIONINDEX['actionauth'][action], l2_auth=1)
+                    if result.exists():
+                        auth="true"
+                    else:
+                        auth="false" 
                 elif grade==2:
                     result = dct_t_l3f1sym_user_right_action.objects.filter(action_code=self.__MENUACTIONINDEX['actionauth'][action], l3_auth=1)
+                    if result.exists():
+                        auth="true"
+                    else:
+                        auth="false" 
                 elif grade==3:
                     result = dct_t_l3f1sym_user_right_action.objects.filter(action_code=self.__MENUACTIONINDEX['actionauth'][action], l4_auth=1)
+                    if result.exists():
+                        auth="true"
+                    else:
+                        auth="false" 
                 elif grade==4:
                     result = dct_t_l3f1sym_user_right_action.objects.filter(action_code=self.__MENUACTIONINDEX['actionauth'][action], l5_auth=1)
+                    if result.exists():
+                        auth="true"
+                    else:
+                        auth="false" 
                 else:
                     auth='false'
                     msg='您的账户等级错误，请联系管理人员'
-                if result.exists():
-                    auth="true"
-                else:
-                    auth="false" 
         authcheck={'status':status,'auth':auth,'uid':uid,'account':account,'msg':msg}
         return authcheck
     def dft_dbi_login_req(self,name,password):
@@ -390,7 +405,7 @@ class dct_classDbiL3apF1sym:
             tel=dct_t_l3f1sym_account_secondary.objects.filter(uid=result.uid)
             telephone=tel[0].telephone
             url=self.__MFUN_HCU_FHYS_CMCC_URL+'?sicode='+self.__MFUN_HCU_FHYS_CMCC_SICODE+'&mobiles='+str(telephone)+'&tempid='+self.__MFUN_HCU_FHYS_CMCC_TEMPCODE_PW+'&smscode='+authcode
-            resp=self.__dft_https_request(url)
+            resp=self.dft_https_request(url)
             return resp
         else:
             return ""
@@ -595,6 +610,7 @@ class dct_classDbiL3apF1sym:
         result=dct_t_l3f1sym_account_primary.objects.filter(login_name=username,pass_word=password)
         if result.exists():
             status="true"
+            username=result[0].login_name
             userid=result[0].uid
             msg='用户校验成功'
         else:
@@ -616,12 +632,52 @@ class dct_classDbiL3apF1sym:
         else:
             status='false'
             msg='错误的设备编号'
-        user={'username':username,'userid':userid,'CPU':cpuactive}
+        user={'username':username,'userid':userid,'CPU':cpuactive,'station':station_status}
         confirm_msg={
             'status':status,
             'auth':'true',
             'ret':user,
             'msg':msg
+        }
+        return confirm_msg
+    
+    def dft_dbi_HCU_Session_Binding(self, inputData):
+        dev_code = inputData['code']
+        openid = inputData['session']
+        result = dct_t_l3f1sym_account_secondary.objects.filter(openid=openid)
+        if result.exists():
+            status = "true"
+            username=result[0].uid.login_name
+            userid = result[0].uid_id
+            msg = '用户校验成功'
+        else:
+            status = 'false'
+            username = ""
+            userid = ""
+            msg = "用户名或密码错误"
+        resp = dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)
+        if resp.exists():
+            status='true'
+            cpuactive = 'true'
+        else:
+            status='false'
+            cpuactive = 'false'
+        resp = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if resp.exists():
+            status='true'
+            if resp[0].site_code_id == None or resp[0].site_code_id == "":
+                station_status = 'false'
+            else:
+                station_status = 'true'
+        else:
+            status = 'false'
+            msg = '错误的设备编号'
+        user = {'username': username, 'userid': userid, 'CPU': cpuactive, 'station': station_status}
+        confirm_msg = {
+            'status': status,
+            'auth': 'true',
+            'ret': user,
+            'msg': msg
         }
         return confirm_msg
     

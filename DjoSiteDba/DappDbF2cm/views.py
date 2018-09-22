@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import random
-import time
+import os
 import datetime
 from DappDbF2cm.models import *
 from DappDbF1sym.models import *
@@ -32,6 +32,10 @@ class dct_classDbiL3apF2cm:
     __HCU_NOISE = True
     __HCU_WINDSPD = True
     __HCU_WINDDIR = True
+    
+    
+    __MFUN_HCU_AQYC_INSTALL_PICTURE = "/var/www/html/avorion/upload/"
+    __MFUN_HCU_AQYC_INSTALL_PICTURE2 = "/avorion/upload/"
 
 
     def __dft_getRandomDigID(self, strlen):
@@ -912,40 +916,46 @@ class dct_classDbiL3apF2cm:
         result=dct_t_l3f2cm_device_inventory.objects.all()
         return len(result)
     
-    def dft_dbi_aqyc_devinfo_update(self,inputData):
-        devCode=inputData['DevCode']
-        statcode=inputData['StatCode']
-        starttime=inputData['StartTime']
-        preendtime=inputData['PreEndTime']
-        endtime=inputData['EndTime']
-        devstatus=inputData['DevStatus']
-        videourl=inputData['VideoURL']
-        if devstatus=='true':
-            devstatus='Y'
+    def dft_dbi_aqyc_devinfo_update(self, inputData):
+        devCode = inputData['DevCode']
+        statcode = inputData['StatCode']
+        starttime = inputData['StartTime']
+        preendtime = inputData['PreEndTime']
+        endtime = inputData['EndTime']
+        devstatus = inputData['DevStatus']
+        videourl = inputData['VideoURL']
+        if devstatus == 'true':
+            devstatus = 'Y'
         else:
-            devstatus='N'
-        devCode1=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+            devstatus = 'N'
+        devCode1 = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if devCode1.exists():
-            devCode1.update(create_date=starttime,site_code_id=statcode)
-            result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
+            devCode1.update(create_date=starttime, site_code_id=statcode)
+            result = dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
             base_port=devCode1[0].base_port
             if result.exists():
-                result=dct_t_l3f2cm_device_aqyc.objects.get(dev_code_id=devCode)
-                if videourl=="" or videourl==None:
-                    result.cam_url=videourl
+                result = dct_t_l3f2cm_device_aqyc.objects.get(dev_code_id=devCode)
+                if videourl == "" or videourl == None:
+                    result.cam_url = videourl
                 result.save()
             else:
-                weburl="http://"+str(devCode)+".ngrok2.hkrob.com:8080/phpmyadmin"
-                pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
+                weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+                pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI"
-                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "3" + "/ISAPI/Streaming/Channels/1"
+                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "3" + "ISAPI/Streaming/Channels/1"
                 dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,web_url=weburl,pic1_url=pic1url,ctrl1_url=ctrl1url,video1_url=video1url)
         else:
-            dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode,site_code_id=statcode,create_date=starttime)
-            dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,status=devstatus,cam_url=videourl)
-        status="C"
-        print(statcode)
-        print(status)
+            result=dct_t_l3f2cm_device_inventory.objects.latest('base_port')
+            BasePort=result.base_port+1
+            dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode, site_code_id=statcode, create_date=starttime,base_port=BasePort,upgradeflag=1)
+            weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+            picurl = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
+            ctrlurl = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "2" + "/ISAPI"
+            videourl_B = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "3" + "ISAPI/Streaming/Channels/1"
+            dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode, web_url=weburl,pic1_url=picurl,ctrl1_url=ctrlurl,video1_url=videourl_B)
+        status = "C"
         dct_t_l3f2cm_site_common.objects.filter(site_code=statcode).update(status=status)
         return True
 
@@ -1864,8 +1874,10 @@ class dct_classDbiL3apF2cm:
         result=dct_t_l3f1sym_user_right_project.objects.filter(uid_id=user_id)
         project_array=[]
         status = 'true'
-        response_msg = {'status': 'false', 'auth': 'true', 'DevDetail': dev_array}
+        userLever=5
+        response_msg = {'status': 'false', 'auth': 'true', 'DevDetail': dev_array,'UserLever':userLever}
         if result.exists():
+            userLever=result[0].uid.grade_level
             for line in result:
                 if line.auth_type==1:
                     resp=dct_t_l3f2cm_project_common.objects.filter(pg_code_id=line.auth_code)
@@ -1922,11 +1934,11 @@ class dct_classDbiL3apF2cm:
                     winddir=line_dev_data.winddir
                     temp=line_dev_data.temperature
                     humi=line_dev_data.humidity
-                    dev_dev={'StatName':site_name,'Color':color,'LastReport':last_report,'TSP':tsp,
+                    dev_dev={'DevCode':line_dev_data.dev_code_id,'StatName':site_name,'Color':color,'LastReport':last_report,'TSP':tsp,
                              'PM01':pm01,'PM25':pm25,'PM10':pm10,'Windspd':windspd,'Noise':noise,
                              'Winddir':winddir,'Temp':temp,'Humi':humi}
                     dev_array.append(dev_dev)
-        response_msg = {'status':status, 'auth': 'true', 'DevDetail': dev_array}
+        response_msg = {'status':status, 'auth': 'true', 'DevDetail': dev_array,'UserLever':userLever}
         return response_msg
     
     def dft_dbi_hcu_get_binding_station_view(self,inputData):
@@ -1965,6 +1977,75 @@ class dct_classDbiL3apF2cm:
         retval={'status':'true','auth':'true','msg':'解绑成功'}
         return retval
     
+    def dft_dbi_ngrok_reboot(self, inputData):
+        devCode = inputData['code']
+        req_time=inputData['time']
+        result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+        if result.exists():
+            socketId = result[0].socket_id
+            if req_time==0:
+                result.update(cmd_flag=GOLBALVAR.HCU_NGROK_RESTART_REQ)
+            if result[0].cmd_flag==GOLBALVAR.HCU_NGROK_RESTART_RESP:
+                msg = {'status': 'true'}
+            else:
+                msg = {'status': "pending", 'ngrok_req': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
+                                                                                        "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                                                                                        'MsgId': 0XF042, 'MsgLn': 115,
+                                                                                        "IeCnt": {"rand": random.randint(10000, 20000)},
+                                                                                        "FnFlg": 0}}}
+            return msg
+        else:
+            return False
+    
+    def dft_dbi_sw_restart(self, inputData):
+        devCode = inputData['code']
+        req_time=inputData['time']
+        result = dct_t_l3f2cm_device_holops.objects.filter(dev_code=devCode)
+        if result.exists():
+            socketId = result[0].socket_id
+            if req_time==0:
+                result.update(cmd_flag=GOLBALVAR.HCU_SW_RESTART_REQ)
+            if result[0].cmd_flag==GOLBALVAR.HCU_SW_RESTART_RESP:
+                msg = {'status': 'true'}
+            else:
+                msg = {'status': "pending", 'ngrok_req': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
+                                                                                        "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                                                                                        'MsgId': 0XF042, 'MsgLn': 115,
+                                                                                        "IeCnt": {"rand": random.randint(10000, 20000)},
+                                                                                        "FnFlg": 0}}}
+            return msg
+        else:
+            return False
+        
+    def dft_dbi_point_install_picture_process(self, inputData):
+        pic_list = []
+        site_code=inputData['StatCode']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=site_code)
+        if result.exists():
+            dev_code=result[0].dev_code
+        else:
+            temp = {'name': '', 'url': ''}
+            pic_list.append(temp)
+            msg={"status":"true","auth":"true",'pic':pic_list,'msg':'该站点下没有照片'}
+            return msg
+        path = self.__MFUN_HCU_AQYC_INSTALL_PICTURE
+        path_new = path + dev_code
+        print(path_new)
+        if os.path.exists(path_new) == False:
+            temp = {'name': '', 'url': ''}
+            pic_list.append(temp)
+            msg={"status":"true","auth":"true",'pic':pic_list,'msg':'该站点下没有照片'}
+            return msg
+        for root, dirs, files in os.walk(path_new):
+            for file in files:
+                print(file)
+                if os.path.splitext(file)[1] == '.jpg':
+                    name=file
+                    url=path_new+"/"+name
+                    temp={'name':name,'url':self.__MFUN_HCU_AQYC_INSTALL_PICTURE2+dev_code+"/"+name}
+                    pic_list.append(temp)
+        msg={"status":"true","auth":"true",'pic':pic_list,'msg':'获取照片列表成功'}
+        return msg
 
 class HCUReportAndConfirm():
     
@@ -2131,6 +2212,18 @@ class HCUReportAndConfirm():
         rand = inputData['IeCnt']['rand']
         if rand > 0:
             dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_RESTART_RESP)
+            
+    def dft_dbi_hcu_ngrok_restart_view(self, socketId, inputData):
+        dev_Code = inputData['FrUsr']
+        rand = inputData['IeCnt']['rand']
+        if rand > 0:
+            dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_NGROK_RESTART_RESP)
+    
+    def dft_dbi_hcu_sw_restart_view(self, socketId, inputData):
+        dev_Code = inputData['FrUsr']
+        rand = inputData['IeCnt']['rand']
+        if rand > 0:
+            dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_SW_RESTART_RESP)
         
     
     

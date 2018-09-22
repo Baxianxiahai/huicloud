@@ -18,6 +18,7 @@ from DappDbF1sym import views
 from DappDbF11faam.models import *
 from DappDbF2cm.models import dct_t_l3f2cm_device_inventory
 from DappDbF3dm.models import *
+from DappDbF10oam.models import *
 faam1={
     'webauth':{
         #FUM1SYM
@@ -130,7 +131,7 @@ faam1={
         'DevDel':0X0263,
         'GetStationActiveInfo':0X0264,
         'StationActive':0X0265,
-        'F2TableQuery':0X0266,
+        'TableQuery':0X0266,
         'ProductModel':0X0267,
         'PointConf':0X0268,
         'PointLogin':0X0269,
@@ -444,9 +445,225 @@ def dft_delete_hcu(a):
     dct_t_l3f2cm_device_inventory.objects.filter(dev_code=a).delete()
     
 def dft_dbi_update_inventory():
-    dct_t_l3f2cm_device_inventory.objects.all().update(rebootflag=0)
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code='HCU_G201_AQYC_SH072').update(dev_code="HCU_G201_AQYC_SH075")
+    
+def dft_dbi_F10oam_test():
+    equentry=""
+    validflag='www'
+    table=[equentry]
+#     table=[equentry,validflag,upgradeflag,hwType,hwPem,swRel,swVer,dbVer]
+    sql="SELECT * FROM DappDbF10oam_dct_t_l3f10oam_swloadinfo WHERE(CONCAT(equentry) LIKE '%%"+equentry+"%%' " \
+    "AND concat(filelink) LIKE '%%"+validflag+"%%')"
+    result=dct_t_l3f10oam_swloadinfo.objects.raw(sql)
+    print(result[0])
+    for line in result:
+        print(str(line.equentry)+"\t"+str(line.validflag)+"\t"+str(line.upgradeflag)+"\t"+str(line.hwtype)+"\t"+str(line.hwid)+"\t"+str(line.swrel)+"\t"+str(line.swver)+"\t"+str(line.dbver)+"\t"+str(line.filelink)+"\t"+str(line.checksum)+"\t"+str(line.createtime))
+def dft_dbi_menu_group_2_insert():
+    webauth2= {
+        # FUM1SYM
+        'menu_user_profile': 0X0101,
+        'UserManage': 0X0102,
+        # FUM2CM
+        'PGManage': 0X0201,
+        'ProjManage': 0X0202,
+        'MPManage': 0X0203,
+        'DevManage': 0X0204,
+        # FUM3DM
+        'MPMonitor': 0X0301,
+        'MPStaticMonitorTable': 0X0302,
+        'WarningHandle': 0X0502,
+    }
+    webauth3 = {
+                   # FUM1SYM
+                   'menu_user_profile': 0X0101,
+                   'UserManage': 0X0102,
+                   # FUM2CM
+                   'ProjManage': 0X0202,
+                   'MPManage': 0X0203,
+                   'DevManage': 0X0204,
+                   # FUM3DM
+                   'MPMonitor': 0X0301,
+                   'MPStaticMonitorTable': 0X0302,
+                   'WarningHandle': 0X0502,
+               }
+    for key,value in webauth2.items():
+        dct_t_l3f1sym_user_right_menu.objects.create(menu_group=2,menu_code_id=value,menu_name=key)
+    for key,value in webauth3.items():
+        dct_t_l3f1sym_user_right_menu.objects.create(menu_group=3,menu_code_id=value,menu_name=key)
+
+def dft_dbi_action_update():
+    actionauth3= {
+        'login': 0X0101,
+        'Get_user_auth_code': 0X0102,
+        'Reset_password': 0X0103,
+        'UserInfo': 0X0120,
+        'UserNew': 0X0121,
+        'UserMod': 0X0122,
+        'UserTable': 0X0124,
+
+        # FUM2CM
+        'PGNew': 0X0201,
+        'PGMod': 0X0202,
+        'PGTable': 0X0204,
+        'PGProj': 0X0205,
+        'ProjectPGList': 0X0206,
+        'ProjectList': 0X0220,
+        'UserProj': 0X0221,
+        'ProjTable': 0X0222,
+        'ProjPoint': 0X0223,
+        'ProjNew': 0X0224,
+        'ProjMod': 0X0225,
+        'ProjDel': 0X0226,
+        'PointProj': 0X0240,
+        'PointTable': 0X0241,
+        'PointNew': 0X0242,
+        'PointMod': 0X0243,
+        'PointDev': 0X0245,
+        'DevTable': 0X0260,
+        'DevNew': 0X0261,
+        'DevMod': 0X0262,
+        'GetStationActiveInfo': 0X0264,
+        'StationActive': 0X0265,
+        'TableQuery': 0X0266,
+        'GetDevCali': 0X02AD,
+        'SetDevCali': 0X02AE,
+        # FUM3DMA
+        'DevSensor': 0X0301,
+        'SensorList': 0X0302,
+        'MonitorList': 0X0303,
+        'Favourite_list': 0X0305,
+        'Favourite_count': 0X0306,
+        'GetStaticMonitorTable': 0X0307,
+        'PointPicture': 0X0308,
+        # FUM4ICM
+        'SensorUpdate': 0X0401,
+        'GetVideoCameraWeb': 0X0402,
+        'GetVideoList': 0X0403,
+        'GetVideo': 0X0404,
+        'GetCameraStatus': 0X0405,
+        'GetCameraUnit': 0X0406,
+        'CameraVAdj': 0X0407,
+        'CameraHAdj': 0X0408,
+        'CameraZAdj': 0X0409,
+        'CameraReset': 0X040A,
+        # FUM5FM
+        'MonitorAlarmList': 0x0501,
+        'DevAlarm': 0x0502,
+        'AlarmType': 0x0503,
+        'AlarmQuery': 0x0504,
+        'AlarmQueryRealtime': 0x0505,
+        'GetWarningHandleListTable': 0x0506,
+        'GetWarningImg': 0x0507,
+        'AlarmHandle': 0x0508,
+        'AlarmClose': 0x0509,
+        'GetHistoryRTSP': 0x050A,
+    }
+    actionauth4 = {
+        'login': 0X0101,
+        'Get_user_auth_code': 0X0102,
+        'Reset_password': 0X0103,
+        'UserInfo': 0X0120,
+        'UserNew': 0X0121,
+        'UserTable': 0X0124,
+        # FUM2CM
+        'PGProj': 0X0205,
+        'ProjectPGList': 0X0206,
+        'ProjectList': 0X0220,
+        'UserProj': 0X0221,
+        'ProjTable': 0X0222,
+        'ProjPoint': 0X0223,
+        'ProjNew': 0X0224,
+        'PointProj': 0X0240,
+        'PointTable': 0X0241,
+        'PointNew': 0X0242,
+        'PointDev': 0X0245,
+        'DevTable': 0X0260,
+        'DevNew': 0X0261,
+        'GetStationActiveInfo': 0X0264,
+        # FUM3DMA
+        'DevSensor': 0X0301,
+        'SensorList': 0X0302,
+        'MonitorList': 0X0303,
+        'Favourite_list': 0X0305,
+        'Favourite_count': 0X0306,
+        'GetStaticMonitorTable': 0X0307,
+        'PointPicture': 0X0308,
+        # FUM4ICM
+        'GetVideoCameraWeb': 0X0402,
+        'GetVideoList': 0X0403,
+        'GetVideo': 0X0404,
+        'GetCameraStatus': 0X0405,
+        'GetCameraUnit': 0X0406,
+        'CameraVAdj': 0X0407,
+        'CameraHAdj': 0X0408,
+        'CameraZAdj': 0X0409,
+        'CameraReset': 0X040A,
+        # FUM5FM
+        'MonitorAlarmList': 0x0501,
+        'DevAlarm': 0x0502,
+        'AlarmType': 0x0503,
+        'AlarmQuery': 0x0504,
+        'AlarmQueryRealtime': 0x0505,
+        'GetWarningHandleListTable': 0x0506,
+        'GetWarningImg': 0x0507,
+        'GetHistoryRTSP': 0x050A,
+    }
+    actionauth5 = {
+        'login': 0X0101,
+        'Get_user_auth_code': 0X0102,
+        'Reset_password': 0X0103,
+        'UserTable': 0X0124,
+
+        # FUM2CM
+        'PGProj': 0X0205,
+        'ProjectPGList': 0X0206,
+        'ProjectList': 0X0220,
+        'UserProj': 0X0221,
+        'ProjTable': 0X0222,
+        'ProjPoint': 0X0223,
+        'PointProj': 0X0240,
+        'PointTable': 0X0241,
+        'PointDev': 0X0245,
+        'DevTable': 0X0260,
+        'GetStationActiveInfo': 0X0264,
+        # FUM3DMA
+        'DevSensor': 0X0301,
+        'SensorList': 0X0302,
+        'MonitorList': 0X0303,
+        'Favourite_list': 0X0305,
+        'Favourite_count': 0X0306,
+        'GetStaticMonitorTable': 0X0307,
+        'PointPicture': 0X0308,
+        # FUM4ICM
+        'GetVideoCameraWeb': 0X0402,
+        'GetVideoList': 0X0403,
+        'GetVideo': 0X0404,
+        'GetCameraStatus': 0X0405,
+        'GetCameraUnit': 0X0406,
+        'CameraVAdj': 0X0407,
+        'CameraHAdj': 0X0408,
+        'CameraZAdj': 0X0409,
+        'CameraReset': 0X040A,
+        # FUM5FM
+        'MonitorAlarmList': 0x0501,
+        'DevAlarm': 0x0502,
+        'AlarmType': 0x0503,
+        'AlarmQuery': 0x0504,
+        'AlarmQueryRealtime': 0x0505,
+        'GetWarningHandleListTable': 0x0506,
+        'GetWarningImg': 0x0507,
+        'GetHistoryRTSP': 0x050A,
+    }
+    dct_t_l3f1sym_user_right_action.objects.all().update(l2_auth=1)
+    for key, value in actionauth3.items():
+        dct_t_l3f1sym_user_right_action.objects.filter(action_name=key).update(l3_auth=1)
+    for key, value in actionauth4.items():
+        dct_t_l3f1sym_user_right_action.objects.filter(action_name=key).update(l4_auth=1)
+    for key, value in actionauth5.items():
+        dct_t_l3f1sym_user_right_action.objects.filter(action_name=key).update(l5_auth=1)
+        
 if __name__ == "__main__":
-    dft_dbi_update_inventory()
+    dft_dbi_action_update()
     #insert_old_hcu_data()
     
     

@@ -89,7 +89,6 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
 #             elif (jsonInput['restTag'] == 'special'):
 #                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
 
-            
             else:
                 print("HUIREST: Receiving restTag domain error!")
                 return
