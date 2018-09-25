@@ -592,7 +592,7 @@ class classDappDbF2cm:
         except Exception:
             result ={'status':"false"}
         return result
-    
+    #APP界面重启
     def dft_dbi_hcu_reboot(self,inputData):
         try:
             with transaction.atomic():
@@ -601,7 +601,25 @@ class classDappDbF2cm:
         except Exception:
             result = {'status':"false"}
         return result
-    
+    #APP NGROK 重启
+    def dft_dbi_ngrok_reboot(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_ngrok_reboot(inputData)
+        except Exception:
+            result = {'status':"false"}
+        return result
+    #APP HCU软件重启
+    def dft_dbi_sw_restart(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_sw_restart(inputData)
+        except Exception:
+            result = {'status':"false"}
+        return result
+    #APP界面回环测试开始
     def dft_dbi_hcu_loop_test_start(self,inputData):
         try:
             with transaction.atomic():
@@ -612,12 +630,12 @@ class classDappDbF2cm:
         return result
     
     def dft_dbi_aqyc_install_picture_process(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_point_install_picture_process(inputData)
-#         except Exception:
-#             msg={"status":"false","auth":"true",'msg':'获取数据失败'}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_point_install_picture_process(inputData)
+        except Exception:
+            msg={"status":"false","auth":"true",'msg':'获取数据失败'}
         return result
     
     '''WeChart App 界面入口'''

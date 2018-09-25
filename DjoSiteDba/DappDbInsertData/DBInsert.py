@@ -16,7 +16,7 @@ django.setup()
 from DappDbF1sym.models import dct_t_l3f1sym_menu_code_mapping,dct_t_l3f1sym_user_right_action,dct_t_l3f1sym_user_right_menu,dct_t_l3f1sym_account_primary,dct_t_l3f1sym_account_secondary
 from DappDbF1sym import views
 from DappDbF11faam.models import *
-from DappDbF2cm.models import dct_t_l3f2cm_device_inventory
+from DappDbF2cm.models import *
 from DappDbF3dm.models import *
 from DappDbF10oam.models import *
 faam1={
@@ -661,9 +661,18 @@ def dft_dbi_action_update():
         dct_t_l3f1sym_user_right_action.objects.filter(action_name=key).update(l4_auth=1)
     for key, value in actionauth5.items():
         dct_t_l3f1sym_user_right_action.objects.filter(action_name=key).update(l5_auth=1)
+
+def insert_dev_detail():
+    result=dct_t_l3f2cm_device_inventory.objects.all()
+    detail_list=list()
+    if result.exists():
+        for line in result:
+            dct_t_l3f2cm_device_cail.objects.create(dev_code_id=line.dev_code)
+#             detail_list.append(dct_t_l3f2cm_device_inventory(dev_code_id=line.dev_code))
+#     dct_t_l3f2cm_device_cail.objects.bulk_create(detail_list)
         
 if __name__ == "__main__":
-    dft_dbi_action_update()
+    insert_dev_detail()
     #insert_old_hcu_data()
     
     

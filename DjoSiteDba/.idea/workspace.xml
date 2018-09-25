@@ -20,7 +20,7 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DjoSiteDba/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
+            <state relative-caret-position="1536">
               <caret line="65" column="4" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="4" />
               <folding>
                 <element signature="e#309#318#0" expanded="true" />
@@ -32,8 +32,8 @@
       <file leaf-file-name="DBInsert.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DappDbInsertData/DBInsert.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="420" column="21" lean-forward="true" selection-start-line="420" selection-start-column="21" selection-end-line="420" selection-end-column="21" />
+            <state relative-caret-position="424">
+              <caret line="421" column="21" selection-start-line="421" selection-start-column="21" selection-end-line="421" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -92,8 +92,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="25" />
-    <option name="width" value="1130" />
+    <option name="x" value="960" />
+    <option name="width" value="960" />
     <option name="height" value="1040" />
   </component>
   <component name="ProjectView">
@@ -101,6 +101,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -126,7 +127,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -261,8 +261,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="25" y="0" width="1130" height="1040" extended-state="0" />
-    <editor active="true" />
+    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -271,7 +270,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32911393" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.17116061" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29813084" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3611111" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -547,7 +546,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DjoSiteDba/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
+        <state relative-caret-position="1536">
           <caret line="65" column="4" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="4" />
           <folding>
             <element signature="e#309#318#0" expanded="true" />
@@ -557,8 +556,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DappDbInsertData/DBInsert.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="420" column="21" lean-forward="true" selection-start-line="420" selection-start-column="21" selection-end-line="420" selection-end-column="21" />
+        <state relative-caret-position="424">
+          <caret line="421" column="21" selection-start-line="421" selection-start-column="21" selection-end-line="421" selection-end-column="21" />
         </state>
       </provider>
     </entry>

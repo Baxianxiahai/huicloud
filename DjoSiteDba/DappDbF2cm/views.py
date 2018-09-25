@@ -1553,7 +1553,7 @@ class dct_classDbiL3apF2cm:
         dev_code=inputData['code']
         print(dev_code)
         groups=[]
-        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        result=dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code)
         if result.exists():
             for line in result:
                 if self.__HCU_DUST == True:
@@ -1644,7 +1644,7 @@ class dct_classDbiL3apF2cm:
                 dust_min=data[i]['list'][1]['value']
                 dust_K=data[i]['list'][2]['value']
                 dust_B=data[i]['list'][3]['value']
-                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(dust_coefmax=dust_max,
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(dust_coefmax=dust_max,
                                                                                        dust_coefmin=dust_min,
                                                                                        dust_coefK=dust_K,
                                                                                        dust_coefB=dust_B)
@@ -1654,7 +1654,7 @@ class dct_classDbiL3apF2cm:
                 temp_min = data[i]['list'][1]['value']
                 temp_K = data[i]['list'][2]['value']
                 temp_B = data[i]['list'][3]['value']
-                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(temp_coefmax=temp_max,
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(temp_coefmax=temp_max,
                                                                                        temp_coefmin=temp_min,
                                                                                        temp_coefK=temp_K,
                                                                                        temp_coefB=temp_B)
@@ -1664,7 +1664,7 @@ class dct_classDbiL3apF2cm:
                 noise_min = data[i]['list'][1]['value']
                 noise_K = data[i]['list'][2]['value']
                 noise_B = data[i]['list'][3]['value']
-                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(noise_coefmax=noise_max,
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(noise_coefmax=noise_max,
                                                                                        noise_coefmin=noise_min,
                                                                                        noise_coefK=noise_K,
                                                                                        noise_coefB=noise_B)
@@ -1674,7 +1674,7 @@ class dct_classDbiL3apF2cm:
                 humid_min = data[i]['list'][1]['value']
                 humid_K = data[i]['list'][2]['value']
                 humid_B = data[i]['list'][3]['value']
-                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(humid_coefmax=humid_max,
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(humid_coefmax=humid_max,
                                                                                        humid_coefmin=humid_min,
                                                                                        humid_coefK=humid_K,
                                                                                        humid_coefB=humid_B)
@@ -1684,7 +1684,7 @@ class dct_classDbiL3apF2cm:
                 windspd_min = data[i]['list'][1]['value']
                 windspd_K = data[i]['list'][2]['value']
                 windspd_B = data[i]['list'][3]['value']
-                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(windspd_coefmax=windspd_max,
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(windspd_coefmax=windspd_max,
                                                                                        windspd_coefmin=windspd_min,
                                                                                        windspd_coefK=windspd_K,
                                                                                        windspd_coefB=windspd_B)
@@ -1695,7 +1695,7 @@ class dct_classDbiL3apF2cm:
                 winddir_K = data[i]['list'][2]['value']
                 winddir_B = data[i]['list'][3]['value']
                 winddir_delta=data[i]['list'][4]['value']
-                dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code).update(winddir_coefmax=winddir_max,
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(winddir_coefmax=winddir_max,
                                                                                        winddir_coefmin=winddir_min,
                                                                                        winddir_coefK=winddir_K,
                                                                                        winddir_coefB=winddir_B,
@@ -1725,7 +1725,7 @@ class dct_classDbiL3apF2cm:
     
     def dft_dbi_get_device_cali(self, inputData):
         devCode = inputData["DevCode"]
-        resp = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        resp = dct_t_l3f2cm_device_cail.objects.filter(dev_code=devCode)
         if resp.exists():
             for line in resp:
                 msg={
@@ -1762,7 +1762,7 @@ class dct_classDbiL3apF2cm:
     def dft_dbi_set_device_cali(self,inputData):
         devCode=inputData["DevCode"]
         data=inputData['Calibration']
-        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        result=dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=devCode)
         if result.exists():
             if 'dust_coefmax' in data.keys():dust_coefmax=data['dust_coefmax']
             else:dust_coefmax=result[0].dust_coefmax
@@ -2046,6 +2046,39 @@ class dct_classDbiL3apF2cm:
                     pic_list.append(temp)
         msg={"status":"true","auth":"true",'pic':pic_list,'msg':'获取照片列表成功'}
         return msg
+    
+    
+    def dft_dbi_smart_city_ctrl_req(self, inputData):
+        cmdTag = inputData['cmdTag']
+        site_code = inputData['statCode']
+        result = dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=site_code)
+        if result.exists():
+            resp = dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=site_code)
+            if resp.exists():
+                dev_code = resp[0].dev_code
+                socketID = dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)[0].socket_id
+                startHour = str(result[0].lamp_start.hour)
+                startMin = str(result[0].lamp_start.minute)
+                startSec = str(result[0].lamp_start.second)
+                stopHour = str(result[0].lamp_stop.hour)
+                stopMin = str(result[0].lamp_stop.minute)
+                stopSec = str(result[0].lamp_stop.second)
+                lightStr = str(result[0].lamp_th)
+                lampWorkMode = str(result[0].lamp_mode)
+                data = {'startHour': startHour, 'startMin': startMin, 'startSec': startSec, 'stopHour': stopHour,
+                        'stopMin': stopMin, 'stopSec': stopSec, 'lightstrThreadhold': lightStr,
+                        'lampWorkMode': lampWorkMode}
+                msg = {'status': "pending",
+                       'loop_resp': {'socketid': socketID, 'data': {'ToUsr': dev_code, 'FrUsr': "FSTT",
+                                                                    "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                                                                    'MsgId': GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_CTRL_REQ, 'MsgLn': 115,
+                                                                    "IeCnt": data,
+                                                                    "FnFlg": 0}}}
+            else:
+                return False
+        else:
+            return False
+        return msg
 
 class HCUReportAndConfirm():
     
@@ -2069,15 +2102,15 @@ class HCUReportAndConfirm():
             result.update(last_update=datetime.datetime.now(),socket_id=socketId,prjid=prjId,prjname=prjName)
             for line in result:
                 if line.valid_flag:
-                    resp=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=line.dev_code)
+                    resp=dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=line.dev_code)
                     if resp.exists():
                         for line_dev in resp:
-                            hwtype=line_dev.hw_type
-                            ngrokPort=line_dev.base_port
-                            hcuLable=line_dev.dev_code
-                            zhbLable=line_dev.zhb_label
-                            upgradeFlag=line_dev.upgradeflag
-                            restartRightNow=line_dev.rebootflag
+                            hwtype = line_dev.dev_code.hw_type
+                            ngrokPort = line_dev.dev_code.base_port
+                            hcuLable = line_dev.dev_code_id
+                            zhbLable = line_dev.dev_code.zhb_label
+                            upgradeFlag = line_dev.dev_code.upgradeflag
+                            restartRightNow = line_dev.dev_code.rebootflag
                             calWinddir=line_dev.winddir_delta
                             calWinddirCoefMax=line_dev.winddir_coefmax
                             calWinddirCoefMin=line_dev.winddir_coefmin
@@ -2224,6 +2257,24 @@ class HCUReportAndConfirm():
         rand = inputData['IeCnt']['rand']
         if rand > 0:
             dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_Code).update(cmd_flag=GOLBALVAR.HCU_SW_RESTART_RESP)
+
+    def dft_dbi_smart_city_ctrl_resp(self,socketId,inputData):
+        dev_Code = inputData['FrUsr']
+        IeCnt = inputData['IeCnt']
+        cmdTag=IeCnt['cmdTag']
+        startHour=IeCnt['startHour']
+        startMin=IeCnt['startMin']
+        startSec=IeCnt['startSec']
+        stopHour=IeCnt['stopHour']
+        stopMin=IeCnt['stopMin']
+        stopSec=IeCnt['stopSec']
+        lightStr=IeCnt['lightStr']
+        lampWorkMode = IeCnt['lampWorkMode']
+        startTime=startHour+startMin+startSec
+        stopTime=stopHour+stopMin+stopSec
+        result=dct_t_l3f2cm_site_fstt.objects.filter(site_code=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)[0].site_code)
+        if result.exists():
+            result.update(lamp_start=startTime,lamp_stop=stopTime,lamp_th=lightStr,lamp_mode=lampWorkMode)
         
     
     

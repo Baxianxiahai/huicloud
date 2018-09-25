@@ -15,3 +15,7 @@ class dct_t_l3f6pm_perfdata(models.Model):
     memoccupy=models.IntegerField(default=0)
     diskoccupy=models.IntegerField(default=0)
     cputemp=models.IntegerField(default=0)
+    workcontmins=models.IntegerField(default=0)
+    alarmcnt=models.IntegerField(default=0)
+    dischomecnt=models.IntegerField(default=0)
+    vmerrcnt=models.IntegerField(default=0)

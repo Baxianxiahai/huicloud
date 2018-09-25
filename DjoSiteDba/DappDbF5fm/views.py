@@ -111,8 +111,8 @@ class dct_classDbiL3apF5fm:
                 for line in resp:
                     alarm_check=self.__dft_dbi_site_alarm_check(statCode)
                     if alarm_check:
-                        latitude=line.latitude/1000000
-                        longitude=line.longitude/1000000
+                        latitude=line.latitude
+                        longitude=line.longitude
                         temp={
                             'StatCode' :line.site_code,
                             'StatName':line.statname,

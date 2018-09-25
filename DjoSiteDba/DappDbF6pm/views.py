@@ -1,8 +1,10 @@
 from django.shortcuts import render
+import json
 from DappDbF6pm.models import *
 from DappDbF1sym.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
+from DappDbInsertData.DappDbMsgDefine import *
 # Create your views here.
 
 class dct_classDbiL3apF6pm:
@@ -95,6 +97,53 @@ class dct_classDbiL3apF6pm:
                     data.append(temp)
         resp={'column':column,'data':data}
         return resp
+
+class Accept_Msg_From_HCU_Report():
+    def dft_dbi_HCU_Performance_Report(self,socketId,InputData):
+        ServerName = InputData["ToUsr"]
+        IeCnt = InputData['IeCnt']
+        dev_Code = InputData['FrUsr']
+        restartCnt=IeCnt['restartCnt']
+        networkConnCnt=IeCnt['networkConnCnt']
+        networkConnFailCnt=IeCnt['networkConnFailCnt']
+        networkDiscCnt=IeCnt['networkDiscCnt']
+        socketDiscCnt=IeCnt['socketDiscCnt']
+        cpuTemp=IeCnt['cpuTemp']
+        cpuOccupy=IeCnt['cpuOccupy']
+        memOccupy=IeCnt['memOccupy']
+        diskOccupy=IeCnt['diskOccupy']
+        alarmCnt=IeCnt['alarmCnt']
+        discHomeCnt=IeCnt['discHomeCnt']
+        contWorkMins=IeCnt['contWorkMins']
+        vmErrCnt=IeCnt['vmErrCnt']
+        timeStamp=IeCnt['timeStamp']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)
+        if result.exists():
+            resp = dct_t_l3f6pm_perfdata.objects.filter(dev_code_id=dev_Code)
+            if resp.exists():
+                resp.update(site_code_id=result[0].site_code_id, restartcnt=restartCnt, networkconncnt=networkConnCnt,
+                            networkconnfailcnt=networkConnFailCnt, networkdisccnt=networkDiscCnt,
+                            socketdisccnt=socketDiscCnt,
+                            cpuoccupy=cpuOccupy, memoccupy=memOccupy, diskoccupy=diskOccupy, cputemp=cpuTemp,
+                            workcontmins=contWorkMins,
+                            alarmcnt=alarmCnt, dischomecnt=discHomeCnt, vmerrcnt=vmErrCnt)
+            else:
+                dct_t_l3f6pm_perfdata.objects.create(dev_code_id=dev_Code, site_code_id=result[0].site_code_id,
+                                                     restartcnt=restartCnt, networkconncnt=networkConnCnt,
+                                                     networkconnfailcnt=networkConnFailCnt,
+                                                     networkdisccnt=networkDiscCnt, socketdisccnt=socketDiscCnt,
+                                                     cpuoccupy=cpuOccupy, memoccupy=memOccupy, diskoccupy=diskOccupy,
+                                                     cputemp=cpuTemp, workcontmins=contWorkMins,
+                                                     alarmcnt=alarmCnt, dischomecnt=discHomeCnt, vmerrcnt=vmErrCnt)
+
+            Msg_final = {'socketid': socketId,
+                     'data': {'ToUsr': dev_Code, 'FrUsr': ServerName, "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                              'MsgId': GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 1}, "FnFlg": 0}}
+        else:
+            Msg_final = {'socketid': socketId,
+                     'data': {'ToUsr': dev_Code, 'FrUsr': ServerName, "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                              'MsgId': GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 0}, "FnFlg": 0}}
+        return Msg_final
 
 
 

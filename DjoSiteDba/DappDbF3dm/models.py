@@ -55,6 +55,42 @@ class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     toxicgas = models.FloatField(default=0, verbose_name="煤气")
     rssi = models.FloatField(default=0, verbose_name="信号强度")
     pwrind = models.FloatField(default=0, verbose_name="电量强度")
+    
+
+class dct_t_l3f3dm_current_report_smartcity(models.Model):
+    sid = models.AutoField(primary_key=True)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
+    report_time = models.DateTimeField(auto_now=True)
+    tsp = models.FloatField(default=0, verbose_name="TSP")
+    pm01 = models.FloatField(default=0, verbose_name="PM0.1")
+    pm25 = models.FloatField(default=0, verbose_name="PM2.5")
+    pm10 = models.FloatField(default=0, verbose_name="PM10")
+    noise = models.FloatField(default=0, verbose_name="噪声")
+    temperature = models.FloatField(default=0, verbose_name="温度")
+    humidity = models.FloatField(default=0, verbose_name="湿度")
+    winddir = models.FloatField(default=0, verbose_name="风向")
+    windspd = models.FloatField(default=0, verbose_name="风速")
+    lightstr=models.FloatField(default=0,verbose_name='光照强度')
+    lampmode=models.IntegerField(default=0,verbose_name='灯带工作模式')
+
+class dct_t_l3f3dm_minute_report_smartcity(models.Model):
+    sid = models.AutoField(primary_key=True)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
+    report_date = models.DateTimeField(auto_now=True)
+    hourminindex = models.IntegerField(default=0)
+    tsp = models.FloatField(default=0, verbose_name="TSP")
+    pm01 = models.FloatField(default=0, verbose_name="PM0.1")
+    pm25 = models.FloatField(default=0, verbose_name="PM2.5")
+    pm10 = models.FloatField(default=0, verbose_name="PM10")
+    noise = models.FloatField(default=0, verbose_name="噪声")
+    temperature = models.FloatField(default=0, verbose_name="温度")
+    humidity = models.FloatField(default=0, verbose_name="湿度")
+    winddir = models.FloatField(default=0, verbose_name="风向")
+    windspd = models.FloatField(default=0, verbose_name="风速")
+    lightstr=models.FloatField(default=0,verbose_name='光照强度')
+    lampmode=models.IntegerField(default=0,verbose_name='灯带工作模式')
 
 
 class dct_t_l3f3dm_alarm_report_aqyc(models.Model):

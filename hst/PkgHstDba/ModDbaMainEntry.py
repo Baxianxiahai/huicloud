@@ -211,6 +211,10 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_hcu_loop_test_start(inputData['body'])
         elif inputData['action']=="AQYCPointPicture":
             result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
+        elif inputData['action']=="HCU_NGROK":
+            result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
+        elif inputData['action']=="HCU_Software_Reboot":
+            result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
         else:
             result=""
         return result
@@ -565,6 +569,16 @@ class ClassHCUDbaMainEntry():
         result=F2cm.dft_dbi_device_loop_test(socketId, inputData)
         return result
     
+    def dft_F2cm_Ngrok_Restart_Test(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_ngrok_restart(socketId, inputData)
+        return result
+    
+    def dft_F2cm_Hcu_Sw_Restart_Test(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_hcu_sw_restart(socketId, inputData)
+        return result
+    
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         FrUsr=inputData['FrUsr']
@@ -588,20 +602,17 @@ class ClassHCUDbaMainEntry():
             Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
     
+    def dft_F6pm_HCU_Perform_Data_Report(self,socketId,inputData):
+        F6pm=ModDbaF6pm.Msg_From_HCU_Report()
+        result=F6pm.dft_dbi_accept_performance_table_report(socketId, inputData)
+        return result
+    
     def dft_F10oam_HCU_Inventory_Report(self,socketId,inputData):
         F10oam=ModDbaF10oam.classDappDbF10oam()
         result=F10oam.dft_dbi_hcu_inventory_confirm(socketId, inputData)
         return result
     
-    def dft_F2cm_Ngrok_Restart_Test(self,socketId,inputData):
-        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
-        result=F2cm.dft_dbi_ngrok_restart(socketId, inputData)
-        return result
-    
-    def dft_F2cm_Hcu_Sw_Restart_Test(self,socketId,inputData):
-        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
-        result=F2cm.dft_dbi_hcu_sw_restart(socketId, inputData)
-        return result
+
     
             
     

@@ -61,7 +61,6 @@ class ClassHuirestPrinterInputCmdHandler:
             self.publicOutputResultFlag = False;
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
             self.publicOutputResultFlag = False;
-        
         #
         if (self.publicOutputResultFlag == True):
             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_PRINTER_callcell_bfsc):
@@ -488,25 +487,9 @@ class ClassHCUReportDataToDba:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F2cm_Send_Message(socketId,inputData)
                 return result
-            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCDATAREPORT:
-                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result=proc.dft_F3dm_Data_Current_Report(socketId, inputData)
-                return result
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHEARTREPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F2cm_Heart_Data_Report(socketId, inputData)
-                return result
-            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_LOOP_TEST_RESP:
-                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result=proc.dft_F2cm_Device_Loop_Test(socketId, inputData)
-                return result
-            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_REBOOT_RESP:
-                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result=proc.dft_dbi_device_reboot(socketId, inputData)
-                return result  
-            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_INVENTORY_REQ:
-                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result=proc.dft_F10oam_HCU_Inventory_Report(socketId, inputData)
                 return result
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_NGROKRES_RESP:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
@@ -516,6 +499,31 @@ class ClassHCUReportDataToDba:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F2cm_Hcu_Sw_Restart_Test(socketId, inputData)
                 return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_LOOP_TEST_RESP:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F2cm_Device_Loop_Test(socketId, inputData)
+                return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_REBOOT_RESP:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_dbi_device_reboot(socketId, inputData)
+                return result  
+            
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCDATAREPORT:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F3dm_Data_Current_Report(socketId, inputData)
+                return result
+            
+#             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_REPORT:
+#                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+#                 result=proc.dft_F6pm_HCU_Perform_Data_Report(socketId, inputData)
+#                 return result
+            
+            
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_INVENTORY_REQ:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F10oam_HCU_Inventory_Report(socketId, inputData)
+                return result
+
             else:
                 return
                 

@@ -7,6 +7,7 @@ from DappDbF1sym.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
 from DappDbFxprcm.models import *
+from DappDbInsertData.DappDbMsgDefine import *
 import datetime
 # Create your views here.
 class dct_classDbiL3apF3dm():
@@ -1141,6 +1142,64 @@ class dct_t_HCU_Data_Report():
             msg_len=len(json.dumps(result))
             Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return Msg_final
-    
+    def dft_dbi_smart_city_current_report(self, socketId, inputData):
+        devCode = inputData['FrUsr']
+        ServerName = inputData['ToUsr']
+        result = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        if result.exists():
+            currentTime = inputData['CrTim']
+            currentData = inputData['IeCnt']
+            pm1d0Value = currentData['pm1d0Value']
+            pm2d5Value = currentData['pm2d5Value']
+            pm10Value = currentData['pm10Value']
+            tspValue = currentData['tspValue']
+            tempValue = currentData['tempValue']
+            humidValue = currentData['humidValue']
+            winddirValue = currentData['winddirValue']
+            windspdValue = currentData['windspdValue']
+            noiseValue = currentData['noiseValue']
+            lightStr = currentData['lightStr']
+            lampWorkMode = currentData['lampWorkMode']
+            smartCityRollingPoleVoltageState=currentData['smartCityRollingPoleVoltageState']
+            timeArray = time.localtime(currentTime)
+            hourminindex = timeArray.tm_hour * 60 + timeArray.tm_min
+            dct_t_l3f3dm_minute_report_smartcity.objects.create(dev_code_id=devCode,site_code=result[0].site_code,report_date=datetime.datetime.now(),
+                                                                hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,
+                                                                noise=noiseValue,temperature=tempValue,humidity=humidValue,winddir=winddirValue,
+                                                                windspd=windspdValue,lightstr=lightStr,lampmode=lampWorkMode)
+            dct_t_l2snr_dust.objects.create(dev_code_id=devCode, tsp=tspValue, pm01=pm1d0Value, pm25=pm2d5Value,
+                                            pm10=pm10Value, hourminindex=hourminindex, dataflag='Y')
+            dct_t_l2snr_windspd.objects.create(dev_code_id=devCode, windspd=windspdValue, dataflag='Y',
+                                               hourminindex=hourminindex)
+            dct_t_l2snr_noise.objects.create(dev_code_id=devCode, noise=noiseValue, dataflag='Y',
+                                             hourminindex=hourminindex)
+            dct_t_l2snr_temperature.objects.filter(dev_code_id=devCode, temperature=tempValue, dataflag='Y',
+                                                   hourminindex=hourminindex)
+            dct_t_l2snr_humidity.objects.filter(dev_code_id=devCode, humidity=humidValue, dataflag='Y',
+                                                hourminindex=hourminindex)
+            dct_t_l2snr_winddir.objects.create(dev_code_id=devCode, windir=winddirValue, dataflag='Y',
+                                               hourminindex=hourminindex)
+
+            if dct_t_l3f3dm_current_report_smartcity.objects.filter(dev_code_id=devCode).exists():
+                dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).update(
+                    site_code=result[0].site_code, report_date=datetime.datetime.now(),
+                    hourminindex=hourminindex, tsp=tspValue, pm01=pm1d0Value, pm25=pm2d5Value, pm10=pm10Value,
+                    noise=noiseValue, temperature=tempValue, humidity=humidValue, winddir=winddirValue,
+                    windspd=windspdValue, lightstr=lightStr, lampmode=lampWorkMode)
+            else:
+                dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode, site_code=result[0].site_code,report_date=datetime.datetime.now(),
+                                                                hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,
+                                                                noise=noiseValue,temperature=tempValue,humidity=humidValue,winddir=winddirValue,
+                                                                windspd=windspdValue,lightstr=lightStr,lampmode=lampWorkMode)
+            Msg_final = {'socketid': socketId,
+                         'data': {'ToUsr': devCode, 'FrUsr': ServerName, "CrTim": int(time.time()),
+                                  'MsgTp': 'huitp_json', 'MsgId': GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 1},
+                                  "FnFlg": 0}}
+        else:
+            Msg_final = {'socketid': socketId,
+                         'data': {'ToUsr': devCode, 'FrUsr': ServerName, "CrTim": int(time.time()),
+                                  'MsgTp': 'huitp_json', 'MsgId': GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 0},
+                                  "FnFlg": 0}}
+        return Msg_final
     
     

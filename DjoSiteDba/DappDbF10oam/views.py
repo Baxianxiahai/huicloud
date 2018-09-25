@@ -165,6 +165,7 @@ class dct_DappF10Class():
         applyNum = int(inputData['ApplyNbr'])
         qrcode_insert_list=list()
         pj_insert_list=list()
+        cail_list=list()
         base_port_max=dct_t_l3f2cm_device_inventory.objects.all().order_by("-base_port")[0].base_port
         for devCode in devCodeArray:
             if dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode).exists():
@@ -172,7 +173,9 @@ class dct_DappF10Class():
             else:
                 base_port_max=base_port_max+1
                 qrcode_insert_list.append(dct_t_l3f2cm_device_inventory(dev_code=devCode, create_date=datetime.date.today(),hw_type=int(pdCode),base_port=base_port_max))
+                cail_list.append(dct_t_l3f2cm_device_cail(dev_code_id=devCode))
         dct_t_l3f2cm_device_inventory.objects.bulk_create(qrcode_insert_list)
+        dct_t_l3f2cm_device_cail.objects.bulk_create(cail_list)
         time.sleep(1)
         if pjCode=='AQYC':
             for devCode in devCodeArray:
@@ -287,6 +290,10 @@ class dct_DappF10Class():
                 upgradeflag='PATCH'
             else:
                 upgradeflag="INVALID"
+            if validFlag==self.__MFUN_HCU_SW_LOAD_FLAG_INVALID:
+                validFlag="N"
+            elif validFlag==self.__MFUN_HCU_SW_LOAD_FLAG_VALID:
+                validFlag="Y"
             temp=[]
             temp.append(sid)
             temp.append(equentry)
