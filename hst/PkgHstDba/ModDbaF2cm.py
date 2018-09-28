@@ -647,6 +647,37 @@ class classDappDbF2cm:
         except Exception:
             result = {'status': 'false', 'auth': 'true', 'DevDetail': []}
         return result
+    
+    
+    
+    '''内部人员使用的功能函数'''
+    def dft_get_free_cpu_id_internal(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_get_free_cpu_id_internal(inputData)
+        except Exception:
+            result = []
+        return result
+    
+    def dft_get_device_detail_internal(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_get_device_detail_internal(inputData)
+        except Exception:
+            result = []
+        return result
+    
+    def dft_set_device_detail_internal(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_set_device_detail_internal(inputData)
+        except Exception:
+            result = []
+        return result
+    '''内部人员使用的功能函数结束'''
 
 class HCUF2cmDataBaseConfirm():
     

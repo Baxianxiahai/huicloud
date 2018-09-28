@@ -215,6 +215,14 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
         elif inputData['action']=="HCU_Software_Reboot":
             result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
+            
+        elif inputData['action']=='GetFreeCpuId':
+            result=F2cm.dft_get_free_cpu_id_internal(inputData['body'])
+        elif inputData['action']=='GetDeviceDetail':
+            result=F2cm.dft_get_device_detail_internal(inputData['body'])
+        elif inputData['action']=='SetDevDetail':
+            result=F2cm.dft_set_device_detail_internal(inputData['body'])
+            
         else:
             result=""
         return result
@@ -601,6 +609,11 @@ class ClassHCUDbaMainEntry():
             msg_len=len(json.dumps(result))
             Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
+    
+    def dft_F3dm_minute_report(self,socketId,inputData):
+        F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
+        Msg=F3dm.dft_dbi_F3dm_minute_report(socketId, inputData)
+        return Msg
     
     def dft_F6pm_HCU_Perform_Data_Report(self,socketId,inputData):
         F6pm=ModDbaF6pm.Msg_From_HCU_Report()

@@ -250,9 +250,6 @@ class ClassHuirestDbaInputCmdHandler:
 #             outputStr['parContent'] = parContentStrErr;
 #         return outputStr
     
-
-
-
 #
 # Following part will be surpress for a while, until MATE system solve CV2 and Tensorflow installation issue
 #
@@ -512,6 +509,10 @@ class ClassHCUReportDataToDba:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F3dm_Data_Current_Report(socketId, inputData)
                 return result
+#             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_REPORT:
+#                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+#                 result=proc.dft_F3dm_minute_report(socketId, inputData)
+#                 return result
             
 #             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_REPORT:
 #                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()

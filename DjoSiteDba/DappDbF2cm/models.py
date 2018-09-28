@@ -54,7 +54,7 @@ class dct_t_l3f2cm_device_inventory(models.Model):
     create_date = models.DateField(null=True, blank=True)
     hw_type = models.IntegerField(default=0, blank=True)
     sw_ver = models.IntegerField(null=True, blank=True)
-    zhb_label = models.CharField(max_length=20, null=True)
+    zhb_label = models.CharField(max_length=50, null=True)
     upgradeflag = models.IntegerField(default=0)
     rebootflag = models.IntegerField(default=0)
     base_port = models.IntegerField(default=0)
@@ -88,6 +88,7 @@ class dct_t_l3f2cm_device_cail(models.Model):
     winddir_coefK = models.FloatField(default=1)
     winddir_coefB = models.FloatField(default=0)
     winddir_delta = models.FloatField(default=0)
+    dust_cannon=models.FloatField(default=200)
 
 class dct_t_l3f2cm_device_holops(models.Model):
     cpu_id=models.CharField(primary_key=True,max_length=50)

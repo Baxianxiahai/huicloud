@@ -172,6 +172,15 @@ class HCUF3dmDataBaseConfirm():
             result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
+    def dft_dbi_F3dm_minute_report(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
+                result=DappDbF3dm_view.dft_dbi_smart_city_current_report(socketId, inputData)
+        except Exception:
+            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+        return result
+    
     
     
     

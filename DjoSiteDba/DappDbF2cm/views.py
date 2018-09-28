@@ -1502,7 +1502,7 @@ class dct_classDbiL3apF2cm:
         cpu_id = inputData['cpu']
         resp=dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)
         if resp.exists():
-            resp.update(dev_code=None)
+            resp.update(dev_code=None,valid_flag=0)
             dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_id).update(dev_code=dev_code,valid_flag=True)
             msg = {'status': 'true', 'auth': 'true', 'msg': '重新绑定成功'}
         else:
@@ -1566,6 +1566,8 @@ class dct_classDbiL3apF2cm:
                     list.append(dust_K)
                     dust_B = {'paraname': '数据B值','type': 'float','max': '700','min': '','value': str(line.dust_coefB),'note': "粉尘数据B值设置"}
                     list.append(dust_B)
+                    dust_C = {'paraname': '雾炮门限','type': 'float','max': '700','min': '0','value': str(line.dust_cannon),'note': "雾炮门限设置"}
+                    list.append(dust_C)
                     dust_group={'groupname':"粉尘参数设置",'list':list}
                     groups.append(dust_group)
                 if self.__HCU_TEMP == True:
@@ -1637,17 +1639,18 @@ class dct_classDbiL3apF2cm:
     def dft_dbi_HCU_sys_config_save(self,inputData):
         dev_code = inputData['code']
         data=inputData['configure']['parameter']['groups']
-        print(dev_code)
         for i in range(len(data)):
             if data[i]['groupname']=='粉尘参数设置':
                 dust_max=data[i]['list'][0]['value']
                 dust_min=data[i]['list'][1]['value']
                 dust_K=data[i]['list'][2]['value']
                 dust_B=data[i]['list'][3]['value']
+                dust_C=data[i]['list'][4]['value']
                 dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(dust_coefmax=dust_max,
                                                                                        dust_coefmin=dust_min,
                                                                                        dust_coefK=dust_K,
-                                                                                       dust_coefB=dust_B)
+                                                                                       dust_coefB=dust_B,
+                                                                                       dust_cannon=dust_C)
                 status = 'true'
             elif data[i]['groupname']=='温度参数设置':
                 temp_max = data[i]['list'][0]['value']
@@ -1925,15 +1928,15 @@ class dct_classDbiL3apF2cm:
                     if time_difference>=3600:
                         color='#FF5722'
                     last_report=str(day_time)+'天'+str(hour_time)+'时'+str(min_time)+'分'+str(senc_time)+'秒'
-                    tsp=line_dev_data.tsp
-                    pm01=line_dev_data.pm01
-                    pm25=line_dev_data.pm25
-                    pm10=line_dev_data.pm10
-                    windspd=line_dev_data.windspd
-                    noise=line_dev_data.noise
+                    tsp=int(line_dev_data.tsp)
+                    pm01=round(line_dev_data.pm01,2)
+                    pm25=round(line_dev_data.pm25,2)
+                    pm10=round(line_dev_data.pm10,2)
+                    windspd=round(line_dev_data.windspd,2)
+                    noise=round(line_dev_data.noise,2)
                     winddir=line_dev_data.winddir
-                    temp=line_dev_data.temperature
-                    humi=line_dev_data.humidity
+                    temp=round(line_dev_data.temperature,2)
+                    humi=round(line_dev_data.humidity,2)
                     dev_dev={'DevCode':line_dev_data.dev_code_id,'StatName':site_name,'Color':color,'LastReport':last_report,'TSP':tsp,
                              'PM01':pm01,'PM25':pm25,'PM10':pm10,'Windspd':windspd,'Noise':noise,
                              'Winddir':winddir,'Temp':temp,'Humi':humi}
@@ -2079,6 +2082,68 @@ class dct_classDbiL3apF2cm:
         else:
             return False
         return msg
+    
+    
+    
+    '''内部人员使用的小工具的函数，不需要进行用户的验证，在链接中带有验证信息'''
+    def dft_dbi_get_free_cpu_id_internal(self,inputData):
+        dev_code=inputData['dev_code']
+        cpuArray=[]
+        result=dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)
+        if result.exists():
+            cpuCode=result[0].cpu_id
+            cpuArray.append(cpuCode)
+        resp=dct_t_l3f2cm_device_holops.objects.filter(valid_flag=0)
+        if resp.exists():
+            for line in resp:
+                cpuArray.append(line.cpu_id)
+        return cpuArray
+
+    def dft_dbi_get_device_detail_internal(self,inputData):
+        dev_code=inputData['dev_code']
+        hwtype=0
+        valid_flag=0
+        sw_ver=0
+        upgradeflag=0
+        rebootflag=0
+        zhb_label=0
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        if result.exists():
+            hwtype=result[0].hw_type
+            valid_flag=result[0].valid_flag
+            sw_ver=result[0].sw_ver
+            upgradeflag=result[0].upgradeflag
+            rebootflag=result[0].rebootflag
+            zhb_label=result[0].zhb_label
+        devDetail={'hwtype':hwtype,'valid_flag':valid_flag,'sw_ver':sw_ver,'upgradeflag':upgradeflag,'rebootflag':rebootflag,'zhb_label':zhb_label}
+        return devDetail
+
+    def dft_dbi_set_device_detail_internal(self,inputData):
+        dev_code=inputData['dev_code']
+        cpu_code=inputData['cpu_code']
+        hwtype=inputData['hwtype']
+        valid_flag=inputData['valid_flag']
+        sw_ver=inputData['sw_ver']
+        upgradeflag=inputData['upgradeflag']
+        rebootflag=inputData['rebootflag']
+        zhb_label=inputData['zhb_label']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_code)
+        status='false'
+        msg='请检查参数是否正确'
+        if result.exists():
+            resp=dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpu_code)
+            if resp.exists():
+                resp_1=dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)
+                if resp_1.exists():
+                    resp_1.update(dev_code=None,valid_flag=0)
+                resp.update(dev_code=dev_code,valid_flag=1)
+            result.update(hw_type=hwtype,valid_flag=valid_flag,sw_ver=sw_ver,
+                          upgradeflag=upgradeflag,rebootflag=rebootflag,zhb_label=zhb_label)
+            status='true'
+            msg='修改成功'
+        resp_str={'status':status,'msg':msg}
+        return resp_str
+    '''内部人员使用函数的结束标志'''
 
 class HCUReportAndConfirm():
     
@@ -2120,7 +2185,7 @@ class HCUReportAndConfirm():
                             calPm25CoefMin=line_dev.dust_coefmin
                             calPm25CoefK=line_dev.dust_coefK
                             calPm25CoefB=line_dev.dust_coefB
-                            dust_threshold=line_dev.dust_threshold
+                            calPm25ThdCannon=line_dev.dust_cannon
                             calTempCoefMax=line_dev.temp_coefmax
                             calTempCoefMin=line_dev.temp_coefmin
                             calTempCoefK=line_dev.temp_coefK
@@ -2206,7 +2271,11 @@ class HCUReportAndConfirm():
                                 'nsi': calNoiseCoefMin,
                                 'nsk': calNoiseCoefK,
                                 'nsb': calNoiseCoefB,
-                                'ptc':dust_threshold,
+                                'ptc': calPm25ThdCannon,
+#                                 'eda':"",
+#                                 'eia':"",
+#                                 'ept':0
+                                
                             }
                         msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}
                         msg_len=len(json.dumps(msg))

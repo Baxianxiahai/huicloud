@@ -336,12 +336,12 @@ class dct_classDbiL3apF3dm():
         result=dct_t_l3f3dm_current_report_aqyc.objects.filter(site_code_id=statCode)
         if result.exists():
             for line in result:
-                noise=line.noise
+                noise=round(line.noise,2)
                 winddir=line.winddir
-                humidity=line.humidity
-                temperature=line.temperature
-                tsp=line.tsp
-                windspeed=line.windspd
+                humidity=round(line.humidity,2)
+                temperature=round(line.temperature,2)
+                tsp=round(line.tsp,2)
+                windspeed=round(line.windspd,2)
                 last_report=line.report_time
                 time_array=time.strptime(str(last_report),"%Y-%m-%d %H:%M:%S.%f")
                 print(time_array)
@@ -477,11 +477,11 @@ class dct_classDbiL3apF3dm():
             status='休眠中'
             if resp.exists():
                 for line in resp:
-                    tsp=line.tsp
-                    temperature=line.temperature
-                    humidity=line.humidity
-                    noise=line.noise
-                    windspeed=line.windspd
+                    tsp=int(line.tsp)
+                    temperature=round(line.temperature,2)
+                    humidity=round(line.humidity,2)
+                    noise=round(line.noise,2)
+                    windspeed=round(line.windspd,2)
                     winddir=self.__dft_dbi_winddir_convert(line.winddir)
                     reportTime=line.report_time#???????????????????????
                     currenttimt=int(time.time())
@@ -1058,23 +1058,23 @@ class dct_classDbiL3apF3dm():
                 retlist.append(map)
                 map = '第三方编号：' + line.dev_code.zhb_label
                 retlist.append(map)
-                map = 'TSP：' + str(line.tsp)+'μg/m³'
+                map = 'TSP：' + str(int(line.tsp))+'μg/m³'
                 retlist.append(map)
-                map = 'PM01：' + str(line.pm01)+'μg/m³'
+                map = 'PM01：' + str(round(line.pm01,2))+'μg/m³'
                 retlist.append(map)
-                map = 'PM2.5：' + str(line.pm25)+'μg/m³'
+                map = 'PM2.5：' + str(round(line.pm25,2) )+'μg/m³'
                 retlist.append(map)
-                map = 'PM10：' + str(line.pm10)+'μg/m³ '
+                map = 'PM10：' + str(round(line.pm10,2))+'μg/m³ '
                 retlist.append(map)
-                map = '噪音：' + str(line.noise)+'dB'
+                map = '噪音：' + str(round(line.noise,2))+'dB'
                 retlist.append(map)
-                map = '温度：' + str(line.temperature)+"℃"
+                map = '温度：' + str(round(line.temperature,2) )+"℃"
                 retlist.append(map)
-                map = '湿度：' + str(line.humidity)+"%"
+                map = '湿度：' + str(round(line.humidity,2) )+"%"
                 retlist.append(map)
                 map = '风向：' + str(self.__dft_dbi_winddir_convert(line.winddir))
                 retlist.append(map)
-                map = '风速：' + str(line.windspd)+"m/s"
+                map = '风速：' + str(round(line.windspd,2))+"m/s"
                 retlist.append(map)
         retval={'status':'true','auth':'true','msg':'获取设备状态成功','ret':retlist}
         return retval

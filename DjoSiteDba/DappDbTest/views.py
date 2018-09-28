@@ -20,8 +20,8 @@ def user_info_add(request):
     #print("Request-Pwd= ", request['pwd']);
     
     if ((request['user'] != '') and (request['pwd'] != '')):
-      models.UserInfo.objects.create(user=request['user'], pwd=request['pwd']);
-      return HttpResponse("Execute user_info_add with parameter success!")
+        models.UserInfo.objects.create(user=request['user'], pwd=request['pwd'])
+        return HttpResponse("Execute user_info_add with parameter success!")
     else:
         models.UserInfo.objects.create(user='test1',pwd='123456')
         obj = models.UserInfo(user='test2',pwd='123456')

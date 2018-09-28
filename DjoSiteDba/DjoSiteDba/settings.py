@@ -118,20 +118,20 @@ DATABASES = {
 #         },
         'CONN_MAX_AGE': None,
     },
-    'msg_log': {
-        'ENGINE': 'django.db.backends.mysql',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'djztest6_log',
-        'USER': 'root',
-        'PASSWORD': 'xiaohui@bxxh',
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
-#         'OPTIONS': {
-#             'autocommit': True,
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#         },
-        'CONN_MAX_AGE': None,
-    }
+#     'msg_log': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'NAME': 'djztest6_log',
+#         'USER': 'root',
+#         'PASSWORD': 'xiaohui@bxxh',
+#         'HOST': '127.0.0.1',
+#         'PORT': 3306,
+# #         'OPTIONS': {
+# #             'autocommit': True,
+# #             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+# #         },
+#         'CONN_MAX_AGE': None,
+#     }
     
 }
 
