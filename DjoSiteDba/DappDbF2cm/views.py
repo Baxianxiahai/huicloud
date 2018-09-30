@@ -2068,7 +2068,7 @@ class dct_classDbiL3apF2cm:
                 stopSec = str(result[0].lamp_stop.second)
                 lightStr = str(result[0].lamp_th)
                 lampWorkMode = str(result[0].lamp_mode)
-                data = {'startHour': startHour, 'startMin': startMin, 'startSec': startSec, 'stopHour': stopHour,
+                data = {'cmdTag':cmdTag,'startHour': startHour, 'startMin': startMin, 'startSec': startSec, 'stopHour': stopHour,
                         'stopMin': stopMin, 'stopSec': stopSec, 'lightstrThreadhold': lightStr,
                         'lampWorkMode': lampWorkMode}
                 msg = {'status': "pending",
@@ -2202,43 +2202,6 @@ class HCUReportAndConfirm():
                             calNoiseCoefMin=line_dev.noise_coefmin
                             calNoiseCoefK=line_dev.noise_coefK
                             calNoiseCoefB=line_dev.noise_coefB
-                            
-#                             msgIeCnt = {
-#                                 "hwType": hwtype,
-#                                 'ngrokPort': ngrokPort,
-#                                 'hcuLable': hcuLable,
-#                                 'zhbLable': zhbLable,
-#                                 'upgradeFlag': upgradeFlag,
-#                                 'restartRightNow': restartRightNow,
-#                                 'calWinddir': calWinddir,
-#                                 'calPm25CoefMax': calPm25CoefMax,
-#                                 'calPm25CoefMin': calPm25CoefMin,
-#                                 'calPm25CoefK': calPm25CoefK,
-#                                 'calPm25CoefB': calPm25CoefB,
-#                                 'calPm25ThdCannon':dust_threshold,
-#                                 'calTempCoefMax': calTempCoefMax,
-#                                 'calTempCoefMin': calTempCoefMin,
-#                                 'calTempCoefK': calTempCoefK,
-#                                 'calTempCoefB': calTempCoefB,
-#                                 'calHumidCoefMax': calHumidCoefMax,
-#                                 'calHumidCoefMin': calHumidCoefMin,
-#                                 'calHumidCoefK': calHumidCoefK,
-#                                 'calHumidCoefB': calHumidCoefB,
-#                                 'calWinddirCoefMax': calWinddirCoefMax,
-#                                 'calWinddirCoefMin': calWinddirCoefMin,
-#                                 'calWinddirCoefK': calWinddirCoefK,
-#                                 'calWinddirCoefB': calWinddirCoefB,
-#                                 'calWindspdCoefMax': calWindspdCoefMax,
-#                                 'calWindspdCoefMin': calWindspdCoefMin,
-#                                 'calWindspdCoefK': calWindspdCoefK,
-#                                 'calWindspdCoefB': calWindspdCoefB,
-#                                 'calNoiseCoefMax': calNoiseCoefMax,
-#                                 'calNoiseCoefMin': calNoiseCoefMin,
-#                                 'calNoiseCoefK': calNoiseCoefK,
-#                                 'calNoiseCoefB': calNoiseCoefB,
-#                             }
-
-                            
                             msgIeCnt = {
                                 "htp": hwtype,
                                 'npt': ngrokPort,

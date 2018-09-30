@@ -20,12 +20,12 @@ class ClassDbaF1sym():
     def dft_dbi_login_req(self,inputData):
         name=inputData['name']
         password=inputData['password']
-        try:
-            with transaction.atomic():
-                DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
-                result=DappDbF1sym_view.dft_dbi_login_req(name, password)
-        except Exception:
-            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+#         try:
+#             with transaction.atomic():
+        DappDbF1sym_view=DappDbF1sym.dct_classDbiL3apF1sym()
+        result=DappDbF1sym_view.dft_dbi_login_req(name, password)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     def dft_dbi_userauthcode_process(self,inputData):
         username=inputData['name']

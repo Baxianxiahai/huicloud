@@ -253,6 +253,12 @@ class dct_classDbiL3apF1sym:
         #水产管理
         'SeafoodInfo':0X0B01,
         'SeafoodAudit':0X0B02,
+        
+        #FXPRCM
+        'PointMaintenanceList':0X0C01,
+        'RepairNew':0X0C02,
+        'GetNeonStatus':0X0C03,
+        'SetNeonStatus':0X0C04,
         },
     }
     __MFUN_CURRENT_WORKING_PROGRAM_NAME_UNIQUE=0
@@ -532,11 +538,11 @@ class dct_classDbiL3apF1sym:
             result.delete()
             result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
             result.save()
-            result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
+            dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
         else:
             result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
             result.save()
-            result=dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
+            dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
         if len(auth)>0:
             for i in range(len(auth)):
                 if auth[i]['id'] == "":
@@ -547,7 +553,7 @@ class dct_classDbiL3apF1sym:
                     auth_type = 1
                 else:
                     auth_type = 2
-                result = dct_t_l3f1sym_user_right_project.objects.create(
+                dct_t_l3f1sym_user_right_project.objects.create(
                     uid=dct_t_l3f1sym_account_primary.objects.get(uid=uid), auth_type=auth_type,auth_code=auth_code)
         return True
     

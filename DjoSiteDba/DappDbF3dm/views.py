@@ -1047,8 +1047,10 @@ class dct_classDbiL3apF3dm():
     def dft_dbi_HCU_Info_Query(self,inputData):
         dev_code=inputData['key']
         result=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code)
+        resp=dct_t_l3f3dm_current_report_smartcity.objects.filter(dev_code_id=dev_code)
         retlist=[]
         if result.exists():
+            print('dct_t_l3f3dm_current_report_aqyc')
             for line in result:
                 map='设备编号：'+str(dev_code)
                 retlist.append(map)
@@ -1075,6 +1077,39 @@ class dct_classDbiL3apF3dm():
                 map = '风向：' + str(self.__dft_dbi_winddir_convert(line.winddir))
                 retlist.append(map)
                 map = '风速：' + str(round(line.windspd,2))+"m/s"
+                retlist.append(map)
+        elif resp.exists():
+            print('dct_t_l3f3dm_current_report_smartcity')
+            for line in resp:
+                map='设备编号：'+str(dev_code)
+                retlist.append(map)
+                map='最后一次上报时间：'+str(line.report_time)
+                retlist.append(map)
+                map = 'BASE_PORT：' + str(line.dev_code.base_port).ljust(5).replace(" ",'0') 
+                retlist.append(map)
+                map = '第三方编号：' + line.dev_code.zhb_label
+                retlist.append(map)
+                map = 'TSP：' + str(int(line.tsp))+'μg/m³'
+                retlist.append(map)
+                map = 'PM01：' + str(round(line.pm01,2))+'μg/m³'
+                retlist.append(map)
+                map = 'PM2.5：' + str(round(line.pm25,2) )+'μg/m³'
+                retlist.append(map)
+                map = 'PM10：' + str(round(line.pm10,2))+'μg/m³ '
+                retlist.append(map)
+                map = '噪音：' + str(round(line.noise,2))+'dB'
+                retlist.append(map)
+                map = '温度：' + str(round(line.temperature,2) )+"℃"
+                retlist.append(map)
+                map = '湿度：' + str(round(line.humidity,2) )+"%"
+                retlist.append(map)
+                map = '风向：' + str(self.__dft_dbi_winddir_convert(line.winddir))
+                retlist.append(map)
+                map = '风速：' + str(round(line.windspd,2))+"m/s"
+                retlist.append(map)
+                map = '光照强度：' + str(round(line.lightstr,2))
+                retlist.append(map)
+                map = '灯带工作模式：' + str(round(line.lampmode,2))
                 retlist.append(map)
         retval={'status':'true','auth':'true','msg':'获取设备状态成功','ret':retlist}
         return retval
@@ -1142,9 +1177,13 @@ class dct_t_HCU_Data_Report():
             msg_len=len(json.dumps(result))
             Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return Msg_final
+    
     def dft_dbi_smart_city_current_report(self, socketId, inputData):
         devCode = inputData['FrUsr']
         ServerName = inputData['ToUsr']
+        resp=dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=devCode)
+        if resp.exists():
+            resp.update(socket_id=socketId)
         result = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
         if result.exists():
             currentTime = inputData['CrTim']
@@ -1160,10 +1199,11 @@ class dct_t_HCU_Data_Report():
             noiseValue = currentData['noiseValue']
             lightStr = currentData['lightStr']
             lampWorkMode = currentData['lampWorkMode']
-            smartCityRollingPoleVoltageState=currentData['smartCityRollingPoleVoltageState']
+#             smartCityRollingPoleVoltageState=currentData['smartCityRollingPoleVoltageState']
             timeArray = time.localtime(currentTime)
             hourminindex = timeArray.tm_hour * 60 + timeArray.tm_min
-            dct_t_l3f3dm_minute_report_smartcity.objects.create(dev_code_id=devCode,site_code=result[0].site_code,report_date=datetime.datetime.now(),
+            dct_t_l3f3dm_minute_report_smartcity.objects.create(dev_code_id=devCode,site_code=result[0].site_code,
+                                                                report_date=datetime.datetime.now(),
                                                                 hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,
                                                                 noise=noiseValue,temperature=tempValue,humidity=humidValue,winddir=winddirValue,
                                                                 windspd=windspdValue,lightstr=lightStr,lampmode=lampWorkMode)
@@ -1173,22 +1213,22 @@ class dct_t_HCU_Data_Report():
                                                hourminindex=hourminindex)
             dct_t_l2snr_noise.objects.create(dev_code_id=devCode, noise=noiseValue, dataflag='Y',
                                              hourminindex=hourminindex)
-            dct_t_l2snr_temperature.objects.filter(dev_code_id=devCode, temperature=tempValue, dataflag='Y',
+            dct_t_l2snr_temperature.objects.create(dev_code_id=devCode, temperature=tempValue, dataflag='Y',
                                                    hourminindex=hourminindex)
-            dct_t_l2snr_humidity.objects.filter(dev_code_id=devCode, humidity=humidValue, dataflag='Y',
+            dct_t_l2snr_humidity.objects.create(dev_code_id=devCode, humidity=humidValue, dataflag='Y',
                                                 hourminindex=hourminindex)
             dct_t_l2snr_winddir.objects.create(dev_code_id=devCode, windir=winddirValue, dataflag='Y',
                                                hourminindex=hourminindex)
 
             if dct_t_l3f3dm_current_report_smartcity.objects.filter(dev_code_id=devCode).exists():
-                dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).update(
-                    site_code=result[0].site_code, report_date=datetime.datetime.now(),
-                    hourminindex=hourminindex, tsp=tspValue, pm01=pm1d0Value, pm25=pm2d5Value, pm10=pm10Value,
+                dct_t_l3f3dm_current_report_smartcity.objects.filter(dev_code_id=devCode).update(
+                    site_code=result[0].site_code, report_time=datetime.datetime.now(),
+                    tsp=tspValue, pm01=pm1d0Value, pm25=pm2d5Value, pm10=pm10Value,
                     noise=noiseValue, temperature=tempValue, humidity=humidValue, winddir=winddirValue,
                     windspd=windspdValue, lightstr=lightStr, lampmode=lampWorkMode)
             else:
-                dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode, site_code=result[0].site_code,report_date=datetime.datetime.now(),
-                                                                hourminindex=hourminindex,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,
+                dct_t_l3f3dm_current_report_smartcity.objects.create(dev_code_id=devCode, site_code=result[0].site_code,report_time=datetime.datetime.now(),
+                                                                tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,
                                                                 noise=noiseValue,temperature=tempValue,humidity=humidValue,winddir=winddirValue,
                                                                 windspd=windspdValue,lightstr=lightStr,lampmode=lampWorkMode)
             Msg_final = {'socketid': socketId,
@@ -1201,5 +1241,6 @@ class dct_t_HCU_Data_Report():
                                   'MsgTp': 'huitp_json', 'MsgId': GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 0},
                                   "FnFlg": 0}}
         return Msg_final
+    
     
     

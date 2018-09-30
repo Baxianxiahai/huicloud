@@ -4,6 +4,7 @@ Created on 2018年8月20日
 
 @author: Administrator
 '''
+import time
 import sys
 import os
 import django
@@ -29,12 +30,12 @@ class Msg_From_HCU_Report:
     def __init__(self):
         pass
     def dft_dbi_accept_performance_table_report(self,socketID,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF6pm_view=DappDbF6pm.Accept_Msg_From_HCU_Report();
-        result=DappDbF6pm_view.dft_dbi_HCU_Performance_Report(socketID, inputData)
-#         except Exception:
-#             result=Msg_final = {'socketid': socketId,
-#                      'data': {'ToUsr': dev_Code, 'FrUsr': ServerName, "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
-#                               'MsgId': GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 0}, "FnFlg": 0}}
+        try:
+            with transaction.atomic():
+                DappDbF6pm_view=DappDbF6pm.Accept_Msg_From_HCU_Report();
+                result=DappDbF6pm_view.dft_dbi_HCU_Performance_Report(socketID, inputData)
+        except Exception:
+            result= {'socketid': socketID,
+                     'data': {'ToUsr': inputData['FrUsr'], 'FrUsr': inputData['ToUsr'], "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                              'MsgId': GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 0}, "FnFlg": 0}}
         return result

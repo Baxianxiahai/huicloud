@@ -604,6 +604,9 @@ class ClassHCUDbaMainEntry():
         elif dev_code[1]=="G2012NALT":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
+        elif dev_code[1]=="G1400FSTT":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
         else:
             result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId': GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))

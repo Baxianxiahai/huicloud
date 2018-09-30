@@ -161,6 +161,7 @@ class dct_t_l3f2cm_site_fstt(models.Model):
 
 class dct_t_l3f2cm_device_fstt(models.Model):
     dev_code = models.OneToOneField(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE, primary_key=True)
+    socket_id=models.IntegerField(default=0)
     ip_addr = models.GenericIPAddressField(null=True)
     mac_addr = models.CharField(null=True, max_length=20)
     web_url = models.CharField(null=True, max_length=100)

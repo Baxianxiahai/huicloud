@@ -21,7 +21,6 @@ from PkgHstVision import ModVisionGeneral
 from PkgHstAiwgt import ModAiwgtGeneral
 from PkgHstSensor import ModSensorGeneral    #Sensor access
 from PkgHstSpecial import ModSpecialGeneral  #Special Usage
-from builtins import int
 from PkgAccessEntry import ModAccessDict
 
 class ClassEntryCmdHandler:
@@ -475,7 +474,7 @@ class ClassHCUReportDataToDba:
     def inputCmdHandlerEntry(self,inputData):
         socketId=inputData['socketid']
         inputData=json.loads(inputData['data'])
-        if inputData['ToUsr']!='XHZN' and inputData['ToUsr']!='XHTS':
+        if inputData['ToUsr']!='FSTT' and inputData['ToUsr']!='XHTS':
             self.publicOutputResultFlag=False
         if self.publicOutputResultFlag==False:
             return 
@@ -509,16 +508,16 @@ class ClassHCUReportDataToDba:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
                 result=proc.dft_F3dm_Data_Current_Report(socketId, inputData)
                 return result
-#             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_REPORT:
-#                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-#                 result=proc.dft_F3dm_minute_report(socketId, inputData)
-#                 return result
             
-#             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_REPORT:
-#                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-#                 result=proc.dft_F6pm_HCU_Perform_Data_Report(socketId, inputData)
-#                 return result
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_REPORT:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F3dm_minute_report(socketId, inputData)
+                return result
             
+            elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_REPORT:
+                proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
+                result=proc.dft_F6pm_HCU_Perform_Data_Report(socketId, inputData)
+                return result
             
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_INVENTORY_REQ:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()

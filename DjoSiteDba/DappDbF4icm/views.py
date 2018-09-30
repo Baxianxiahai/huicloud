@@ -93,12 +93,7 @@ class dct_classDbiL3apF4icm:
     __MFUN_L3APL_F2CM_AUTH_TYPE_NUMBER="N"
     __MFUN_L3APL_F2CM_AUTH_TYPE_TIME="T"
     __MFUN_L3APL_F2CM_AUTH_TYPE_FOREVER="F"
-    # __MFUN_L3APL_F2CM_KEY_TYPE_UNDEFINED="N"
-    # __MFUN_L3APL_F2CM_KEY_TYPE_UNDEFINED="N"
-    # __MFUN_L3APL_F2CM_KEY_TYPE_UNDEFINED="N"
-    # __MFUN_L3APL_F2CM_KEY_TYPE_UNDEFINED="N"
-    # __MFUN_L3APL_F2CM_KEY_TYPE_UNDEFINED="N"
-    # __MFUN_L3APL_F2CM_KEY_TYPE_UNDEFINED="N"
+
 
     def __dft_getRandomUid(self, strlen):
         str_array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
