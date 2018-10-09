@@ -6,6 +6,8 @@ Created on 2018年9月13日
 '''
 class Dapp_Db_Msg_Define_Dict():
     def __init__(self):
+        self.HUITP_JSON_IEID_UNI_COM_CMD_TAG_SET_LAMP_WORK_MODE=13
+        
         self.HCU_LOOP_TETS_REQ=1;
         self.HCU_LOOP_TETS_RESP=2
         
@@ -17,6 +19,9 @@ class Dapp_Db_Msg_Define_Dict():
         
         self.HCU_SW_RESTART_REQ=7
         self.HCU_SW_RESTART_RESP=8
+
+        self.HCU_SMART_CITY_LAMP_REQ = 9
+        self.HCU_SMART_CITY_LAMP_RESP = 10
         
         
         self.HUITPJSON_MSGID_YCDATAREPORT = 0X3090

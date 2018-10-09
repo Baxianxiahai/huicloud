@@ -224,6 +224,64 @@ class dct_classDbiL3apF3dm():
                         }
                         sitelist.append(temp)
         return sitelist
+    
+    def dft_dbi_fstt_map_active_siteinfo_req_view(self,inputData):
+        uid=inputData['uid']
+        auth_list=self.__dft_dbi_user_statproj_inquery(uid)
+        sitelist=[]
+        siteStatus=self.__MFUN_HCU_SITE_STATUS_INITIAL
+        for i in range(len(auth_list)):
+            statCode=auth_list[i]['stat_code']
+            result=dct_t_l3f3dm_current_report_smartcity.objects.filter(site_code=statCode)
+            if result.exists():
+                for line in result:
+                    last_report=line.report_time
+                    tsp=line.pm01
+                    noise=line.noise
+                    if tsp>self.__MFUN_L3APL_F3DM_TH_ALARM_PM25:
+                        alarmStatus='alarm'
+                    elif noise>self.__MFUN_L3APL_F3DM_TH_ALARM_NOISE:
+                        alarmStatus='warning'
+                    else:
+                        alarmStatus='normal'
+                    timestamp=int(time.mktime(last_report.timetuple()))
+                    currenttime=int(time.time())
+                    if currenttime>timestamp+self.__MFUN_HCU_AQYC_SLEEP_DURATION:
+                        alarmStatus='disable'
+            else:
+                alarmStatus='disable'
+            Department=""
+            Country=""
+            Street=""
+            Square=""
+            resp=dct_t_l3f2cm_site_common.objects.filter(site_code=statCode)
+            if resp.exists():
+                for line in resp:
+                    if line.status!=siteStatus:
+                        latitude=str(line.latitude)
+                        longitude=str(line.longitude)
+                        temp={
+                            'StatCode':line.site_code,
+                            'StatName':line.site_name,
+                            'ChargeMan':line.superintendent,
+                            'Telephone':line.telephone,
+                            'Department':line.department,
+                            'Address':line.address,
+                            'Country':line.district,#
+                            'Street':line.street,#
+                            'Square':line.site_area,#
+                            'Flag_la':"N",#
+                            'Latitude':str(latitude),
+                            'Flag_lo':"E",#
+                            'Longitude':str(longitude),
+                            'ProStartTime':str(line.create_date),
+                            'Stage':line.comments,
+                            'Status':alarmStatus,
+                        }
+                        sitelist.append(temp)
+        return sitelist
+    
+    
     def dft_dbi_map_inactive_siteinfo_req(self,inputData):
         uid=inputData['uid']
         auth_list=self.__dft_dbi_user_statproj_inquery(uid)
@@ -431,7 +489,123 @@ class dct_classDbiL3apF3dm():
             currentvalue=""
         resp={'StatCode':statCode,'alarmlist':currentvalue,'vcr':vcrlist}
         return resp
+    
+    def dft_dbi_fstt_dev_currentvalue_req_view(self,inputData):
+        statCode=inputData['statcode']
+        vcrname=[]
+        vcrlink=[]
+        vcrlist=[]
+        result=dct_t_l3f2cm_device_fstt.objects.filter(dev_code__site_code__dct_t_l3f2cm_device_inventory=statCode)
+        if result.exists():
+            for line in result:
+                vcrname.append("RTSP")
+                vcrname.append("CAMCTRL")
+                rtsp=line.cam_url
+                cam_ctrl=line.ctrl_url
+                vcrlink.append(rtsp)
+                vcrlink.append(cam_ctrl)
+                vcrlist={"vcrname":vcrname,"vcraddress":vcrlink}
+        currentvalue=[]
+        result=dct_t_l3f3dm_current_report_smartcity.objects.filter(site_code_id=statCode)
+        if result.exists():
+            for line in result:
+                noise=round(line.noise,2)
+                winddir=line.winddir
+                humidity=round(line.humidity,2)
+                temperature=round(line.temperature,2)
+                tsp=round(line.tsp,2)
+                windspeed=round(line.windspd,2)
+                last_report=line.report_time
+                time_array=time.strptime(str(last_report),"%Y-%m-%d %H:%M:%S.%f")
+                print(time_array)
+                timestamp=int(time.mktime(time_array))
+                currenttime=int(time.time())
+                if(currenttime>timestamp+3600):
+                    dev_status="休眠中"
+                    alarm='false'
+                else:
+                    dev_status='运行中'
+                    alarm='false'
+                temp={"AlarmName":"设备状态","AlarmEName":"AQYC_status","AlarmValue":str(dev_status),"AlarmUnit":" ","WarningTarget":alarm}
+                if(tsp!=""):
+                    if tsp>self.__MFUN_L3APL_F3DM_TH_ALARM_PM25:
+                        alarm="true"
+                    else:
+                        alarm='false'
+                    temp = {"AlarmName": "颗粒物", "AlarmEName": "AQYC_pm2.5", "AlarmValue": str(tsp),
+                                "AlarmUnit": "μg/m3", "WarningTarget": alarm}
+                    currentvalue.append(temp)
+                else:
+                    temp = {"AlarmName": "颗粒物", "AlarmEName": "AQYC_pm2.5", "AlarmValue": "NULL",
+                            "AlarmUnit": " ", "WarningTarget": "true"}
+                    currentvalue.append(temp)
 
+                if (noise != ""):
+                    if tsp > self.__MFUN_L3APL_F3DM_TH_ALARM_NOISE:
+                        alarm = "true"
+                    else:
+                        alarm = 'false'
+                    temp = {"AlarmName": "噪声", "AlarmEName": "AQYC_noise", "AlarmValue": str(noise),
+                            "AlarmUnit": "dB", "WarningTarget": alarm}
+                    currentvalue.append(temp)
+                else:
+                    temp = {"AlarmName": "噪声", "AlarmEName": "AQYC_noise", "AlarmValue": "NULL",
+                            "AlarmUnit": " ", "WarningTarget": "true"}
+                    currentvalue.append(temp)
+
+                if (windspeed != ""):
+                    if windspeed > self.__MFUN_L3APL_F3DM_TH_ALARM_WINDSPD:
+                        alarm = "true"
+                    else:
+                        alarm = 'false'
+                    temp = {"AlarmName": "风速", "AlarmEName": "AQYC_windspeed", "AlarmValue": str(windspeed),
+                            "AlarmUnit": "m/s", "WarningTarget": alarm}
+                    currentvalue.append(temp)
+                else:
+                    temp = {"AlarmName": "风速", "AlarmEName": "AQYC_windspeed", "AlarmValue": "NULL",
+                            "AlarmUnit": " ", "WarningTarget": "true"}
+                    currentvalue.append(temp)
+
+                if (winddir != ""):
+                    temp = {"AlarmName": "风向", "AlarmEName": "AQYC_winddir", "AlarmValue": self.__dft_dbi_winddir_convert(winddir),
+                            "AlarmUnit": " ", "WarningTarget": "false"}
+                    currentvalue.append(temp)
+                else:
+                    temp = {"AlarmName": "风向", "AlarmEName": "AQYC_winddir", "AlarmValue": "NULL",
+                            "AlarmUnit": " ", "WarningTarget": "true"}
+                    currentvalue.append(temp)
+
+                if (humidity != ""):
+                    if humidity > self.__MFUN_L3APL_F3DM_TH_ALARM_HUMID:
+                        alarm = "true"
+                    else:
+                        alarm = 'false'
+                    temp = {"AlarmName": "湿度", "AlarmEName": "AQYC_humi", "AlarmValue": str(humidity),
+                            "AlarmUnit": "%", "WarningTarget": alarm}
+                    currentvalue.append(temp)
+                else:
+                    temp = {"AlarmName": "湿度", "AlarmEName": "AQYC_humi", "AlarmValue": "NULL",
+                            "AlarmUnit": " ", "WarningTarget": "true"}
+                    currentvalue.append(temp)
+
+                if (temperature != ""):
+                    if temperature > self.__MFUN_L3APL_F3DM_TH_ALARM_TEMP:
+                        alarm = "true"
+                    else:
+                        alarm = 'false'
+                    temp = {"AlarmName": "温度", "AlarmEName": "AQYC_temp", "AlarmValue": str(temperature),
+                            "AlarmUnit": "°C", "WarningTarget": alarm}
+                    currentvalue.append(temp)
+                else:
+                    temp = {"AlarmName": "温度", "AlarmEName": "AQYC_temp", "AlarmValue": "NULL",
+                            "AlarmUnit": " ", "WarningTarget": "true"}
+                    currentvalue.append(temp)
+        else:
+            currentvalue=""
+        resp={'StatCode':statCode,'alarmlist':currentvalue,'vcr':vcrlist}
+        return resp
+    
+    
     def dft_dbi_aqyc_user_dataaggregate_req(self,inputData):
         uid=inputData['uid']
         column=[]
@@ -498,6 +672,80 @@ class dct_classDbiL3apF3dm():
             one_row.append(noise)
             one_row.append(windspeed)
             one_row.append(winddir)
+            data.append(one_row)
+        table={'column':column,'data':data}
+        return table
+    
+    def dft_dbi_fstt_user_dataaggregate_req_view(self,inputData):
+        uid=inputData['uid']
+        column=[]
+        data=[]
+        column.append('监测点编号')
+        column.append('监测点名称')
+        column.append('项目单位')
+        column.append('区县')
+        column.append('地址')
+        column.append('负责人')
+        column.append('联系电话')
+        column.append('上次报告时间')
+        column.append('设备状态')
+        column.append('TSP')
+        column.append('温度')
+        column.append('湿度')
+        column.append('噪音')
+        column.append('风速')
+        column.append('风向')
+        column.append('光照强度')
+        auth_list=self.__dft_dbi_user_statproj_inquery(uid)
+        for i in range(len(auth_list)):
+            one_row=[]
+            statCode=auth_list[i]['stat_code']
+            result=dct_t_l3f2cm_site_common.objects.filter(site_code=statCode)
+            if result.exists():
+                for line in result:
+                    one_row.append(statCode)
+                    one_row.append(line.site_name)
+                    one_row.append(line.department)
+                    one_row.append(line.district)
+                    one_row.append(line.address)
+                    one_row.append(line.superintendent)
+                    one_row.append(line.telephone)
+
+            resp=dct_t_l3f3dm_current_report_smartcity.objects.filter(site_code_id=statCode)
+            tsp=0
+            temperature=0
+            humidity=0
+            noise=0
+            windspeed=0
+            winddir=self.__dft_dbi_winddir_convert(0)
+            lightStr=0
+            reportTime='NULL'
+            status='休眠中'
+            if resp.exists():
+                for line in resp:
+                    tsp=int(line.tsp)
+                    temperature=round(line.temperature,2)
+                    humidity=round(line.humidity,2)
+                    noise=round(line.noise,2)
+                    windspeed=round(line.windspd,2)
+                    winddir=self.__dft_dbi_winddir_convert(line.winddir)
+                    lightStr=round(line.lightstr)
+                    reportTime=line.report_time
+                    currenttimt=int(time.time())
+                    timestamp=time.mktime(reportTime.timetuple())
+                    if currenttimt>timestamp+self.__MFUN_HCU_AQYC_SLEEP_DURATION:
+                        status='休眠中'
+                    else:
+                        status='运行中'
+            one_row.append(str(reportTime))
+            one_row.append(status)
+            one_row.append(tsp)
+            one_row.append(temperature)
+            one_row.append(humidity)
+            one_row.append(noise)
+            one_row.append(windspeed)
+            one_row.append(winddir)
+            one_row.append(lightStr)
             data.append(one_row)
         table={'column':column,'data':data}
         return table
@@ -1178,7 +1426,7 @@ class dct_t_HCU_Data_Report():
             Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return Msg_final
     
-    def dft_dbi_smart_city_current_report(self, socketId, inputData):
+    def dft_dbi_smart_city_current_report_view(self, socketId, inputData):
         devCode = inputData['FrUsr']
         ServerName = inputData['ToUsr']
         resp=dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=devCode)

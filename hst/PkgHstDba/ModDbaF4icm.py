@@ -19,12 +19,21 @@ class classDappDbF4icm:
         pass
     
     def dft_dbi_get_hcu_camweb_link(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF4icm_view=DappDbF4icm.dct_classDbiL3apF4icm()
-        result=DappDbF4icm_view.dft_dbi_get_hcu_camweb_link(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF4icm_view=DappDbF4icm.dct_classDbiL3apF4icm()
+                result=DappDbF4icm_view.dft_dbi_get_hcu_camweb_link(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_fstt_get_hcu_camweb_link(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF4icm_view=DappDbF4icm.dct_classDbiL3apF4icm()
+                result=DappDbF4icm_view.dft_dbi_fstt_get_hcu_camweb_link_view(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_sensor_info_update(self,inputData):
@@ -46,21 +55,23 @@ class classDappDbF4icm:
         return result
     
     def dft_dbi_get_camera_status(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF4icm_view=DappDbF4icm.dct_classDbiL3apF4icm()
-        result=DappDbF4icm_view.dft_dbi_get_camera_status(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
-        return result
-    
-    def dft_dbi_get_three_camera_status(self,inputData):
         try:
             with transaction.atomic():
                 DappDbF4icm_view=DappDbF4icm.dct_classDbiL3apF4icm()
-                result=DappDbF4icm_view.dft_dbi_get_three_camera_status(inputData)
+                result=DappDbF4icm_view.dft_dbi_get_camera_status(inputData)
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    
+    
+    def dft_dbi_get_three_camera_status(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF4icm_view=DappDbF4icm.dct_classDbiL3apF4icm()
+        result=DappDbF4icm_view.dft_dbi_get_three_camera_status(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_adjust_camera_vertical(self,inputData):

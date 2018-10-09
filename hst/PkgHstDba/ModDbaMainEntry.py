@@ -125,6 +125,8 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_all_hcunum_inquery()
         elif inputData['action']=='DevTable':
             result=F2cm.dft_dbi_all_hcutable_req(inputData['body'])
+        elif inputData['action']=='FSTTDevTable':
+            result=F2cm.dft_dbi_fstt_all_hcutable_req(inputData['body'])
         elif inputData['action']=='DevNew':
             result=F2cm.dft_dbi_aqyc_devinfo_new(inputData['body'])
         elif inputData['action']=='DevMod':
@@ -215,14 +217,23 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
         elif inputData['action']=="HCU_Software_Reboot":
             result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
-            
+        elif inputData['action']=="PointLogin":
+            result=F2cm.dft_dbi_fstt_point_login(inputData['body'])
         elif inputData['action']=='GetFreeCpuId':
             result=F2cm.dft_get_free_cpu_id_internal(inputData['body'])
         elif inputData['action']=='GetDeviceDetail':
             result=F2cm.dft_get_device_detail_internal(inputData['body'])
         elif inputData['action']=='SetDevDetail':
             result=F2cm.dft_set_device_detail_internal(inputData['body'])
-            
+        elif inputData['action']=='FSTTPointNew':
+            result=F2cm.dft_dbi_fstt_site_info_new(inputData['body'])
+        elif inputData['action']=='FSTTPointMod':
+            result=F2cm.dft_dbi_fstt_site_info_modify(inputData['body'])
+        elif inputData['action']=='FSTTDevNew':
+            result=F2cm.dft_dbi_fstt_dev_info_new(inputData['body'])
+        elif inputData['action']=='FSTTDevMod':
+            result=F2cm.dft_dbi_fstt_dev_info_update(inputData['body'])
+        
         else:
             result=""
         return result
@@ -232,6 +243,8 @@ class ClassDbaMainEntry():
         F3dmHCU=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         if inputData['action']=='MonitorList':
             result=F3dm.dft_dbi_map_active_siteinfo_req(inputData['body'])
+        elif inputData['action']=='FSTTMonitorList':
+            result=F3dm.dft_dbi_fstt_map_active_siteinfo_req(inputData['body'])
         elif inputData['action']=='FakeMonitorList':
             result=F3dm.dft_dbi_map_inactive_siteinfo_req(inputData['body'])
         elif inputData['action']=='Favourite_list':
@@ -240,6 +253,8 @@ class ClassDbaMainEntry():
             result=F3dm.dft_dbi_favourite_count_process(inputData['body'])
         elif inputData['action']=='GetStaticMonitorTable':
             result=F3dm.dft_dbi_aqyc_user_dataaggregate_req(inputData['body'])
+        elif inputData['action']=='FSTTGetStaticMonitorTable':
+            result=F3dm.dft_dbi_fstt_user_dataaggregate_req(inputData['body'])
         elif inputData['action']=='GetFhysStaticMonitorTable':
             result=F3dm.dft_dbi_fhys_user_dataaggregate_req(inputData['body'])
         elif inputData['action']=='DevSensor':
@@ -263,10 +278,14 @@ class ClassDbaMainEntry():
             result=F4icm.dft_dbi_sensor_info_update(inputData['body'])
         elif inputData['action']=='GetVideoCameraWeb':
             result=F4icm.dft_dbi_get_hcu_camweb_link(inputData['body'])
+        elif inputData['action']=='FSTTGetVideoCameraWeb':
+            result=F4icm.dft_dbi_fstt_get_hcu_camweb_link(inputData['body'])
         elif inputData['action']=='GetVideoList':
             result=F4icm.dft_dbi_hcu_hsmmplist_inquery(inputData['body'])
         elif inputData['action']=='GetCameraStatus':
             result=F4icm.dft_dbi_get_camera_status(inputData['body'])
+        elif inputData['action']=='GetThreeCameraStatus':
+            result=F4icm.dft_dbi_get_three_camera_status(inputData['body'])
         elif inputData['action']=='CameraVAdj':
             result=F4icm.dft_dbi_adjust_camera_vertical(inputData['body'])
         elif inputData['action']=='CameraHAdj':
@@ -288,12 +307,16 @@ class ClassDbaMainEntry():
             result=F5fm.dft_dbi_map_alarm_site_info_req(inputData['body'])
         elif inputData['action']=='DevAlarm':
             result=F5fm.dft_dbi_aqyc_dev_currentvalue_req(inputData['body'])
+        elif inputData['action']=='FSTTDevAlarm':
+            result=F5fm.dft_dbi_fstt_dev_currentvalue_req(inputData['body'])
         elif inputData['action']=='AlarmType':
             result=F5fm.dft_dbi_all_alarmtype_req(inputData['body'])
         elif inputData['action']=='AlarmQuery':
             result=F5fm.dft_dbi_aqyc_dev_alarmhistory_req(inputData['body'])
         elif inputData['action']=='AlarmQueryRealtime':
             result=F5fm.dft_dbi_aqyc_dev_alarmhistory_realtime_req(inputData['body'])
+        elif inputData['action']=='FSTTAlarmQueryRealtime':
+            result=F5fm.dft_dbi_fstt_dev_alarmhistory_realtime_req(inputData['body'])
         elif inputData['action']=='GetWarningHandleListTable':
             result=F5fm.dft_dbi_aqyc_alarm_history_table_req(inputData['body'])
         elif inputData['action']=='GetHyfsWarningHandleListTable':
@@ -553,7 +576,14 @@ class ClassDbaMainEntry():
             result=''
         return result
     def dft_Fxprcm_Send_Message(self,inputData): 
-        return False
+        Fxprcm=ModDbaFxprcm.classDappDbFxprcm()
+        if inputData['action']=='GetNeonStatus':
+            result=Fxprcm.dft_dbi_fstt_get_neno_status(inputData['body'])
+        elif inputData['action']=='SetNeonStatus':
+            result=Fxprcm.dft_dbi_fstt_set_neon_status(inputData['body'])
+        else:
+            result=""
+        return result
     def dft_Snr_Send_Message(self,inputData): 
         return False
     
@@ -587,6 +617,11 @@ class ClassHCUDbaMainEntry():
         result=F2cm.dft_dbi_hcu_sw_restart(socketId, inputData)
         return result
     
+    def dft_F2cm_Smart_City_Ctrl_Resp(self,socketId,inputData):
+        F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
+        result=F2cm.dft_dbi_smart_city_ctrl_resp(socketId, inputData)
+        return result
+    
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
         FrUsr=inputData['FrUsr']
@@ -613,9 +648,9 @@ class ClassHCUDbaMainEntry():
             Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             return Msg_final
     
-    def dft_F3dm_minute_report(self,socketId,inputData):
+    def dft_F3dm_smart_city_current_report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
-        Msg=F3dm.dft_dbi_F3dm_minute_report(socketId, inputData)
+        Msg=F3dm.dft_dbi_smart_city_current_report(socketId, inputData)
         return Msg
     
     def dft_F6pm_HCU_Perform_Data_Report(self,socketId,inputData):

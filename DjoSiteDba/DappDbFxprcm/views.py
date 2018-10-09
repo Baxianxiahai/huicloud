@@ -6,6 +6,7 @@ from DappDbSnr.models import *
 from DappDbF2cm.models import *
 from DappDbFxprcm.models import *
 from DappDbF3dm.models import *
+from DappDbInsertData.DappDbMsgDefine import *
 # Create your views here.
 class dct_classDbiL3apFxPrcm:
     __MFUN_HCU_AQYC_CU_SOAP_SERVER_URL = "http://112.64.17.60:9080/services/pushResource?wsdl"
@@ -95,9 +96,9 @@ class dct_classDbiL3apFxPrcm:
     __MFUN_L3APL_F2CM_AUTH_TYPE_FOREVER = "F"
 
     #数据表单不存在关键字段
-    def dft_dbi_fstt_neno_status(self,inputData):
-        projCode=inputData['projCode']
-        statCode=inputData['statCode']
+    def dft_dbi_fstt_get_neno_status_view(self,inputData):
+        projCode=inputData['projcode']
+        statCode=inputData['statcode']
         if statCode=='all':
             result=dct_t_l3f2cm_site_common.objects.filter(prj_code_id=projCode)
             if result.exists():
@@ -106,38 +107,85 @@ class dct_classDbiL3apFxPrcm:
                     resp=dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=statCode)
                     if resp.exists():
                         for line in resp:
-                            startTime=line.lamp_start
-                            stopTime=line.lamp_stop
+                            startTime=str(line.lamp_start.hour)+":"+str(line.lamp_start.minute).zfill(2)
+                            stopTime=str(line.lamp_stop.hour)+":"+str(line.lamp_stop.minute).zfill(2)
                             lampMode=line.lamp_mode
                             snrLight=line.snr_light
-                            ret={'start':startTime,'end':stopTime,'mode':[lampMode,lampMode],'target':snrLight}
+                            ret={'start':str(startTime),'end':str(stopTime),'mode':[int(lampMode/10),int(lampMode%10)],'target':snrLight}
                             resp_msg={'result':True,'ret':ret,'msg':'获取塔站灯带配置参数成功'}
                     else:
-                        resp_msg = {'result': True, 'ret': [], 'msg': '获取塔站灯带配置参数失败'}
+                        resp_msg = {'result': False, 'ret': [], 'msg': '获取塔站灯带配置参数失败'}
             else:
                 resp_msg = {'result': False, 'ret': [], 'msg': '指定项目下没有塔站'}
         else:
             resp = dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=statCode)
             if resp.exists():
                 for line in resp:
-                    startTime = line.lamp_start
-                    stopTime = line.lamp_stop
+                    startTime=str(line.lamp_start.hour)+":"+str(line.lamp_start.minute).zfill(2)
+                    stopTime=str(line.lamp_stop.hour)+":"+str(line.lamp_stop.minute).zfill(2)
                     lampMode = line.lamp_mode
                     snrLight = line.snr_light
-                    ret = {'start': startTime, 'end': stopTime, 'mode': [lampMode, lampMode], 'target': snrLight}
+                    ret = {'start': str(startTime), 'end': str(stopTime), 'mode':[int(lampMode/10),int(lampMode%10)], 'target': snrLight}
                     resp_msg = {'result': True, 'ret': ret, 'msg': '获取塔站灯带配置参数成功'}
             else:
-                resp_msg = {'result': True, 'ret': [], 'msg': '获取塔站灯带配置参数失败'}
+                resp_msg = {'result': False, 'ret': [], 'msg': '获取塔站灯带配置参数失败'}
         return resp_msg
-    ''' 原函数有问题'''
-    def dft_dbi_fstt_set_neon_status(self,inputData):
+    
+    def dft_dbi_fstt_set_neon_status_view(self,inputData):
         projCode=inputData['projCode']
         statCode=inputData['statCode']
         start=inputData['start']
         end=inputData['end']
         mode=inputData['mode']
         target=inputData['target']
-        return False
+        mode=int(mode[0])*10+int(mode[1])
+        result=dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=statCode)
+        if result.exists():
+            result.update(lamp_start=start,lamp_stop=end,lamp_mode=mode,snr_light=target)
+            msg={'cmdTag':GOLBALVAR.HUITP_JSON_IEID_UNI_COM_CMD_TAG_SET_LAMP_WORK_MODE,'statCode':statCode}
+            resp=self.dft_dbi_smart_city_ctrl_req(msg)
+            # dev_code=resp['devCode']
+            # for i in range(10):
+            #     if dct_t_l3f2cm_device_holops.objects.filter(dev_code=dev_code)[0].cmd_flag==GOLBALVAR.HCU_SMART_CITY_LAMP_RESP:
+            #         return resp
+            #     else:
+            #         time.sleep(0.5)
+            # msg = {'devCode': dev_code,'msg':'数据更新成功'}
+            return resp
+        else:
+            return False
+        
+    def dft_dbi_smart_city_ctrl_req(self, inputData):
+        cmdTag = inputData['cmdTag']
+        site_code = inputData['statCode']
+        result = dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=site_code)
+        if result.exists():
+            resp = dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=site_code)
+            if resp.exists():
+                dev_code = resp[0].dev_code
+                socketID = dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=dev_code)[0].socket_id
+                startHour = str(result[0].lamp_start.hour)
+                startMin = str(result[0].lamp_start.minute)
+                startSec = str(result[0].lamp_start.second)
+                stopHour = str(result[0].lamp_stop.hour)
+                stopMin = str(result[0].lamp_stop.minute)
+                stopSec = str(result[0].lamp_stop.second)
+                lightStr = str(result[0].snr_light)
+                lampWorkMode = str(result[0].lamp_mode)
+                data = {'cmdTag':cmdTag,'startHour': startHour, 'startMin': startMin, 'startSec': startSec, 'stopHour': stopHour,
+                        'stopMin': stopMin, 'stopSec': stopSec, 'lightstrThd': lightStr,
+                        'lampWorkMode': lampWorkMode}
+                msg = {'msg': "发送成功","devCode":dev_code,
+                       'loop_resp': {'socketid': socketID, 'data': {'ToUsr': dev_code, 'FrUsr': "FSTT",
+                                                                    "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
+                                                                    'MsgId': GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_CTRL_REQ, 'MsgLn': 115,
+                                                                    "IeCnt": data,
+                                                                    "FnFlg": 0}}}
+            else:
+                return False
+        else:
+            return False
+        return msg
 
     def dft_dbi_get_three_camera_status(self,statCode):
         resp=[]

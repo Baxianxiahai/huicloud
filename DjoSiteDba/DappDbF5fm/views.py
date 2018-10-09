@@ -453,6 +453,163 @@ class dct_classDbiL3apF5fm:
         value_max=max(day_value)
         resp={'alarm_name':alarm_name,'alarm_unit':alarm_unit,'warning':warning,'day_head':day_head,'day_alarm':day_alarm,"value_min":value_min,"value_max":value_max}
         return resp
+    def dft_dbi_fstt_dev_alarmhistory_realtime_req_view(self,inputData):
+        statcode=inputData['statcode']
+        alarm_type=inputData['alarmtype']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statcode)
+        if result.exists():
+            for line in result:
+                devCode=line.dev_code
+        else:
+            devCode=""
+        minute_alarm=[]
+        minute_head=[]
+        hour_alarm=[]
+        hour_head=[]
+        line_name=""
+        min=datetime.datetime.now()
+        today=min.date()
+        hour_base=min.hour
+        minute_base=min.minute
+        index_base=(hour_base+1)*60
+        hourminindex_now=(min.hour*60+min.minute)/1.0
+        dayStart=datetime.datetime.today()-datetime.timedelta(days=1)
+        grideValue=[]
+        alarm_name=""
+        alarm_unit=""
+        warning=""
+        for i in range (1441):
+            value={'value':0}
+            grideValue.append(value)
+        hourValue=[]
+        for j in range(25):
+            value={'sum':0,'counter':0,'average':0}
+            hourValue.append(value)
+        if alarm_type==self.__MFUN_L3APL_F3DM_AQYC_STYPE_PM:
+            alarm_name='细颗粒物'
+            alarm_unit='微克/立方米'
+            warning=self.__MFUN_L3APL_F3DM_TH_ALARM_PM25
+            line_name='TSP'
+            result=dct_t_l2snr_dust.objects.filter(Q(dev_code_id=devCode),(Q(report_data=today)|Q(report_data=dayStart,hourminindex__gte=index_base))).order_by('-sid')
+            if result.exists():
+                for line in result:
+                    value=line.tsp
+                    hourminindex=line.hourminindex
+                    reportDate=line.report_data
+                    hour_index=int((hourminindex*1.0)/60)
+                    if reportDate==today and (hourminindex>=hourminindex_now-60):
+                        grideValue[hourminindex]['value']=value
+                    if 'counter' in hourValue[hour_index].keys():
+                        hourValue[hour_index]['sum']=hourValue[hour_index]['sum']+value
+                        hourValue[hour_index]['counter']=hourValue[hour_index]['counter'] +1
+
+        if alarm_type == self.__MFUN_L3APL_F3DM_AQYC_STYPE_NOISE:
+            alarm_name = '噪声'
+            alarm_unit = '分贝'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_NOISE
+            line_name = '噪声'
+            result = dct_t_l2snr_noise.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
+            if result.exists():
+                for line in result:
+                    value = line.noise
+                    hourminindex = line.hourminindex
+                    reportDate = line.report_data
+                    hour_index = int((hourminindex * 1.0) / 60)
+                    if reportDate == today and (hourminindex >= hourminindex_now - 60):
+                        grideValue[hourminindex]['value'] = value
+                    if 'counter' in hourValue[hour_index].keys():
+                        hourValue[hour_index]['sum'] = hourValue[hour_index]['sum'] + value
+                        hourValue[hour_index]['counter'] = hourValue[hour_index]['counter']  + 1
+
+        if alarm_type == self.__MFUN_L3APL_F3DM_AQYC_STYPE_TEMP:
+            alarm_name = '温度'
+            alarm_unit = '摄氏度'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_TEMP
+            line_name = '温度'
+            result = dct_t_l2snr_temperature.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
+            if result.exists():
+                for line in result:
+                    value = line.temperature
+                    hourminindex = line.hourminindex
+
+                    reportDate = line.report_data
+                    hour_index = int((hourminindex * 1.0) / 60)
+                    if reportDate == today and (hourminindex >= hourminindex_now - 60):
+                        grideValue[hourminindex]['value'] = value
+                    if 'counter' in hourValue[hour_index].keys():
+                        hourValue[hour_index]['sum'] = hourValue[hour_index]['sum'] + value
+                        hourValue[hour_index]['counter'] = hourValue[hour_index]['counter'] + 1
+
+        if alarm_type == self.__MFUN_L3APL_F3DM_AQYC_STYPE_HUMID:
+            alarm_name = '湿度'
+            alarm_unit = '%'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_HUMID
+            line_name = '湿度'
+            result = dct_t_l2snr_humidity.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
+            if result.exists():
+                for line in result:
+                    value = line.humidity
+                    hourminindex = line.hourminindex
+                    reportDate = line.report_data
+                    hour_index = int((hourminindex * 1.0) / 60)
+                    if reportDate == today and (hourminindex >= hourminindex_now - 60):
+                        grideValue[hourminindex]['value'] = value
+                    if 'counter' in hourValue[hour_index].keys():
+                        hourValue[hour_index]['sum'] = hourValue[hour_index]['sum'] + value
+                        hourValue[hour_index]['counter'] = hourValue[hour_index]['counter']  + 1
+
+        if alarm_type == self.__MFUN_L3APL_F3DM_AQYC_STYPE_WINDSPD:
+            alarm_name = '风速'
+            alarm_unit = '米/秒'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_WINDSPD
+            line_name = '风速'
+            result = dct_t_l2snr_windspd.objects.filter(Q(dev_code_id=devCode), (Q(report_data=today) | Q(report_data=dayStart, hourminindex__gte=index_base))).order_by('-sid')
+            if result.exists():
+                for line in result:
+                    value = line.windspd
+                    hourminindex = line.hourminindex
+                    reportDate = line.report_data
+                    hour_index = int((hourminindex * 1.0) / 60)
+                    if reportDate == today and (hourminindex >= hourminindex_now - 60):
+                        grideValue[hourminindex]['value'] = value
+                    if 'counter' in hourValue[hour_index].keys():
+                        hourValue[hour_index]['sum'] = hourValue[hour_index]['sum'] + value
+                        hourValue[hour_index]['counter'] = hourValue[hour_index]['counter']  + 1
+        minute_value=[]
+        for i in range (60):
+            if minute_base+i<60:
+                minute_head1=str(hour_base-1)+":"+str(minute_base+i).zfill(2)
+            else:
+                minute_head1 = str(hour_base) + ":" + str(minute_base-(60-i)).zfill(2)
+            minute_value.append(grideValue[int(hourminindex_now-(60-i))]['value'])
+            minute_head.append(str(minute_head1))
+            
+        minute_alarm1={'name':line_name,'color':"",'items':minute_value}
+        minute_alarm.append(minute_alarm1)
+        hour_value=[]
+        for j in range(1,25):
+            if hour_base+j<24:
+                hour_index=hour_base+j
+            else:
+                hour_index=hour_base-(24-j)
+            if hourValue[hour_index]['counter']!=0:
+                hourValue[hour_index]['average']=hourValue[hour_index]['sum']/hourValue[hour_index]['counter']
+                average=round(hourValue[hour_index]['average'],1)
+                hour_value.append(average)
+                hour_head.append(str(hour_index)+":00")
+            else:
+                hour_value.append(0)
+                hour_head.append(str(hour_index) + ":00")
+        hour_alarm1={'name':line_name,'color':"",'items':hour_value}
+        hour_alarm.append(hour_alarm1)
+        value_min=0
+        max_1=max(minute_value)
+        max_2=max(hour_value)
+        value_max=max(max_1,max_2)+5
+        value_temp={"minute_alarm":minute_alarm,"minute_head":minute_head,"hour_alarm":hour_alarm,
+                    "hour_head":hour_head,"alarm_name":alarm_name,"alarm_unit":alarm_unit,"warning":warning,
+                    'value_min':value_min,"value_max":value_max}
+        return value_temp
 
     def dft_dbi_aqyc_dev_alarmhistory_realtime_req(self,inputData):
         statcode=inputData['statcode']

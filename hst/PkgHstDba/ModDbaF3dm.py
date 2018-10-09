@@ -21,12 +21,21 @@ class classDappDbF3dm:
     def __init__(self):
         pass
     def dft_dbi_map_active_siteinfo_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_map_active_siteinfo_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_map_active_siteinfo_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_fstt_map_active_siteinfo_req(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_fstt_map_active_siteinfo_req_view(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_map_inactive_siteinfo_req(self,inputData):
@@ -80,6 +89,15 @@ class classDappDbF3dm:
             with transaction.atomic():
                 DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
                 result=DappDbF3dm_view.dft_dbi_aqyc_user_dataaggregate_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_fstt_user_dataaggregate_req(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_fstt_user_dataaggregate_req_view(inputData)
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
@@ -172,13 +190,13 @@ class HCUF3dmDataBaseConfirm():
             result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
-    def dft_dbi_F3dm_minute_report(self,socketId,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
-        result=DappDbF3dm_view.dft_dbi_smart_city_current_report(socketId, inputData)
-#         except Exception:
-#             result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+    def dft_dbi_smart_city_current_report(self,socketId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
+                result=DappDbF3dm_view.dft_dbi_smart_city_current_report_view(socketId, inputData)
+        except Exception:
+            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
     

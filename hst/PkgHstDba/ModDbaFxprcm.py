@@ -18,11 +18,11 @@ class classDappDbFxprcm:
     def __init__(self):
         pass
     
-    def dft_dbi_fstt_neno_status(self,inputData):
+    def dft_dbi_fstt_get_neno_status(self,inputData):
 #         try:
 #             with transaction.atomic():
         DappDbFxprcm_view=DappDbFxprcm.dct_classDbiL3apFxPrcm()
-        result=DappDbFxprcm_view.dft_dbi_fstt_neno_status(inputData)
+        result=DappDbFxprcm_view.dft_dbi_fstt_get_neno_status_view(inputData)
 #         except Exception:
 #             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
@@ -31,7 +31,7 @@ class classDappDbFxprcm:
 #         try:
 #             with transaction.atomic():
         DappDbFxprcm_view=DappDbFxprcm.dct_classDbiL3apFxPrcm()
-        result=DappDbFxprcm_view.dft_dbi_fstt_set_neon_status(inputData)
+        result=DappDbFxprcm_view.dft_dbi_fstt_set_neon_status_view(inputData)
 #         except Exception:
 #             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result

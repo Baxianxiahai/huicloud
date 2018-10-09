@@ -199,6 +199,24 @@ class dct_classDbiL3apF4icm:
                 rtsp=line.video1_url
                 camweb={'video':rtsp,'camera':cam_ctrl}
         return camweb
+    
+    def dft_dbi_fstt_get_hcu_camweb_link_view(self,inputData):
+        camweb=[]
+        statcode=inputData['statcode']
+        result=dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statcode)
+        if result.exists():
+            for line in result:
+                devCode=line.dev_code
+        else:
+            return camweb
+        result=dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=devCode)
+        if result.exists():
+            for line in result:
+                cam_ctrl=line.ctrl1_url
+                rtsp=line.video1_url
+                camweb={'video':rtsp,'camera':cam_ctrl}
+        return camweb
+    
     def dft_dbi_hcu_hsmmplist_inquery(self,inputData):
         statcode=inputData['statcode']
         date=inputData['date']
@@ -326,17 +344,17 @@ class dct_classDbiL3apF4icm:
                                                        description=description, report_data=date,
                                                        hourminindex=hourminindex, dataflag=dataflag)
                     picUrl = self.__MFUN_HCU_SITE_PIC_BASE_DIR + statCode + "/" + picname
-                    cam_1 = {"v": '0', 'h': '0', 'z': '0', 'url': picUrl}
+                    cam_1 = {"id":"1","v": '0', 'h': '0', 'z': '0', 'url': picUrl}
                 else:
                     result = dct_t_l2snr_picture.objects.filter(site_code_id=statCode).order_by('-sid')
                     if result.exists():
                         picname = result[0].file_name
                         picUrl = self.__MFUN_HCU_SITE_PIC_BASE_DIR + statCode + "/" + picname
-                        cam_1 = {"v": '0', 'h': '0', 'z': '0', 'url': picUrl}
+                        cam_1 = {"id":"1","v": '0', 'h': '0', 'z': '0', 'url': picUrl}
                     else:
                         cam_1 = {}
 
-                url_2 = line.pic2_url
+                url_2 = line.pic1_url
                 filename = ""
                 username = self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password = self.__MFUN_HCU_AQYC_CAM_PASSWORD
@@ -372,17 +390,17 @@ class dct_classDbiL3apF4icm:
                                                        description=description, report_data=date,
                                                        hourminindex=hourminindex, dataflag=dataflag)
                     picUrl = self.__MFUN_HCU_SITE_PIC_BASE_DIR + statCode + "/" + picname
-                    cam_2 = {"v": '0', 'h': '0', 'z': '0', 'url': picUrl}
+                    cam_2 = {"id":"1","v": '0', 'h': '0', 'z': '0', 'url': picUrl}
                 else:
                     result = dct_t_l2snr_picture.objects.filter(site_code_id=statCode).order_by('-sid')
                     if result.exists():
                         picname = result[0].file_name
                         picUrl = self.__MFUN_HCU_SITE_PIC_BASE_DIR + statCode + "/" + picname
-                        cam_2 = {"v": '0', 'h': '0', 'z': '0', 'url': picUrl}
+                        cam_2 = {"id":"1","v": '0', 'h': '0', 'z': '0', 'url': picUrl}
                     else:
                         cam_2 = {}
 
-                url_3 = line.pic3_url
+                url_3 = line.pic1_url
                 filename = ""
                 username = self.__MFUN_HCU_AQYC_CAM_USERNAME
                 password = self.__MFUN_HCU_AQYC_CAM_PASSWORD
@@ -418,13 +436,13 @@ class dct_classDbiL3apF4icm:
                                                        description=description, report_data=date,
                                                        hourminindex=hourminindex, dataflag=dataflag)
                     picUrl = self.__MFUN_HCU_SITE_PIC_BASE_DIR + statCode + "/" + picname
-                    cam_3 = {"v": '0', 'h': '0', 'z': '0', 'url': picUrl}
+                    cam_3 = {"id":"1","v": '0', 'h': '0', 'z': '0', 'url': picUrl}
                 else:
                     result = dct_t_l2snr_picture.objects.filter(site_code_id=statCode).order_by('-sid')
                     if result.exists():
                         picname = result[0].file_name
                         picUrl = self.__MFUN_HCU_SITE_PIC_BASE_DIR + statCode + "/" + picname
-                        cam_3 = {"v": '0', 'h': '0', 'z': '0', 'url': picUrl}
+                        cam_3 = {"id":"1","v": '0', 'h': '0', 'z': '0', 'url': picUrl}
                     else:
                         cam_3 = {}
             resp.append(cam_1)

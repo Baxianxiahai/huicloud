@@ -292,10 +292,10 @@ class dct_classDbiL3apF2cm:
                     temp.append(line.superintendent)
                     temp.append(line.telephone)
                     temp.append(line.address)
-                    temp.append(line.longitude)
-                    temp.append(line.latitude)
+                    temp.append(str(line.longitude))
+                    temp.append(str(line.latitude))
                     temp.append(str(line.create_date))
-                    temp.append(line.comments)
+                    temp.append(str(line.comments))
                     data.append(temp)
         site_table={'column':column,'data':data}
         return site_table
@@ -651,42 +651,43 @@ class dct_classDbiL3apF2cm:
                 sitelist.append(temp)
         return sitelist
 
-    def dft_dbi_all_sitetable_req(self,inputData):
-        uid=inputData['uid']
-        startseq=inputData['startseq']
-        query_length=inputData['query_length']
-        keyword=inputData['keyword']
-        projectlist=self.__dft_dbi_get_user_auth_project(uid)
-        projtotal=len(projectlist)
-        if (startseq<=projtotal) and (startseq+query_length>projtotal):
-            query_length=projtotal-startseq
-        elif startseq>projtotal:
-            query_length=0
-        sitetable=[]
-        for i in range(startseq,startseq+query_length):
-            pcode=projectlist[i]['id']
-            if keyword=="":
-                result=dct_t_l3f2cm_site_common.objects.filter(prj_code=(dct_t_l3f2cm_project_common.objects.get(prj_code=pcode)))
+    def dft_dbi_all_sitetable_req(self, inputData):
+        uid = inputData['uid']
+        startseq = inputData['startseq']
+        query_length = inputData['query_length']
+        keyword = inputData['keyword']
+        projectlist = self.__dft_dbi_get_user_auth_project(uid)
+        projtotal = len(projectlist)
+        if (startseq <= projtotal) and (startseq + query_length > projtotal):
+            query_length = projtotal - startseq
+        elif startseq > projtotal:
+            query_length = 0
+        sitetable = []
+        for i in range(startseq, startseq + query_length):
+            pcode = projectlist[i]['id']
+            if keyword == "":
+                result = dct_t_l3f2cm_site_common.objects.filter(
+                    prj_code=(dct_t_l3f2cm_project_common.objects.get(prj_code=pcode)))
                 if result.exists():
                     for line in result:
-                        statCode=line.site_code
-                        towerInfo=self.__dft_dbi_get_tower_info(statCode)
-                        if len(towerInfo)==0:
-                            temp={
-                                'StatCode':statCode,
-                                'StatName':line.site_name,
-                                'ProjCode':line.prj_code_id,
-                                'ChargeMan':line.superintendent,
-                                'Telephone':line.telephone,
-                                'Longitude':str(line.longitude),
-                                'Latitude':str(line.latitude),
-                                'Department':line.department,
-                                'Address':line.address,
+                        statCode = line.site_code
+                        towerInfo = self.__dft_dbi_get_tower_info(statCode)
+                        if hasattr(towerInfo, 'site_code') == False:
+                            temp = {
+                                'StatCode': statCode,
+                                'StatName': line.site_name,
+                                'ProjCode': line.prj_code_id,
+                                'ChargeMan': line.superintendent,
+                                'Telephone': line.telephone,
+                                'Longitude': str(line.longitude),
+                                'Latitude': str(line.latitude),
+                                'Department': line.department,
+                                'Address': line.address,
                                 'Country': line.district,
                                 'Street': line.street,
                                 'Square': line.site_area,
-                                'ProStartTime':str(line.create_date),
-                                'Stage':line.comments,
+                                'ProStartTime': str(line.create_date),
+                                'Stage': line.comments,
                             }
                         else:
                             temp = {
@@ -702,60 +703,61 @@ class dct_classDbiL3apF2cm:
                                 'Country': line.district,
                                 'Street': line.street,
                                 'Square': line.site_area,
-                                'ProStartTime': line.create_date,
+                                'ProStartTime': str(line.create_date),
                                 'Stage': line.comments,
-                                'SN':towerInfo.tower_sn,
-                                'PN':towerInfo.tower_code,
-                                'Order':towerInfo.order_no,
-                                'Model':towerInfo.tower_conf
+                                'SN': towerInfo.tower_sn,
+                                'PN': towerInfo.tower_code,
+                                'Order': towerInfo.order_no,
+                                'Model': towerInfo.tower_type
                             }
                         sitetable.append(temp)
-                else:
-                    result = dct_t_l3f2cm_site_common.objects.filter(
-                        Q(prj_code=(dct_t_l3f2cm_project_common.objects.get(prj_code=pcode))),Q(site_name__icontains=keyword)|Q(address__icontains=keyword))
-                    if result.exists():
-                        for line in result:
-                            statCode = line.site_code
-                            towerInfo = self.__dft_dbi_get_tower_info(statCode)
-                            if len(towerInfo) == 0:
-                                temp = {
-                                    'StatCode': statCode,
-                                    'StatName': line.site_name,
-                                    'ProjCode': line.prj_code_id,
-                                    'ChargeMan': line.superintendent,
-                                    'Telephone': line.telephone,
-                                    'Longitude': str(line.longitude),
-                                    'Latitude': str(line.latitude),
-                                    'Department': line.department,
-                                    'Country': line.district,
-                                    'Street': line.street,
-                                    'Square': line.site_area,
-                                    'Address': line.address,
-                                    'ProStartTime': str(line.create_date),
-                                    'Stage': line.comments,
-                                }
-                            else:
-                                temp = {
-                                    'StatCode': statCode,
-                                    'StatName': line.site_name,
-                                    'ProjCode': line.prj_code_id,
-                                    'ChargeMan': line.superintendent,
-                                    'Telephone': line.telephone,
-                                    'Longitude': str(line.longitude),
-                                    'Latitude': str(line.latitude),
-                                    'Department': line.department,
-                                    'Country': line.district,
-                                    'Street': line.street,
-                                    'Square': line.site_area,
-                                    'Address': line.address,
-                                    'ProStartTime': str(line.create_date),
-                                    'Stage': line.comments,
-                                    'SN': towerInfo.tower_sn,
-                                    'PN': towerInfo.tower_code,
-                                    'Order': towerInfo.order_no,
-                                    'Model': towerInfo.tower_conf
-                                }
-                            sitetable.append(temp)
+            else:
+                result = dct_t_l3f2cm_site_common.objects.filter(
+                    Q(prj_code=(dct_t_l3f2cm_project_common.objects.get(prj_code=pcode))),
+                    Q(site_name__icontains=keyword) | Q(address__icontains=keyword))
+                if result.exists():
+                    for line in result:
+                        statCode = line.site_code
+                        towerInfo = self.__dft_dbi_get_tower_info(statCode)
+                        if hasattr(towerInfo, 'site_code') == False:
+                            temp = {
+                                'StatCode': statCode,
+                                'StatName': line.site_name,
+                                'ProjCode': line.prj_code_id,
+                                'ChargeMan': line.superintendent,
+                                'Telephone': line.telephone,
+                                'Longitude': str(line.longitude),
+                                'Latitude': str(line.latitude),
+                                'Department': line.department,
+                                'Country': line.district,
+                                'Street': line.street,
+                                'Square': line.site_area,
+                                'Address': line.address,
+                                'ProStartTime': str(line.create_date),
+                                'Stage': line.comments,
+                            }
+                        else:
+                            temp = {
+                                'StatCode': statCode,
+                                'StatName': line.site_name,
+                                'ProjCode': line.prj_code_id,
+                                'ChargeMan': line.superintendent,
+                                'Telephone': line.telephone,
+                                'Longitude': str(line.longitude),
+                                'Latitude': str(line.latitude),
+                                'Department': line.department,
+                                'Country': line.district,
+                                'Street': line.street,
+                                'Square': line.site_area,
+                                'Address': line.address,
+                                'ProStartTime': str(line.create_date),
+                                'Stage': line.comments,
+                                'SN': towerInfo.tower_sn,
+                                'PN': towerInfo.tower_code,
+                                'Order': towerInfo.order_no,
+                                'Model': towerInfo.tower_type
+                            }
+                        sitetable.append(temp)
         return sitetable
 
     def dft_dbi_point_get_activeinfo(self,inputData):
@@ -845,6 +847,92 @@ class dct_classDbiL3apF2cm:
             self.dft_dbi_siteInfo_new(inputData)
         return True
 
+    def dft_dbi_fstt_site_info_new_view(self, inputData):
+        statCode = self.__dft_getRandomDigID(9)
+        statname = inputData['StatName']
+        pcode = inputData['ProjCode']
+        ChargeMan = inputData['ChargeMan']
+        Telephone = inputData['Telephone']
+        Longitude = inputData['Longitude']
+        Latitude = inputData['Latitude']
+        Department = inputData['Department']
+        Address = inputData['Address']
+        Country = inputData['Country']
+        Street = inputData['Street']
+        Square = inputData['Square']
+        Stage = inputData['Stage']
+        SN = inputData["SN"]
+        Order = inputData["Order"]
+        PN = inputData["PN"]
+        Model = inputData["Model"]
+        if hasattr(inputData, 'Config'):
+            Config = inputData['Config']
+        else:
+            Config=[]
+        uid = inputData['uid']
+        status = 'I'
+        result = dct_t_l3f2cm_site_common.objects.filter(site_code=statCode)
+        if result.exists():
+            result.update(site_name=statname, status=status, prj_code_id=pcode, superintendent=ChargeMan,
+                          telephone=Telephone,
+                          address=Address, longitude=Longitude,
+                          latitude=Latitude,
+                          comments=Stage, department=Department,
+                          district=Country, street=Street)
+            resp = dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=statCode)
+            if resp.exists():
+                resp.update(tower_sn=SN, order_no=Order, tower_code=PN, tower_type=Model)
+            else:
+                dct_t_l3f2cm_site_fstt.objects.create(site_code_id=statCode, tower_sn=SN, order_no=Order, tower_code=PN,
+                                                      tower_type=Model, tower_date=datetime.date.today())
+        else:
+            dct_t_l3f2cm_site_common.objects.create(site_code=statCode, site_name=statname, status=status,
+                                                    site_creator=uid,
+                                                    prj_code_id=pcode, superintendent=ChargeMan, telephone=Telephone,
+                                                    address=Address, comments=Stage, department=Department,
+                                                    district=Country, street=Street, create_date=datetime.date.today())
+            dct_t_l3f2cm_site_fstt.objects.create(site_code_id=statCode, tower_sn=SN, order_no=Order, tower_code=PN,
+                                                  tower_type=Model, tower_date=datetime.date.today())
+        return True
+
+    def dft_dbi_fstt_site_info_modify_view(self, inputData):
+        StatCode = int(inputData['StatCode'])
+        statname = inputData['StatName']
+        pcode = inputData['ProjCode']
+        ChargeMan = inputData['ChargeMan']
+        Telephone = inputData['Telephone']
+        Longitude = inputData['Longitude']
+        Latitude = inputData['Latitude']
+        Department = inputData['Department']
+        Address = inputData['Address']
+        Country = inputData['Country']
+        Street = inputData['Street']
+        Square = inputData['Square']
+        Stage = inputData['Stage']
+        SN = inputData["SN"]
+        Order = inputData["Order"]
+        PN = inputData["PN"]
+        Model = inputData["Model"]
+        Config = inputData['Config']
+        status = 'I'
+        result = dct_t_l3f2cm_site_common.objects.filter(site_code=StatCode)
+        if result.exists():
+            result.update(site_name=statname, status=status, prj_code_id=pcode, superintendent=ChargeMan,
+                          telephone=Telephone,
+                          address=Address, longitude=Longitude,
+                          latitude=Latitude,
+                          comments=Stage, department=Department,
+                          district=Country, street=Street)
+            resp = dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=StatCode)
+            if resp.exists():
+                resp.update(tower_sn=SN, order_no=Order, tower_code=PN, tower_type=Model)
+            else:
+                dct_t_l3f2cm_site_fstt.objects.create(site_code_id=StatCode, tower_sn=SN, order_no=Order, tower_code=PN,
+                                                      tower_type=Model, tower_date=datetime.date.today())
+        else:
+            self.dft_dbi_fstt_site_info_new_view(inputData)
+        return True
+
     def dft_dbi_all_hcutable_req(self,inputData):
         uid=inputData['uid']
         startSeq=inputData['startseq']
@@ -891,6 +979,123 @@ class dct_classDbiL3apF2cm:
                             }
                             hcuTable.append(temp)            
         return hcuTable
+    
+    def dft_dbi_fstt_all_hcutable_req_view(self, inputData):
+        uid = inputData['uid']
+        startSeq = inputData['startseq']
+        query_length = inputData['query_length']
+        keyWord = inputData['keyWord']
+        siteList = self.__dft_dbi_get_user_auth_site(uid)
+        siteTotal = len(siteList)
+        if ((startSeq <= siteTotal) and (startSeq + query_length) > siteTotal):
+            query_length = siteTotal - startSeq
+        elif (startSeq > siteTotal):
+            query_length = 0
+        hcuTable = []
+        for i in range(startSeq + query_length):
+            statCode = siteList[i]['id']
+            result = dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statCode)
+            if result.exists():
+                for line in result:
+                    devcode = line.dev_code
+                    starttime = line.create_date
+                    resp = dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=devcode)
+                    if resp.exists():
+                        for line in resp:
+                            macaddr = line.mac_addr
+                            ipaddr = line.ip_addr
+                            devstatus = 'true'
+                            url = line.pic1_url
+                            if keyWord == "":
+                                projInfo = dct_t_l3f2cm_site_common.objects.filter(site_code=statCode)
+                                projCode = projInfo[0].prj_code_id
+                            else:
+                                projInfo = dct_t_l3f2cm_site_common.objects.filter(site_code=statCode and (
+                                        Q(site_name__icontains=keyWord) or Q(address__icontains=keyWord)))
+                                projCode = projInfo[0].prj_code_id
+                            temp = {
+                                'DevCode': devcode,
+                                'StatCode': statCode,
+                                'ProjCode': projCode,
+                                'StartTime': str(starttime),
+                                'PreEndTime': "",
+                                'EndTime': "",
+                                'DevStatus': devstatus,
+                                'VideoURL': url,
+                                'MAC': macaddr,
+                                'IP': ipaddr,
+                            }
+                            hcuTable.append(temp)
+        return hcuTable
+    
+    def dft_dbi_fstt_dev_info_update_view(self, inputData):
+        devCode = inputData['DevCode']
+        statcode = inputData['StatCode']
+        starttime = inputData['StartTime']
+        preendtime = inputData['PreEndTime']
+        endtime = inputData['EndTime']
+        devstatus = inputData['DevStatus']
+        videourl = inputData['VideoURL']
+        if devstatus == 'true':
+            devstatus = 'Y'
+        else:
+            devstatus = 'N'
+        devCode1 = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=devCode)
+        if devCode1.exists():
+            devCode1.update(create_date=starttime, site_code_id=statcode)
+            result = dct_t_l3f2cm_device_fstt.objects.filter(dev_code_id=devCode)
+            base_port = devCode1[0].base_port
+            if result.exists():
+                result = dct_t_l3f2cm_device_fstt.objects.get(dev_code_id=devCode)
+                if videourl == "" or videourl == None:
+                    result.pic1_url = videourl
+                result.save()
+            else:
+                weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+                pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI"
+                video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "3" + "ISAPI/Streaming/Channels/1"
+                pic2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "6" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "6" + "/ISAPI"
+                video2url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "7" + "ISAPI/Streaming/Channels/1"
+                pic3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "8" + "/ISAPI/Streaming/channels/1/picture"
+                ctrl3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "8" + "/ISAPI"
+                video3url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                    base_port) + "9" + "/ISAPI/Streaming/Channels/1"
+                dct_t_l3f2cm_device_fstt.objects.create(dev_code_id=devCode, web_url=weburl, pic1_url=pic1url,
+                                                        ctrl1_url=ctrl1url, video1_url=video1url, pic2_url=pic2url,
+                                                        ctrl2_url=ctrl2url, video2_url=video2url, pic3_url=pic3url,
+                                                        ctrl3_url=ctrl3url, video3_url=video3url)
+        else:
+            result = dct_t_l3f2cm_device_inventory.objects.latest('base_port')
+            BasePort = result.base_port + 1
+            dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode, site_code_id=statcode, create_date=starttime,
+                                                         base_port=BasePort, upgradeflag=1)
+            weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+            pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                BasePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
+            ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "2" + "/ISAPI"
+            video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "3" + "ISAPI/Streaming/Channels/1"
+            pic2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                BasePort) + "6" + "/ISAPI/Streaming/channels/1/picture"
+            ctrl2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "6" + "/ISAPI"
+            video2url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "7" + "ISAPI/Streaming/Channels/1"
+            pic3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
+                BasePort) + "8" + "/ISAPI/Streaming/channels/1/picture"
+            ctrl3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "8" + "/ISAPI"
+            video3url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "9" + "/ISAPI/Streaming/Channels/1"
+            dct_t_l3f2cm_device_fstt.objects.create(dev_code_id=devCode, web_url=weburl, pic1_url=pic1url,
+                                                    ctrl1_url=ctrl1url, video1_url=video1url, pic2_url=pic2url,
+                                                    ctrl2_url=ctrl2url, video2_url=video2url, pic3_url=pic3url,
+                                                    ctrl3_url=ctrl3url, video3_url=video3url)
+        status = "C"
+        dct_t_l3f2cm_site_common.objects.filter(site_code=statcode).update(status=status)
+        return True
 
     def dft_dbi_site_devlist_req(self,inputData):
         statCode=inputData['statcode']
@@ -2083,6 +2288,18 @@ class dct_classDbiL3apF2cm:
             return False
         return msg
     
+    def dft_dbi_fstt_point_login_view(self, inputData):
+        site_code = inputData['StatCode']
+        result = dct_t_l3f2cm_favour_site.objects.filter(site_code_id=site_code)
+        login_history = []
+        if result.exists():
+            for line in result:
+                name = line.uid.dct_t_l3f1sym_account_secondary.nick_name
+                login_time = str(line.create_time)
+                temp = {'name': name, 'time': login_time}
+                login_history.append(temp)
+        return login_history
+    
     
     
     '''内部人员使用的小工具的函数，不需要进行用户的验证，在链接中带有验证信息'''
@@ -2300,13 +2517,16 @@ class HCUReportAndConfirm():
         stopHour=IeCnt['stopHour']
         stopMin=IeCnt['stopMin']
         stopSec=IeCnt['stopSec']
-        lightStr=IeCnt['lightStr']
+        lightStr=IeCnt['lightstrThd']
         lampWorkMode = IeCnt['lampWorkMode']
-        startTime=startHour+startMin+startSec
-        stopTime=stopHour+stopMin+stopSec
-        result=dct_t_l3f2cm_site_fstt.objects.filter(site_code=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)[0].site_code)
+        startTime=str(startHour)+":"+str(startMin)+":"+str(startSec)
+        stopTime=str(stopHour)+":"+str(stopMin)+":"+str(stopSec)
+        result=dct_t_l3f2cm_site_fstt.objects.filter(site_code_id=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)[0].site_code)
         if result.exists():
-            result.update(lamp_start=startTime,lamp_stop=stopTime,lamp_th=lightStr,lamp_mode=lampWorkMode)
+            print("Success Code")
+            result.update(lamp_start=startTime,lamp_stop=stopTime,snr_light=lightStr,lamp_mode=lampWorkMode)
+        else:
+            print("Error Code")
         
     
     

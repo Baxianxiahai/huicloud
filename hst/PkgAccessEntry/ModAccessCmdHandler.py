@@ -169,6 +169,11 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F11faam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F11Faam_Send_Message(inputStr['parContent'])
+            
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_Fxprcm:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_Fxprcm_Send_Message(inputStr['parContent'])
+            
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_L2snr:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_Snr_Send_Message(inputStr['parContent'])
@@ -511,7 +516,7 @@ class ClassHCUReportDataToDba:
             
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_REPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result=proc.dft_F3dm_minute_report(socketId, inputData)
+                result=proc.dft_F3dm_smart_city_current_report(socketId, inputData)
                 return result
             
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_PERFORMANCE_REPORT:

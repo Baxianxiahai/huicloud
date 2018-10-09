@@ -177,12 +177,12 @@ class classDappDbF2cm:
         return result
     
     def dft_dbi_all_sitetable_req(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-                result=DappDbF2cm_view.dft_dbi_all_sitetable_req(inputData)
-        except Exception:
-            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+#         try:
+#             with transaction.atomic():
+        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+        result=DappDbF2cm_view.dft_dbi_all_sitetable_req(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_point_get_activeinfo(self,inputData):
@@ -255,6 +255,15 @@ class classDappDbF2cm:
                 result=DappDbF2cm_view.dft_dbi_all_hcutable_req(inputData)
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_fstt_all_hcutable_req(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+        result=DappDbF2cm_view.dft_dbi_fstt_all_hcutable_req_view(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_aqyc_devinfo_new(self,inputData):
@@ -636,6 +645,48 @@ class classDappDbF2cm:
                 result=DappDbF2cm_view.dft_dbi_point_install_picture_process(inputData)
         except Exception:
             msg={"status":"false","auth":"true",'msg':'获取数据失败'}
+        return result
+    def dft_dbi_fstt_point_login(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_fstt_point_login_view(inputData)
+        except Exception:
+            result = []
+        return result
+    def dft_dbi_fstt_site_info_new(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+        result=DappDbF2cm_view.dft_dbi_fstt_site_info_new_view(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_fstt_site_info_modify(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_fstt_site_info_modify_view(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    def dft_dbi_fstt_dev_info_new(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_fstt_dev_info_update_view(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_fstt_dev_info_update(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_fstt_dev_info_update_view(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     '''WeChart App 界面入口'''

@@ -27,20 +27,20 @@ class classDappDbF10oam:
             result=""
         return result
     def dft_dbi_tools_qrcode_newapply(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
-        result=DappDbF10oam_view.dft_dbi_tools_qrcode_newapply(inputData)
-#         except Exception:
-#             result=""
+        try:
+            with transaction.atomic():
+                DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
+                result=DappDbF10oam_view.dft_dbi_tools_qrcode_newapply(inputData)
+        except Exception:
+            result=""
         return result
     def dft_dbi_qrcode_data_insert(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
-        result=DappDbF10oam_view.dft_dbi_qrcode_data_insert(inputData)
-#         except Exception:
-#             result=""
+        try:
+            with transaction.atomic():
+                DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
+                result=DappDbF10oam_view.dft_dbi_qrcode_data_insert(inputData)
+        except Exception:
+            result=""
         return result
     def dft_dbi_tools_swload_table_get(self,inputData):
         try:
@@ -80,10 +80,10 @@ class classDappDbF10oam:
     
     '''从下位机发上来的消息处理'''
     def dft_dbi_hcu_inventory_confirm(self,socketId,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
-        result=DappDbF10oam_view.dft_dbi_hcu_inventory_confirm_view(socketId, inputData)
-#         except Exception:
-#             result=None
+        try:
+            with transaction.atomic():
+                DappDbF10oam_view=DappDbF10oam.dct_DappF10Class()
+                result=DappDbF10oam_view.dft_dbi_hcu_inventory_confirm_view(socketId, inputData)
+        except Exception:
+            result=None
         return result
