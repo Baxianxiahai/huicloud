@@ -2115,6 +2115,7 @@ class dct_classDbiL3apF2cm:
             else:
 
                 return response_msg
+        
         for i in range(len(dev_code_array)):
             resp_dev_data=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code_array[i])
             site_name = site_name_array[i]
@@ -2146,6 +2147,7 @@ class dct_classDbiL3apF2cm:
                              'PM01':pm01,'PM25':pm25,'PM10':pm10,'Windspd':windspd,'Noise':noise,
                              'Winddir':winddir,'Temp':temp,'Humi':humi}
                     dev_array.append(dev_dev)
+        print(dev_array)
         response_msg = {'status':status, 'auth': 'true', 'DevDetail': dev_array,'UserLever':userLever}
         return response_msg
     
@@ -2198,7 +2200,7 @@ class dct_classDbiL3apF2cm:
             else:
                 msg = {'status': "pending", 'ngrok_req': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
                                                                                         "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
-                                                                                        'MsgId': 0XF042, 'MsgLn': 115,
+                                                                                        'MsgId': GOLBALVAR.HUITPJSON_MSGID_NGROKRES_REQ, 'MsgLn': 115,
                                                                                         "IeCnt": {"rand": random.randint(10000, 20000)},
                                                                                         "FnFlg": 0}}}
             return msg
@@ -2216,9 +2218,9 @@ class dct_classDbiL3apF2cm:
             if result[0].cmd_flag==GOLBALVAR.HCU_SW_RESTART_RESP:
                 msg = {'status': 'true'}
             else:
-                msg = {'status': "pending", 'ngrok_req': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
+                msg = {'status': "pending", 'sw_req': {'socketid': socketId,'data': {'ToUsr': devCode, 'FrUsr': "XHTS",
                                                                                         "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
-                                                                                        'MsgId': 0XF042, 'MsgLn': 115,
+                                                                                        'MsgId': GOLBALVAR.HUITPJSON_MSGID_SWRESTART_REQ, 'MsgLn': 115,
                                                                                         "IeCnt": {"rand": random.randint(10000, 20000)},
                                                                                         "FnFlg": 0}}}
             return msg

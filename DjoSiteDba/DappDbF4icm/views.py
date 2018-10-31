@@ -6,6 +6,7 @@ from DappDbF2cm.models import *
 from DappDbSnr.models import *
 from DappDbF1sym.models import *
 import random
+from DappDbF3dm.models import dct_t_l3f3dm_current_report_aqyc
 # Create your views here.
 class dct_classDbiL3apF4icm:
     __MFUN_HCU_AQYC_CU_SOAP_SERVER_URL="http://112.64.17.60:9080/services/pushResource?wsdl"
@@ -803,7 +804,7 @@ class dct_classDbiL3apF4icm:
         else:
             dct_t_l3f2cm_key_auth_fhys.objects.create(keyid_id=keyid,authlevel=authlevel,authobj=statCode,authtype=authtype,validnum=validnum)
         return True
-
+    
 
 
 

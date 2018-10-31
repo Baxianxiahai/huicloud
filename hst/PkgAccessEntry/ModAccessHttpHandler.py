@@ -65,7 +65,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         nbytes = int(length)
         inputData = self.rfile.read(nbytes)
         #统一处理入口，需要解码json输入结构
-        #print("INPUTDATA = ", inputData)
+#         print("INPUTDATA = ", type(inputData))
         jsonInput = json.loads(inputData)
         jsonInput=json.loads(jsonInput)
         #测试收到的内容

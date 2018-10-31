@@ -19,6 +19,7 @@ from DappDbF11faam.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
 from DappDbF10oam.models import *
+from DappDbSnr.models import *
 faam1={
     'webauth':{
         #FUM1SYM
@@ -670,9 +671,68 @@ def insert_dev_detail():
             dct_t_l3f2cm_device_cail.objects.create(dev_code_id=line.dev_code)
 #             detail_list.append(dct_t_l3f2cm_device_inventory(dev_code_id=line.dev_code))
 #     dct_t_l3f2cm_device_cail.objects.bulk_create(detail_list)
-        
+def dft_dbi_getdb():
+    result_p = dct_t_l3f10oam_swloadinfo.objects.filter(equentry=1,
+                                                            validflag=1,
+                                                            upgradeflag=4
+                                                            , hwtype=8100).order_by("-swrel", "-swver")
+    if result_p.exists():
+        print(result_p[0].sid)
+#         psr = result_p[0].swrel
+#         psv = result_p[0].swver
+        pdv = result_p[0].dbver
+#         psc = result_p[0].checksum
+#         psl = result_p[0].filesize
+        resp_p_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,
+                                                                 equentry=2,
+                                                                 upgradeflag=4,
+                                                                 hwtype=8100,dbver__gte=pdv).order_by('-dbver')
+        if resp_p_db.exists():
+            pdc = resp_p_db[0].checksum
+            pdl = resp_p_db[0].filesize
+            print(pdc)
+            print(pdl)
+            print(resp_p_db[0].sid)
+    resp_t_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=1,equentry=2,upgradeflag=4,hwtype=8100,dbver__gte=201).order_by('-dbver')
+    for line in resp_t_db:
+        print(line.sid)
+def dft_dbi_get_time_stamp():
+    result=dct_t_l3f3dm_current_report_aqyc.objects.all()
+    for line in result:
+        report_time=str(line.report_time)
+        timeArray=time.strptime(report_time, "%Y-%m-%d %H:%M:%S.%f")
+        print(timeArray)
+        print(int(time.mktime(timeArray)))
+def dft_dbi_tsp_report():
+    inputDate="2018-10-29"
+    devCode="HCU_G2008SHYC_SH005"
+    inputDate=datetime.datetime.strptime(inputDate,"%Y-%m-%d")
+    monthStart=inputDate-datetime.timedelta(days=30)
+    monthStartInt=time.strptime(str(monthStart),"%Y-%m-%d %H:%M:%S")
+    monthStartInt=int(time.mktime(monthStartInt))
+    dayValue=[]
+    for dayIndex in range(0,31):
+        a={'sum':0,'counter':0,'average':0}
+        dayValue.append(a)
+    result=dct_t_l2snr_dust.objects.filter(dev_code_id=devCode,report_data=inputDate).order_by('sid')
+    if result.exists():
+        for line in result:
+            value=float(line.pm01)
+            reportDate=str(line.report_data)
+            dateInt = time.strptime(reportDate, "%Y-%m-%d")
+            dateInt = int(time.mktime(dateInt))
+            if dateInt>=monthStartInt:
+                day_index=int((dateInt-monthStartInt)/86400)-1
+                if 'sum' in dayValue[day_index].keys():
+                    dayValue[day_index]['sum']=dayValue[day_index]['sum']+value
+                    dayValue[day_index]['counter']=dayValue[day_index]['counter']+1
+                else:
+                    dayValue[day_index]['sum']=value
+                    dayValue[day_index]['counter']=1
+    print(dayValue)
+    
 if __name__ == "__main__":
-    insert_dev_detail()
+    dft_dbi_tsp_report()
     #insert_old_hcu_data()
     
     

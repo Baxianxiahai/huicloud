@@ -412,7 +412,7 @@ class dct_DappF10Class():
             resp_s_db=dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
                                                                equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB,
                                                                upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_STABLE,
-                                                               dbver__gte=sdv).order_by('-dbver')
+                                                               hwtype=hwType,dbver__gte=sdv).order_by('-dbver')
             if resp_s_db.exists():
                 sdc=resp_s_db[0].checksum
                 sdl=resp_s_db[0].filesize
@@ -429,7 +429,7 @@ class dct_DappF10Class():
             resp_t_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
                                                                  equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB,
                                                                  upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL,
-                                                                 dbver__gte=tdv).order_by('-dbver')
+                                                                 hwtype=hwType,dbver__gte=tdv).order_by('-dbver')
             if resp_t_db.exists():
                 tdc = resp_t_db[0].checksum
                 tdl = resp_t_db[0].filesize
@@ -446,7 +446,7 @@ class dct_DappF10Class():
             resp_p_db = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
                                                                  equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_HCU_DB,
                                                                  upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH,
-                                                                 dbver__gte=pdv).order_by('-dbver')
+                                                                 hwtype=hwType,dbver__gte=pdv).order_by('-dbver')
             if resp_p_db.exists():
                 pdc = resp_p_db[0].checksum
                 pdl = resp_p_db[0].filesize
@@ -464,19 +464,19 @@ class dct_DappF10Class():
                                                               upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_TRAIL,
                                                               hwtype=hwType).order_by("-swrel", "-swver")
         if resp_t_ihu.exists():
-            tnsr = resp_s_ihu[0].swrel
-            tnsv = resp_s_ihu[0].swver
-            tnsc = resp_s_ihu[0].checksum
-            tnsl = resp_s_ihu[0].filesize
+            tnsr = resp_t_ihu[0].swrel
+            tnsv = resp_t_ihu[0].swver
+            tnsc = resp_t_ihu[0].checksum
+            tnsl = resp_t_ihu[0].filesize
         resp_p_ihu = dct_t_l3f10oam_swloadinfo.objects.filter(validflag=self.__MFUN_HCU_SW_LOAD_FLAG_VALID,
                                                               equentry=self.__HUITP_IEID_UNI_EQU_ENTRY_IHU,
                                                               upgradeflag=self.__HUITP_IEID_UNI_FW_UPGRADE_YES_PATCH,
                                                               hwtype=hwType).order_by("-swrel", "-swver")
         if resp_p_ihu.exists():
-            pnsr = resp_s_ihu[0].swrel
-            pnsv = resp_s_ihu[0].swver
-            pnsc = resp_s_ihu[0].checksum
-            pnsl = resp_s_ihu[0].filesize
+            pnsr = resp_p_ihu[0].swrel
+            pnsv = resp_p_ihu[0].swver
+            pnsc = resp_p_ihu[0].checksum
+            pnsl = resp_p_ihu[0].filesize
         msg = {'socketid': socketId,
                'data': {'ToUsr': Frusr, 'FrUsr': ToUsr, "CrTim": int(time.time()), 'MsgTp': 'huitp_json',
                         'MsgId': 0XA021, 'MsgLn': 115, "IeCnt":

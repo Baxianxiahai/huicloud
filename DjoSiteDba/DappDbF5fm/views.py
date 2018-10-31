@@ -341,7 +341,7 @@ class dct_classDbiL3apF5fm:
             result=dct_t_l2snr_dust.objects.filter(dev_code_id=devCode,report_data__range=(monthStart,inputDate)).order_by('sid')
             if result.exists():
                 for line in result:
-                    value=float(line.pm01)
+                    value=float(line.tsp)
                     reportDate=str(line.report_data)
                     dateInt = time.strptime(reportDate, "%Y-%m-%d")
                     dateInt = int(time.mktime(dateInt))

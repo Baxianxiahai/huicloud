@@ -214,9 +214,9 @@ class ClassDbaMainEntry():
         elif inputData['action']=="AQYCPointPicture":
             result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
         elif inputData['action']=="HCU_NGROK":
-            result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
+            result=F2cm.dft_dbi_ngrok_reboot(inputData['body'])
         elif inputData['action']=="HCU_Software_Reboot":
-            result=F2cm.dft_dbi_aqyc_install_picture_process(inputData['body'])
+            result=F2cm.dft_dbi_sw_restart(inputData['body'])
         elif inputData['action']=="PointLogin":
             result=F2cm.dft_dbi_fstt_point_login(inputData['body'])
         elif inputData['action']=='GetFreeCpuId':
@@ -564,7 +564,24 @@ class ClassDbaMainEntry():
  
         elif inputData['action']=='F11TableQuery':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
-            result=F11Faam.dft_faam_table_query(inputData['body'])      
+            result=F11Faam.dft_faam_table_query(inputData['body'])
+            
+        elif inputData['action']=='FAAMSCProcess':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_faam_qrcode_sc_process(inputData['body'])
+            
+        elif inputData['action']=='FAAMKQProcess':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_faam_qrcode_kq_process(inputData['body'])  
+            
+        elif inputData['action']=='HuitpXMLMsgUser':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_huitp_xmlmsg_equlable_userlist_report(inputData['body'])  
+            
+        elif inputData['action']=='HuitpXMLMsgApply':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_huitp_xmlmsg_equlable_apply_report(inputData['body'])  
+            
         elif inputData['action']=='SeafoodInfo':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
             result=F11Faam.dft_get_print(inputData['body'])
@@ -640,6 +657,12 @@ class ClassHCUDbaMainEntry():
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         elif dev_code[1]=="G1400FSTT":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2008FSTT":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2013SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:

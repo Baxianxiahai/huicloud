@@ -401,12 +401,12 @@ class ClassDbaF11Faam:
             result=False
         return result
     def dft_product_stock_table(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
-        result=DappDbF11Faam_view.dft_dbi_product_stock_table(inputData)
-#         except Exception:
-#             result={}
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_product_stock_table(inputData)
+        except Exception:
+            result={}
         return result
     def dft_get_product_stock_detail(self,inputData):
         try:
@@ -582,4 +582,36 @@ class ClassDbaF11Faam:
                 result=DappDbF11Faam_view.dft_dbi_faam_table_query(inputData)
         except Exception:
             result={}
+        return result
+    def dft_faam_qrcode_kq_process(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_faam_qrcode_kq_process(inputData)
+        except Exception:
+            result={'employee': "", 'message': '数据异常'}
+        return result
+    def dft_faam_qrcode_sc_process(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+        result=DappDbF11Faam_view.dft_dbi_faam_qrcode_sc_process(inputData)
+#         except Exception:
+#             result= {'flag': False, 'employee': "", 'message': '数据异常'}
+        return result
+    def dft_huitp_xmlmsg_equlable_apply_report(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_huitp_xmlmsg_equlable_apply_report(inputData)
+        except Exception:
+            result={'start':0,'end':0,'allocateResp':1,'comConfirm':0X02}
+        return result
+    def dft_huitp_xmlmsg_equlable_userlist_report(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_huitp_xmlmsg_equlable_userlist_report(inputData)
+        except Exception:
+            result={'comConfirm':0X02,'userList':"",'currrntNum':0,'totalNum':0}
         return result

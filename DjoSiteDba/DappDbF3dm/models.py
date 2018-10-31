@@ -27,6 +27,7 @@ class dct_t_l3f3dm_current_report_aqyc(models.Model):
     toxicgas = models.FloatField(default=0, verbose_name="煤气")
     rssi = models.FloatField(default=0, verbose_name="信号强度")
     pwrind = models.FloatField(default=0, verbose_name="电量强度")
+    cmd_flag = models.CharField(default="00",max_length=2, verbose_name="信号标志位")
 
 
 class dct_t_l3f3dm_minute_report_aqyc(models.Model):

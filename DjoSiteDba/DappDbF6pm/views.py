@@ -5,6 +5,7 @@ from DappDbF1sym.models import *
 from DappDbF2cm.models import *
 from DappDbF3dm.models import *
 from DappDbInsertData.DappDbMsgDefine import *
+import datetime
 # Create your views here.
 
 class dct_classDbiL3apF6pm:
@@ -52,15 +53,15 @@ class dct_classDbiL3apF6pm:
         column.append("监测点名称")
         column.append("地址")
         column.append("报告时间")
-        column.append("系统重启次数")
-        column.append("网络连接统计")
-        column.append("网络连接失败")
-        column.append("网络断开统计")
-        column.append("Socket断开统计")
+#         column.append("VM错误")
+#         column.append("Socket断开统计")
         column.append("CPU占用")
         column.append("内存占用")
         column.append("硬盘占用")
         column.append("CPU温度")
+        column.append("告警计数")
+        column.append("服务器重连")
+        column.append("连续工作时长(min)")
         for anth_info in auth_list:
             statcode=anth_info['stat_code']
             result=dct_t_l3f6pm_perfdata.objects.filter(site_code_id=statcode)
@@ -71,11 +72,11 @@ class dct_classDbiL3apF6pm:
                     address=line.site_code.address
                     devcode=line.dev_code_id
                     createtime=str(line.createtime)
-                    restartCnt=line.restartcnt
-                    networkConnCnt=line.networkconncnt
-                    networkConnFailCnt=line.networkconnfailcnt
-                    networkDiscCnt=line.networkdisccnt
-                    socketDiscCnt=line.socketdisccnt
+                    workContmins=line.workcontmins
+                    alarmCnt=line.alarmcnt
+                    discHomeCnt=line.dischomecnt
+#                     networkDiscCnt=line.networkdisccnt
+#                     socketDiscCnt=line.socketdisccnt
                     cpuOccupy=str(line.cpuoccupy)+"%"
                     memOccupy=str(line.memoccupy)+"%"
                     diskOccupy=str(line.diskoccupy)+"%"
@@ -85,16 +86,16 @@ class dct_classDbiL3apF6pm:
                     temp.append(statName)
                     temp.append(address)
                     temp.append(createtime)
-                    temp.append(restartCnt)
-                    temp.append(networkConnCnt)
-                    temp.append(networkConnFailCnt)
-                    temp.append(networkDiscCnt)
-                    temp.append(socketDiscCnt)
+#                     temp.append(networkDiscCnt)
+#                     temp.append(socketDiscCnt)
                     temp.append(cpuOccupy)
                     temp.append(memOccupy)
                     temp.append(diskOccupy)
                     temp.append(cpuTemp)
-                    data.append(temp)
+                    data.append(temp)             
+                    temp.append(alarmCnt)
+                    temp.append(discHomeCnt)
+                    temp.append(workContmins)
         resp={'column':column,'data':data}
         return resp
 
@@ -103,25 +104,54 @@ class Accept_Msg_From_HCU_Report():
         ServerName = InputData["ToUsr"]
         IeCnt = InputData['IeCnt']
         dev_Code = InputData['FrUsr']
-        restartCnt=IeCnt['restartCnt']
-        networkConnCnt=IeCnt['networkConnCnt']
-        networkConnFailCnt=IeCnt['networkConnFailCnt']
-        networkDiscCnt=IeCnt['networkDiscCnt']
-        socketDiscCnt=IeCnt['socketDiscCnt']
-        cpuTemp=IeCnt['cpuTemp']
-        cpuOccupy=IeCnt['cpuOccupy']
-        memOccupy=IeCnt['memOccupy']
-        diskOccupy=IeCnt['diskOccupy']
-        alarmCnt=IeCnt['alarmCnt']
-        discHomeCnt=IeCnt['discHomeCnt']
-        contWorkMins=IeCnt['contWorkMins']
-        vmErrCnt=IeCnt['vmErrCnt']
-        timeStamp=IeCnt['timeStamp']
+        if 'restartCnt' in IeCnt.keys():restartCnt = IeCnt['restartCnt']
+        else:restartCnt=0
+        if 'networkConnCnt' in IeCnt.keys():networkConnCnt = IeCnt['networkConnCnt']
+        else:networkConnCnt=0
+        if 'networkConnFailCnt' in IeCnt.keys():networkConnFailCnt = IeCnt['networkConnFailCnt']
+        else:networkConnFailCnt=0
+        if 'networkDiscCnt' in IeCnt.keys():networkDiscCnt = IeCnt['networkDiscCnt']
+        else:networkDiscCnt=0
+        if 'socketDiscCnt' in IeCnt.keys():socketDiscCnt = IeCnt['socketDiscCnt']
+        else:socketDiscCnt=0
+        if 'cpuTemp' in IeCnt.keys():cpuTemp = IeCnt['cpuTemp']
+        else:cpuTemp=0
+        if 'cpuOccupy' in IeCnt.keys():cpuOccupy = IeCnt['cpuOccupy']
+        else:cpuOccupy=0
+        if 'memOccupy' in IeCnt.keys():memOccupy = IeCnt['memOccupy']
+        else:memOccupy=0
+        if 'diskOccupy' in IeCnt.keys():diskOccupy = IeCnt['diskOccupy']
+        else:diskOccupy=0
+        if 'alarmCnt' in IeCnt.keys():alarmCnt = IeCnt['alarmCnt']
+        else:alarmCnt=0
+        if 'discHomeCnt' in IeCnt.keys():discHomeCnt = IeCnt['discHomeCnt']
+        else:discHomeCnt=0
+        if 'contWorkMins' in IeCnt.keys():contWorkMins = IeCnt['contWorkMins']
+        else:contWorkMins=0
+        if 'vmErrCnt' in IeCnt.keys():vmErrCnt = IeCnt['vmErrCnt']
+        else:vmErrCnt=0
+        if 'timeStamp' in IeCnt.keys():timeStamp = IeCnt['timeStamp']
+        else:timeStamp=0
+        date=datetime.datetime.now()
+        #restartCnt=IeCnt['restartCnt']
+#         networkConnCnt=IeCnt['networkConnCnt']
+#         networkConnFailCnt=IeCnt['networkConnFailCnt']
+#         networkDiscCnt=IeCnt['networkDiscCnt']
+#         socketDiscCnt=IeCnt['socketDiscCnt']
+#         cpuTemp=IeCnt['cpuTemp']
+#         cpuOccupy=IeCnt['cpuOccupy']
+#         memOccupy=IeCnt['memOccupy']
+#         diskOccupy=IeCnt['diskOccupy']
+#         alarmCnt=IeCnt['alarmCnt']
+#         discHomeCnt=IeCnt['discHomeCnt']
+#         contWorkMins=IeCnt['contWorkMins']
+#         vmErrCnt=IeCnt['vmErrCnt']
+#         timeStamp=IeCnt['timeStamp']
         result=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=dev_Code)
         if result.exists():
             resp = dct_t_l3f6pm_perfdata.objects.filter(dev_code_id=dev_Code)
             if resp.exists():
-                resp.update(site_code_id=result[0].site_code_id, restartcnt=restartCnt, networkconncnt=networkConnCnt,
+                resp.update(createtime=date,site_code_id=result[0].site_code_id, restartcnt=restartCnt, networkconncnt=networkConnCnt,
                             networkconnfailcnt=networkConnFailCnt, networkdisccnt=networkDiscCnt,
                             socketdisccnt=socketDiscCnt,
                             cpuoccupy=cpuOccupy, memoccupy=memOccupy, diskoccupy=diskOccupy, cputemp=cpuTemp,

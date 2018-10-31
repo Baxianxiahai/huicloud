@@ -420,7 +420,7 @@ class dct_classDbiL3apF1sym:
         result=dct_t_l3f1sym_account_primary.objects.filter(login_name=username)
         if result.exists():
             authcode=result[0].auth_code
-            print(authcode)
+#             print(authcode)
             uid=result[0].uid
             grade=result[0].grade_level
             if grade==0:
@@ -428,9 +428,9 @@ class dct_classDbiL3apF1sym:
             else:
                 admin="false"
             if(str(authcode)==code):
-                print(code)
+#                 print(code)
                 sessionid=self.__dft_getRandomSid(10)
-                print(sessionid)
+#                 print(sessionid)
                 body={'key':sessionid,'admin':admin}
                 msg='验证码正确，登录成功'
                 self.__dft_updateSession(uid, sessionid)
@@ -521,29 +521,38 @@ class dct_classDbiL3apF1sym:
         else:nick=userinfo['nickname'].replace(' ','')
         if 'password' not in userinfo.keys():password=""
         else: password=userinfo['password'].replace(' ','')
-        if 'type' not in userinfo.keys():grade=""
-        else:grade=userinfo['type'].replace(' ','')
+        if 'type' not in userinfo.keys():grade=6
+        else:grade=int(userinfo['type'].replace(' ',''))
         if 'mobile' not in userinfo.keys():mobile=""
         else:mobile=userinfo['mobile'].replace(' ','')
         if 'mail' not in userinfo.keys():mail=""
         else:mail=userinfo['mail'].replace(' ','')
         if 'memo' not in userinfo.keys():backup=""
         else:backup=userinfo['memo'].replace(' ','')
-        if 'auth' not in userinfo.keys():auth=""
+        if 'auth' not in userinfo.keys():auth=[]
         else:auth=userinfo['auth']
         city="上海"
+        print(grade)
+        if grade<2:
+            menu_group=1
+        elif (grade>=2 & grade<4):
+            menu_group=2
+        elif grade==4:
+            menu_group=3
+        else:
+            return False
 #         print(user,nick,password,type,mobile,mail,backup,auth)
         result=dct_t_l3f1sym_account_primary.objects.filter(login_name=user)
         if result.exists():
             result.delete()
-            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
+            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=menu_group,auth_code=0,grade_level=grade,backup=backup)
             result.save()
             dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
         else:
-            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=0,auth_code=0,grade_level=grade,backup=backup)
+            result=dct_t_l3f1sym_account_primary(uid=uid,login_name=user,pass_word=password,email=mail,menu_group=menu_group,auth_code=0,grade_level=grade,backup=backup)
             result.save()
             dct_t_l3f1sym_account_secondary.objects.create(uid=dct_t_l3f1sym_account_primary.objects.get(login_name=user),gender=1,telephone=mobile,nick_name=nick,city=city)
-        if len(auth)>0:
+        if len(auth)>=0:
             for i in range(len(auth)):
                 if auth[i]['id'] == "":
                     continue
@@ -636,7 +645,7 @@ class dct_classDbiL3apF1sym:
             else:
                 station_status='true'
         else:
-            status='false'
+            station_status='false'
             msg='错误的设备编号'
         user={'username':username,'userid':userid,'CPU':cpuactive,'station':station_status}
         confirm_msg={

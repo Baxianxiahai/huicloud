@@ -185,9 +185,9 @@ class HCUF3dmDataBaseConfirm():
                 DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
                 result=DappDbF3dm_view.dft_dbi_aqyc_current_report(socketId, inputData)
         except Exception:
-            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':inputData['FrUsr'],'FrUsr':inputData['ToUsr'],"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
             msg_len=len(json.dumps(result))
-            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':inputData['FrUsr'],'FrUsr':inputData['ToUsr'],"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
     def dft_dbi_smart_city_current_report(self,socketId,inputData):
@@ -196,7 +196,7 @@ class HCUF3dmDataBaseConfirm():
                 DappDbF3dm_view=DappDbF3dm.dct_t_HCU_Data_Report()
                 result=DappDbF3dm_view.dft_dbi_smart_city_current_report_view(socketId, inputData)
         except Exception:
-            result={'socketid':socketId,'data':{'ToUsr':"",'FrUsr':"","CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
+            result={'socketid':socketId,'data':{'ToUsr':inputData['FrUsr'],'FrUsr':inputData['ToUsr'],"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
     

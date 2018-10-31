@@ -1373,26 +1373,101 @@ class dct_t_HCU_Data_Report():
         if result.exists():
             currentTime=inputData['CrTim']
             currentData = inputData['IeCnt']
-            pm1d0Value = currentData['pm1d0Value']
-            pm2d5Value = currentData['pm2d5Value']
-            pm10Value = currentData['pm10Value']
-            tspValue = currentData['tspValue']
-            tempValue = currentData['tempValue']
-            humidValue = currentData['humidValue']
-            winddirValue = currentData['winddirValue']
-            windspdValue = currentData['windspdValue']
-            noiseValue = currentData['noiseValue']
-            lightstrValue = currentData['lightstrValue']
-            so2Value = currentData["so2Value"]
-            co1Value = currentData["co1Value"]
-            co2Value = currentData["co2Value"]
-            no1Value = currentData["no1Value"]
-            hsValue = currentData["hsValue"]
-            hchoValue = currentData["hchoValue"]
-            toxicgasValue = currentData["toxicgasValue"]
-            rssiValue = currentData["rssiValue"]
-            workContMins = currentData["workContMins"]
-            pwrInd = currentData["pwrInd"]
+            if 'pm1d0Value' in currentData.keys():pm1d0Value = currentData['pm1d0Value']
+            else:pass
+            if 'pm2d5Value' in currentData.keys():pm2d5Value = currentData['pm2d5Value']
+            else:pass
+            if 'pm10Value' in currentData.keys():pm10Value = currentData['pm10Value']
+            else:pass
+            if 'tspValue' in currentData.keys():tspValue = currentData['tspValue']
+            else:pass
+            if 'tempValue' in currentData.keys():tempValue = currentData['tempValue']
+            else:pass
+            if 'humidValue' in currentData.keys():humidValue = currentData['humidValue']
+            else:pass
+            if 'winddirValue' in currentData.keys():winddirValue = currentData['winddirValue']
+            else:pass
+            if 'windspdValue' in currentData.keys():windspdValue = currentData['windspdValue']
+            else:pass
+            if 'lightstrValue' in currentData.keys():lightstrValue = currentData['lightstrValue']
+            else:pass
+            if 'so2Value' in currentData.keys():so2Value = currentData['so2Value']
+            else:pass
+            if 'co1Value' in currentData.keys():co1Value = currentData['co1Value']
+            else:pass
+            if 'co2Value' in currentData.keys():co2Value = currentData['co2Value']
+            else:pass
+            if 'no1Value' in currentData.keys():no1Value = currentData['no1Value']
+            else:pass
+            if 'hsValue' in currentData.keys():hsValue = currentData['hsValue']
+            else:pass
+            if 'hchoValue' in currentData.keys():hchoValue = currentData['hchoValue']
+            else:pass
+            if 'toxicgasValue' in currentData.keys():toxicgasValue = currentData['toxicgasValue']
+            else:pass
+            if 'rssiValue' in currentData.keys():rssiValue = currentData['rssiValue']
+            else:pass
+            if 'workContMins' in currentData.keys():workContMins = currentData['workContMins']
+            else:pass
+            if 'pwrInd' in currentData.keys():pwrInd = currentData['pwrInd']
+            else:pass
+            if 'noiseValue' in currentData.keys():noiseValue = currentData['noiseValue']
+            else:pass
+            if 'wst' in currentData.keys():wst = currentData['wst']
+            else:pass
+            if 'apr' in currentData.keys():apr = currentData['apr']
+            else:pass
+            if 'atd' in currentData.keys():atd = currentData['atd']
+            else:pass
+            if 'so2' in currentData.keys():so2Value = currentData['so2']
+            else:pass
+            if 'no1' in currentData.keys():no1Value = currentData['no1']
+            else:pass
+            if 'no2' in currentData.keys():no2 = currentData['no2']
+            else:pass
+            if 'co1' in currentData.keys():co1Value = currentData['co1']
+            else:pass
+            if 'co2' in currentData.keys():co2Value = currentData['co2']
+            else:pass
+            if 'o3' in currentData.keys():o3 = currentData['o3']
+            else:pass
+            if 'h2s' in currentData.keys():hsValue = currentData['h2s']
+            else:pass
+            if 'ph' in currentData.keys():ph = currentData['ph']
+            else:pass
+            if 'ch4' in currentData.keys():ch4 = currentData['ch4']
+            else:pass
+            if 'ach' in currentData.keys():ph = currentData['ach']
+            else:pass
+            if 'hcho' in currentData.keys():hchoValue = currentData['hcho']
+            else:pass
+            if 'voc' in currentData.keys():voc = currentData['voc']
+            else:pass
+            if 'tox' in currentData.keys():toxicgasValue = currentData['tox']
+            else:pass
+            
+#             currentTime=inputData['CrTim']
+#             currentData = inputData['IeCnt']
+#             pm1d0Value = currentData['pm1d0Value']
+#             pm2d5Value = currentData['pm2d5Value']
+#             pm10Value = currentData['pm10Value']
+#             tspValue = currentData['tspValue']
+#             tempValue = currentData['tempValue']
+#             humidValue = currentData['humidValue']
+#             winddirValue = currentData['winddirValue']
+#             windspdValue = currentData['windspdValue']
+#             noiseValue = currentData['noiseValue']
+#             lightstrValue = currentData['lightstrValue']
+#             so2Value = currentData["so2Value"]
+#             co1Value = currentData["co1Value"]
+#             co2Value = currentData["co2Value"]
+#             no1Value = currentData["no1Value"]
+#             hsValue = currentData["hsValue"]
+#             hchoValue = currentData["hchoValue"]
+#             toxicgasValue = currentData["toxicgasValue"]
+#             rssiValue = currentData["rssiValue"]
+#             workContMins = currentData["workContMins"]
+#             pwrInd = currentData["pwrInd"]
             timeArray=time.localtime(currentTime)
             hourminindex=timeArray.tm_hour*60+timeArray.tm_min
             dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,
@@ -1489,6 +1564,32 @@ class dct_t_HCU_Data_Report():
                                   'MsgTp': 'huitp_json', 'MsgId': GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM, 'MsgLn': 115, "IeCnt": {'cfmYesOrNo': 0},
                                   "FnFlg": 0}}
         return Msg_final
-    
+    '''系统定时发送告警信息'''
+#     def dft_dbi_check_device_status(self):
+#         time_now=int(time.time())
+#         result_device=dct_t_l3f3dm_current_report_aqyc.objects.all()
+#         for line in result_device:
+#             report_time=str(line.report_time)
+#             response_tsp=line.tsp
+#             stand=100
+#             timeArray=time.strptime(report_time, "%Y-%m-%d %H:%M:%S.%f")
+#             time_report=time.mktime(timeArray)
+#             outTimeFlag=line.cmd_flag[0:0]
+#             tspErrorFlag=line.cmd_flag[1:1]
+#             if(time_now-time_report>1800):
+#                 if outTimeFlag=="0":
+#                     prj_code=line.site_code.prj_code_id
+#                     pg_code=line.site_code.prj_code.pg_code_id
+#                 else:
+#                     pass
+#             if response_tsp>stand:
+#                 if tspErrorFlag=="0":
+#                     send_msg='true'
+#                 else:
+#                     pass
+#             print(timeArray)
+#             print(int(time.mktime(timeArray)))
+#     def dft_dbi_send_stand_msg(self,msg):
+#         pass
     
     
