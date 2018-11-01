@@ -730,10 +730,215 @@ def dft_dbi_tsp_report():
                     dayValue[day_index]['sum']=value
                     dayValue[day_index]['counter']=1
     print(dayValue)
-    
+def dft_update_daily_sheet():
+    scanCode='XHZN'
+    employee='小丁'
+    latitude=31221140
+    longitude=121544090
+    nickname="……"
+    pagephone=""
+    timeStamp=int(time.time())
+    localTime=time.localtime(timeStamp)
+    workDay=time.strftime("%Y-%m-%d",localTime)
+    currentTime=time.strftime("%H:%M:%S",localTime)
+    result=dct_t_l3f11faam_factory_sheet.objects.filter(pjcode=scanCode)
+    if result.exists():
+        for line in result:
+            restStart=str(line.reststart)
+            restEnd=str(line.restend)
+            stdWorkStart=str(line.workstart)
+            stdWorkEnd=str(line.workend)
+            targetLatitude=int(line.latitude)
+            targetLongitude=int(line.longitude)
+            delta_latitude=abs(latitude-targetLatitude)
+            delta_longitude=abs(longitude-targetLongitude)
+            if delta_latitude>50000 or delta_longitude>50000:
+                resp={'employee':nickname,'message':'考勤位置错误'}
+                return resp
+    else:
+        resp = {'employee': nickname, 'message': '二维码无效'}
+        return resp
+    membersheet=dct_t_l3f11faam_member_sheet.objects.filter(openid=nickname,pjcode=scanCode)
+    if membersheet.exists():
+        for line in membersheet:
+            employee=line.employee
+            standardnum=line.standardnum
+            if employee!="":
+                unitPrice=line.unitprice
+                dailysheet=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay)
+                if dailysheet.exists():
+                    for line_daily in dailysheet:
+                        arriveTimeInt=str(line_daily.arrivetime)
+                        leaverTimeInt=str(currentTime)
+                        offWorkTime=round(line_daily.offwork,1)
+                        arriveTimeStr=workDay+" "+arriveTimeInt
+                        print(arriveTimeStr)
+                        leaverTimeStr=workDay+" " +leaverTimeInt
+                        restStartStr=workDay+" "+restStart
+                        restEndStr=workDay+" "+restEnd
+                        stdWorkStartStr=workDay+" "+stdWorkStart
+                        stdWorkEndStr=workDay+" "+stdWorkEnd
+                        arriveTimeInt = time.strptime(arriveTimeStr, "%Y-%m-%d %H:%M:%S")
+                        arriveTimeInt = time.mktime(arriveTimeInt)
+                        print(arriveTimeInt)
+                        leaverTimeInt = time.strptime(leaverTimeStr, "%Y-%m-%d %H:%M:%S")
+                        leaverTimeInt = time.mktime(leaverTimeInt)
+                        print(leaverTimeInt)
+                        restStartInt = time.strptime(restStartStr, "%Y-%m-%d %H:%M:%S")
+                        restStartInt = time.mktime(restStartInt)
+                        restEndInt = time.strptime(restEndStr, "%Y-%m-%d %H:%M:%S")
+                        restEndInt = time.mktime(restEndInt)
+                        stdWorkStartInt = time.strptime(stdWorkStartStr, "%Y-%m-%d %H:%M:%S")
+                        stdWorkStartInt = time.mktime(stdWorkStartInt)
+                        stdWorkEndInt = time.strptime(stdWorkEndStr, "%Y-%m-%d %H:%M:%S")
+                        stdWorkEndInt = time.mktime(stdWorkEndInt)
+                        if arriveTimeInt<restStartInt and leaverTimeInt>restEndInt:
+                            timeInterval=restStartInt-arriveTimeInt+leaverTimeInt-restEndInt
+                        elif arriveTimeInt>=restStartInt and arriveTimeInt<restEndInt:
+                            timeInterval=leaverTimeInt-restEndInt
+                        elif leaverTimeInt>restStartInt and leaverTimeInt<restEndInt:
+                            timeInterval=restStartInt-arriveTimeInt
+                        elif arriveTimeInt>restEndInt:
+                            timeInterval=leaverTimeInt-arriveTimeInt
+                        elif leaverTimeInt<restStartInt:
+                            timeInterval=leaverTimeInt-arriveTimeInt
+                        else:
+                            timeInterval=0
+                        earlyLeaveFlag=0
+                        lateWorkFlag=0
+                        hour=int((timeInterval%(3600*24))/3600)
+                        min=int((timeInterval%3600)/60)
+                        WorkTime=hour+round(min/60,1)-float(offWorkTime)
+                        print(WorkTime)
+                        if WorkTime<0:WorkTime=0
+                        if arriveTimeInt>stdWorkStartInt:
+                            lateWorkFlag=1
+                        if leaverTimeInt<stdWorkEndInt:
+                            earlyLeaveFlag=1
+                        dayStandardNum=standardnum*WorkTime
+                        result_djz=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay).update(leavetime=currentTime,worktime=WorkTime,unitprice=unitPrice,laterflag=lateWorkFlag,earlyflag=earlyLeaveFlag,daystandardnum=dayStandardNum)
+                        print(dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay))
+                        print(scanCode)
+                        print(employee)
+                        print(workDay)
+                        print(dayStandardNum)
+                        print(currentTime)
+                        print(WorkTime)
+                        print(unitPrice)
+                        print(lateWorkFlag)
+                        print(earlyLeaveFlag)
+                        resp = {'employee': employee, 'message': '考勤成功'}
+                else:
+                    dct_t_l3f11faam_daily_sheet.objects.create(pjcode=scanCode,employee=employee,workday=workDay,arrivetime=currentTime,offwork=0)
+                    resp={'employee':employee,'message':'考勤成功'}
+
+            else:
+                resp = {'employee': nickname, 'message': '用户注册未审核'}
+    else:
+        if pagephone=="":
+            resp = {'employee': nickname, 'message': '请输入手机号'}
+            return resp
+        else:
+            member_by_phone_sheet=dct_t_l3f11faam_member_sheet.objects.filter(phone=pagephone)
+            if member_by_phone_sheet.exists():
+                dct_t_l3f11faam_member_sheet.objects.filter(phone=pagephone).update(openid=nickname)
+                resp={'employee': nickname, 'message': '注册成功'}
+            else:
+                resp = {'employee': nickname, 'message': '用户未注册'}
+    return resp
+def dft_dbi_shyc_old_data_clear(inputData):
+    delete_days=int(inputData['days'])
+    time_now=datetime.datetime.now()
+    time_old=time_now-datetime.timedelta(days=delete_days)
+    print(time_old)
+#     dct_t_l2snr_temperature.objects.filter(report_data__lte=time_old).delete()
+#     dct_t_l2snr_humidity.objects.filter(report_data__lte=time_old).delete()
+#     dct_t_l2snr_winddir.objects.filter(report_data__lte=time_old).delete()
+#     dct_t_l2snr_windspd.objects.filter(report_data__lte=time_old).delete()
+#     dct_t_l2snr_noise.objects.filter(report_data__lte=time_old).delete()
+#     dct_t_l2snr_picture.objects.filter(report_data__lte=time_old).delete()
+#     dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__lte=time_old).delete()
+    print(dct_t_l2snr_temperature.objects.filter(report_data__lte=time_old))
+    print(dct_t_l2snr_humidity.objects.filter(report_data__lte=time_old))
+    print(dct_t_l2snr_winddir.objects.filter(report_data__lte=time_old))
+    print(dct_t_l2snr_windspd.objects.filter(report_data__lte=time_old))
+    print(dct_t_l2snr_noise.objects.filter(report_data__lte=time_old))
+    print(dct_t_l2snr_picture.objects.filter(report_data__lte=time_old))
+    print(dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__lte=time_old)[0])
+def changeDevCode(old,new):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=old).update(dev_code=new)
+def selectProduct():
+#     timeStart="1900-01-01"
+#     timeEnd="2018-11-01"
+#     dayTimeStart = timeStart + ' 00:00:00'
+#     dayTimeEnd = timeEnd + ' 23:59:59'
+#     dayTimeStart = datetime.datetime.strptime(dayTimeStart, '%Y-%m-%d %H:%M:%S')
+#     dayTimeEnd = datetime.datetime.strptime(dayTimeEnd, '%Y-%m-%d %H:%M:%S')
+# #     time_now=datetime.datetime.now()
+# #     dayTimeStart = str(time_now)
+#     print(dayTimeStart)
+#     print(dayTimeEnd)
+# #     dayTimeStart = datetime.datetime.strptime(dayTimeStart, '%Y-%m-%d %H:%M:%S.%f')
+#     result = dct_t_l3f11faam_production.objects.filter(pjcode="HYGS", activetime__range=(dayTimeStart,dayTimeEnd))
+#     for line in result:
+#         print(line)
+    result=dct_t_l3f11faam_factory_sheet.objects.filter(pjcode="HYGS")
+    if result.exists():
+        for line in result:
+            restStart=str(line.reststart)
+            restEnd=str(line.restend)
+            stdWorkStart=str(line.workstart)
+            stdWorkEnd=str(line.workend)
+            factoryStart=time.strptime(stdWorkStart, "%H:%M:%S")
+            factoryEnd=time.strptime(stdWorkEnd, "%H:%M:%S")
+            factoryRestStart=time.strptime(restStart, "%H:%M:%S")
+            factoryRestEnd=time.strptime(restEnd, "%H:%M:%S")
+            factoryStartInt=time.mktime(factoryStart)
+            factoryEndInt=time.mktime(factoryEnd)
+            factoryRestStartInt=time.mktime(factoryRestStart)
+            factoryRestEndInt=time.mktime(factoryRestEnd)
+            timeInterval=factoryRestStartInt-factoryStartInt+factoryEndInt-factoryRestEndInt
+            hour=int((timeInterval%(3600*24))/3600)
+            min=int((timeInterval%3600)/60)
+            WorkTime=hour+round(min/60,1)
+def dft_dbi_huitp_xmlmsg_equlable_userlist_report(inputData):
+    userList=inputData['userlist']
+    pjcode=inputData['pjcode']
+    syncStart=int(inputData['syncstart'])
+    currrntNum=0
+    counter=0
+    memberResult=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjcode,onjob=1)
+    if memberResult.exists():
+        total_num=len(memberResult)
+        if  total_num<syncStart+100:
+            for line in memberResult:
+                counter=counter+1
+                if syncStart>counter:
+                    continue
+                workid=line.mid
+                employee=line.employee
+                userList=userList+employee+";"
+                currrntNum=currrntNum+1
+        else:
+            if currrntNum<100:
+                counter=counter+1
+                for line in memberResult:
+                    if syncStart>counter:
+                        continue
+                    workid = line.mid
+                    employee = line.employee
+                    userList = userList + employee +";"
+                    currrntNum = currrntNum + 1
+    resp={'userList':userList,'currrntNum':currrntNum,'totalNum':total_num}
+    print(resp)
 if __name__ == "__main__":
-    dft_dbi_tsp_report()
+#     changeDevCode("HCU_G201_AQYC_SH071", "HCU_G201_AQYC_SH082")
+#     dft_dbi_select_cron()
     #insert_old_hcu_data()
+#     a={'days':30}
+#     dft_dbi_shyc_old_data_clear(a)
+    a={'userlist':"",'pjcode':'HYGS','syncstart':0}
+    dft_dbi_huitp_xmlmsg_equlable_userlist_report(a)
     
     
     

@@ -602,6 +602,9 @@ class ClassDbaMainEntry():
             result=""
         return result
     def dft_Snr_Send_Message(self,inputData): 
+        L2snr=ModDbaSnr.classDappDbSnr()
+        if inputData['action']=='AQYCOldDataClear':
+            pass
         return False
     
 class ClassHCUDbaMainEntry():
@@ -663,6 +666,9 @@ class ClassHCUDbaMainEntry():
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         elif dev_code[1]=="G2013SHYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2012SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:

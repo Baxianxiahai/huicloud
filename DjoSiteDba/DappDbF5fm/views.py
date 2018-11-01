@@ -331,7 +331,7 @@ class dct_classDbiL3apF5fm:
         
         dayValue=[]
         for dayIndex in range(0,31):
-            a={'sum':0,'counter':0,'average':0}
+            a={'sum':0,'counter':1,'average':0}
             dayValue.append(a)
         if alarmtype==self.__MFUN_L3APL_F3DM_AQYC_STYPE_PM:
             alarm_name='细颗粒物'

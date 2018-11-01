@@ -787,7 +787,7 @@ class dct_classDbiL3apF11Faam:
                 if earlyLeaveFlag:
                     earlyLeaveDay[employee]=1
                 else:
-                    earlyLeaveDay[employee]=1
+                    earlyLeaveDay[employee]=0
                 if workTime!=0:
                     workingDay[employee]=1
                     totalWorkTime[employee]=workTime
@@ -990,19 +990,19 @@ class dct_classDbiL3apF11Faam:
         dayTimeStart=datetime.datetime.strptime(dayTimeStart,'%Y-%m-%d %H:%M:%S')
         dayTimeEnd = datetime.datetime.strptime(dayTimeEnd, '%Y-%m-%d %H:%M:%S')
         pjCode=self.__dft_get_user_auth_factory(uid)
-        result=dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),Q(owner__icontains=keyWord)|Q(typecode__icontains=keyWord))
+        result=dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),Q(owner__icontains=keyWord)|Q(typecode__icontains=keyWord),Q(applytime__gte=dayTimeStart),Q(applytime__lte=dayTimeEnd))
         for line in result:
-            applyTime=line.applytime
-            applyTime = datetime.datetime.strptime(str(applyTime), '%Y-%m-%d %H:%M:%S')
-            if (applyTime>=dayTimeStart) and (applyTime<=dayTimeEnd):
-                temp=[]
-                temp.append(line.sid)
-                temp.append(line.qrcode)
-                temp.append(line.owner)
-                temp.append(line.typecode)
-                temp.append(str(line.applytime))
-                temp.append(str(line.activetime))
-                TableData.append(temp)
+#             applyTime=line.applytime
+#             applyTime = datetime.datetime.strptime(str(applyTime), '%Y-%m-%d %H:%M:%S')
+#             if (applyTime>=dayTimeStart) and (applyTime<=dayTimeEnd):
+            temp=[]
+            temp.append(line.sid)
+            temp.append(line.qrcode)
+            temp.append(line.owner)
+            temp.append(line.typecode)
+            temp.append(str(line.applytime))
+            temp.append(str(line.activetime))
+            TableData.append(temp)
         history={'ColumnName':ColumnName,'TableData':TableData}
         return history
     
@@ -1033,23 +1033,23 @@ class dct_classDbiL3apF11Faam:
         dayTimeEnd = datetime.datetime.strptime(dayTimeEnd, '%Y-%m-%d %H:%M:%S')
         buffer=[]
         if keyWord=="":
-            result=dct_t_l3f11faam_production.objects.filter(pjcode=pjCode)
+            result=dct_t_l3f11faam_production.objects.filter(pjcode=pjCode,activetime__range=(dayTimeStart,dayTimeEnd))
             for line in result:
-                activeTime=line.activetime
-                if activeTime==None:
-                    activeTime="1900-01-01 00:00:00"
-                    activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
-                if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
-                    buffer.append(line)
+#                 activeTime=line.activetime
+#                 if activeTime==None:
+#                     activeTime="1900-01-01 00:00:00"
+#                     activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
+#                 if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
+                buffer.append(line)
         else:
-            result = dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),Q(owner__icontains=keyWord)|Q(typecode__icontains=keyWord))
+            result = dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),Q(owner__icontains=keyWord)|Q(typecode__icontains=keyWord),Q(activetime__range=(dayTimeStart,dayTimeEnd)))
             for line in result:
-                activeTime=line.activetime
-                if activeTime==None:
-                    activeTime="1900-01-01 00:00:00"
-                    activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
-                if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
-                    buffer.append(line)
+#                 activeTime=line.activetime
+#                 if activeTime==None:
+#                     activeTime="1900-01-01 00:00:00"
+#                     activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
+#                 if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
+                buffer.append(line)
         if len(buffer)==0:
             history={'ColumnName':ColumnName,'TableData':TableData,'Result':Result}
             return history
@@ -1072,7 +1072,7 @@ class dct_classDbiL3apF11Faam:
             else:
                 package[employee][typeCode]=1
 
-        if lever>1:
+        if lever>2:
             week=datetime.date.today()
             week = week + datetime.timedelta(days=-1)
             week = datetime.datetime.strptime(str(week),"%Y-%m-%d %H:%M:%S")
@@ -1211,38 +1211,38 @@ class dct_classDbiL3apF11Faam:
         dayTimeEnd = datetime.datetime.strptime(dayTimeEnd, '%Y-%m-%d %H:%M:%S')
         workBuf=[]
         if keyWord!="":
-            result=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode,employee=keyWord)
+            result=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode,employee__icontains=keyWord,workday__range=(dayTimeStart,dayTimeEnd))
             for line in result:
-                workDay=str(line.workday)
-                workDay=datetime.datetime.strptime(str(workDay),'%Y-%m-%d')
-                if workDay>=dayTimeStart and workDay<=dayTimeEnd:
-                    workBuf.append(line)
+#                 workDay=str(line.workday)
+#                 workDay=datetime.datetime.strptime(str(workDay),'%Y-%m-%d')
+#                 if workDay>=dayTimeStart and workDay<=dayTimeEnd:
+                workBuf.append(line)
         else:
-            result=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode)
+            result=dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode,workday__range=(dayTimeStart,dayTimeEnd))
             for line in result:
-                workDay=str(line.workday)
-                workDay=datetime.datetime.strptime(str(workDay),'%Y-%m-%d')
-                if workDay>=dayTimeStart and workDay<=dayTimeEnd:
-                    workBuf.append(line)
+#                 workDay=str(line.workday)
+#                 workDay=datetime.datetime.strptime(str(workDay),'%Y-%m-%d')
+#                 if workDay>=dayTimeStart and workDay<=dayTimeEnd:
+                workBuf.append(line)
         productBuf = []
         if keyWord != "":
-            result = dct_t_l3f11faam_production.objects.filter(pjcode=pjCode, owner=keyWord)
+            result = dct_t_l3f11faam_production.objects.filter(pjcode=pjCode, owner__icontains=keyWord,activetime__range=(dayTimeStart,dayTimeEnd))
             for line in result:
-                activeTime = line.activetime
-                if activeTime==None:
-                    activeTime="1900-01-01 00:00:00"
-                    activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
-                if activeTime >= dayTimeStart and activeTime <= dayTimeEnd:
-                    productBuf.append(line)
+#                 activeTime = line.activetime
+#                 if activeTime==None:
+#                     activeTime="1900-01-01 00:00:00"
+#                     activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
+#                 if activeTime >= dayTimeStart and activeTime <= dayTimeEnd:
+                productBuf.append(line)
         else:
-            result = dct_t_l3f11faam_production.objects.filter(pjcode=pjCode)
+            result = dct_t_l3f11faam_production.objects.filter(pjcode=pjCode,activetime__range=(dayTimeStart,dayTimeEnd))
             for line in result:
-                activeTime = line.activetime
-                if activeTime==None:
-                    activeTime="1900-01-01 00:00:00"
-                    activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
-                if activeTime >= dayTimeStart and activeTime <= dayTimeEnd:
-                    productBuf.append(line)
+#                 activeTime = line.activetime
+#                 if activeTime==None:
+#                     activeTime="1900-01-01 00:00:00"
+#                     activeTime=datetime.datetime.strptime(activeTime, '%Y-%m-%d %H:%M:%S')
+#                 if activeTime >= dayTimeStart and activeTime <= dayTimeEnd:
+                productBuf.append(line)
         result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
         nameList=[]
         for line in result:
@@ -2408,6 +2408,18 @@ class dct_classDbiL3apF11Faam:
                 targetLongitude=int(line.longitude)
                 delta_latitude=abs(latitude-targetLatitude)
                 delta_longitude=abs(longitude-targetLongitude)
+                factoryStart=time.strptime(stdWorkStart, "%H:%M:%S")
+                factoryEnd=time.strptime(stdWorkEnd, "%H:%M:%S")
+                factoryRestStart=time.strptime(restStart, "%H:%M:%S")
+                factoryRestEnd=time.strptime(restEnd, "%H:%M:%S")
+                factoryStartInt=time.mktime(factoryStart)
+                factoryEndInt=time.mktime(factoryEnd)
+                factoryRestStartInt=time.mktime(factoryRestStart)
+                factoryRestEndInt=time.mktime(factoryRestEnd)
+                timeInterval=factoryRestStartInt-factoryStartInt+factoryEndInt-factoryRestEndInt
+                hour=int((timeInterval%(3600*24))/3600)
+                min=int((timeInterval%3600)/60)
+                WorkTime=hour+round(min/60,1)
                 if delta_latitude>50000 or delta_longitude>50000:
                     resp={'employee':nickname,'message':'考勤位置错误'}
                     return resp
@@ -2433,48 +2445,48 @@ class dct_classDbiL3apF11Faam:
                             restEndStr=workDay+" "+restEnd
                             stdWorkStartStr=workDay+" "+stdWorkStart
                             stdWorkEndStr=workDay+" "+stdWorkEnd
-                            arriveTimeInt = time.strptime(arriveTimeStr, "%Y-%m-%d %H:%M:%S.%f")
+                            arriveTimeInt = time.strptime(arriveTimeStr, "%Y-%m-%d %H:%M:%S")
                             arriveTimeInt = time.mktime(arriveTimeInt)
-                            leaverTimeInt = time.strptime(leaverTimeStr, "%Y-%m-%d %H:%M:%S.%f")
+                            leaverTimeInt = time.strptime(leaverTimeStr, "%Y-%m-%d %H:%M:%S")
                             leaverTimeInt = time.mktime(leaverTimeInt)
-                            restStartInt = time.strptime(restStartStr, "%Y-%m-%d %H:%M:%S.%f")
+                            restStartInt = time.strptime(restStartStr, "%Y-%m-%d %H:%M:%S")
                             restStartInt = time.mktime(restStartInt)
-                            restEndInt = time.strptime(restEndStr, "%Y-%m-%d %H:%M:%S.%f")
+                            restEndInt = time.strptime(restEndStr, "%Y-%m-%d %H:%M:%S")
                             restEndInt = time.mktime(restEndInt)
-                            stdWorkStartInt = time.strptime(stdWorkStartStr, "%Y-%m-%d %H:%M:%S.%f")
+                            stdWorkStartInt = time.strptime(stdWorkStartStr, "%Y-%m-%d %H:%M:%S")
                             stdWorkStartInt = time.mktime(stdWorkStartInt)
-                            stdWorkEndInt = time.strptime(stdWorkEndStr, "%Y-%m-%d %H:%M:%S.%f")
+                            stdWorkEndInt = time.strptime(stdWorkEndStr, "%Y-%m-%d %H:%M:%S")
                             stdWorkEndInt = time.mktime(stdWorkEndInt)
-                            if arriveTimeInt<restStartInt and leaverTimeInt>restEndInt:
-                                timeInterval=restStartInt-arriveTimeInt+leaverTimeInt-restEndInt
-                            elif arriveTimeInt>=restStartInt and arriveTimeInt<restEndInt:
-                                timeInterval=leaverTimeInt-restEndInt
-                            elif leaverTimeInt>restStartInt and leaverTimeInt<restEndInt:
-                                timeInterval=restStartInt-arriveTimeInt
-                            elif arriveTimeInt>restEndInt:
-                                timeInterval=leaverTimeInt-arriveTimeInt
-                            elif leaverTimeInt<restStartInt:
-                                timeInterval=leaverTimeInt-arriveTimeInt
-                            else:
-                                timeInterval=0
-
-                            hour=int((timeInterval%(3600*24))/3600)
-                            min=int((timeInterval%3600)/60)
-                            WorkTime=hour+round(min/60,1)-offWorkTime
+#                             if arriveTimeInt<restStartInt and leaverTimeInt>restEndInt:
+#                                 timeInterval=restStartInt-arriveTimeInt+leaverTimeInt-restEndInt
+#                             elif arriveTimeInt>=restStartInt and arriveTimeInt<restEndInt:
+#                                 timeInterval=leaverTimeInt-restEndInt
+#                             elif leaverTimeInt>restStartInt and leaverTimeInt<restEndInt:
+#                                 timeInterval=restStartInt-arriveTimeInt
+#                             elif arriveTimeInt>restEndInt:
+#                                 timeInterval=leaverTimeInt-arriveTimeInt
+#                             elif leaverTimeInt<restStartInt:
+#                                 timeInterval=leaverTimeInt-arriveTimeInt
+#                             else:
+#                                 timeInterval=0
+# 
+#                             hour=int((timeInterval%(3600*24))/3600)
+#                             min=int((timeInterval%3600)/60)
+#                             WorkTime=hour+round(min/60,1)-float(offWorkTime)
                             if WorkTime<0:WorkTime=0
                             if arriveTimeInt<=stdWorkStartInt:
                                 lateWorkFlag=0
                             else:
                                 lateWorkFlag=1
                             if leaverTimeInt<=stdWorkEndInt:
-                                earlyLeaveFlag=0
-                            else:
                                 earlyLeaveFlag=1
+                            else:
+                                earlyLeaveFlag=0
                             dayStandardNum=standardnum*WorkTime
-                            dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay,daystandardnum=dayStandardNum).update(leavetime=currentTime,worktime=WorkTime,unitprice=unitPrice,laterflag=lateWorkFlag,earlyflag=earlyLeaveFlag)
+                            dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=scanCode,employee=employee,workday=workDay).update(daystandardnum=dayStandardNum,leavetime=currentTime,worktime=WorkTime,unitprice=unitPrice,laterflag=lateWorkFlag,earlyflag=earlyLeaveFlag)
                             resp = {'employee': employee, 'message': '考勤成功'}
                     else:
-                        dct_t_l3f11faam_daily_sheet.objects.create(pjcode=scanCode,employee=employee,workday=workDay,arrivetime=currentTime)
+                        dct_t_l3f11faam_daily_sheet.objects.create(pjcode=scanCode,employee=employee,workday=workDay,arrivetime=currentTime,offwork=0)
                         resp={'employee':employee,'message':'考勤成功'}
 
                 else:
@@ -2514,7 +2526,7 @@ class dct_classDbiL3apF11Faam:
                     for line in memberResult:
                         scan_operator=line.employee
                         if activeTime==None:
-                            dct_t_l3f11faam_production.objects.filter(qrcode=scanCode).update(activeman=scan_operator,activetime=currentTime)
+                            dct_t_l3f11faam_production.objects.filter(qrcode=scanCode).update(activeman=scan_operator,activetime=currentTime,lastactivetime=currentTime)
                             resp={'flag':True,'employee':scan_operator,'message':'统计成功'}
                         else:
                             dct_t_l3f11faam_production.objects.filter(qrcode=scanCode).update(lastactivetime=currentTime)
@@ -2582,8 +2594,8 @@ class dct_classDbiL3apF11Faam:
     def dft_dbi_huitp_xmlmsg_equlable_userlist_report(self,inputData):
         userList=inputData['userlist']
         pjcode=inputData['pjcode']
-        syncStart=inputData['syncstart']
-        currrntNum=0
+        syncStart=int(inputData['syncstart'])
+        currentNum=0
         counter=0
         memberResult=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjcode,onjob=1)
         if memberResult.exists():
@@ -2595,23 +2607,23 @@ class dct_classDbiL3apF11Faam:
                         continue
                     workid=line.mid
                     employee=line.employee
-                    userList=userList+employee+" "+workid+";"
-                    currrntNum=currrntNum+1
+                    userList=userList+employee+";"
+                    currentNum=currentNum+1
             else:
-                if currrntNum<100:
+                if currentNum<100:
                     counter=counter+1
                     for line in memberResult:
                         if syncStart>counter:
                             continue
                         workid = line.mid
                         employee = line.employee
-                        userList = userList + employee + " " + workid + ";"
-                        currrntNum = currrntNum + 1
+                        userList = userList + employee +";"
+                        currentNum = currentNum + 1
             comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_YES
         else:
             total_num=0
             comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_NO
-        resp={'comConfirm':comConfirm,'userList':userList,'currrntNum':currrntNum,'totalNum':total_num}
+        resp={'comConfirm':comConfirm,'userList':userList,'currentNum':currentNum,'totalNum':total_num}
         return resp
        
         

@@ -7,6 +7,7 @@ from DappDbF1sym.models import *
 from DappDbF3dm.models import *
 from django.db.models import Q
 from DappDbF10oam.models import *
+from DappDbF11faam.models import *
 import json
 from DappDbInsertData.DappDbMsgDefine import *
 
@@ -2302,6 +2303,13 @@ class dct_classDbiL3apF2cm:
                 login_history.append(temp)
         return login_history
     
+    
+    def dft_dbi_shyc_old_data_clear(self,inputData):
+        delete_days=int(inputData['days'])
+        time_now=datetime.datetime.now()
+        time_old=time_now-datetime.timedelta(days=delete_days)
+    def dft_dbi_faam_old_data_clear(self,inputData):
+        pass
     
     
     '''内部人员使用的小工具的函数，不需要进行用户的验证，在链接中带有验证信息'''
