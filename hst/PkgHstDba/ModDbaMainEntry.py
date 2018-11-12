@@ -589,6 +589,8 @@ class ClassDbaMainEntry():
         elif inputData['action']=='SeafoodAudit':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
             result=F11Faam.dft_get_print(inputData['body'])
+            
+        
         else:
             result=''
         return result
@@ -602,10 +604,15 @@ class ClassDbaMainEntry():
             result=""
         return result
     def dft_Snr_Send_Message(self,inputData): 
-        L2snr=ModDbaSnr.classDappDbSnr()
         if inputData['action']=='AQYCOldDataClear':
-            pass
-        return False
+            L2snr=ModDbaSnr.classDappDbSnr()
+            result=L2snr.dft_aqyc_old_data_clear(inputData['body'])
+        elif inputData['action']=='FAAMOldDataClear':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_faam_old_data_clear(inputData['body'])
+        else:
+            result=""
+        return result
     
 class ClassHCUDbaMainEntry():
     def dft_F2cm_Send_Message(self,socketId,inputData): 

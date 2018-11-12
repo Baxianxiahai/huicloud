@@ -865,6 +865,16 @@ def dft_dbi_shyc_old_data_clear(inputData):
     print(dct_t_l2snr_noise.objects.filter(report_data__lte=time_old))
     print(dct_t_l2snr_picture.objects.filter(report_data__lte=time_old))
     print(dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__lte=time_old)[0])
+def dft_dbi_faam_old_data_clear(inputData):
+    delete_days = int(inputData['days'])
+    time_now = datetime.datetime.now()
+    time_old = time_now - datetime.timedelta(days=delete_days)
+    print(time_old)
+    dct_t_l3f11faam_daily_sheet.objects.filter(workday__lte=time_old).delete()
+    dct_t_l3f11faam_production.objects.filter(applytime__lte=time_old).delete()
+#     print(dct_t_l3f11faam_daily_sheet.objects.filter(workday__lte=time_old))
+#     for line in (dct_t_l3f11faam_production.objects.filter(lastactivetime__lte=time_old)):
+#         print()
 def changeDevCode(old,new):
     dct_t_l3f2cm_device_inventory.objects.filter(dev_code=old).update(dev_code=new)
 def selectProduct():
@@ -931,14 +941,55 @@ def dft_dbi_huitp_xmlmsg_equlable_userlist_report(inputData):
                     currrntNum = currrntNum + 1
     resp={'userList':userList,'currrntNum':currrntNum,'totalNum':total_num}
     print(resp)
+def dft_dbi_huitp_xmlmsg_equlable_apply_report():
+    week=46
+    pjCode="HYGS"
+    applyNum=80
+    labelBaseInfo="FAM_HYGS_W18"
+    userTabTL="唐美珍"
+    currentTime="2018-11-05 12:21:44"
+    userTabTR="28-8-1#"
+    start = 0
+    end = 0
+    qrcode_list=list()
+    result=dct_t_l3f11faam_production.objects.filter(applyweek=week,pjcode=pjCode).order_by("-sid")
+    if result.exists():
+        line=result[0]
+        lastCode=line.qrcode
+        lastNum=int(lastCode[-5:])
+        if lastNum+applyNum<99999:
+            start=lastNum+1
+            end=start+applyNum
+            for i in range(start,end):
+                digNum=str(i).rjust(5,'0')
+                qrcode=labelBaseInfo+digNum
+                qrcode_list.append(dct_t_l3f11faam_production(pjcode=pjCode,qrcode=qrcode,owner=userTabTL,typecode=userTabTR,applyweek=week,applytime=currentTime))
+            dct_t_l3f11faam_production.objects.bulk_create(qrcode_list)
+    else:
+        if applyNum<99999:
+            start=1
+            end = start + applyNum
+            for i in range(start, end):
+                digNum = str(i).rjust(5, '0')
+                qrcode = labelBaseInfo + digNum
+                qrcode_list.append(
+                    dct_t_l3f11faam_production(pjcode=pjCode, qrcode=qrcode, owner=userTabTL, typecode=userTabTR,
+                                               applyweek=week, applytime=currentTime))
+            dct_t_l3f11faam_production.objects.bulk_create(qrcode_list)
+    resp={'start':start,'end':end}
+    print(resp)
 if __name__ == "__main__":
+    dft_dbi_huitp_xmlmsg_equlable_apply_report()
+#     s=None
+#     xstr = lambda s: '' if s is None else s
 #     changeDevCode("HCU_G201_AQYC_SH071", "HCU_G201_AQYC_SH082")
 #     dft_dbi_select_cron()
     #insert_old_hcu_data()
-#     a={'days':30}
-#     dft_dbi_shyc_old_data_clear(a)
-    a={'userlist':"",'pjcode':'HYGS','syncstart':0}
-    dft_dbi_huitp_xmlmsg_equlable_userlist_report(a)
+#     a={'days':180}
+#     dft_dbi_faam_old_data_clear(a)
+#     a={'userlist':"",'pjcode':'HYGS','syncstart':0}
+#     dft_dbi_huitp_xmlmsg_equlable_userlist_report(a)
+
     
     
     

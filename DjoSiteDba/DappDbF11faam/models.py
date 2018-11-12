@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import default
+from enum import unique
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class dct_t_l3f11faam_factory_sheet(models.Model):
 class dct_t_l3f11faam_production(models.Model):
     sid=models.AutoField(primary_key=True)
     pjcode=models.CharField(max_length=10)
-    qrcode=models.CharField(max_length=50)
+    qrcode=models.CharField(max_length=19,unique=True,db_index=True)
     owner=models.CharField(max_length=10)
     typecode=models.CharField(max_length=10)
     applyweek=models.IntegerField(null=True)
@@ -137,3 +138,21 @@ class dct_t_l3f11faam_product_history(models.Model):
     logisticsunit=models.CharField(max_length=20)
     outtime=models.DateTimeField(auto_now=True)
     message=models.CharField(max_length=20)
+    
+class dct_t_l3f11faam_batch_scan(models.Model):
+    sid=models.AutoField(primary_key=True)
+    pjcode=models.CharField(max_length=10,db_index=True)
+    activeman=models.CharField(max_length=10,db_index=True)
+    activedate=models.DateField(db_index=True)
+    typecode=models.CharField(max_length=10,db_index=True)
+    totalnum=models.IntegerField(default=0)
+
+class dct_t_l3f11faam_production_sta(models.Model):
+    sid=models.AutoField(primary_key=True)
+    pjcode=models.CharField(max_length=10)
+    employee=models.CharField(max_length=10,db_index=True)
+    typecode=models.CharField(max_length=10,db_index=True)
+    activedate = models.DateField(db_index=True)
+    packagesum=models.IntegerField(default=0)
+    weightsum=models.FloatField(default=0)
+    numsum=models.IntegerField(default=0)

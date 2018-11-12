@@ -2403,6 +2403,13 @@ class HCUReportAndConfirm():
                             zhbLable = line_dev.dev_code.zhb_label
                             upgradeFlag = line_dev.dev_code.upgradeflag
                             restartRightNow = line_dev.dev_code.rebootflag
+                            userName=line_dev.dev_code.username
+                            userPswd=line_dev.dev_code.userpswd
+                            userDef1=line_dev.dev_code.userdef1
+                            userDef2=line_dev.dev_code.userdef2
+                            userDef3=line_dev.dev_code.userdef3
+                            userDef4=line_dev.dev_code.userdef4
+                            eccPort=line_dev.dev_code.eccport
                             calWinddir=line_dev.winddir_delta
                             calWinddirCoefMax=line_dev.winddir_coefmax
                             calWinddirCoefMin=line_dev.winddir_coefmin
@@ -2429,6 +2436,12 @@ class HCUReportAndConfirm():
                             calNoiseCoefMin=line_dev.noise_coefmin
                             calNoiseCoefK=line_dev.noise_coefK
                             calNoiseCoefB=line_dev.noise_coefB
+                            if userName==None:userName=""
+                            if userPswd==None:userPswd=""
+                            if userDef1==None:userDef1=""
+                            if userDef2==None:userDef2=""
+                            if userDef3==None:userDef3=""
+                            if userDef4==None:userDef4=""
                             msgIeCnt = {
                                 "htp": hwtype,
                                 'npt': ngrokPort,
@@ -2464,7 +2477,13 @@ class HCUReportAndConfirm():
                                 'ptc': calPm25ThdCannon,
 #                                 'eda':"",
 #                                 'eia':"",
-#                                 'ept':0
+                                'ept':eccPort,
+                                'un':userName,
+                                'up':userPswd,
+                                'ud1':userDef1,
+                                'ud2':userDef2,
+                                'ud3':userDef3,
+                                'ud4':userDef4,
                                 
                             }
                         msg={'socketid':socketId,'data':{'ToUsr':dev_Code,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0XF040,'MsgLn':115,"IeCnt":msgIeCnt,"FnFlg":0}}

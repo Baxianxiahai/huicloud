@@ -45,6 +45,7 @@ class dct_t_l3f2cm_site_common(models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=6,default=0)
     latitude = models.DecimalField(max_digits=10, decimal_places=6,default=0)
     comments = models.TextField(null=True, blank=True)
+    
 
 class dct_t_l3f2cm_device_inventory(models.Model):
     # null=true显示的是数据库中该字段可以为空，blank=true表示在admin后台管理界面上该字段可以不填
@@ -59,6 +60,13 @@ class dct_t_l3f2cm_device_inventory(models.Model):
     rebootflag = models.IntegerField(default=0)
     base_port = models.IntegerField(default=0)
     cus_info=models.CharField(max_length=50,null=True)
+    eccport=models.IntegerField(default=0)
+    username=models.CharField(max_length=50,null=True)
+    userpswd=models.CharField(max_length=100,null=True)
+    userdef1=models.CharField(max_length=100,null=True)
+    userdef2=models.CharField(max_length=100,null=True)
+    userdef3=models.CharField(max_length=100,null=True)
+    userdef4=models.CharField(max_length=100,null=True)
 
 class dct_t_l3f2cm_device_cail(models.Model):
     dev_code=models.OneToOneField(dct_t_l3f2cm_device_inventory,on_delete=models.CASCADE)

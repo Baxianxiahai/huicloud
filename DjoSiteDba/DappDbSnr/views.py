@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from DappDbSnr.models import *
+import datetime
+from DappDbF3dm.models import *
 class dct_classDappDbSnr:
     def dft_dbi_all_sensorlist_req(self,inputData):
         type=inputData['type']
@@ -71,3 +73,15 @@ class dct_classDappDbSnr:
                     }
                 sensorinfo.append(temp)
         return sensorinfo
+    
+    def dft_dbi_shyc_old_data_clear(self,inputData):
+        delete_days = int(inputData['days'])
+        time_now = datetime.datetime.now()
+        time_old = time_now - datetime.timedelta(days=delete_days)
+        dct_t_l2snr_temperature.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l2snr_humidity.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l2snr_winddir.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l2snr_windspd.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l2snr_noise.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l2snr_picture.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__lte=time_old).delete()
