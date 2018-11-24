@@ -346,7 +346,7 @@ class dct_classDbiL3apF11Faam:
         else:
             employee = inputData['name']
         if 'PJcode' not in inputData.keys():
-            pjCode = ''
+            pjCode = None
         else:
             pjCode = inputData['PJcode']
         if 'position' not in inputData.keys():
@@ -1079,7 +1079,6 @@ class dct_classDbiL3apF11Faam:
                 package[employee][typeCode]=package[employee][typeCode]+1
             else:
                 package[employee][typeCode]=1
-
         if lever>2:
             week=datetime.date.today()
             week = week + datetime.timedelta(days=-1)
@@ -1170,7 +1169,6 @@ class dct_classDbiL3apF11Faam:
                             temp.append(totalNum)
                             temp.append(str(totalWeight))
                             TableData.append(temp)
-    
                             packageSum = packageSum + totalPackage;
                             numSum = numSum + totalNum
                             weightSum = weightSum + totalWeight
@@ -1704,7 +1702,7 @@ class dct_classDbiL3apF11Faam:
                 result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period)
             elif Period=="" and size!="":
                 result = dct_t_l3f11faam_product_stock_sheet.objects.filter(puoductsize=size)
-            elif Period!="" and size!="":
+            else:
                 result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period, puoductsize=size)
         else:
             name=dct_t_l3f11faam_product_stock_sheet.objects.get(sid=id).stockname
@@ -1714,7 +1712,7 @@ class dct_classDbiL3apF11Faam:
                 result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period,stockname=name)
             elif Period=="" and size!="":
                 result = dct_t_l3f11faam_product_stock_sheet.objects.filter(puoductsize=size,stockname=name)
-            elif Period!="" and size!="":
+            else:
                 result = dct_t_l3f11faam_product_stock_sheet.objects.filter(productweight=Period, puoductsize=size,stockname=name)
         i=1
         for line in result:
@@ -2392,8 +2390,78 @@ class dct_classDbiL3apF11Faam:
             i=i+1
         Table={'ColumnName':ColumnName,'TableData':TableData}
         return Table
-    
-    
+    def dft_dbi_faam_qrcode_audit(self,inputData):
+        ColumnName=[]
+        TableData=[]
+        uid=inputData['uid']
+        timeStart=inputData['TimeStart']
+        timeEnd=inputData['TimeEnd']
+        keyWord=inputData['KeyWord']
+        ColumnName.append('序号')
+        ColumnName.append('负责人')
+        ColumnName.append('开始时间')
+        ColumnName.append('结束时间')
+        ColumnName.append('产品规格')
+        ColumnName.append('总箱数')
+        pjCode=self.__dft_get_user_auth_factory(uid)
+        result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
+        i=1
+        a={'TimeStart': '2018-11-14', 'TimeEnd': '2018-11-14', 'KeyWord': '', 'uid': 'UID0000001'}
+        for line in result:
+            history=[]
+            if line.gender==1:sex='男'
+            else:sex='女'
+            if line.onjob==True:onjob='是'
+            else:onjob='否'
+            history.append(i)
+            history.append(line.employee)
+            history.append(sex)
+            history.append(line.openid)
+            history.append(line.phone)
+            history.append(onjob)
+            history.append(line.address)
+            history.append(line.position)
+            history.append(line.unitprice)
+            TableData.append(history)
+            i=i+1
+        Table={'ColumnName':ColumnName,'TableData':TableData}
+        return Table
+    def dft_dbi_faam_qrcode_batch(self,inputData):
+        ColumnName=[]
+        TableData=[]
+        uid=inputData['uid']
+        ColumnName.append('序号')
+        ColumnName.append('员工名')
+        ColumnName.append('性别')
+        ColumnName.append('微信昵称')
+        ColumnName.append('联系方式')
+        ColumnName.append('在职')
+        ColumnName.append('地址')
+        ColumnName.append('岗位')
+        ColumnName.append('时薪')
+        pjCode=self.__dft_get_user_auth_factory(uid)
+        result=dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode)
+        i=1
+        a={'TimeStart': '2018-11-14', 'TimeEnd': '2018-11-14', 'KeyWord': '', 'uid': 'UID0000001'}
+        for line in result:
+            history=[]
+            if line.gender==1:sex='男'
+            else:sex='女'
+            if line.onjob==True:onjob='是'
+            else:onjob='否'
+            history.append(i)
+            history.append(line.employee)
+            history.append(sex)
+            history.append(line.openid)
+            history.append(line.phone)
+            history.append(onjob)
+            history.append(line.address)
+            history.append(line.position)
+            history.append(line.unitprice)
+            TableData.append(history)
+            i=i+1
+        Table={'ColumnName':ColumnName,'TableData':TableData}
+        return Table
     '''*****************************微信小程序开始*****************************************'''
     def dft_dbi_faam_qrcode_kq_process(self,inputData):
         scanCode=inputData['scanCode']
@@ -2519,6 +2587,7 @@ class dct_classDbiL3apF11Faam:
         localTime=time.localtime(tiamstamp)
         currentTime=time.strftime("%Y-%m-%d %H:%M:%S",localTime)
         codeResult=dct_t_l3f11faam_production.objects.filter(qrcode=scanCode)
+        codeResultLKY=dct_t_l3f11faam_batch_scan.objects.filter(qrcode=scanCode)
         if codeResult.exists():
             for line in codeResult:
                 activeTime=line.activetime
@@ -2542,12 +2611,15 @@ class dct_classDbiL3apF11Faam:
                             resp = {'flag': False, 'employee': scan_operator, 'message': '姓名：'+qrcode_owner+'；粒数：'+str(appleNum)}
                 else:
                     resp = {'flag': False, 'employee': nickName, 'message': '扫描用户未注册'}
+        elif codeResultLKY.exists():
+            pass
         else:
             resp = {'flag': False, 'employee': nickName, 'message': '二维码无效'}
         return resp
     def dft_dbi_faam_qrcode_sh_process(self):
         return True
     '''*****************************微信小程序结束*****************************************'''
+    '''*****************************XML信息开始*****************************************'''
     def dft_dbi_huitp_xmlmsg_equlable_apply_report(self,inputData):
         week=inputData['week']
         pjCode=inputData['pjcode']
@@ -2560,6 +2632,9 @@ class dct_classDbiL3apF11Faam:
         end = 0
         qrcode_list=list()
         allocateResp=self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
+        if pjCode[:3]=='LKY':
+            result=self.dft_dbi_huitp_xmlmag_equlable_lky_apply_report(inputData)
+            return result
         result=dct_t_l3f11faam_production.objects.filter(applyweek=week,pjcode=pjCode).order_by("-sid")
         if result.exists():
             line=result[0]
@@ -2596,6 +2671,55 @@ class dct_classDbiL3apF11Faam:
                 comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_NO
         resp={'start':start,'end':end,'allocateResp':allocateResp,'comConfirm':comConfirm}
         return resp
+    
+    def dft_dbi_huitp_xmlmag_equlable_lky_apply_report(self,inputData):
+        week = inputData['week'] #当前周
+        pjCode = inputData['pjcode'] #LKY+一垛的数量
+        applyNum = inputData['applynum'] #标签数量
+        labelBaseInfo = inputData['labelBaseInfo'] #FAS_LKY10_W1844
+        userTabTL = inputData['userTabTL'] #申请名称
+        currentTime = inputData['currentTime'] #当前时间
+        userTabTR = inputData['userTabTR'] #类型
+        start = 0
+        end = 0
+        qrcode_list = list()
+        allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
+        result = dct_t_l3f11faam_batch_scan.objects.filter(applyweek=week,pjcode='HYGS').order_by("-sid")
+        Number=int(pjCode[-2:])
+        if result.exists():
+            line=result[0]
+            lastCode=line.qrcode
+            lastNum=int(lastCode[-4:])
+            if lastNum+applyNum<9999:
+                start=lastNum+1
+                end=start+applyNum
+                for i in range(start,end):
+                    digNum=str(i).rjust(4,'0')
+                    qrcode=labelBaseInfo+digNum
+                    qrcode_list.append(dct_t_l3f11faam_batch_scan(qrcode=qrcode,owner=userTabTL,typecode=userTabTR,applyweek=week,applydate=currentTime,packagesum=Number))
+                dct_t_l3f11faam_batch_scan.objects.bulk_create(qrcode_list)
+                allocateResp=self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_TRUE
+                comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_YES
+            else:
+                allocateResp=self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
+                comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_NO
+        else:
+            if applyNum<9999:
+                start=1
+                end=start+applyNum
+                for i in range(1,end):
+                    digNum=str(i).rjust(4,'0')
+                    qrcode=labelBaseInfo+digNum
+                    qrcode_list.append(dct_t_l3f11faam_batch_scan(qrcode=qrcode,owner=userTabTL,typecode=userTabTR,applyweek=week,applydate=currentTime,packagesum=Number))
+                dct_t_l3f11faam_batch_scan.objects.bulk_create(qrcode_list)
+                allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_TRUE
+                comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_YES
+            else:
+                allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
+                comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_NO
+        resp = {'start': start, 'end': end, 'allocateResp': allocateResp, 'comConfirm': comConfirm}
+        return resp
+    
     def dft_dbi_huitp_xmlmsg_equlable_userlist_report(self,inputData):
         userList=inputData['userlist']
         pjcode=inputData['pjcode']
@@ -2630,16 +2754,18 @@ class dct_classDbiL3apF11Faam:
             comConfirm=self.__HUITP_IEID_UNI_COM_CONFIRM_NO
         resp={'comConfirm':comConfirm,'userList':userList,'currentNum':currentNum,'totalNum':total_num}
         return resp
-    
+    '''*****************************XML信息结束*****************************************'''
         
-    '''***********************工厂的定时业务开始****************************'''
+    '''**************************工厂的定时业务开始********************************'''
     def dft_dbi_faam_old_data_clear(self,inputData):
         delete_days = int(inputData['days'])
         time_now = datetime.datetime.now()
         time_old = time_now - datetime.timedelta(days=delete_days)
         dct_t_l3f11faam_daily_sheet.objects.filter(workday__lte=time_old).delete()
         dct_t_l3f11faam_production.objects.filter(applytime__lte=time_old).delete()
-
+        dct_t_l3f11faam_batch_scan.objects.filter(applydate__lte=time_old).delete()
+        return {'status':'true'}
+    
     def dft_dbi_cron_production_table_sta(self):
         date=datetime.date.today()-datetime.timedelta(days=1)
         timeStart=str(date)+" 00:00:00"
@@ -2696,7 +2822,7 @@ class dct_classDbiL3apF11Faam:
                             pass
             for key, value in employee_type.items():
                 employee = key
-                for key_value, value_value in employee_type[employee].items():
+                for key_value, value_value in value[employee].items():
                     if key_value == 'pjcode':
                         pjcode = value_value
                         print(pjcode)
@@ -2711,10 +2837,123 @@ class dct_classDbiL3apF11Faam:
                         else:
                             sta_list.append(dct_t_l3f11faam_production_sta(pjcode=pjcode,employee=employee,typecode=type,activedate=date,packagesum=package,weightsum=weightnum,numsum=number))
             dct_t_l3f11faam_production_sta.objects.bulk_create(sta_list)
-
+            status="true"
         else:
-            return
-
+            status='false'
+        return {'status':status}
+        
+    def dft_dbi_cron_batch_scan_table_sta(self):
+        time = datetime.date.today()-datetime.timedelta(days=1)
+        timeStart = str(time) + " 00:00:00"
+        timeEnd = str(time) + " 23:59:59"
+        timeStart = datetime.datetime.strptime(timeStart, "%Y-%m-%d %H:%M:%S")
+        timeEnd = datetime.datetime.strptime(timeEnd, "%Y-%m-%d %H:%M:%S")
+        result = dct_t_l3f11faam_batch_scan.objects.filter(activetime__range=(timeStart, timeEnd))
+        data = {}
+        scan_sta = list()
+        if result.exists():
+            for line in result:
+                if str(line.activetime.date()) in data.keys():
+                    if line.pjcode in data[str(line.activetime.date())].keys():
+                        if line.owner in data[str(line.activetime.date())][line.pjcode].keys():
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                        else:
+                            data[str(line.activetime.date())][line.pjcode][line.owner] = {}
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                    else:
+                        data[str(line.activetime.date())][line.pjcode] = {}
+                        if line.owner in data[str(line.activetime.date())][line.pjcode].keys():
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                        else:
+                            data[str(line.activetime.date())][line.pjcode][line.owner] = {}
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                else:
+                    data[str(line.activetime.date())] = {}
+                    if line.pjcode in data[str(line.activetime.date())].keys():
+                        if line.owner in data[str(line.activetime.date())][line.pjcode].keys():
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                        else:
+                            data[str(line.activetime.date())][line.pjcode][line.owner] = {}
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                    else:
+                        data[str(line.activetime.date())][line.pjcode] = {}
+                        if line.owner in data[str(line.activetime.date())][line.pjcode].keys():
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+                        else:
+                            data[str(line.activetime.date())][line.pjcode][line.owner] = {}
+                            if line.typecode in data[str(line.activetime.date())][line.pjcode][line.owner].keys():
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum + \
+                                                     data[str(line.activetime.date())][line.pjcode][line.owner][
+                                                         line.typecode]
+                            else:
+                                data[str(line.activetime.date())][line.pjcode][line.owner][
+                                    line.typecode] = line.packagesum
+            for key_date, value_date in data.items():
+                date = key_date
+                for key_pjcode, value_pjcode in value_date.items():
+                    pjcode = key_pjcode
+                    for key_owner, value_owner in value_pjcode.items():
+                        owner = key_owner
+                        for key_type, value_type in value_owner.items():
+                            packagesum = value_type
+                            scan_sta.append(
+                                dct_t_l3f11faam_scan_sta(pjcode=pjcode, activeman=owner, activedate=date, typecode=key_type,
+                                                         totalnum=packagesum))
+            dct_t_l3f11faam_scan_sta.objects.bulk_create(scan_sta)
+            status="true"
+        else:
+            status='false'
+        return {'status':status}
     '''***********************工厂的定时业务结束****************************'''
         
         

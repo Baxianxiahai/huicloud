@@ -80,7 +80,7 @@ class dct_classDbiL3apF2cm:
             result=dct_t_l3f2cm_project_common.objects.filter(prj_code=pcode)
             if result.exists():
                 for line in result:
-                    if line.pg_code!=None:
+                    if line.pg_code_id!=None:
                         temp={'id':line.pg_code.pg_code,'name':line.pg_code.pg_name}
                         if temp not in pg_list:
                             pg_list.append(temp)
@@ -361,16 +361,17 @@ class dct_classDbiL3apF2cm:
         startseq=int(inputData['startseq'])
         query_length=int(inputData['query_length'])
         keyword=inputData['keyword']
-        pglist=self.__dft_dbi_get_user_auth_projgroup(uid)
+        pglist=dct_t_l3f1sym_user_right_project.objects.filter(auth_type=1,uid_id=uid)
+        # pglist=self.__dft_dbi_get_user_auth_projgroup(uid)
         pgtable=[]
         pgtotal=len(pglist)
-        print(pglist)
+        # print(pglist)
         if (startseq<=pgtotal) and (startseq+query_length>pgtotal):
             query_length=pgtotal-startseq
         elif startseq>pgtotal:
             query_length=0
         for startseq in range(startseq+query_length):
-            pgcode=pglist[startseq]['id']
+            pgcode=pglist[0].auth_code
             if keyword=="":
                 result=dct_t_l3f2cm_pg_common.objects.filter(pg_code=pgcode)
                 if result.exists():
@@ -503,13 +504,15 @@ class dct_classDbiL3apF2cm:
                     if result.exists():
                         for line in result:
                             temp={'id':line.pg_code,'name':line.pg_name}
-                            table.append(temp)
+                            if temp not in table:
+                                table.append(temp)
                 if pcode!="":
                     result=dct_t_l3f2cm_project_common.objects.filter(prj_code=pcode)
                     if result.exists():
                         for line in result:
                             temp={'id':line.prj_code,'name':line.prj_name}
-                            table.append(temp)
+                            if temp not in table:
+                                table.append(temp)
         return table
 
     def dft_dbi_pg_projlist_req(self,inputData):
@@ -549,25 +552,49 @@ class dct_classDbiL3apF2cm:
 
         dct_t_l3f1sym_user_right_project.objects.create(uid_id=uid,auth_type=1,auth_code=pgcode)
         return True
-    def dft_dbi_pginfo_modify(self,inputData):
-        pgcode=inputData['PGCode']
-        pgname=inputData['PGName']
-        owner=inputData['ChargeMan']
-        phone=inputData['Telephone']
-        department=inputData['Department']
-        addr=inputData['Address']
-        stage=inputData['Stage']
-        projlist=inputData['Projlist']
-        result=dct_t_l3f2cm_pg_common.objects.filter(pg_code=pgcode)
+    def dft_dbi_pginfo_modify(self, inputData):
+        pgcode = inputData['PGCode']
+        pgname = inputData['PGName']
+        owner = inputData['ChargeMan']
+        phone = inputData['Telephone']
+        department = inputData['Department']
+        addr = inputData['Address']
+        stage = inputData['Stage']
+        if "Projlist" not in inputData.keys():
+            projlist = []
+        else:
+            projlist = inputData['Projlist']
+        result = dct_t_l3f2cm_pg_common.objects.filter(pg_code=pgcode)
         if result.exists():
-            dct_t_l3f2cm_pg_common.objects.filter(pg_code=pgcode).update(pg_name=pgname,superintendent=owner,telephone=phone,department=department,address=addr,comments=stage)
-        if len(projlist)!=0:
-            for i in range(len(projlist)):
-                p_code=""
-                p_code=projlist[i]['id']
-                if p_code!="":
-                    dct_t_l3f2cm_project_common.objects.filter(prj_code=p_code).update(
-                        pg_code=dct_t_l3f2cm_pg_common.objects.get(pg_code=pgcode))
+            dct_t_l3f2cm_pg_common.objects.filter(pg_code=pgcode).update(pg_name=pgname, superintendent=owner,
+                                                                         telephone=phone, department=department,
+                                                                         address=addr, comments=stage)
+        result_pg = dct_t_l3f2cm_project_common.objects.filter(pg_code_id=pgcode)
+        #         if result_pg.exists():
+        #             for line in result_pg:
+        #                 prj_array={"id":line.prj_code,"name":line.prj_name}
+        #                 if prj_array in projlist:
+        #                     pass
+        #                 else:
+        #                     print(line.prj_code)
+        #                     dct_t_l3f2cm_project_common.objects.filter(prj_code=line.prj_code).update(pg_code_id=None)
+        if len(projlist) != 0:
+            if len(result_pg)<len(projlist):
+                for i in range(len(projlist)):
+                    p_code = ""
+                    p_code = projlist[i]['id']
+                    if p_code != "":
+                        dct_t_l3f2cm_project_common.objects.filter(prj_code=p_code).update(
+                            pg_code=dct_t_l3f2cm_pg_common.objects.get(pg_code=pgcode))
+            else:
+                for line in result_pg:
+                    prj_array={'id':str(line.prj_code),'name':str(line.prj_name)}
+                    if prj_array in projlist:
+                        pass
+                    else:
+                        dct_t_l3f2cm_project_common.objects.filter(prj_code=prj_array["id"]).update(pg_code_id=None)
+        else:
+            dct_t_l3f2cm_project_common.objects.filter(pg_code=pgcode).update(pg_code_id=None)
         return True
 
     def dft_dbi_projinfo_new(self, inputData):

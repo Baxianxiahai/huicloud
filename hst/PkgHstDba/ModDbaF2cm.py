@@ -64,12 +64,12 @@ class classDappDbF2cm:
         return result
     
     def dft_dbi_user_pg_table_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-        result=DappDbF2cm_view.dft_dbi_user_pg_table_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_user_pg_table_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     def dft_dbi_pginfo_new(self,inputData):
         try:

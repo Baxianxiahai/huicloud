@@ -622,5 +622,16 @@ class ClassDbaF11Faam:
                 DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
                 result=DappDbF11Faam_view.dft_dbi_faam_old_data_clear(inputData)
         except Exception:
-            result=""
+            result={'status':'false'}
+        return result
+    
+    def dft_cron_production_and_batch_table_sta(self):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                DappDbF11Faam_view.dft_dbi_cron_production_table_sta()
+                DappDbF11Faam_view.dft_dbi_cron_batch_scan_table_sta()
+                result={'status':'true'}
+        except Exception:
+            result={'status':'false'}
         return result

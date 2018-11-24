@@ -21,6 +21,7 @@ class classDappDbSnr:
             with transaction.atomic():
                 DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
                 result=DappDbSnr_view.dft_dbi_shyc_old_data_clear(inputData)
+                result={'status':'true'}
         except Exception:
-            return False
+            result={'status':'false'}
         return result

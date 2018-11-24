@@ -18,6 +18,7 @@
 
 # Eclipse setting directory
 .setting/
+.idea/
 
 # Object files
 *.o

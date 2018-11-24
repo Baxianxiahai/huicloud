@@ -21,7 +21,7 @@ from DappDbF3dm.models import *
 from DappDbF10oam.models import *
 from DappDbSnr.models import *
 faam1={
-    'webauth':{
+        'webauth':{
         #FUM1SYM
         'menu_user_profile':0X0101,
         'UserManage':0X0102,
@@ -88,12 +88,29 @@ faam1={
         'KPIAudit':0X0A08,
         'ConsumablesManage':0X0A09,
         'ConsumablesHistory':0X0A0A,
-        'ProductStorageManage':0X0A0B,
-        'ProductDeliveryManage':0X0A0C,
-        'MaterialStorageManage':0X0A0D,
-        'MaterialDeliveryManage':0X0A0E,
-        'SeafoodInfo':0X0A0F,
-        'SeafoodAudit':0X0A10,
+        "MaterialAudit":0X0A0B,
+        "MaterialCheckIn":0X0A0C,
+        "MaterialPurchaseDetail":0X0A0D,
+        "OtherStorageCheckIn":0X0A0E,
+        "MaterialTransfer":0X0A0F,
+        "MaterialSale":0X0A10,
+        "MaterialConsume":0X0A11,
+        "MaterialConsumeBack":0X0A12,
+        "DepositaryCheckIn":0X0A13,
+        "DepositaryCheckOut":0X0A14,
+        "ProductStorageManage":0X0A15,
+        "ProductDeliveryManage":0X0A16,
+        "ProductWasteDeliver":0X0A17,
+        "ContainerStorageManage":0X0A18,
+        "ContainerCheckOut":0X0A19,
+        "ContainerCheckIn":0X0A20,
+        "ContainerSaleBack":0X0A21,
+        "ContainerTransferBack":0X0A22,
+        "ContainerOtherStorageRefund":0X0A23,
+        "SeafoodInfo":0X0A24,
+        "SeafoodAudit":0X0A25,
+        "QrcodeAudit":0X0A26,
+        "QrcodeBatch":0X0A27,
         },
     'actionauth':{
         #FUM1SYM
@@ -113,6 +130,7 @@ faam1={
         'PGTable':0X0204,
         'PGProj':0X0205,
         'ProjectPGList':0X0206,
+        'GetPGNum':0X0207,
         'ProjectList':0X0220,
         'UserProj':0X0221,
         'ProjTable':0X0222,
@@ -254,11 +272,17 @@ faam1={
         'GetPrint':0X0A39,
         'GetConsumablesVendorList':0X0A3A,
         'GetConsumablesTypeList':0X0A3B,
-        'F11TableQuery':0X0A3C,
+        'TableQuery':0X0A3C,
         #水产管理
         'SeafoodInfo':0X0B01,
         'SeafoodAudit':0X0B02,
-        },
+        
+        #FXPRCM
+        'PointMaintenanceList':0X0C01,
+        'RepairNew':0X0C02,
+        'GetNeonStatus':0X0C03,
+        'SetNeonStatus':0X0C04,
+        }
     }
 def insert_menu_code_mapping():
     for key,value in faam1['webauth'].items():
@@ -875,8 +899,9 @@ def dft_dbi_faam_old_data_clear(inputData):
 #     print(dct_t_l3f11faam_daily_sheet.objects.filter(workday__lte=time_old))
 #     for line in (dct_t_l3f11faam_production.objects.filter(lastactivetime__lte=time_old)):
 #         print()
-def changeDevCode(old,new):
-    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=old).update(dev_code=new)
+def changeDevCode(old):
+    dct_t_l3f2cm_device_inventory.objects.filter(dev_code=old).delete()
+    print(old+'is delete')
 def selectProduct():
 #     timeStart="1900-01-01"
 #     timeEnd="2018-11-01"
@@ -979,10 +1004,15 @@ def dft_dbi_huitp_xmlmsg_equlable_apply_report():
     resp={'start':start,'end':end}
     print(resp)
 if __name__ == "__main__":
-    dft_dbi_huitp_xmlmsg_equlable_apply_report()
+#     dft_dbi_huitp_xmlmsg_equlable_apply_report()
 #     s=None
 #     xstr = lambda s: '' if s is None else s
-#     changeDevCode("HCU_G201_AQYC_SH071", "HCU_G201_AQYC_SH082")
+#     insert_right_menu()
+    changeDevCode("HCU_G2013SHYC_SH001")
+    changeDevCode("HCU_G2013SHYC_SH002")
+    changeDevCode("HCU_G2013SHYC_SH003")
+    changeDevCode("HCU_G2013SHYC_SH004")
+    changeDevCode("HCU_G2013SHYC_SH005")
 #     dft_dbi_select_cron()
     #insert_old_hcu_data()
 #     a={'days':180}

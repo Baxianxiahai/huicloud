@@ -610,6 +610,9 @@ class ClassDbaMainEntry():
         elif inputData['action']=='FAAMOldDataClear':
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
             result=F11Faam.dft_faam_old_data_clear(inputData['body'])
+        elif inputData['action']=='FAAMDataSta':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_cron_production_and_batch_table_sta()
         else:
             result=""
         return result
@@ -673,6 +676,9 @@ class ClassHCUDbaMainEntry():
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         elif dev_code[1]=="G2013SHYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2012SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         elif dev_code[1]=="G2012SHYC":

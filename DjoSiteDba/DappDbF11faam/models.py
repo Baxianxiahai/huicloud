@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import default
 from enum import unique
+from asn1crypto._ffi import null
 
 # Create your models here.
 
@@ -31,7 +32,7 @@ class dct_t_l3f11faam_factory_sheet(models.Model):
 class dct_t_l3f11faam_production(models.Model):
     sid=models.AutoField(primary_key=True)
     pjcode=models.CharField(max_length=10)
-    qrcode=models.CharField(max_length=19,unique=True,db_index=True)
+    qrcode=models.CharField(max_length=19,db_index=True)
     owner=models.CharField(max_length=10)
     typecode=models.CharField(max_length=10)
     applyweek=models.IntegerField(null=True)
@@ -53,7 +54,7 @@ class dct_t_l3f11faam_buy_consumables(models.Model):
 class dct_t_l3f11faam_member_sheet(models.Model):
     mid=models.CharField(max_length=10,primary_key=True)
     pjcode=models.CharField(max_length=10)
-    employee=models.CharField(max_length=10)
+    employee=models.CharField(max_length=10,unique=True)
     gender=models.IntegerField(default=1)
     phone=models.CharField(max_length=15)
     openid=models.CharField(max_length=50,null=True)
@@ -138,8 +139,21 @@ class dct_t_l3f11faam_product_history(models.Model):
     logisticsunit=models.CharField(max_length=20)
     outtime=models.DateTimeField(auto_now=True)
     message=models.CharField(max_length=20)
-    
+
 class dct_t_l3f11faam_batch_scan(models.Model):
+    sid=models.AutoField(primary_key=True)
+    pjcode=models.CharField(max_length=10,db_index=True,default="HYGS")
+    qrcode=models.CharField(max_length=20)
+    owner=models.CharField(max_length=10,default="李坤洋")
+    applyweek=models.IntegerField(default=0,db_index=True)
+    applydate=models.DateTimeField(null=True)
+    activetime=models.DateTimeField(db_index=True,null=True)
+    lastactivetime=models.DateTimeField(null=True)
+    packagesum=models.IntegerField(default=0)
+    activeman=models.CharField(max_length=10,db_index=True)
+    typecode=models.CharField(max_length=10,db_index=True)
+
+class dct_t_l3f11faam_scan_sta(models.Model):
     sid=models.AutoField(primary_key=True)
     pjcode=models.CharField(max_length=10,db_index=True)
     activeman=models.CharField(max_length=10,db_index=True)
