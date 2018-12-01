@@ -492,7 +492,7 @@ class dct_classDbiL3apF1sym:
                         self.__MENUACTIONINDEX['webauth'][key]='true'
                     else:
                         self.__MENUACTIONINDEX['webauth'][key]='false'
-                print(self.__MENUACTIONINDEX['webauth'])
+#                 print(self.__MENUACTIONINDEX['webauth'])
                 userauth['webauth']=self.__MENUACTIONINDEX['webauth']
                 userauth['query']='true'
                 userauth['mod']='true'

@@ -269,6 +269,8 @@ class ClassDbaMainEntry():
             result=F3dm.dft_dbi_door_open_picture_process(inputData['body'])
         elif inputData['action']=='HCU_Info_Query':
             result=F3dm.dft_dbi_HCU_Info_Query(inputData['body'])
+        elif inputData['action']=="CalculationHour":
+            result=F3dm.dft_calculation_hour_data()
         else:
             result=""
         return result
@@ -590,7 +592,12 @@ class ClassDbaMainEntry():
             F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
             result=F11Faam.dft_get_print(inputData['body'])
             
-        
+        elif inputData['action']=='QrcodeAudit':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_faam_qrcode_audit(inputData['body'])
+        elif inputData['action']=='QrcodeBatch':
+            F11Faam=ModDbaF11Faam.ClassDbaF11Faam()
+            result=F11Faam.dft_faam_qrcode_batch(inputData['body'])
         else:
             result=''
         return result
@@ -678,10 +685,19 @@ class ClassHCUDbaMainEntry():
         elif dev_code[1]=="G2013SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
+        elif dev_code[1]=="G2014SHYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
         elif dev_code[1]=="G2012SHYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         elif dev_code[1]=="G2012SHYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2015XCYC":
+            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+            return Msg
+        elif dev_code[1]=="G2013XCYC":
             Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
             return Msg
         else:

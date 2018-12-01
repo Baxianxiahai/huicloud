@@ -69,7 +69,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         jsonInput = json.loads(inputData)
         jsonInput=json.loads(jsonInput)
         #测试收到的内容
-        print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", jsonInput)
+#         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", jsonInput)
         if(('socketid' in jsonInput) or ('data' in jsonInput)):
             varClassInputHandler = ModAccessCmdHandler.ClassHCUReportDataToDba()
         else:
@@ -105,7 +105,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         </body>
         </html>"""+str(self.headers)+str(self.command)+str(self.headers.get)+str(varProcessResult)
         strOutputData2 = json.dumps(varProcessResult, ensure_ascii=False)
-        print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Sending Post Data Buf = ", strOutputData2)
+#         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Sending Post Data Buf = ", strOutputData2)
         self.wfile.write(bytes(strOutputData2, "UTF-8"))
         
         

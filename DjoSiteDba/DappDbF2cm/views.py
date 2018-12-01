@@ -1172,7 +1172,7 @@ class dct_classDbiL3apF2cm:
                     result.cam_url = videourl
                 result.save()
             else:
-                weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+                weburl = "http://" + str(devCode) + ".ngrok2.hkrob.com:8080/phpmyadmin"
                 pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                     base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI"
@@ -1183,7 +1183,8 @@ class dct_classDbiL3apF2cm:
             result=dct_t_l3f2cm_device_inventory.objects.latest('base_port')
             BasePort=result.base_port+1
             dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode, site_code_id=statcode, create_date=starttime,base_port=BasePort,upgradeflag=1)
-            weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+#             weburl = "http://" + str(devCode) + ".ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+            weburl = "http://" + str(devCode) + ".ngrok2.hkrob.com:8080/phpmyadmin"
             picurl = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
             ctrlurl = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "2" + "/ISAPI"
             videourl_B = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "3" + "ISAPI/Streaming/Channels/1"
@@ -2175,7 +2176,6 @@ class dct_classDbiL3apF2cm:
                              'PM01':pm01,'PM25':pm25,'PM10':pm10,'Windspd':windspd,'Noise':noise,
                              'Winddir':winddir,'Temp':temp,'Humi':humi}
                     dev_array.append(dev_dev)
-        print(dev_array)
         response_msg = {'status':status, 'auth': 'true', 'DevDetail': dev_array,'UserLever':userLever}
         return response_msg
     

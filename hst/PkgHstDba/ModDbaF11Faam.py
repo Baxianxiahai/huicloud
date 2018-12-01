@@ -583,6 +583,25 @@ class ClassDbaF11Faam:
         except Exception:
             result={}
         return result
+    
+    def dft_faam_qrcode_audit(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+        result=DappDbF11Faam_view.dft_dbi_faam_qrcode_audit(inputData)
+#         except Exception:
+#             result={}
+        return result
+
+    def dft_faam_qrcode_batch(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_faam_qrcode_batch(inputData)
+        except Exception:
+            result={}
+        return result
+    
     def dft_faam_qrcode_kq_process(self,inputData):
         try:
             with transaction.atomic():
@@ -600,12 +619,12 @@ class ClassDbaF11Faam:
             result= {'flag': False, 'employee': "", 'message': '数据异常'}
         return result
     def dft_huitp_xmlmsg_equlable_apply_report(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
-        result=DappDbF11Faam_view.dft_dbi_huitp_xmlmsg_equlable_apply_report(inputData)
-#         except Exception:
-#             result={'start':0,'end':0,'allocateResp':1,'comConfirm':0X02}
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_huitp_xmlmsg_equlable_apply_report(inputData)
+        except Exception:
+            result={'start':0,'end':0,'allocateResp':1,'comConfirm':0X02}
         return result
     def dft_huitp_xmlmsg_equlable_userlist_report(self,inputData):
         try:

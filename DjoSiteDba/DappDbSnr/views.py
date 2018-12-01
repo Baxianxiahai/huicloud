@@ -76,12 +76,15 @@ class dct_classDappDbSnr:
     
     def dft_dbi_shyc_old_data_clear(self,inputData):
         delete_days = int(inputData['days'])
-        time_now = datetime.datetime.now()
+        time_now = datetime.date.today()
         time_old = time_now - datetime.timedelta(days=delete_days)
+        time_old=str(time_old)
+        print(time_old)
+        l3time_old=time_old+" 23:59:59"
         dct_t_l2snr_temperature.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_humidity.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_winddir.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_windspd.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_noise.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_picture.objects.filter(report_data__lte=time_old).delete()
-        dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__lte=time_old).delete()
+        dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__lte=l3time_old).delete()

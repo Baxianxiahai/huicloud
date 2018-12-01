@@ -39,21 +39,21 @@ class classDappDbF3dm:
         return result
     
     def dft_dbi_map_inactive_siteinfo_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_map_inactive_siteinfo_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_map_inactive_siteinfo_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_favoursite_list_process(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_favoursite_list_process(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_favoursite_list_process(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_favourite_count_process(self,inputData):
@@ -67,21 +67,21 @@ class classDappDbF3dm:
         return result
     
     def dft_dbi_all_sensorlist_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
-        result=DappDbSnr_view.dft_dbi_all_sensorlist_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
+                result=DappDbSnr_view.dft_dbi_all_sensorlist_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_aqyc_dev_sensorinfo_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
-        result=DappDbSnr_view.dft_dbi_aqyc_dev_sensorinfo_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
+                result=DappDbSnr_view.dft_dbi_aqyc_dev_sensorinfo_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_aqyc_user_dataaggregate_req(self,inputData):
@@ -103,30 +103,30 @@ class classDappDbF3dm:
         return result
     
     def dft_dbi_bfsc_user_dataaggregate_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_bfsc_user_dataaggregate_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_bfsc_user_dataaggregate_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_fhys_sensorlist_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
-        result=DappDbSnr_view.dft_dbi_all_sensorlist_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
+                result=DappDbSnr_view.dft_dbi_all_sensorlist_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_fhys_dev_sensorinfo_req(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
-        result=DappDbSnr_view.dft_dbi_aqyc_dev_sensorinfo_req(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbSnr_view=DappDbSnr.dct_classDappDbSnr()
+                result=DappDbSnr_view.dft_dbi_aqyc_dev_sensorinfo_req(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_fhys_user_dataaggregate_req(self,inputData):
@@ -139,21 +139,21 @@ class classDappDbF3dm:
         return result
     
     def dft_dbi_key_event_history_process(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_key_event_history_process(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_key_event_history_process(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_door_open_picture_process(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
-        result=DappDbF3dm_view.dft_dbi_door_open_picture_process(inputData)
-#         except Exception:
-#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_door_open_picture_process(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_point_install_picture_process(self,inputData):
@@ -174,7 +174,14 @@ class classDappDbF3dm:
             result={'status':'true','auth':'true','msg':'获取设备状态失败','ret':[]}
         return result
     
-    
+    def dft_calculation_hour_data(self):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_calculation_hour_data()
+        except Exception:
+            result=False
+        return result
 class HCUF3dmDataBaseConfirm():
     def __init__(self):
         pass
