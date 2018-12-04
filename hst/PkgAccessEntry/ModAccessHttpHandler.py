@@ -14,10 +14,10 @@ import urllib   #用于对URL进行编解码
 import http
 import socket
 from http.server import BaseHTTPRequestHandler
-#from http.server import HTTPServer
 
 #自定义
 from PkgAccessEntry import ModAccessCmdHandler
+from PkgAccessEntry import ModAccessCom
 
 
 class ClassEntryHttpHandler:
@@ -34,7 +34,10 @@ class ClassEntryHttpHandler:
 # coding:utf-8
 # 类继承
 class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
-    #def __init__(self):
+    def __init__(self):
+        '''
+        Constructor
+        '''
         #print ("调用父类构造函数")    
 
     def _writeheaders(self):
@@ -76,19 +79,17 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
             if ((("restTag" in jsonInput) == False) or (("actionId" in jsonInput) == False) or (("parFlag" in jsonInput) == False) or (("parContent" in jsonInput) == False)):
                 print("HUIREST: Receiving data format error!")
                 return
-            if (jsonInput['restTag'] == 'printer'):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PRINTER == True) and (jsonInput['restTag'] == 'printer'):
                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestPrinterInputCmdHandler()
-            elif (jsonInput['restTag'] == 'dba'):
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True) and (jsonInput['restTag'] == 'dba'):
                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestDbaInputCmdHandler()
-                    
-# Following part will be surpressed until MATE solve CV2 and TENSORFLOW solve.               
-#             elif (jsonInput['restTag'] == 'vision'):
-#                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
-#             elif (jsonInput['restTag'] == 'sensor'):
-#                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
-#             elif (jsonInput['restTag'] == 'special'):
-#                 varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
-
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True) and (jsonInput['restTag'] == 'vision'):
+                varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SENSOR == True) and (jsonInput['restTag'] == 'sensor'):
+                varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True) and (jsonInput['restTag'] == 'special'):
+                varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
+            #NOT EXIST OPTION
             else:
                 print("HUIREST: Receiving restTag domain error!")
                 return
