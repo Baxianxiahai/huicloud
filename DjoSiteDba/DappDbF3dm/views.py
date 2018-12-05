@@ -1365,16 +1365,17 @@ class dct_classDbiL3apF3dm():
     
     '''每小时定时计算各个数值的小时平均值'''
     def dft_dbi_calculation_hour_data(self):
-        now_time=datetime.datetime.now()
-        now_date=now_time.date()
-        now_hour=now_time.time().hour
-        time_start=str(now_date)+" "+str(now_hour-1)+":00:00"
-        time_end=str(now_date)+" "+str(now_hour-1)+":59:59"
+        time_old = datetime.datetime.now() - datetime.timedelta(hours=1)
+        now_date = time_old.date()
+        now_hour = time_old.hour
+        time_start=str(now_date)+" "+str(now_hour)+":00:00"
+        time_end=str(now_date)+" "+str(now_hour)+":59:59"
         data={}
         hour=list()
         result_min=dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__range=(time_start,time_end))
         if result_min.exists():
             for line in result_min:
+                print(line.report_date)
                 if line.site_code_id not in data.keys():
                     data[line.site_code_id]={}
                     if line.dev_code_id not in data[line.site_code_id].keys():
@@ -1569,7 +1570,7 @@ class dct_classDbiL3apF3dm():
                 rssi_aveage_3 = round(np.mean(value_dev[18]), 3)
                 pwrind_aveage_3 = round(np.mean(value_dev[19]), 3)
                 hour.append(
-                    dct_t_l3f3dm_hour_report_aqyc(dev_code_id=key_dev, site_code_id=key, hourindex=(now_hour - 1),
+                    dct_t_l3f3dm_hour_report_aqyc(dev_code_id=key_dev, site_code_id=key, hourindex=now_hour,report_date=time_start,
                                                   tsp=tsp_aveage_3, pm01=pm01_aveage_3, pm25=pm25_aveage_3,
                                                   pm10=pm10_aveage_3, noise=noise_aveage_3,
                                                   temperature=temperature_aveage_3,
@@ -1698,12 +1699,12 @@ class dct_t_HCU_Data_Report():
                                                            humidity=humidValue,winddir=winddirValue,windspd=windspdValue,
                                                            lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
                                                            hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
-            dct_t_l2snr_dust.objects.create(dev_code_id=devCode,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,hourminindex=hourminindex,dataflag='Y')
-            dct_t_l2snr_windspd.objects.create(dev_code_id=devCode,windspd=windspdValue,dataflag='Y',hourminindex=hourminindex)
-            dct_t_l2snr_noise.objects.create(dev_code_id=devCode,noise=noiseValue,dataflag='Y',hourminindex=hourminindex)
-            dct_t_l2snr_temperature.objects.create(dev_code_id=devCode,temperature=tempValue,dataflag='Y',hourminindex=hourminindex)
-            dct_t_l2snr_humidity.objects.create(dev_code_id=devCode,humidity=humidValue,dataflag='Y',hourminindex=hourminindex)
-            dct_t_l2snr_winddir.objects.create(dev_code_id=devCode,windir=winddirValue,dataflag='Y',hourminindex=hourminindex)
+#             dct_t_l2snr_dust.objects.create(dev_code_id=devCode,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,hourminindex=hourminindex,dataflag='Y')
+#             dct_t_l2snr_windspd.objects.create(dev_code_id=devCode,windspd=windspdValue,dataflag='Y',hourminindex=hourminindex)
+#             dct_t_l2snr_noise.objects.create(dev_code_id=devCode,noise=noiseValue,dataflag='Y',hourminindex=hourminindex)
+#             dct_t_l2snr_temperature.objects.create(dev_code_id=devCode,temperature=tempValue,dataflag='Y',hourminindex=hourminindex)
+#             dct_t_l2snr_humidity.objects.create(dev_code_id=devCode,humidity=humidValue,dataflag='Y',hourminindex=hourminindex)
+#             dct_t_l2snr_winddir.objects.create(dev_code_id=devCode,windir=winddirValue,dataflag='Y',hourminindex=hourminindex)
             if dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).exists():
                 dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=devCode).update(site_code=result[0].site_code,report_time=datetime.datetime.now(),tsp=tspValue,pm01=pm1d0Value,
                                                            pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,

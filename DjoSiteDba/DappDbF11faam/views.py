@@ -29,7 +29,16 @@ class dct_classDbiL3apF11Faam:
         else:
             userLever = ''
         return userLever
-
+    
+    def __dft_get_user_lever(self,inputData):
+        uid=inputData
+        result=dct_t_l3f1sym_account_primary.objects.filter(uid=uid)
+        if result.exists():
+            userLever=result[0].grade_level
+        else:
+            userLever=5
+        return userLever
+    
     def __dft_getRandomUid(self, strlen):
         str_array = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         uid = ''.join(random.sample(str_array, strlen))
@@ -644,6 +653,7 @@ class dct_classDbiL3apF11Faam:
         pjCode = self.__dft_get_user_auth_factory(uid)
         factory_config = self.__dft_get_factory_config(pjCode)
         Daily_list = list()
+        print(pjCode)
         if factory_config == "":
             return False
         else:
@@ -660,20 +670,25 @@ class dct_classDbiL3apF11Faam:
             earlyLeaveFlag = 0
             onJob = True
             result = dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode, onjob=onJob)
-            for line in result:
-                employee = line.employee
-                unitPrice = line.unitprice
-                daystandnumbet = (line.standardnum) * workTime
-                Daily = dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode, employee=employee, workday=workDay)
-                if Daily.exists():
-                    pass
-                else:
+            dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode, workday=workDay).delete()
+            if result.exists():
+                for line in result:
+                    employee = line.employee
+                    unitPrice = line.unitprice
+                    daystandnumbet = (line.standardnum) * workTime
+                    # Daily = dct_t_l3f11faam_daily_sheet.objects.filter(pjcode=pjCode, employee=employee, workday=workDay)
+                    # if Daily.exists():
+                    #     pass
+                    # else:
                     Daily_list.append(
-                        dct_t_l3f11faam_daily_sheet(pjcode=pjCode, daystandardnum=daystandnumbet, employee=employee,
-                                                    workday=workDay, arrivetime=workStart, leavetime=workEnd,
-                                                    offwork=offWorkTime, worktime=workTime, unitprice=unitPrice,
-                                                    laterflag=laterWorkFlag, earlyflag=earlyLeaveFlag))
-            dct_t_l3f11faam_daily_sheet.objects.bulk_create(Daily_list)
+                            dct_t_l3f11faam_daily_sheet(pjcode=pjCode, daystandardnum=daystandnumbet, employee=employee,
+                                                        workday=workDay, arrivetime=workStart, leavetime=workEnd,
+                                                        offwork=offWorkTime, worktime=workTime, unitprice=unitPrice,
+                                                        laterflag=laterWorkFlag, earlyflag=earlyLeaveFlag))
+                dct_t_l3f11faam_daily_sheet.objects.bulk_create(Daily_list)
+                return True
+            else:
+                return False
 
     def dft_dbi_attendance_history_query(self, inputData):
         ColumnName = []
@@ -1086,9 +1101,15 @@ class dct_classDbiL3apF11Faam:
         keyWord = inputData['keyWord']
         dayTimeStart = timeStart + ' 00:00:00'
         dayTimeEnd = timeEnd + ' 23:59:59'
+        flag="false"
         dayTimeStart = datetime.datetime.strptime(dayTimeStart, '%Y-%m-%d %H:%M:%S')
         dayTimeEnd = datetime.datetime.strptime(dayTimeEnd, '%Y-%m-%d %H:%M:%S')
         pjCode = self.__dft_get_user_auth_factory(uid)
+        userLever=self.__dft_get_user_lever(uid)
+        if userLever>=2:
+            pass
+        else:
+            flag="true"
         result = dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),
                                                            Q(owner__icontains=keyWord) | Q(typecode__icontains=keyWord),
                                                            Q(applytime__gte=dayTimeStart), Q(applytime__lte=dayTimeEnd))
@@ -1104,13 +1125,14 @@ class dct_classDbiL3apF11Faam:
             temp.append(str(line.applytime))
             temp.append(str(line.activetime))
             TableData.append(temp)
-        history = {'ColumnName': ColumnName, 'TableData': TableData}
+        history = {'ColumnName': ColumnName, 'TableData': TableData,'Flag':flag}
         return history
 
     def dft_dbi_production_history_audit(self, inputData):
         ColumnName = []
         TableData = []
         Result = True
+        flag='false'
         uid = inputData['uid']
         user = inputData['user']
         timeStart = inputData['timeStart']
@@ -1128,11 +1150,16 @@ class dct_classDbiL3apF11Faam:
         ColumnName.append("总粒数")
         ColumnName.append("总重量")
         pjCode = self.__dft_get_user_auth_factory(uid)
+        userLever=self.__dft_get_user_lever(uid)
         dayTimeStart = timeStart + ' 00:00:00'
         dayTimeEnd = timeEnd + ' 23:59:59'
         dayTimeStart = datetime.datetime.strptime(dayTimeStart, '%Y-%m-%d %H:%M:%S')
         dayTimeEnd = datetime.datetime.strptime(dayTimeEnd, '%Y-%m-%d %H:%M:%S')
         buffer = []
+        if userLever>=2:
+            pass
+        else:
+            flag='true'
         if keyWord == "":
             result = dct_t_l3f11faam_production.objects.filter(pjcode=pjCode,
                                                                activetime__range=(dayTimeStart, dayTimeEnd))
@@ -1154,7 +1181,7 @@ class dct_classDbiL3apF11Faam:
                 #                 if activeTime>=dayTimeStart and activeTime<=dayTimeEnd:
                 buffer.append(line)
         if len(buffer) == 0:
-            history = {'ColumnName': ColumnName, 'TableData': TableData, 'Result': Result}
+            history = {'ColumnName': ColumnName, 'TableData': TableData, 'Result': Result,'Flag':flag}
             return history
         result = dct_t_l3f11faam_member_sheet.objects.filter(pjcode=pjCode, onjob=True)
         nameList = []
@@ -1180,7 +1207,7 @@ class dct_classDbiL3apF11Faam:
             week = datetime.datetime.strptime(str(week), "%Y-%m-%d %H:%M:%S")
             if week > dayTimeStart:
                 Result = False
-                history = {'Result': Result, 'ColumnName': ColumnName, 'TableData': TableData}
+                history = {'Result': Result, 'ColumnName': ColumnName, 'TableData': TableData,'Flag':flag}
                 return history
             else:
                 Result = True
@@ -1230,7 +1257,7 @@ class dct_classDbiL3apF11Faam:
                     temp.append(numSum)
                     temp.append(str(weightSum))
                     TableData.append(temp)
-                history = {'Result': Result, 'TableData': TableData, 'ColumnName': ColumnName}
+                history = {'Result': Result, 'TableData': TableData, 'ColumnName': ColumnName,'Flag':flag}
                 return history
         else:
             Result = True
@@ -1264,7 +1291,7 @@ class dct_classDbiL3apF11Faam:
                             temp.append(totalNum)
                             temp.append(str(totalWeight))
                             TableData.append(temp)
-                            packageSum = packageSum + totalPackage;
+                            packageSum = packageSum + totalPackage
                             numSum = numSum + totalNum
                             weightSum = weightSum + totalWeight
             if packageSum != 0:
@@ -1280,7 +1307,7 @@ class dct_classDbiL3apF11Faam:
                 temp.append(numSum)
                 temp.append(str(weightSum))
                 TableData.append(temp)
-            history = {'Result': Result, 'TableData': TableData, 'ColumnName': ColumnName}
+            history = {'Result': Result, 'TableData': TableData, 'ColumnName': ColumnName,'Flag':flag}
             return history
 
     def dft_dbi_employee_kpi_audit(self, inputData):
@@ -2651,6 +2678,12 @@ class dct_classDbiL3apF11Faam:
         ColumnName.append('总粒数')
         ColumnName.append('总重量')
         pjCode = self.__dft_get_user_auth_factory(uid)
+        flag="false"
+        userLever=self.__dft_get_user_lever(uid)
+        if userLever>=2:
+            pass
+        else:
+            flag='true'
         if keyWord=="":
             result=dct_t_l3f11faam_production.objects.filter(pjcode=pjCode,activetime__range=(timeStartStr,timeEndStr))
         else:
@@ -2696,13 +2729,13 @@ class dct_classDbiL3apF11Faam:
                 history.append(str(totalWeight))
                 TableData.append(history)
                 i = i + 1
-        Table = {'ColumnName': ColumnName, 'TableData': TableData}
+        Table = {'ColumnName': ColumnName, 'TableData': TableData,'Flag':flag}
         return Table
-
 
     def dft_dbi_faam_qrcode_batch(self, inputData):
         ColumnName = []
         TableData = []
+        flag='false'
         uid = inputData['uid']
         timeStart = inputData['TimeStart']
         timeEnd = inputData['TimeEnd']
@@ -2710,29 +2743,74 @@ class dct_classDbiL3apF11Faam:
         timeStartStr = str(timeStart) + ' 00:00:00'
         timeEndStr = str(timeEnd) + ' 23:59:59'
         ColumnName.append('序号')
-        ColumnName.append('二维码')
+        # ColumnName.append('二维码')
         ColumnName.append('负责人')
-        ColumnName.append('单垛箱数')
+        ColumnName.append('总箱数')
         ColumnName.append('产品规格')
-        ColumnName.append('申请时间')
-        ColumnName.append('成品时间')
+        ColumnName.append('开始时间')
+        ColumnName.append('结束时间')
+        i=1
+        totalPackageNum=0
+        totalDict={}
+        userLever=self.__dft_get_user_lever(uid)
         pjCode = self.__dft_get_user_auth_factory(uid)
-        if keyWord=="":
-            result=dct_t_l3f11faam_batch_scan.objects.filter(applydate__range=(timeStartStr,timeEndStr),pjcode=pjCode)
+        if userLever>=2:
+            pass
         else:
-            result = dct_t_l3f11faam_batch_scan.objects.filter(applydate__range=(timeStartStr, timeEndStr),pjcode=pjCode,owner__icontains=keyWord)
+            flag = 'true'
+        if keyWord=="":
+            result=dct_t_l3f11faam_batch_scan.objects.filter(activetime__range=(timeStartStr,timeEndStr),pjcode=pjCode)
+        else:
+            result = dct_t_l3f11faam_batch_scan.objects.filter(activetime__range=(timeStartStr, timeEndStr),pjcode=pjCode,typecode__icontains=keyWord)
         if result.exists():
             for line in result:
+                totalPackageNum=totalPackageNum+line.packagesum
+                if line.owner not in totalDict.keys():
+                    totalDict[line.owner]={}
+                    if line.typecode not in totalDict[line.owner].keys():
+                        totalDict[line.owner][line.typecode]=line.packagesum
+                    else:
+                        totalDict[line.owner][line.typecode]=totalDict[line.owner][line.typecode]+line.packagesum
+                else:
+                    if line.typecode not in totalDict[line.owner].keys():
+                        totalDict[line.owner][line.typecode]=line.packagesum
+                    else:
+                        totalDict[line.owner][line.typecode]=totalDict[line.owner][line.typecode]+line.packagesum
+        for key,value in totalDict.items():
+            for key_type,value_type in totalDict[key].items():
                 history=[]
-                history.append(line.sid)
-                history.append(line.qrcode)
-                history.append(line.owner)
-                history.append(line.packagesum)
-                history.append(line.typecode)
-                history.append(str(line.applydate))
-                history.append(str(line.activetime))
+                history.append(i)
+                history.append(key)
+                # history.append(totalDict[key][key_type])
+                history.append(value_type)
+                history.append(key_type)
+                history.append(timeStart)
+                history.append(timeEnd)
                 TableData.append(history)
-        Table = {'ColumnName': ColumnName, 'TableData': TableData}
+                i=i+1
+#         if result.exists():
+#             for line in result:
+#                 totalPackageNum=totalPackageNum+line.packagesum
+#                 history=[]
+#                 history.append(i)
+#                 history.append(line.qrcode)
+#                 history.append(line.owner)
+#                 history.append(line.packagesum)
+#                 history.append(line.typecode)
+#                 history.append(str(line.applydate))
+#                 history.append(str(line.activetime))
+#                 TableData.append(history)
+#                 i=i+1
+        history=[]
+        history.append(0)
+        history.append("----")
+        # history.append("----")
+        history.append(totalPackageNum)
+        history.append("----")
+        history.append(timeStart)
+        history.append(timeEnd)
+        TableData.append(history)
+        Table = {'ColumnName': ColumnName, 'TableData': TableData,'Flag':flag}
         return Table
 
     '''*****************************微信小程序开始*****************************************'''
@@ -2881,14 +2959,12 @@ class dct_classDbiL3apF11Faam:
                     appleNum = "未知类型"
 #                     if nickName == "李坤洋":
                 if activeTime == None:
-                    codeResultLKY.update(activetime=currentTime,
-                                                                                      activeman=nickName,
-                                                                                      lastactivetime=currentTime)
+                    codeResultLKY.update(activetime=currentTime,activeman=nickName,lastactivetime=currentTime)
                     resp = {'flag': True, 'employee': qrcode_owner, 'message': '统计成功'}
                 else:
                     codeResultLKY.update(lastactivetime=currentTime)
-                    resp = {'flag': False, 'employee': qrcode_owner,
-                            'message': '箱数：' + str(package) + '；规格：' + appleNum}
+                    # resp = {'flag': False, 'employee': qrcode_owner,'message': '箱数：' + str(package) + '；规格：' + appleNum+'；时间'+str(activeTime)}
+                    resp = {'flag': False, 'employee': qrcode_owner,'message': '箱数：' + str(package) + '；规格：' + appleNum}
 #                     else:
 #                         resp = {'flag': False, 'employee': nickName, 'message': '扫描用户非管理人员'}
 #             else:

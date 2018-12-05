@@ -190,7 +190,7 @@ class dct_t_l3f3dm_hour_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
     dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE,db_index=True)
     site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
-    report_date = models.DateField(auto_now=True,db_index=True)
+    report_date = models.DateTimeField(db_index=True,null=True)
     hourindex = models.IntegerField(default=0,db_index=True)
     tsp = models.FloatField(default=0, verbose_name="TSP")
     pm01 = models.FloatField(default=0, verbose_name="PM0.1")

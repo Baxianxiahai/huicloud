@@ -206,8 +206,7 @@ class ClassDbaF11Faam:
         try:
             with transaction.atomic():
                 DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
-                DappDbF11Faam_view.dft_dbi_attendance_record_batch_add(inputData)
-                result=True
+                result=DappDbF11Faam_view.dft_dbi_attendance_record_batch_add(inputData)
         except Exception:
             result=False
         return result
@@ -255,7 +254,7 @@ class ClassDbaF11Faam:
                 DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
                 result=DappDbF11Faam_view.dft_dbi_production_history_query(inputData)
         except Exception:
-            result={'ColumnName':[],'TableData':[]}
+            result={'ColumnName':[],'TableData':[],'Flag':"false"}
         return result
     
     def dft_production_history_audit(self,inputData):
@@ -264,7 +263,7 @@ class ClassDbaF11Faam:
                 DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
                 result=DappDbF11Faam_view.dft_dbi_production_history_audit(inputData)
         except Exception:
-            result={'ColumnName':[],'TableData':[],'Result':False}
+            result={'ColumnName':[],'TableData':[],'Result':False,'Flag':"false"}
         return result
     
     def dft_employee_kpi_audit(self,inputData):
@@ -585,12 +584,12 @@ class ClassDbaF11Faam:
         return result
     
     def dft_faam_qrcode_audit(self,inputData):
-#         try:
-#             with transaction.atomic():
-        DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
-        result=DappDbF11Faam_view.dft_dbi_faam_qrcode_audit(inputData)
-#         except Exception:
-#             result={}
+        try:
+            with transaction.atomic():
+                DappDbF11Faam_view=DappDbF11Faam.dct_classDbiL3apF11Faam()
+                result=DappDbF11Faam_view.dft_dbi_faam_qrcode_audit(inputData)
+        except Exception:
+            result={}
         return result
 
     def dft_faam_qrcode_batch(self,inputData):
