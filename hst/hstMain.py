@@ -10,23 +10,22 @@ import re
 import urllib
 import http
 import socket
-#from http.server import BaseHTTPRequestHandler
 from http.server import HTTPServer
 
 from PkgAccessEntry import ModAccessHttpHandler
 
 def hst_start_server(addr, port):
-    myServerConnection = HTTPServer(addr, ModAccessHttpHandler.ClassHttpRequestGenernalHandler)
+    mySvrConn = HTTPServer(addr, ModAccessHttpHandler.ClassHttpRequestGenernalHandler)
     print("[", time.asctime(), "HUIREST]: Server Starts - %s:%s" % addr)
     try:
-        myServerConnection.recSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
-        myServerConnection.recSocket.settimeout(200)
-        myServerConnection.recSocket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1) 
-        myServerConnection.recSocket.bind(('', port))
-        myServerConnection.serve_forever()
+        mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+        mySvrConn.recSocket.settimeout(200)
+        mySvrConn.recSocket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1) 
+        mySvrConn.recSocket.bind(('', port))
+        mySvrConn.serve_forever()
     except KeyboardInterrupt:
         pass
-    myServerConnection.server_close()
+    mySvrConn.server_close()
     print("[", time.asctime(), "HUIREST]: Server Stops - %s:%s" % addr)
 
 def main():
@@ -36,3 +35,11 @@ def main():
     hst_start_server(zHstAddrBind, HST_HOST_PORT)
 if __name__ == '__main__':
     main()
+
+
+
+
+
+
+
+
