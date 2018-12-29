@@ -5,11 +5,6 @@ Created on 2017年12月27日
 '''
 
 #import cv2
-import numpy as np  
-import matplotlib.pyplot as plt
-#import imutils
-#from ctypes import c_uint8
-#import argparse
 import math
 import random
 import sys
@@ -17,16 +12,16 @@ import time
 import json
 import os   #Python的标准库中的os模块包含普遍的操作系统功能  
 import re   #引入正则表达式对象  
-import tensorflow as tf
-#import numpy as np
-from tensorflow.examples.tutorials.mnist import input_data
 
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow.examples.tutorials.mnist import input_data
 
 class ClassModAiwgtTest1():
     '''
     classdocs
     '''
-
 
     def __init__(self, params):
         '''

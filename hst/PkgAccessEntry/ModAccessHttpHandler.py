@@ -48,8 +48,10 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         self.send_response(200);
         self.send_header('Content-type','text/html');
         self.end_headers()
+        
     def do_Head(self):
         self._writeheaders()
+        
     def do_GET(self):
         self._writeheaders()
         self.wfile.write(bytes("""<!DOCTYPE HTML>
@@ -62,6 +64,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         <p>this is get!</p>
         </body>
         </html>"""+str(self.headers), "UTF-8"))
+        
     def do_POST(self):
         self._writeheaders()
         length = self.headers.get('content-length');
@@ -79,16 +82,27 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
             if ((("restTag" in jsonInput) == False) or (("actionId" in jsonInput) == False) or (("parFlag" in jsonInput) == False) or (("parContent" in jsonInput) == False)):
                 print("HUIREST: Receiving data format error!")
                 return
-            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PRINTER == True) and (jsonInput['restTag'] == 'printer'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestPrinterInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True) and (jsonInput['restTag'] == 'dba'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestDbaInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True) and (jsonInput['restTag'] == 'vision'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SENSOR == True) and (jsonInput['restTag'] == 'sensor'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True) and (jsonInput['restTag'] == 'special'):
-                varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PRINTER == True):
+                if (jsonInput['restTag'] == 'printer'): 
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestPrinterInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True):
+                if (jsonInput['restTag'] == 'dba'): 
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestDbaInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True):
+                if (jsonInput['restTag'] == 'vision'):
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_AIWGT == True):
+                if (jsonInput['restTag'] == 'aiwgt'):
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestAiwgtInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SENSOR == True):
+                if (jsonInput['restTag'] == 'sensor'):
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True):
+                if (jsonInput['restTag'] == 'special'):
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MDC == True):
+                if (jsonInput['restTag'] == 'mdc'):
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestMdcInputCmdHandler()
             #NOT EXIST OPTION
             else:
                 print("HUIREST: Receiving restTag domain error!")

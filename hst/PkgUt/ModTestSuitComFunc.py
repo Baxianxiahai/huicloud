@@ -8,7 +8,7 @@ import urllib
 import json
 import time
 import urllib3
-
+import requests
 
 class ClassJoinContents:
     def __init__(self):
@@ -44,20 +44,22 @@ def hst_curl_client_connection():
     print("下载数据包大小：%d bytes/s" %(SIZE_DOWNLOAD))
     print("HTTP头部大小：%d byte" %(HEADER_SIZE))
     print("平均下载速度：%d bytes/s" %(SPEED_DOWNLOAD))
+    c.close()
 
 #以curlib3为方式的client连接
 def hst_curlib3_client_connection(ptr, jsonInputData, logic):
         encoded_data = json.dumps(jsonInputData).encode('utf-8')
-        http = urllib3.PoolManager(maxsize=10, block=True)
+        http = urllib3.PoolManager(maxsize=10, timeout=3.0, block=True)
         r = http.request(
             'POST',
             'http://localhost:8000/post',
-            body=encoded_data,
-            headers={'Content-Type': 'application/json'})
+            body=encoded_data, 
+            headers={'Content-Type':'application/json'}
+            )
+        print(r)
         result = json.loads(r.data)
         #ptr.assertEqual(result['parContent']['sucFlag'], logic, 'Result Failure')
         return result
-        pass
 
 def hst_curlib3_client_conn_check_details(ptr, jsonInputData, logic):
         encoded_data = json.dumps(jsonInputData).encode('utf-8')
@@ -66,7 +68,7 @@ def hst_curlib3_client_conn_check_details(ptr, jsonInputData, logic):
             'POST',
             'http://localhost:8000/post',
             body=encoded_data,
-            headers={'Content-Type': 'application/json'})
+            headers={'Content-Type':'application/json'})
         result = json.loads(r.data)
         ptr.assertEqual(result['parFlag'], logic, 'Result Failure')
         #return result['parContent']

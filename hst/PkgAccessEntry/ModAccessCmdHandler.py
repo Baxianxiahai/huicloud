@@ -1,5 +1,5 @@
 '''
-Created on 2017骞�12鏈�11鏃�
+Created on 2017/12/11
 
 @author: hitpony
 '''
@@ -15,25 +15,27 @@ import http
 import socket
 from builtins import int
 
-from PkgHstPrinter import ModPrinterGeneral
-from PkgHstDba import ModDbaMainEntry
-from PkgHstVision import ModVisionGeneral
-from PkgHstAiwgt import ModAiwgtGeneral
-from PkgHstSensor import ModSensorGeneral    #Sensor access
-from PkgHstSpecial import ModSpecialGeneral  #Special Usage
+from PkgAccessEntry import ModAccessCom
 from PkgAccessEntry import ModAccessDict
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PRINTER == True):
+    from PkgHstPrinter import ModPrinterGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True):
+    from PkgHstDba import ModDbaMainEntry
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True):
+    from PkgHstVision import ModVisionGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_AIWGT == True):
+    from PkgHstAiwgt import ModAiwgtGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SENSOR == True):
+    from PkgHstSensor import ModSensorGeneral    #Sensor access
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True):
+    from PkgHstSpecial import ModSpecialGeneral  #Special Usage
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MDC == True):
+    from PkgHstMdc import ModMdcGeneral
 
-class ClassEntryCmdHandler:
-    '''
-    classdocs
-    '''
 
-    def __init__(self, params):
-        '''
-        Constructor
-        '''
-
-#
+'''
+PRINTER SERVICE
+'''
 class ClassHuirestPrinterInputCmdHandler:
     __HUIREST_SVTAG = "printer"
     __HUIREST_ACTIONID_PRINTER_min              = 1000
@@ -43,7 +45,7 @@ class ClassHuirestPrinterInputCmdHandler:
     __HUIREST_ACTIONID_PRINTER_fam_sdqx_md1     = 1010
     __HUIREST_ACTIONID_PRINTER_fam_sdqx_md2     = 1011
     __HUIREST_ACTIONID_PRINTER_fam_get_mac_addr = 1012
-    __HUIREST_ACTIONID_PRINTER_max     = 1020
+    __HUIREST_ACTIONID_PRINTER_max     = 1999
     publicOutputResultFlag = False
     
     def __init__(self):
@@ -83,7 +85,7 @@ class ClassHuirestPrinterInputCmdHandler:
             else:
                 print("ClassHuirestPrinterInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_PRINTER_min, self.__HUIREST_ACTIONID_PRINTER_max, inputStr['actionId']))
                 self.publicOutputResultFlag = False
-        #
+        #RETURN BACK
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
         outputStr['actionId'] = inputStr["actionId"];
@@ -98,7 +100,11 @@ class ClassHuirestPrinterInputCmdHandler:
             outputStr['parContent'] = self.publicOutputResultFlag;
         return outputStr
  
-#
+
+
+'''
+DB ACCESS SERVICE
+'''
 class ClassHuirestDbaInputCmdHandler:
     __HUIREST_SVTAG = "dba"
     __HUIREST_ACTIONID_DBA_min                      = 0x1000
@@ -255,17 +261,21 @@ class ClassHuirestDbaInputCmdHandler:
 #         return outputStr
     
 
+
+
 #Following part will be surpress for a while, until MATE system solve CV2 and Tensorflow installation issue
 
-
+'''
+VISION SERVICE
+'''
 class ClassHuirestVisionInputCmdHandler:
     __HUIREST_SVTAG = "vision"
-    __HUIREST_ACTIONID_VISION_min     = 0x2000
-    __HUIREST_ACTIONID_VISION_test1   = 0x2000
-    __HUIREST_ACTIONID_VISION_test2   = 0x2001
-    __HUIREST_ACTIONID_VISION_worm_clasify_single   = 0x2002
-    __HUIREST_ACTIONID_VISION_worm_clasify_batch    = 0x2003
-    __HUIREST_ACTIONID_VISION_max     = 0x2004
+    __HUIREST_ACTIONID_VISION_min     = 3000
+    __HUIREST_ACTIONID_VISION_test1   = 3001
+    __HUIREST_ACTIONID_VISION_test2   = 3002
+    __HUIREST_ACTIONID_VISION_worm_clasify_single   = 3003
+    __HUIREST_ACTIONID_VISION_worm_clasify_batch    = 3004
+    __HUIREST_ACTIONID_VISION_max     = 3999
     publicOutputResultFlag = False
     parContentStrExt = ""
      
@@ -320,12 +330,17 @@ class ClassHuirestVisionInputCmdHandler:
             outputStr['parContent'] = parContentStrErr;
         return outputStr
      
-#
+
+
+
+'''
+AI WEIGHT SERVICE
+'''
 class ClassHuirestAiwgtInputCmdHandler:
     __HUIREST_SVTAG = "aiwgt"
-    __HUIREST_ACTIONID_AIWGT_min                      = 0x3000
-    __HUIREST_ACTIONID_AIWGT_test1                    = 0x3000
-    __HUIREST_ACTIONID_AIWGT_max                      = 0x3001
+    __HUIREST_ACTIONID_AIWGT_min                      = 4000
+    __HUIREST_ACTIONID_AIWGT_test1                    = 4000
+    __HUIREST_ACTIONID_AIWGT_max                      = 4999
     publicOutputResultFlag = False
      
     def __init__(self):
@@ -367,12 +382,17 @@ class ClassHuirestAiwgtInputCmdHandler:
         return outputStr
  
  
-#
+
+
+
+'''
+SENSOR SERVICE
+'''
 class ClassHuirestSensorInputCmdHandler:
     __HUIREST_SVTAG = "sensor"
-    __HUIREST_ACTIONID_SENSOR_min                      = 0x4000
-    __HUIREST_ACTIONID_SENSOR_test1                    = 0x4000
-    __HUIREST_ACTIONID_SENSOR_max                      = 0x400F
+    __HUIREST_ACTIONID_SENSOR_min                      = 5000
+    __HUIREST_ACTIONID_SENSOR_test1                    = 5000
+    __HUIREST_ACTIONID_SENSOR_max                      = 5999
     publicOutputResultFlag = False
      
     def __init__(self):
@@ -414,14 +434,18 @@ class ClassHuirestSensorInputCmdHandler:
         return outputStr
  
  
-#
+
+
+'''
+SPECIAL TREATMENT SERVICE
+'''
 class ClassHuirestSpecialInputCmdHandler:
     __HUIREST_SVTAG = "special"
-    __HUIREST_ACTIONID_SPECIAL_min                      = 0x5000
-    __HUIREST_ACTIONID_SPECIAL_test1                    = 0x5000
-    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode  = 0x5001
-    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode  = 0x5002
-    __HUIREST_ACTIONID_SPECIAL_max                      = 0x500F
+    __HUIREST_ACTIONID_SPECIAL_min                      = 6000
+    __HUIREST_ACTIONID_SPECIAL_test1                    = 6000
+    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode  = 6001
+    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode  = 6002
+    __HUIREST_ACTIONID_SPECIAL_max                      = 6999
     publicOutputResultFlag = False
      
     def __init__(self):
@@ -469,6 +493,61 @@ class ClassHuirestSpecialInputCmdHandler:
         return outputStr
      
 
+
+'''
+MDC SERVICE
+'''
+class ClassHuirestMdcInputCmdHandler:
+    __HUIREST_SVTAG = "mdc"
+    __HUIREST_ACTIONID_MDC_min                      = 7000
+    __HUIREST_ACTIONID_MDC_test1                    = 7000
+    __HUIREST_ACTIONID_MDC_max                      = 7999
+    publicOutputResultFlag = False
+     
+    def __init__(self):
+        self.publicOutputResultFlag = True
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.publicOutputResultFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_MDC_min):
+            self.publicOutputResultFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_MDC_max):
+            self.publicOutputResultFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.publicOutputResultFlag = False;
+                     
+        #
+        if (self.publicOutputResultFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_MDC_test1):
+                proc = ModMdcGeneral.ClassModMdcTest1()
+                self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestMdcInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_MDC_min, self.__HUIREST_ACTIONID_MDC_max, inputStr['actionId']))
+                self.publicOutputResultFlag = False
+        #
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.publicOutputResultFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.publicOutputResultFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.publicOutputResultFlag;
+        return outputStr
+
+
+
+'''
+DBA RELEVANT SERVICE
+SPECAL CASE
+'''
 class ClassHCUReportDataToDba:
     __HCUDATAMSGIDCURRENTREPORT=0X3090
     __HCUDATAMSGIDCPUIDRAND=0X5CFF

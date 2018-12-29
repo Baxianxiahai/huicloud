@@ -13,8 +13,8 @@ def hst_testsuite_special():
     suiteTest = unittest.TestSuite()
     suiteTest.addTest(ClassUtSpecial("tc_special_001"))
     suiteTest.addTest(ClassUtSpecial("tc_special_002"))
-    suiteTest.addTest(ClassUtSpecial("tc_special_003"))
-    suiteTest.addTest(ClassUtSpecial("tc_special_004"))
+    #suiteTest.addTest(ClassUtSpecial("tc_special_003"))
+    #suiteTest.addTest(ClassUtSpecial("tc_special_004"))
     #suiteTest.addTest(ClassUtSpecial("tc_special_005"))
     #suiteTest.addTest(ClassUtSpecial("tc_special_006"))
     #suiteTest.addTest(ClassUtSpecial("tc_special_007"))
@@ -43,7 +43,7 @@ class ClassUtSpecial(unittest.TestCase):
     def tc_special_002(self):
         ticks = time.time();
         print("tc_special_002, time in second = ", ticks);
-        jsonInputData = {"restTag": "special", "actionId": 20480, "parFlag": 1, "parContent": {"barcode": "12345678", "valvePar": 1, "datetime": "20180314133829"}}
+        jsonInputData = {"restTag": "special", "actionId": 6000, "parFlag": 1, "parContent": {"barcode": "12345678", "valvePar": 1, "datetime": "20180314133829"}}
         res = ModTestSuitComFunc.hst_curlib3_client_conn_check_details(self, jsonInputData, 1)
         print("tc_special_002 result = ", res)
 
@@ -51,16 +51,16 @@ class ClassUtSpecial(unittest.TestCase):
     def tc_special_003(self):
         ticks = time.time();
         print("tc_special_003, time in second = ", ticks);
-        jsonInputData = {"restTag": "special", "actionId": 20481, "parFlag": 1, "parContent": {"barcode": "12345678", "valvePar": 0, "datetime": "20180314133829"}}
+        jsonInputData = {"restTag": "special", "actionId": 6001, "parFlag": 1, "parContent": {"barcode": "12345678", "valvePar": 0, "datetime": "20180314133829"}}
         res = ModTestSuitComFunc.hst_curlib3_client_conn_check_details(self, jsonInputData, 1)
         print("tc_special_003 result = ", res)
         #RETURN = {'restTag': 'special', 'actionId': 20482, 'parFlag': 1, 'parContent': {'inputBinCode': 'AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB'}}
         
-    #Encode function
+    #Decode function
     def tc_special_004(self):
         ticks = time.time();
         print("tc_special_004, time in second = ", ticks);
-        jsonInputData = {"restTag": "special", "actionId": 20482, "parFlag": 1, "parContent": {"inputBinCode": "AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB"}}
+        jsonInputData = {"restTag": "special", "actionId": 6002, "parFlag": 1, "parContent": {"inputBinCode": "AA11C538326217CCA301092A0C0E1C1B7E2C01640000002C010000881300000000000024CC1000CC1000000000000100002100000000000000E803000001000D0B191B7E460111176309813D0D00F401C10341BB"}}
         #jsonInputData = {"restTag": "special", "actionId": 20482, "parFlag": 1, "parContent": {"inputBinCode": "FF113312345678003813140318200001000000000000000000000000000000000000000000000000000000000000F2BB"}}
         res = ModTestSuitComFunc.hst_curlib3_client_conn_check_details(self, jsonInputData, 1)
         print("tc_special_004 result = ", res)

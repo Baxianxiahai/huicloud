@@ -1,6 +1,19 @@
 ﻿====HUICLOUD=====
 
 
+
+
+
+
+
+
+
+//=ZJL, 2018 Dec.5, CURRENT_SW_DELIVERY R1.40 =>HST
+= 增加MDC模块
+= 建立项目与激活模块的关联关系
+
+
+
 //=ZJL, 2018 Dec.4, CURRENT_SW_DELIVERY R1.39 =>HST
 = 准备完善多分支的合并：后台服务器使用的版本，HCU下的兼容，WINDOWS下的版本
 = 第一个问题: 服务号需要从8000改为7999，不然在HCU中跟已有服务冲突，MFUN待确定
