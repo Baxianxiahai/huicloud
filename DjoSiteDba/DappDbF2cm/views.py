@@ -155,7 +155,7 @@ class dct_classDbiL3apF2cm:
         result=dct_t_l3f1sym_account_secondary.objects.filter(uid_id=inputData)
         if result.exists():
             for line in result:
-                self_grade=int(line.uid.grade_lever)
+                self_grade=int(line.uid.grade_level)
                 if self_grade==0:grade_name='管理员'
                 elif self_grade==1:grade_name='高级用户'
                 elif self_grade==2:grade_name='一级用户'
@@ -169,14 +169,14 @@ class dct_classDbiL3apF2cm:
                 temp.append(line.telephone)
                 temp.append(line.uid.email)
                 temp.append(grade_name)
-                temp.append(str(line.uid.red_date))
+                temp.append(str(line.uid.reg_date))
                 temp.append(line.uid.backup)
                 data.append(temp)
-        result=dct_t_l3f1sym_account_secondary.objects.filter(uid__grade_lever__gt=self_grade)
+        result=dct_t_l3f1sym_account_secondary.objects.filter(uid__grade_level__gt=self_grade)
         if result.exists():
             for line in result:
                 user=line.uid.login_name
-                grade=int(line.uid.grade_lever)
+                grade=int(line.uid.grade_level)
                 if grade==0:grade_name='管理员'
                 elif grade==1:grade_name='高级用户'
                 elif grade==2:grade_name='一级用户'
@@ -190,14 +190,14 @@ class dct_classDbiL3apF2cm:
                 temp.append(line.telephone)
                 temp.append(line.uid.email)
                 temp.append(grade_name)
-                temp.append(str(line.uid.red_date))
+                temp.append(str(line.uid.reg_date))
                 temp.append(line.uid.backup)
                 data.append(temp)
         if user=='admin':
             data=[]
             result=dct_t_l3f1sym_account_secondary.objects.all()
             for line in result:
-                grade=int(line.uid.grade_lever)
+                grade=int(line.uid.grade_level)
                 if grade==0:grade_name='管理员'
                 elif grade==1:grade_name='高级用户'
                 elif grade==2:grade_name='一级用户'
@@ -211,7 +211,7 @@ class dct_classDbiL3apF2cm:
                 temp.append(line.telephone)
                 temp.append(line.uid.email)
                 temp.append(grade_name)
-                temp.append(str(line.uid.red_date))
+                temp.append(str(line.uid.reg_date))
                 temp.append(line.uid.backup)
                 data.append(temp)
         user_table={"data":data,'column':column}
@@ -1079,17 +1079,17 @@ class dct_classDbiL3apF2cm:
                     result.pic1_url = videourl
                 result.save()
             else:
-                weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+                weburl = "http://" + str(devCode) + ".ngrok2.hkrob.com:8080/phpmyadmin"
                 pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                     base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI"
                 video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
-                    base_port) + "3" + "ISAPI/Streaming/Channels/1"
+                    base_port) + "3" + "/ISAPI/Streaming/Channels/1"
                 pic2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                     base_port) + "6" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "6" + "/ISAPI"
                 video2url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
-                    base_port) + "7" + "ISAPI/Streaming/Channels/1"
+                    base_port) + "7" + "/ISAPI/Streaming/Channels/1"
                 pic3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                     base_port) + "8" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "8" + "/ISAPI"
@@ -1104,15 +1104,15 @@ class dct_classDbiL3apF2cm:
             BasePort = result.base_port + 1
             dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode, site_code_id=statcode, create_date=starttime,
                                                          base_port=BasePort, upgradeflag=1)
-            weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+            weburl = "http://" + str(devCode) + "ngrok2.hkrob.com:8080/phpmyadmin"
             pic1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                 BasePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
             ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "2" + "/ISAPI"
-            video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "3" + "ISAPI/Streaming/Channels/1"
+            video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "3" + "/ISAPI/Streaming/Channels/1"
             pic2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                 BasePort) + "6" + "/ISAPI/Streaming/channels/1/picture"
             ctrl2url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "6" + "/ISAPI"
-            video2url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "7" + "ISAPI/Streaming/Channels/1"
+            video2url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "7" + "/ISAPI/Streaming/Channels/1"
             pic3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                 BasePort) + "8" + "/ISAPI/Streaming/channels/1/picture"
             ctrl3url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(BasePort) + "8" + "/ISAPI"
@@ -1177,7 +1177,7 @@ class dct_classDbiL3apF2cm:
                     base_port) + "2" + "/ISAPI/Streaming/channels/1/picture"
                 ctrl1url = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(base_port) + "2" + "/ISAPI"
                 video1url = "rtsp://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
-                    base_port) + "3" + "ISAPI/Streaming/Channels/1"
+                    base_port) + "3" + "/ISAPI/Streaming/Channels/1"
                 dct_t_l3f2cm_device_aqyc.objects.create(dev_code_id=devCode,web_url=weburl,pic1_url=pic1url,ctrl1_url=ctrl1url,video1_url=video1url)
         else:
             result=dct_t_l3f2cm_device_inventory.objects.latest('base_port')
@@ -2463,6 +2463,9 @@ class HCUReportAndConfirm():
                             calNoiseCoefMin=line_dev.noise_coefmin
                             calNoiseCoefK=line_dev.noise_coefK
                             calNoiseCoefB=line_dev.noise_coefB
+                            prescaleXHT=line_dev.dev_code.prescale_xht
+                            prescaleCUS=line_dev.dev_code.prescale_cus
+                            prescaleOFC=line_dev.dev_code.prescale_ofc
                             if userName==None:userName=""
                             if userPswd==None:userPswd=""
                             if userDef1==None:userDef1=""
@@ -2505,6 +2508,9 @@ class HCUReportAndConfirm():
 #                                 'eda':"",
 #                                 'eia':"",
                                 'ept':eccPort,
+                                'psx':prescaleXHT,
+                                'psc':prescaleCUS,
+                                'pso':prescaleOFC,
                                 'un':userName,
                                 'up':userPswd,
                                 'ud1':userDef1,

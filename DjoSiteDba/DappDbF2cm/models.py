@@ -67,6 +67,9 @@ class dct_t_l3f2cm_device_inventory(models.Model):
     userdef2=models.CharField(max_length=100,null=True)
     userdef3=models.CharField(max_length=100,null=True)
     userdef4=models.CharField(max_length=100,null=True)
+    prescale_xht=models.IntegerField(default=1)
+    prescale_cus=models.IntegerField(default=1)
+    prescale_ofc=models.IntegerField(default=1)
 
 class dct_t_l3f2cm_device_cail(models.Model):
     dev_code=models.OneToOneField(dct_t_l3f2cm_device_inventory,on_delete=models.CASCADE)
@@ -153,10 +156,10 @@ class dct_t_l3f2cm_project_fstt(models.Model):
 
 class dct_t_l3f2cm_site_fstt(models.Model):
     site_code = models.OneToOneField(dct_t_l3f2cm_site_common, primary_key=True, on_delete=models.CASCADE)
-    order_no = models.CharField(max_length=10)
-    tower_sn = models.CharField(max_length=10)
+    order_no = models.CharField(max_length=25)
+    tower_sn = models.CharField(max_length=25)
     tower_code = models.CharField(max_length=15)
-    tower_type = models.IntegerField(default=0, blank=True)
+    tower_type = models.CharField(max_length=50,null=True, blank=True)
     tower_conf = models.IntegerField(default=0, blank=True)
     tower_date = models.DateField(default=0, blank=True)
     install_date = models.DateTimeField(auto_now=True, blank=True)

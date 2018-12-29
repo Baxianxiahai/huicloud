@@ -50,7 +50,7 @@ class classDappDbF5fm:
         try:
             with transaction.atomic():
                 DappDbF5fm_view=DappDbF5fm.dct_classDbiL3apF5fm()
-                result=DappDbF5fm_view.dft_dbi_aqyc_dev_alarmhistory_realtime_req(inputData)
+                result=DappDbF5fm_view.dft_dbi_aqyc_dev_alarmhistory_realtime_req_1(inputData)
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result

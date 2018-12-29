@@ -19,12 +19,12 @@ class classDappDbF2cm:
     
     
     def dft_dbi_print_excel_table_query_process(self,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
-                result=DappDbF2cm_view.dft_dbi_print_excel_table_query_process(inputData)
-        except Exception:
-            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+#         try:
+#             with transaction.atomic():
+        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+        result=DappDbF2cm_view.dft_dbi_print_excel_table_query_process(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
     
     def dft_dbi_user_all_projpglist_req(self,inputData):
