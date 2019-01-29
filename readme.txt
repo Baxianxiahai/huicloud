@@ -7,10 +7,21 @@
 
 
 
+
+
+
+
+
+
+
+
+//=ZJL, 2019 Jan30, CURRENT_SW_DELIVERY R1.42 =>HST
+= 增加DjangDB的设置与配置，方便各种条件下的共融性
+
+
 //=ZJL, 2019 Jan29, CURRENT_SW_DELIVERY R1.41 =>HST
 = 修正主服务中的一个BUG: class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler)不能有__init__()函数，不然一堆问题
 = 先主要采用hst_curlib3_client_connection()来喂UT消息
-
 
 //=ZJL, 2018 Dec.5, CURRENT_SW_DELIVERY R1.40 =>HST
 = 增加MDC模块

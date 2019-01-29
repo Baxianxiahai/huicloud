@@ -16,7 +16,6 @@ import socket
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/dev/howto/deployment/checklist/
 
@@ -27,22 +26,43 @@ SECRET_KEY = 'm6*_l!wu_wm-gzt7!8r42r%^2687yu4oh7klqy31do+lw9-fsq'
 DEBUG = True
 ALLOWED_HOSTS = []
 
-
+'''
 # SET WOKRING ENV AND DB PASSWORD
 # COULD SET MULTIPUL TARGET SERVER
-SERVER_HOSTNAME_SET = 'iZbp1iil3e0qqrfbczpmkhZ' + 'PGS-20180113SZM' + '' 
-
+# index: USING INDEX EXPRESS DIFFERENT WORK-TARGET SYSTEM, such as PC or Server
+# Different working environment might adapt variance db names.
+'''
+_SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-20180113SZM ', 'index':1},\
+                       {'att':'pc', 'name':'ZJLPC', 'index':2},
+                       {'att':'pc', 'name':'XDPC', 'index':3},
+                       ]
+PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
-#ip = socket.gethostbyname(hostname)
-#print ip
-#print(LOCAL_HOSTNAME)
-if (SERVER_HOSTNAME_SET.find(LOCAL_HOSTNAME) < 0):
-    IS_FORMAL_DEPLOYMENT = False
-    LOCAL_DB_PASSWORD = 'xiaohui@bxxh';
-else:
+# ip = socket.gethostbyname(LOCAL_HOSTNAME)
+# print(LOCAL_HOSTNAME)
+# print(ip)
+for element in _SERVER_HOSTNAME_SET:
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'iZbp1iil3e0qqrfbczpmkhZPGS-20180113SZM '):
+        IS_FORMAL_DEPLOYMENT = True
+        LOCAL_DB_PASSWORD = 'bxxhbxxh';
+        LOCAL_WK_TARGET = element['index']
+        PasswordSetFlag = True
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'ZJLPC'):
+        IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = '123456';
+        LOCAL_WK_TARGET = element['index']
+        PasswordSetFlag = True
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'XDPC'):
+        IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = 'bxxh@xiaohui';
+        LOCAL_WK_TARGET = element['index']
+        PasswordSetFlag = True
+if (PasswordSetFlag == False):
     IS_FORMAL_DEPLOYMENT = True
     LOCAL_DB_PASSWORD = 'bxxhbxxh';
+    LOCAL_WK_TARGET = 1
 
+        
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -51,7 +71,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-#     'DappDbTest',
+    'DappDbAqyc',
+    'DappDbBfdf',
+    'DappDbBfhs',
+    'DappDbCcl',
+    'DappDbCebs',
+    'DappDbComm',
     'DappDbF1sym',
     'DappDbF2cm',
     'DappDbF3dm',
@@ -64,7 +89,9 @@ INSTALLED_APPS = [
     'DappDbF10oam',
     'DappDbF11faam',
     'DappDbFxprcm',
-    'DappDbSnr'
+    'DappDbSnr',
+    'DappDbFstt',
+    'DappDbTest',
 ]
 
 MIDDLEWARE = [
@@ -102,41 +129,75 @@ WSGI_APPLICATION = 'DjoSiteDba.wsgi.application'
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # Comments Options setting will remove running WARNING.
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'djztest6',
-        'USER': 'root',
-        'PASSWORD': LOCAL_DB_PASSWORD,
-        'HOST': '127.0.0.1',
-        'PORT': 3306,
-#         'OPTIONS': {
-#             'autocommit': True,
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-#         },
-        'CONN_MAX_AGE': None,
+#SERVER
+if (LOCAL_WK_TARGET == 1):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': 'djztest6',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'CONN_MAX_AGE': None,
+        }
     }
-}
+    
+#ZJL PC
+elif (LOCAL_WK_TARGET == 2):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'hstdb',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        }
+    }
+    
+#XDPC
+elif (LOCAL_WK_TARGET == 3):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'djztest6',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        }
+    }    
 
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#         'NAME': 'Django',
-#         'USER': 'root',
-#         'PASSWORD': 'xiaohui@naxian',
-#         'HOST': '127.0.0.1',
-#         'PORT': 3306,
-# #         'OPTIONS': {
-# #             'autocommit': True,
-# #             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-# #         },
-#         'CONN_MAX_AGE': None,
-#     }
-# }
+#FORMAL SERVER DEPLOYMENT
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': 'djztest6',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+    #         'OPTIONS': {
+    #             'autocommit': True,
+    #             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    #         },
+            'CONN_MAX_AGE': None,
+        }
+    }    
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
