@@ -35,6 +35,29 @@ GL_PRJ_SET_CEBS_MATE        = 51    #CEBS滑台在MATE上的应用
 GL_PRJ_SET_FSTT_MP_WIN      = 60    #复珊媒体播放器-WIN
 GL_PRJ_SET_FSTT_MP_ANDROID  = 61    #复珊媒体播放器-Andriod
 GL_PRJ_SET_FSTT_MP_MATE     = 62    #复珊媒体播放器-Andriod
+#人脸识别项目
+GL_PRJ_SET_FACEID_WIN       = 70    #人脸识别-WIN
+GL_PRJ_SET_FACEID_ANDROID   = 71    #人脸识别-ANDROID
+GL_PRJ_SET_FACEID_UBUNTU    = 72    #人脸识别-UBUNTU
+#发票识别
+GL_PRJ_SET_INVOICE_WIN      = 80    #发票识别-WIN
+#小票识别
+GL_PRJ_SET_BILL_SMALL_WIN   = 90    #小票识别-WIN
+#蔬菜识别
+GL_PRJ_SET_VEGTABLE_WIN     = 100   #蔬菜识别-WIN
+#花卉识别
+GL_PRJ_SET_FLOWER_WIN       = 110   #花卉识别-WIN
+#道路积水识别
+GL_PRJ_SET_ROAD_WATER_WIN   = 120   #道路积水识别-WIN
+#病例卡识别
+GL_PRJ_SET_PATIENT_BILL_WIN = 130   #病例卡识别-WIN
+#车牌识别
+GL_PRJ_SET_CAR_ID_WIN       = 140   #车牌识别-WIN
+#步态异常识别
+GL_PRJ_SET_HUMAN_STEP_WIN   = 150   #步态异常识别-WIN
+
+
+
 
 #SET CURRENT WORKING PROJECTS
 GL_PRJ_CUR_SET              = GL_PRJ_SET_CEBS_WIN
@@ -104,7 +127,28 @@ class clsL0_PrjCfgPar():
         PRJ_SER_MPLAYER = True
     if GL_PRJ_CUR_SET == GL_PRJ_SET_FSTT_MP_MATE:
         PRJ_SER_MPLAYER = True
-
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_FACEID_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_FACEID_ANDROID:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_FACEID_UBUNTU:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_INVOICE_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_BILL_SMALL_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_VEGTABLE_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_FLOWER_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_ROAD_WATER_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_PATIENT_BILL_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_CAR_ID_WIN:
+        PRJ_SER_VISION = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_HUMAN_STEP_WIN:
+        PRJ_SER_VISION = True
     
     #初始化
     def __init__(self):    

@@ -9,6 +9,7 @@ import json
 import time
 import urllib3
 import requests
+import socket
 
 class ClassJoinContents:
     def __init__(self):
@@ -16,13 +17,13 @@ class ClassJoinContents:
     def callback(self,curl):
         self.contents = self.contents + curl.decode('utf-8')
 
-#以curl为方式的client连接
+#以curl为方式的client连接 - 暂时未用
 def hst_curl_client_connection():
     t = ClassJoinContents()
     c = pycurl.Curl()
     c.setopt(pycurl.WRITEFUNCTION, t.callback)
     c.setopt(pycurl.ENCODING, 'gzip')
-    c.setopt(pycurl.URL, "http://localhost:8000")
+    c.setopt(pycurl.URL, "http://localhost:7999")
     c.setopt(pycurl.FORBID_REUSE, 0)
     #self.recSocket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)      
     c.perform()
@@ -46,32 +47,70 @@ def hst_curl_client_connection():
     print("平均下载速度：%d bytes/s" %(SPEED_DOWNLOAD))
     c.close()
 
-#以curlib3为方式的client连接
-def hst_curlib3_client_connection(ptr, jsonInputData, logic):
+#以curlib3为方式的client连接 - 主要应用模式
+def hst_curlib3_client_connection(jsonInputData, logic):
         encoded_data = json.dumps(jsonInputData).encode('utf-8')
-        http = urllib3.PoolManager(maxsize=10, timeout=3.0, block=True)
+        http = urllib3.PoolManager(maxsize=10, timeout=30.0)
         r = http.request(
             'POST',
-            'http://localhost:8000/post',
+            'http://localhost:7999/post',
             body=encoded_data, 
-            headers={'Content-Type':'application/json'}
+            headers={'Content-Type':'application/json', 'Connection': 'close'}
             )
-        print(r)
         result = json.loads(r.data)
         #ptr.assertEqual(result['parContent']['sucFlag'], logic, 'Result Failure')
         return result
 
+#带校验的工作模式
 def hst_curlib3_client_conn_check_details(ptr, jsonInputData, logic):
         encoded_data = json.dumps(jsonInputData).encode('utf-8')
         http = urllib3.PoolManager(maxsize=10, block=True)
         r = http.request(
             'POST',
-            'http://localhost:8000/post',
+            'http://localhost:7999/post',
             body=encoded_data,
             headers={'Content-Type':'application/json'})
         result = json.loads(r.data)
         ptr.assertEqual(result['parFlag'], logic, 'Result Failure')
         #return result['parContent']
         return result
+
+
+#废弃
+# class ClassComFunc:
+#     def __init__(self):
+#         pass
+# 
+#     def hst_curlib3_client_connection(self, jsonInputData, logic):
+#             encoded_data = json.dumps(jsonInputData).encode('utf-8')
+#             http = urllib3.PoolManager(maxsize=10, timeout=30.0)
+#             r = http.request('POST', 'http://localhost:7999/post', body = encoded_data)
+#             #r = http.request(\
+#             #    'POST',\
+#             #    'http://localhost:7999/post',\
+#             #    body = encoded_data)
+#                 #headers={'Content-Type':'application/json', 'Connection': 'close'}
+#                 #headers={'Content-Type':'application/json'}, 
+#                 #)
+#             print(r)
+#             result = json.loads(r.data)
+#             #ptr.assertEqual(result['parContent']['sucFlag'], logic, 'Result Failure')
+#             return result    
+#         
+#     def hst_socket_test(self, msg):
+#         client = socket.socket() #定义协议类型,相当于生命socket类型,同时生成socket连接对象
+#         client.connect(('127.0.0.1', 7999))
+#         #while True:
+#         #msg = input(">>>").strip()
+#         if len(msg) ==0:
+#             return True
+#         #client.send(msg.encode("utf-8"))
+#         client.send(json.dumps(msg).encode('utf-8'))
+#         data = client.recv(1024)#这里是字节1k
+#         print("recv:>", data.decode())
+#         client.close()
+#         return True
+
+
 
 

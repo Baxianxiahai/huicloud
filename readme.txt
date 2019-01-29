@@ -7,12 +7,14 @@
 
 
 
+//=ZJL, 2019 Jan29, CURRENT_SW_DELIVERY R1.41 =>HST
+= 修正主服务中的一个BUG: class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler)不能有__init__()函数，不然一堆问题
+= 先主要采用hst_curlib3_client_connection()来喂UT消息
+
 
 //=ZJL, 2018 Dec.5, CURRENT_SW_DELIVERY R1.40 =>HST
 = 增加MDC模块
 = 建立项目与激活模块的关联关系
-
-
 
 //=ZJL, 2018 Dec.4, CURRENT_SW_DELIVERY R1.39 =>HST
 = 准备完善多分支的合并：后台服务器使用的版本，HCU下的兼容，WINDOWS下的版本
