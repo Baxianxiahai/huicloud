@@ -45,7 +45,7 @@ class ClassHuirestPrinterInputCmdHandler:
     __HUIREST_ACTIONID_PRINTER_fam_sdqx_md1     = 1010
     __HUIREST_ACTIONID_PRINTER_fam_sdqx_md2     = 1011
     __HUIREST_ACTIONID_PRINTER_fam_get_mac_addr = 1012
-    __HUIREST_ACTIONID_PRINTER_max     = 1999
+    __HUIREST_ACTIONID_PRINTER_max              = 1999
     publicOutputResultFlag = False
     
     def __init__(self):
@@ -107,22 +107,22 @@ DB ACCESS SERVICE
 '''
 class ClassHuirestDbaInputCmdHandler:
     __HUIREST_SVTAG = "dba"
-    __HUIREST_ACTIONID_DBA_min                      = 0x1000
-    __HUIREST_ACTIONID_DBA_F1sym                    = 0x1100
-    __HUIREST_ACTIONID_DBA_F2cm                     = 0x1200
-    __HUIREST_ACTIONID_DBA_F3dm                     = 0x1300
-    __HUIREST_ACTIONID_DBA_F4icm                    = 0x1400
-    __HUIREST_ACTIONID_DBA_F5fm                     = 0x1500
-    __HUIREST_ACTIONID_DBA_F6pm                     = 0x1600
-    __HUIREST_ACTIONID_DBA_F7ads                    = 0x1700
-    __HUIREST_ACTIONID_DBA_F8psm                    = 0x1800
-    __HUIREST_ACTIONID_DBA_F9gism                   = 0x1900
-    __HUIREST_ACTIONID_DBA_F10oam                   = 0x1A00
-    __HUIREST_ACTIONID_DBA_F11faam                  = 0x1B00
-    __HUIREST_ACTIONID_DBA_Fxprcm                   = 0x1C00
-    __HUIREST_ACTIONID_DBA_L2snr                    = 0x1F00
+    __HUIREST_ACTIONID_DBA_min                      = 2000
+    __HUIREST_ACTIONID_DBA_F1sym                    = 2100
+    __HUIREST_ACTIONID_DBA_F2cm                     = 2200
+    __HUIREST_ACTIONID_DBA_F3dm                     = 2300
+    __HUIREST_ACTIONID_DBA_F4icm                    = 2400
+    __HUIREST_ACTIONID_DBA_F5fm                     = 2500
+    __HUIREST_ACTIONID_DBA_F6pm                     = 2600
+    __HUIREST_ACTIONID_DBA_F7ads                    = 2700
+    __HUIREST_ACTIONID_DBA_F8psm                    = 2800
+    __HUIREST_ACTIONID_DBA_F9gism                   = 2900
+    __HUIREST_ACTIONID_DBA_F10oam                   = 3000
+    __HUIREST_ACTIONID_DBA_F11faam                  = 3100
+    __HUIREST_ACTIONID_DBA_Fxprcm                   = 3200
+    __HUIREST_ACTIONID_DBA_L2snr                    = 3300
     #END FLAG
-    __HUIREST_ACTIONID_DBA_max                      = 0X2000
+    __HUIREST_ACTIONID_DBA_max                      = 9999
     
     #Init global control variable
     publicOutputResultFlag = False
@@ -270,12 +270,12 @@ VISION SERVICE
 '''
 class ClassHuirestVisionInputCmdHandler:
     __HUIREST_SVTAG = "vision"
-    __HUIREST_ACTIONID_VISION_min     = 3000
-    __HUIREST_ACTIONID_VISION_test1   = 3001
-    __HUIREST_ACTIONID_VISION_test2   = 3002
-    __HUIREST_ACTIONID_VISION_worm_clasify_single   = 3003
-    __HUIREST_ACTIONID_VISION_worm_clasify_batch    = 3004
-    __HUIREST_ACTIONID_VISION_max     = 3999
+    __HUIREST_ACTIONID_VISION_min                   = 10000
+    __HUIREST_ACTIONID_VISION_test1                 = 10001
+    __HUIREST_ACTIONID_VISION_test2                 = 10002
+    __HUIREST_ACTIONID_VISION_worm_clasify_single   = 10003
+    __HUIREST_ACTIONID_VISION_worm_clasify_batch    = 10004
+    __HUIREST_ACTIONID_VISION_max                   = 10999
     publicOutputResultFlag = False
     parContentStrExt = ""
      
@@ -338,9 +338,9 @@ AI WEIGHT SERVICE
 '''
 class ClassHuirestAiwgtInputCmdHandler:
     __HUIREST_SVTAG = "aiwgt"
-    __HUIREST_ACTIONID_AIWGT_min                      = 4000
-    __HUIREST_ACTIONID_AIWGT_test1                    = 4000
-    __HUIREST_ACTIONID_AIWGT_max                      = 4999
+    __HUIREST_ACTIONID_AIWGT_min                      = 11000
+    __HUIREST_ACTIONID_AIWGT_test1                    = 11001
+    __HUIREST_ACTIONID_AIWGT_max                      = 11999
     publicOutputResultFlag = False
      
     def __init__(self):
@@ -390,9 +390,9 @@ SENSOR SERVICE
 '''
 class ClassHuirestSensorInputCmdHandler:
     __HUIREST_SVTAG = "sensor"
-    __HUIREST_ACTIONID_SENSOR_min                      = 5000
-    __HUIREST_ACTIONID_SENSOR_test1                    = 5000
-    __HUIREST_ACTIONID_SENSOR_max                      = 5999
+    __HUIREST_ACTIONID_SENSOR_min                      = 12000
+    __HUIREST_ACTIONID_SENSOR_test1                    = 12000
+    __HUIREST_ACTIONID_SENSOR_max                      = 12999
     publicOutputResultFlag = False
      
     def __init__(self):
@@ -441,11 +441,11 @@ SPECIAL TREATMENT SERVICE
 '''
 class ClassHuirestSpecialInputCmdHandler:
     __HUIREST_SVTAG = "special"
-    __HUIREST_ACTIONID_SPECIAL_min                      = 6000
-    __HUIREST_ACTIONID_SPECIAL_test1                    = 6000
-    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode  = 6001
-    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode  = 6002
-    __HUIREST_ACTIONID_SPECIAL_max                      = 6999
+    __HUIREST_ACTIONID_SPECIAL_min                      = 13000
+    __HUIREST_ACTIONID_SPECIAL_test1                    = 13000
+    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_encode  = 13001
+    __HUIREST_ACTIONID_SPECIAL_GTJY_water_meter_decode  = 13002
+    __HUIREST_ACTIONID_SPECIAL_max                      = 13999
     publicOutputResultFlag = False
      
     def __init__(self):
@@ -499,9 +499,9 @@ MDC SERVICE
 '''
 class ClassHuirestMdcInputCmdHandler:
     __HUIREST_SVTAG = "mdc"
-    __HUIREST_ACTIONID_MDC_min                      = 7000
-    __HUIREST_ACTIONID_MDC_test1                    = 7000
-    __HUIREST_ACTIONID_MDC_max                      = 7999
+    __HUIREST_ACTIONID_MDC_min                      = 14000
+    __HUIREST_ACTIONID_MDC_test1                    = 14000
+    __HUIREST_ACTIONID_MDC_max                      = 14999
     publicOutputResultFlag = False
      
     def __init__(self):

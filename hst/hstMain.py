@@ -24,7 +24,7 @@ def hst_start_server(addr, port):
         mySvrConn.recSocket.bind(('', port))
         mySvrConn.serve_forever()
     except KeyboardInterrupt as e:
-        print("err = ",e)
+        print("Exit = ", e)
     mySvrConn.server_close()
     print("[", time.asctime(), "HUIREST]: Server Stops - %s:%s" % addr)
 
