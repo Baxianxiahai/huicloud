@@ -18,12 +18,15 @@ from PkgHstDba import ModDbaF10oam
 from PkgHstDba import ModDbaF11Faam
 from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
+from PkgHstDba import ModDbaCebs
 from PkgAccessEntry.ModAccessDict import *
+
+
 class ClassDbaMainEntry():
     def __init__(self):
         pass
     
-    def dft_F1sym_Send_Message(self,inputData):
+    def dft_F1sym_Send_Message(self, inputData):
         if inputData['action']=='login':
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_login_req(inputData['body'])
@@ -601,6 +604,7 @@ class ClassDbaMainEntry():
         else:
             result=''
         return result
+    
     def dft_Fxprcm_Send_Message(self,inputData): 
         Fxprcm=ModDbaFxprcm.classDappDbFxprcm()
         if inputData['action']=='GetNeonStatus':
@@ -610,6 +614,7 @@ class ClassDbaMainEntry():
         else:
             result=""
         return result
+    
     def dft_Snr_Send_Message(self,inputData): 
         if inputData['action']=='AQYCOldDataClear':
             L2snr=ModDbaSnr.classDappDbSnr()
@@ -623,7 +628,87 @@ class ClassDbaMainEntry():
         else:
             result=""
         return result
-    
+
+    def dft_cebs_msg_process_env(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_env_add(inputData['body'])
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_env_read(inputData['body'])
+        elif inputData['cmd']=='update':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_env_update(inputData['body'])
+        elif inputData['cmd']=='delate':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_env_delete(inputData['body'])
+        else:
+            result=""
+        return result
+
+    def dft_cebs_msg_process_counter(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_counter_add(inputData['body'])
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_counter_read(inputData['body'])
+        elif inputData['cmd']=='update':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_counter_update(inputData['body'])
+        elif inputData['cmd']=='delate':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_counter_delete(inputData['body'])
+        else:
+            result=""
+        return result
+
+    def dft_cebs_msg_process_fspc(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_fspc_add(inputData['body'])
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_fspc_read(inputData['body'])
+        elif inputData['cmd']=='update':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_fspc_update(inputData['body'])
+        elif inputData['cmd']=='delate':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_fspc_delete(inputData['body'])
+        else:
+            result=""
+        return result
+
+    def dft_cebs_msg_process_file(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_file_add(inputData['body'])
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_file_read(inputData['body'])
+        elif inputData['cmd']=='update':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_file_update(inputData['body'])
+        elif inputData['cmd']=='delate':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_file_delete(inputData['body'])
+        else:
+            result=""
+        return result
+
+
+
+
+
+
+
+
+
+
+
+
+#HCU    
 class ClassHCUDbaMainEntry():
     def dft_F2cm_Send_Message(self,socketId,inputData): 
         F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()

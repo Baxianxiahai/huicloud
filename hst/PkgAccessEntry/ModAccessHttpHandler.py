@@ -103,6 +103,8 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         strOutputData2 = json.dumps(varProcessResult, ensure_ascii=False)
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Sending Post Data Buf = ", strOutputData2)
         self.wfile.write(bytes(strOutputData2, "UTF-8"))
+        print("")
+        return
         
         
         

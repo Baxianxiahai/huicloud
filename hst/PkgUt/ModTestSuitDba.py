@@ -9,39 +9,47 @@ from PkgUt import ModTestSuitComFunc
 
 def hst_testsuite_dba():
     suiteTest = unittest.TestSuite()
-    suiteTest.addTest(ClassUtDba("tc_dba_test_001"))
-    suiteTest.addTest(ClassUtDba("tc_dba_com_001")) #UserGroup add
-    suiteTest.addTest(ClassUtDba("tc_dba_com_002")) #UserGroup del
-    suiteTest.addTest(ClassUtDba("tc_dba_com_001")) #UserGroup add
-    suiteTest.addTest(ClassUtDba("tc_dba_com_003")) #UserGroup modify
+    Flag=False
+    if (Flag == True):
+        suiteTest.addTest(ClassUtDba("tc_dba_test_001"))
+        suiteTest.addTest(ClassUtDba("tc_dba_com_001")) #UserGroup add
+        suiteTest.addTest(ClassUtDba("tc_dba_com_002")) #UserGroup del
+        suiteTest.addTest(ClassUtDba("tc_dba_com_001")) #UserGroup add
+        suiteTest.addTest(ClassUtDba("tc_dba_com_003")) #UserGroup modify
 
     #性能评估：如果设置为1，表示只跑一次，相当于普通的功能验证。设置为100就是跑100次
-    PerformanceMax = 1;
-    ticks = time.time();
-    print("Test Start, index = %d, time = %f" % (0, ticks));
-    for i in range(1, PerformanceMax):
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
+    Flag=False
+    if (Flag == True):
+        PerformanceMax = 1;
         ticks = time.time();
-        print("Test Start, index = %d, time = %f" % (i, ticks));    
+        print("Test Start, index = %d, time = %f" % (0, ticks));
+        for i in range(1, PerformanceMax):
+            suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
+            suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
+            suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
+            suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
+            ticks = time.time();
+            print("Test Start, index = %d, time = %f" % (i, ticks));    
     
     #继续普通测试
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_004")) #CustomerMission inqury
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_005")) #ClassifyExecLog add
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_006")) #ClassifyExecLog del
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_005")) #ClassifyExecLog add
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_007")) #ClassifyExecLog modify
-    suiteTest.addTest(ClassUtDba("tc_dba_cebs_008")) #ClassifyExecLog inqury
-    #print ("hst_suite_printer 运行")
+    Flag=True
+    if (Flag == True):
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_004")) #CustomerMission inqury
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_005")) #ClassifyExecLog add
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_006")) #ClassifyExecLog del
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_005")) #ClassifyExecLog add
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_007")) #ClassifyExecLog modify
+#         suiteTest.addTest(ClassUtDba("tc_dba_cebs_008")) #ClassifyExecLog inqury
+        print ("hst_suite_printer 运行")
     
     #继续普通测试
-    suiteTest.addTest(ClassUtDba("tc_dba_faam_001")) #CustomerMission add
+    Flag=False
+    if (Flag == True):
+        suiteTest.addTest(ClassUtDba("tc_dba_faam_001")) #CustomerMission add
     
     return suiteTest
     pass
@@ -61,7 +69,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_test_001, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1001,"parFlag": 1,"parContent":\
             {"user": "test999","pwd": "abcdef"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
 
     #COM DB part
     #UserGroup add
@@ -71,7 +79,7 @@ class ClassUtDba(unittest.TestCase):
         jsonInputData = {"restTag": "dba","actionId": 0x1002,"parFlag": 1,"parContent": \
             {"cmd":"add", "caption":"test222", "ctime":"1234", "uptime":"5678", "userId":123}}
             #{"cmd":"add", "caption":"test222", "ctime":"1234", "userId":123}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
 
     #UserGroup delete
@@ -80,7 +88,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_com_002, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1002,"parFlag": 1,"parContent": \
             {"cmd":"delete", "userId":123}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
     
     #UserGroup modify
@@ -89,7 +97,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_com_003, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1002,"parFlag": 1,"parContent": \
             {"cmd":"modify_by_userid", "caption":"test111", "ctime":"2018-02-20 06:58:55.840896", "uptime":"2018-02-20 06:58:55.840896", "userId":123}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
 
     #CEBS DB part
@@ -99,7 +107,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_cebs_001, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
             {"cmd":"add", "user":"test222", "timeStampSubmit":"2018-02-20 06:58:55.840896", "pageNbr":2, "filePath":"/var/input", "fileName":"a1.jpg"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
     
     #CustomerMission delete
@@ -108,7 +116,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_cebs_002, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
             {"cmd":"delete", "user":"test222"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
     
     #CustomerMission modify
@@ -117,7 +125,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_cebs_003, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
             {"cmd":"modify_by_user", "user":"test222", "timeStampSubmit":"2018-02-20 06:58:55.840896", "pageNbr":3, "filePath":"/var/input", "fileName":"b1.jpg"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
     
     #CustomerMission inqury
@@ -127,7 +135,7 @@ class ClassUtDba(unittest.TestCase):
         result = jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
             {"cmd":"inqury", "user":"test222"}}
         print("tc_dba_cebs_004 inqury CustomerMission = ", result);
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 0)   
         pass
     
     #ClassifyExecLog add
@@ -137,7 +145,7 @@ class ClassUtDba(unittest.TestCase):
         jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
             {"cmd":"add", "user":"test222", "timeStampExec":"2018-02-20 06:58:55.840896", "pageLen":2, "pageWidth":3, "resTotal":3, "resTotalAlive":3, "resTotalDead":3, \
             "resSmallAlive":3,  "resSmallDead":3,  "resMidAlive":3,  "resMidDead":3,  "resBigAlive":3,  "resBigDead":3,  "resUnclassifyAlive":3,  "resUnclassifyDead":3}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
             
     #ClassifyExecLog delete
@@ -146,7 +154,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_cebs_006, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
             {"cmd":"delete", "user":"test222"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
     
     #ClassifyExecLog modify
@@ -156,7 +164,7 @@ class ClassUtDba(unittest.TestCase):
         jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
             {"cmd":"modify_by_user", "user":"test222", "timeStampExec":"2018-02-20 06:58:55.840896", "pageLen":3, "pageWidth":4, "resTotal":4, "resTotalAlive":4, "resTotalDead":4, \
             "resSmallAlive":4,  "resSmallDead":4,  "resMidAlive":4,  "resMidDead":4,  "resBigAlive":4,  "resBigDead":4,  "resUnclassifyAlive":4,  "resUnclassifyDead":4}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
     
     #ClassifyExecLog inqury
@@ -166,7 +174,7 @@ class ClassUtDba(unittest.TestCase):
         result = jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
             {"cmd":"inqury", "user":"test222"}}
         print("tc_dba_cebs_008 inqury ClassifyExecLog = ", result);
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 0)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 0)   
         pass
     
 
@@ -176,7 +184,7 @@ class ClassUtDba(unittest.TestCase):
         ticks = time.time();
         print("tc_dba_faam_001, time in second = ", ticks);
         jsonInputData = {"restTag": "dba", "actionId": 4128, "parFlag": 1, "parContent":{"cmd":"add", "caption": "TEST111", "ctime": "12345", "uptime": "12131414", "userId": "111"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(self, jsonInputData, 1)   
+        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         pass
 
 

@@ -116,6 +116,7 @@ class clsL0_PrjCfgPar():
     if GL_PRJ_CUR_SET == GL_PRJ_SET_FMPT_MATE:
         PRJ_SER_PRINTER = True
     if GL_PRJ_CUR_SET == GL_PRJ_SET_CEBS_WIN:
+        PRJ_SER_DBA = True
         PRJ_SER_VISION = True
         PRJ_SER_MDC = True
     if GL_PRJ_CUR_SET == GL_PRJ_SET_CEBS_MATE:

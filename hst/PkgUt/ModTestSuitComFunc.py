@@ -50,14 +50,18 @@ def hst_curl_client_connection():
 #以curlib3为方式的client连接 - 主要应用模式
 def hst_curlib3_client_connection(jsonInputData, logic):
         encoded_data = json.dumps(jsonInputData).encode('utf-8')
-        http = urllib3.PoolManager(maxsize=10, timeout=30.0)
+        http = urllib3.PoolManager(maxsize=10, timeout=30.0, block=True)
         r = http.request(
             'POST',
             'http://localhost:7999/post',
             body=encoded_data, 
             headers={'Content-Type':'application/json', 'Connection': 'close'}
             )
-        result = json.loads(r.data)
+        try:
+            result = json.loads(r.data)
+        except Exception:
+            print("Test case run error without feedback!")
+            result = ''
         #ptr.assertEqual(result['parContent']['sucFlag'], logic, 'Result Failure')
         return result
 

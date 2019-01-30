@@ -108,6 +108,7 @@ DB ACCESS SERVICE
 class ClassHuirestDbaInputCmdHandler:
     __HUIREST_SVTAG = "dba"
     __HUIREST_ACTIONID_DBA_min                      = 2000
+    __HUIREST_ACTIONID_DBA_COMM                     = 2000
     __HUIREST_ACTIONID_DBA_F1sym                    = 2100
     __HUIREST_ACTIONID_DBA_F2cm                     = 2200
     __HUIREST_ACTIONID_DBA_F3dm                     = 2300
@@ -121,6 +122,19 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_F11faam                  = 3100
     __HUIREST_ACTIONID_DBA_Fxprcm                   = 3200
     __HUIREST_ACTIONID_DBA_L2snr                    = 3300
+    __HUIREST_ACTIONID_DBA_AQYC                     = 3400
+    __HUIREST_ACTIONID_DBA_BFDF                     = 3500
+    __HUIREST_ACTIONID_DBA_BFHS                     = 3600
+    __HUIREST_ACTIONID_DBA_CCL                      = 3700
+    __HUIREST_ACTIONID_DBA_CEBS_env                 = 3800
+    __HUIREST_ACTIONID_DBA_CEBS_counter             = 3801
+    __HUIREST_ACTIONID_DBA_CEBS_fspc                = 3802
+    __HUIREST_ACTIONID_DBA_CEBS_file                = 3803
+    __HUIREST_ACTIONID_DBA_FAAM                     = 3900
+    __HUIREST_ACTIONID_DBA_FSTT                     = 4000
+    __HUIREST_ACTIONID_DBA_TEST                     = 4100
+
+    
     #END FLAG
     __HUIREST_ACTIONID_DBA_max                      = 9999
     
@@ -139,7 +153,9 @@ class ClassHuirestDbaInputCmdHandler:
             self.publicOutputResultFlag=False
         if(inputStr['parFlag']!=int(True) and inputStr['parFlag']!=int(False)):
             self.publicOutputResultFlag=False
-        if self.publicOutputResultFlag==True:
+        if self.publicOutputResultFlag == True:
+            if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_COMM:
+                self.publicReturnResult = False
             if inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F1sym:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])  
@@ -167,22 +183,44 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F9gism:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F9gism_Send_Message(inputStr['parContent'])
-                
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F10oam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F10oam_Send_Message(inputStr['parContent'])
-                
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F11faam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_F11Faam_Send_Message(inputStr['parContent'])
-            
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_Fxprcm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_Fxprcm_Send_Message(inputStr['parContent'])
-            
             elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_L2snr:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.publicReturnResult=proc.dft_Snr_Send_Message(inputStr['parContent'])
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_AQYC:
+                self.publicReturnResult = False
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_BFDF:
+                self.publicReturnResult = False
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_BFHS:
+                self.publicReturnResult = False
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_CCL:
+                self.publicReturnResult = False
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_CEBS_env:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_cebs_msg_process_env(inputStr['parContent'])
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_CEBS_counter:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_cebs_msg_process_counter(inputStr['parContent'])
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_CEBS_fspc:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_cebs_msg_process_fspc(inputStr['parContent'])
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_CEBS_file:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_cebs_msg_process_file(inputStr['parContent'])
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_FAAM:
+                self.publicReturnResult = False
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_FSTT:
+                self.publicReturnResult = False
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_TEST:
+                self.publicReturnResult = False              
             else:
                 self.publicOutputResultFlag=False
         else:
@@ -200,72 +238,9 @@ class ClassHuirestDbaInputCmdHandler:
         return self.publicReturnResult
 #         return outputStr
    
-#     def inputCmdHandlerEntry(self, inputStr):
-#         #
-#         print(inputStr)
-#         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-#             self.publicOutputResultFlag = False;
-#         if (inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min):
-#             self.publicOutputResultFlag = False;
-#         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_DBA_max):
-#             self.publicOutputResultFlag = False;
-#         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-#             self.publicOutputResultFlag = False;
-#                  
-#         #
-#         if (self.publicOutputResultFlag == True):
-#             if (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_F1sym):
-#                 proc = ModDbaGeneral.ClassDbaTempUpdate()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])     
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_django_test_case1):
-#                 proc = ModDbaGeneral.ClassDbaDjangoTest()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_comm_user_group_access):
-#                 proc = ModDbaGeneral.ClassDbaCommUserGroup()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_comm_user_account_access):
-#                 proc = ModDbaGeneral.ClassDbaCommUserAccount()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_customer_mission_access):
-#                 proc = ModDbaGeneral.ClassDbaCebsCustomerMission()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_cebs_classify_exec_log_access):
-#                 proc = ModDbaGeneral.ClassDbaCebsClassifyExecLog()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_water_meter_access):
-#                 proc = ModDbaCcl.ClassDbaCclWaterMeterOpr()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_gas_meter_access):
-#                 proc = ModDbaCcl.ClassDbaCclGasMeterOpr()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_ccl_power_meter_access):
-#                 proc = ModDbaCcl.ClassDbaCclPowerMeterOpr()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_DBA_faam_user_group_access):
-#                 proc = ModDbaFaam.ClassDbaFaamProductionGoodsOpr()
-#                 self.publicOutputResultFlag = proc.cmdHandleProcedure(inputStr['parContent'])
-#             else:
-#                 print("ClassHuirestDbaInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_DBA_min, self.__HUIREST_ACTIONID_DBA_max, inputStr['actionId']))
-#                 self.publicOutputResultFlag = False
-#         #
-#         outputStr= {}
-#         outputStr['restTag'] = self.__HUIREST_SVTAG;
-#         outputStr['actionId'] = inputStr["actionId"];
-#         outputStr['parFlag'] = int(True);
-#         parContentStrSuc={'sucFlag':int(True), 'errCode':0}
-#         parContentStrErr={'sucFlag':int(False), 'errCode':1}
-#         if (self.publicOutputResultFlag == True):
-#             outputStr['parContent'] = parContentStrSuc;
-#         else:
-#             outputStr['parContent'] = parContentStrErr;
-#         return outputStr
-    
-
-
-
-#Following part will be surpress for a while, until MATE system solve CV2 and Tensorflow installation issue
 
 '''
+#Following part will be surpress for a while, until MATE system solve CV2 and Tensorflow installation issue
 VISION SERVICE
 '''
 class ClassHuirestVisionInputCmdHandler:
