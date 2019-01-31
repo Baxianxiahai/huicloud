@@ -96,7 +96,7 @@ class dct_classDbiViewDebs:
     def dft_dbi_env_read(self, inputData):
         return True
 
-    def dft_dbi_env_update(self, inputData):
+    def dft_dbi_env_modify(self, inputData):
         return True
 
     def dft_dbi_env_delete(self, inputData):
@@ -108,7 +108,7 @@ class dct_classDbiViewDebs:
     def dft_dbi_counter_read(self, inputData):
         return True
 
-    def dft_dbi_counter_update(self, inputData):
+    def dft_dbi_counter_modify(self, inputData):
         return True
 
     def dft_dbi_counter_delete(self, inputData):
@@ -120,7 +120,7 @@ class dct_classDbiViewDebs:
     def dft_dbi_fspc_read(self, inputData):
         return True
 
-    def dft_dbi_fspc_update(self, inputData):
+    def dft_dbi_fspc_modify(self, inputData):
         return True
 
     def dft_dbi_fspc_delete(self, inputData):
@@ -132,7 +132,7 @@ class dct_classDbiViewDebs:
     def dft_dbi_file_read(self, inputData):
         return True
 
-    def dft_dbi_file_update(self, inputData):
+    def dft_dbi_file_modify(self, inputData):
         return True
 
     def dft_dbi_file_delete(self, inputData):

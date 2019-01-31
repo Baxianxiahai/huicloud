@@ -17,7 +17,7 @@
 
 //=ZJL, 2019 Jan30, CURRENT_SW_DELIVERY R1.42 =>HST
 = 增加DjangDB的设置与配置，方便各种条件下的共融性
-
+= 完善消息处理过程，理清各个处理模块之间的关系
 
 //=ZJL, 2019 Jan29, CURRENT_SW_DELIVERY R1.41 =>HST
 = 修正主服务中的一个BUG: class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler)不能有__init__()函数，不然一堆问题

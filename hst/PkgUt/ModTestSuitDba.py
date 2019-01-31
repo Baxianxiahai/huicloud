@@ -34,7 +34,10 @@ def hst_testsuite_dba():
     #继续普通测试
     Flag=True
     if (Flag == True):
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_002"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -56,13 +59,6 @@ def hst_testsuite_dba():
 
 #测试集合
 class ClassUtDba(unittest.TestCase):
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     #DJANGO TEST DB part
     def tc_dba_test_001(self):
         ticks = time.time();
@@ -78,9 +74,7 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_com_001, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0x1002,"parFlag": 1,"parContent": \
             {"cmd":"add", "caption":"test222", "ctime":"1234", "uptime":"5678", "userId":123}}
-            #{"cmd":"add", "caption":"test222", "ctime":"1234", "userId":123}}
         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
 
     #UserGroup delete
     def tc_dba_com_002(self):
@@ -89,7 +83,6 @@ class ClassUtDba(unittest.TestCase):
         jsonInputData = {"restTag": "dba","actionId": 0x1002,"parFlag": 1,"parContent": \
             {"cmd":"delete", "userId":123}}
         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
     
     #UserGroup modify
     def tc_dba_com_003(self):
@@ -98,84 +91,109 @@ class ClassUtDba(unittest.TestCase):
         jsonInputData = {"restTag": "dba","actionId": 0x1002,"parFlag": 1,"parContent": \
             {"cmd":"modify_by_userid", "caption":"test111", "ctime":"2018-02-20 06:58:55.840896", "uptime":"2018-02-20 06:58:55.840896", "userId":123}}
         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
+
 
     #CEBS DB part
-    #CustomerMission add
+    #add
     def tc_dba_cebs_001(self):
         ticks = time.time();
         print("tc_dba_cebs_001, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
-            {"cmd":"add", "user":"test222", "timeStampSubmit":"2018-02-20 06:58:55.840896", "pageNbr":2, "filePath":"/var/input", "fileName":"a1.jpg"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
+        jsonInputData = {"restTag": "dba","actionId": 3800,"parFlag": 1,"parContent": \
+            {"cmd":"add", "user":"test222"}}
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
+        print("tc_dba_cebs_001 result = ", result);
     
-    #CustomerMission delete
+    #delete
     def tc_dba_cebs_002(self):
         ticks = time.time();
         print("tc_dba_cebs_002, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
+        jsonInputData = {"restTag": "dba","actionId": 3800,"parFlag": 1,"parContent": \
             {"cmd":"delete", "user":"test222"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print("tc_dba_cebs_002 result = ", result);
     
-    #CustomerMission modify
+    #read
     def tc_dba_cebs_003(self):
         ticks = time.time();
         print("tc_dba_cebs_003, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
-            {"cmd":"modify_by_user", "user":"test222", "timeStampSubmit":"2018-02-20 06:58:55.840896", "pageNbr":3, "filePath":"/var/input", "fileName":"b1.jpg"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
+        jsonInputData = {"restTag": "dba","actionId": 3800,"parFlag": 1,"parContent": \
+            {"cmd":"read", "user":"test222"}}
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
+        print("tc_dba_cebs_003 result = ", result);
     
-    #CustomerMission inqury
+    #modify
     def tc_dba_cebs_004(self):
         ticks = time.time();
         print("tc_dba_cebs_004, time in second = ", ticks);
-        result = jsonInputData = {"restTag": "dba","actionId": 0x1004,"parFlag": 1,"parContent": \
-            {"cmd":"inqury", "user":"test222"}}
-        print("tc_dba_cebs_004 inqury CustomerMission = ", result);
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 0)   
-        pass
+        jsonInputData = {"restTag": "dba","actionId": 3800,"parFlag": 1,"parContent": \
+            {"cmd":"modify", "user":"test222"}}
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
+        print("tc_dba_cebs_004 result = ", result);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    #ClassifyExecLog add
-    def tc_dba_cebs_005(self):
-        ticks = time.time();
-        print("tc_dba_cebs_005, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
-            {"cmd":"add", "user":"test222", "timeStampExec":"2018-02-20 06:58:55.840896", "pageLen":2, "pageWidth":3, "resTotal":3, "resTotalAlive":3, "resTotalDead":3, \
-            "resSmallAlive":3,  "resSmallDead":3,  "resMidAlive":3,  "resMidDead":3,  "resBigAlive":3,  "resBigDead":3,  "resUnclassifyAlive":3,  "resUnclassifyDead":3}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
-            
-    #ClassifyExecLog delete
-    def tc_dba_cebs_006(self):
-        ticks = time.time();
-        print("tc_dba_cebs_006, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
-            {"cmd":"delete", "user":"test222"}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
-    
-    #ClassifyExecLog modify
-    def tc_dba_cebs_007(self):
-        ticks = time.time();
-        print("tc_dba_cebs_007, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
-            {"cmd":"modify_by_user", "user":"test222", "timeStampExec":"2018-02-20 06:58:55.840896", "pageLen":3, "pageWidth":4, "resTotal":4, "resTotalAlive":4, "resTotalDead":4, \
-            "resSmallAlive":4,  "resSmallDead":4,  "resMidAlive":4,  "resMidDead":4,  "resBigAlive":4,  "resBigDead":4,  "resUnclassifyAlive":4,  "resUnclassifyDead":4}}
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        pass
-    
-    #ClassifyExecLog inqury
-    def tc_dba_cebs_008(self):
-        ticks = time.time();
-        print("tc_dba_cebs_008, time in second = ", ticks);
-        result = jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
-            {"cmd":"inqury", "user":"test222"}}
-        print("tc_dba_cebs_008 inqury ClassifyExecLog = ", result);
-        ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 0)   
-        pass
+#     #ClassifyExecLog add
+#     def tc_dba_cebs_005(self):
+#         ticks = time.time();
+#         print("tc_dba_cebs_005, time in second = ", ticks);
+#         jsonInputData = {"restTag": "dba","actionId": 3801,"parFlag": 1,"parContent": \
+#             {"cmd":"add", "user":"test222", "timeStampExec":"2018-02-20 06:58:55.840896", "pageLen":2, "pageWidth":3, "resTotal":3, "resTotalAlive":3, "resTotalDead":3, \
+#             "resSmallAlive":3,  "resSmallDead":3,  "resMidAlive":3,  "resMidDead":3,  "resBigAlive":3,  "resBigDead":3,  "resUnclassifyAlive":3,  "resUnclassifyDead":3}}
+#         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
+#             
+#     #ClassifyExecLog delete
+#     def tc_dba_cebs_006(self):
+#         ticks = time.time();
+#         print("tc_dba_cebs_006, time in second = ", ticks);
+#         jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
+#             {"cmd":"delete", "user":"test222"}}
+#         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
+#         pass
+#     
+#     #ClassifyExecLog modify
+#     def tc_dba_cebs_007(self):
+#         ticks = time.time();
+#         print("tc_dba_cebs_007, time in second = ", ticks);
+#         jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
+#             {"cmd":"modify_by_user", "user":"test222", "timeStampExec":"2018-02-20 06:58:55.840896", "pageLen":3, "pageWidth":4, "resTotal":4, "resTotalAlive":4, "resTotalDead":4, \
+#             "resSmallAlive":4,  "resSmallDead":4,  "resMidAlive":4,  "resMidDead":4,  "resBigAlive":4,  "resBigDead":4,  "resUnclassifyAlive":4,  "resUnclassifyDead":4}}
+#         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
+#         pass
+#     
+#     #ClassifyExecLog inqury
+#     def tc_dba_cebs_008(self):
+#         ticks = time.time();
+#         print("tc_dba_cebs_008, time in second = ", ticks);
+#         result = jsonInputData = {"restTag": "dba","actionId": 0x1005,"parFlag": 1,"parContent": \
+#             {"cmd":"inqury", "user":"test222"}}
+#         print("tc_dba_cebs_008 inqury ClassifyExecLog = ", result);
+#         ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 0)   
+#         pass
     
 
     #FAAM DB part

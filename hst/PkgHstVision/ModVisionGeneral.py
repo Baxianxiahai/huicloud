@@ -21,30 +21,30 @@ class ClassModVisionTest1:
     '''
     classdocs
     '''
-
-
+ 
+ 
     def __init__(self):
         '''
         Constructor
         '''
-    
+     
     def cmdHandleProcedure(self, input):
         return True
-
-
+ 
+ 
 class ClassModVisionTest2(object):
     '''
     classdocs
     '''
-
-
+ 
+ 
     def __init__(self):
         '''
         Constructor
         '''
-        
+         
     def cmdHandleProcedure(self, input):
-        return True  
+        return True
     
 class ClassModVisionWormClasifySingle(object):
     '''

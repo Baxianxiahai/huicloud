@@ -27,11 +27,11 @@ class ClassDbaCebs():
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
     
-    def dft_dbi_env_update(self, inputData):
+    def dft_dbi_env_modify(self, inputData):
         try:
             with transaction.atomic():
                 DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-                result = DappDbCebs_view.dft_dbi_env_update(inputData)
+                result = DappDbCebs_view.dft_dbi_env_modify(inputData)
         except Exception:
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
@@ -63,11 +63,11 @@ class ClassDbaCebs():
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
     
-    def dft_dbi_counter_update(self, inputData):
+    def dft_dbi_counter_modify(self, inputData):
         try:
             with transaction.atomic():
                 DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-                result = DappDbCebs_view.dft_dbi_counter_update(inputData)
+                result = DappDbCebs_view.dft_dbi_counter_modify(inputData)
         except Exception:
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
@@ -99,11 +99,11 @@ class ClassDbaCebs():
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
     
-    def dft_dbi_fspc_update(self, inputData):
+    def dft_dbi_fspc_modify(self, inputData):
         try:
             with transaction.atomic():
                 DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-                result = DappDbCebs_view.dft_dbi_fspc_update(inputData)
+                result = DappDbCebs_view.dft_dbi_fspc_modify(inputData)
         except Exception:
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
@@ -135,11 +135,11 @@ class ClassDbaCebs():
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
     
-    def dft_dbi_file_update(self, inputData):
+    def dft_dbi_file_modify(self, inputData):
         try:
             with transaction.atomic():
                 DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-                result = DappDbCebs_view.dft_dbi_file_update(inputData)
+                result = DappDbCebs_view.dft_dbi_file_modify(inputData)
         except Exception:
             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
