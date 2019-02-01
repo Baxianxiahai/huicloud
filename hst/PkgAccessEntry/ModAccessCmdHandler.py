@@ -21,6 +21,23 @@ if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PRINTER == True):
     from PkgHstPrinter import ModPrinterGeneral
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True):
     from PkgHstDba import ModDbaMainEntry
+    from PkgHstDba import ModDbaCcl
+    from PkgHstDba import ModDbaCebs
+    from PkgHstDba import ModDbaF10oam
+    from PkgHstDba import ModDbaF11Faam
+    from PkgHstDba import ModDbaF1sym
+    from PkgHstDba import ModDbaF2cm
+    from PkgHstDba import ModDbaF3dm
+    from PkgHstDba import ModDbaF4icm
+    from PkgHstDba import ModDbaF5fm
+    from PkgHstDba import ModDbaF6pm
+    from PkgHstDba import ModDbaF7ads
+    from PkgHstDba import ModDbaF8psm
+    from PkgHstDba import ModDbaF9gism
+    from PkgHstDba import ModDbaFaam
+    from PkgHstDba import ModDbaFxprcm
+    from PkgHstDba import ModDbaGeneral
+    from PkgHstDba import ModDbaSnr
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True):
     from PkgHstVision import ModVisionGeneral
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_AIWGT == True):
@@ -55,6 +72,12 @@ if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADWID == True):
     from PkgHstRoadwid import ModRoadwidGeneral
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADFID == True):
     from PkgHstRoadfid import ModRoadfidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CEWORM == True):
+    from PkgHstCeworm import ModCewormGeneral
+    from PkgHstCeworm import ModWhitePicCfy
+    from PkgHstCeworm import ModFluPicCfy
+    from PkgHstCeworm import ModFccPicCfy
+    from PkgHstCeworm import ModWhiteVideoCfy
 
 
 
@@ -1349,6 +1372,102 @@ class ClassHuirestRoadfidInputCmdHandler:
         else:
             outputStr['parContent'] = self.achCtrlFlag;
         return outputStr
+
+'''
+CEWORM SERVICE
+'''
+class ClassHuirestCewormInputCmdHandler:
+    __HUIREST_SVTAG = "ceworm"
+    __HUIREST_ACTIONID_CEWORM_min                       = 27000
+    __HUIREST_ACTIONID_CEWORM_test1                     = 27000
+    __HUIREST_ACTIONID_CEWORM_white_pic_cfy             = 27001
+    __HUIREST_ACTIONID_CEWORM_flu_pic_cfy               = 27002
+    __HUIREST_ACTIONID_CEWORM_fcc_pic_cfy               = 27003
+    __HUIREST_ACTIONID_CEWORM_white_video_cfy           = 27004
+    __HUIREST_ACTIONID_CEWORM_max                       = 27999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_CEWORM_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_CEWORM_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_CEWORM_test1):
+                proc = ModCewormGeneral.ClassModCewormTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_CEWORM_white_pic_cfy):
+                proc = ModWhitePicCfy.ClassModCewormWhitePicCfy()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_CEWORM_flu_pic_cfy):
+                proc = ModFluPicCfy.ClassModCewormFluPicCfy()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_CEWORM_fcc_pic_cfy):
+                proc = ModFccPicCfy.ClassModCewormFccPicCfy()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_CEWORM_white_video_cfy):
+                proc = ModWhiteVideoCfy.ClassModCewormWhiteVideoCfy()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestCewormInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_CEWORM_min, self.__HUIREST_ACTIONID_CEWORM_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+    
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

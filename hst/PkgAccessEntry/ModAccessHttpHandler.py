@@ -120,6 +120,9 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
             elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADFID == True):
                 if (jsonInput['restTag'] == 'roadfid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestRoadfidInputCmdHandler()
+            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CEWORM == True):
+                if (jsonInput['restTag'] == 'ceworm'):
+                    varClassInputHandler = ModAccessCmdHandler.ClassHuirestCewormInputCmdHandler()
             
             #NOT EXIST OPTION
             else:

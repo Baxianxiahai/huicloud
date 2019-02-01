@@ -72,25 +72,26 @@ PART1: 项目级开关控制
 
 class clsL0_PrjCfgPar():
     #GLOBAL DEFINATION
-    PRJ_SER_PRINTER = False #打印机服务
-    PRJ_SER_DBA = False     #数据库服务
-    PRJ_SER_VISION = False  #图像抓取识别服务
-    PRJ_SER_AIWGT = False   #AI称重算法服务
-    PRJ_SER_SENSOR = False  #传感器读取服务
-    PRJ_SER_SPECIAL = False #三表转码服务
-    PRJ_SER_MDC = False     #马达驱控服务
-    PRJ_SER_MPLAYER = False #媒体播放器服务
-    PRJ_SER_FACEID = False #人脸识别
-    PRJ_SER_CARNUMID = False #车牌识别
-    PRJ_SER_BILLID = False #餐厅小票识别
-    PRJ_SER_INVOICEID = False #发票识别
-    PRJ_SER_STEPID = False #步态识别
-    PRJ_SER_PATID = False #病例卡识别
-    PRJ_SER_FRUITID = False #水果识别
-    PRJ_SER_VEGID = False #蔬菜识别
-    PRJ_SER_FLOWERID = False #花卉识别
-    PRJ_SER_ROADWID = False #路面积水识别
-    PRJ_SER_ROADFID = False #路边花草识别
+    PRJ_SER_PRINTER = False     #打印机服务
+    PRJ_SER_DBA = False         #数据库服务
+    PRJ_SER_VISION = False      #图像抓取识别服务
+    PRJ_SER_AIWGT = False       #AI称重算法服务
+    PRJ_SER_SENSOR = False      #传感器读取服务
+    PRJ_SER_SPECIAL = False     #三表转码服务
+    PRJ_SER_MDC = False         #马达驱控服务
+    PRJ_SER_MPLAYER = False     #媒体播放器服务
+    PRJ_SER_FACEID = False      #人脸识别
+    PRJ_SER_CARNUMID = False    #车牌识别
+    PRJ_SER_BILLID = False      #餐厅小票识别
+    PRJ_SER_INVOICEID = False   #发票识别
+    PRJ_SER_STEPID = False      #步态识别
+    PRJ_SER_PATID = False       #病例卡识别
+    PRJ_SER_FRUITID = False     #水果识别
+    PRJ_SER_VEGID = False       #蔬菜识别
+    PRJ_SER_FLOWERID = False    #花卉识别
+    PRJ_SER_ROADWID = False     #路面积水识别
+    PRJ_SER_ROADFID = False     #路边花草识别
+    PRJ_SER_CEWORM = False      #白光线虫照片识别
     
     #DIFFERENT PROJECT DEFINE
     if GL_PRJ_CUR_SET == GL_PRJ_SET_MFUN_CENTOS:
