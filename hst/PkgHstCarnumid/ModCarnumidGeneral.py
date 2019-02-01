@@ -1,5 +1,5 @@
 '''
-Created on 2018年12月5日
+Created on 2019年2月1日
 
 @author: Administrator
 '''
@@ -13,7 +13,7 @@ import os   #Python的标准库中的os模块包含普遍的操作系统功能
 import re   #引入正则表达式对象  
 
 
-class ClassModMdcTest1(object):
+class ClassModCarnumidTest1(object):
     '''
     classdocs
     '''

@@ -31,9 +31,36 @@ if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True):
     from PkgHstSpecial import ModSpecialGeneral  #Special Usage
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MDC == True):
     from PkgHstMdc import ModMdcGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MPLAYER == True):
+    from PkgHstMplayer import ModMplayerGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FACEID == True):
+    from PkgHstFaceid import ModFaceidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CARNUMID == True):
+    from PkgHstCarnumid import ModCarnumidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_BILLID == True):
+    from PkgHstBillid import ModBillidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_INVOICEID == True):
+    from PkgHstInvoiceid import ModInvoiceidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_STEPID == True):
+    from PkgHstStepid import ModStepidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PATID == True):
+    from PkgHstPatid import ModPatidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FRUITID == True):
+    from PkgHstFruitid import ModFruitidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VEGID == True):
+    from PkgHstVegid import ModVegidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FLOWERID == True):
+    from PkgHstFlowerid import ModFloweridGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADWID == True):
+    from PkgHstRoadwid import ModRoadwidGeneral
+if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADFID == True):
+    from PkgHstRoadfid import ModRoadfidGeneral
+
+
 
 #固定定义常量
-_HST_ACH_CTRL_FLAG_CONTENT_EXT = 2
+_HST_ACH_CTRL_FLAG_CONTENT_EXT      = 2 #明确有输出内容的，比如READ等指令。这个和自然返回是兼容的，只不过更加明确
+_HST_ACH_CTRL_FLAG_MFUN_TREATMENT   = 3 #小丁处理后台服务器MFUN的数据库部分，这样就可以全部兼容了
 
 '''
 PRINTER SERVICE
@@ -51,10 +78,12 @@ class ClassHuirestPrinterInputCmdHandler:
 
     
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt=''
     
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
         
     #HUIREST
@@ -101,6 +130,8 @@ class ClassHuirestPrinterInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -152,10 +183,12 @@ class ClassHuirestDbaInputCmdHandler:
     
     #Init global control variable
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt=''
     
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
 
     #HUIREST
@@ -173,42 +206,55 @@ class ClassHuirestDbaInputCmdHandler:
             if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F1sym:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])  
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F2cm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F2cm_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F3dm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F3dm_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F4icm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F4icm_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F5fm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F5fm_Send_Message(inputStr['parContent']) 
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F6pm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F6pm_Send_Message(inputStr['parContent']) 
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F7ads:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F7ads_Send_Message(inputStr['parContent']) 
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F8psm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F8psm_Send_Message(inputStr['parContent'])   
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F9gism:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F9gism_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F10oam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F10oam_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F11faam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F11Faam_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_Fxprcm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_Fxprcm_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_L2snr:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_Snr_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_AQYC:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_BFDF:
@@ -249,6 +295,8 @@ class ClassHuirestDbaInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -274,10 +322,12 @@ class ClassHuirestVisionInputCmdHandler:
     
     
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt = ""
      
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
  
     #HUIREST
@@ -321,6 +371,8 @@ class ClassHuirestVisionInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -343,10 +395,12 @@ class ClassHuirestAiwgtInputCmdHandler:
     
 
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt=''
      
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
 
     #HUIREST
@@ -379,6 +433,8 @@ class ClassHuirestAiwgtInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -402,10 +458,12 @@ class ClassHuirestSensorInputCmdHandler:
     
     
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt=''
      
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
  
     #HUIREST
@@ -438,6 +496,8 @@ class ClassHuirestSensorInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -460,10 +520,12 @@ class ClassHuirestSpecialInputCmdHandler:
 
     
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt=''
      
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
  
     #HUIREST
@@ -502,6 +564,8 @@ class ClassHuirestSpecialInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -522,10 +586,12 @@ class ClassHuirestMdcInputCmdHandler:
     __HUIREST_ACTIONID_MDC_max                      = 14999
 
     achCtrlFlag = False
+    achProcResult=''
     achContentResExt=''
      
     def __init__(self):
         self.achCtrlFlag = True
+        self.achProcResult = ''
         self.achContentResExt = ""
  
     #HUIREST
@@ -558,6 +624,8 @@ class ClassHuirestMdcInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
         elif (self.achCtrlFlag == False):
@@ -565,6 +633,728 @@ class ClassHuirestMdcInputCmdHandler:
         else:
             outputStr['parContent'] = self.achCtrlFlag;
         return outputStr
+
+
+'''
+MPLAYER SERVICE
+'''
+class ClassHuirestMplayerInputCmdHandler:
+    __HUIREST_SVTAG = "mplayer"
+    __HUIREST_ACTIONID_MPLAYER_min                      = 15000
+    __HUIREST_ACTIONID_MPLAYER_play_ctrl                = 15000
+    __HUIREST_ACTIONID_MPLAYER_refresh_list             = 15001
+    __HUIREST_ACTIONID_MPLAYER_fetch_status             = 15002
+    __HUIREST_ACTIONID_MPLAYERC_max                     = 15999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_MPLAYER_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_MPLAYERC_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_MPLAYER_play_ctrl):
+                proc = ModMplayerGeneral.ClassModMplayerPlayCtrl()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_MPLAYER_refresh_list):
+                proc = ModMplayerGeneral.ClassModMplayerRefreshList()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_MPLAYER_fetch_status):
+                proc = ModMplayerGeneral.ClassModMplayerFetchStatus()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestMplayerInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_MPLAYER_min, self.__HUIREST_ACTIONID_MPLAYER_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+FACEID SERVICE
+'''
+class ClassHuirestFaceidInputCmdHandler:
+    __HUIREST_SVTAG = "faceid"
+    __HUIREST_ACTIONID_FACEID_min                      = 16000
+    __HUIREST_ACTIONID_FACEID_test1                    = 16000
+    __HUIREST_ACTIONID_FACEID_max                      = 16999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_FACEID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_FACEID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_FACEID_test1):
+                proc = ModFaceidGeneral.ClassModFaceidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestFaceidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_FACEID_min, self.__HUIREST_ACTIONID_FACEID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+CARNUMID SERVICE
+'''
+class ClassHuirestCarnumidInputCmdHandler:
+    __HUIREST_SVTAG = "carmumid"
+    __HUIREST_ACTIONID_CARNUMID_min                      = 17000
+    __HUIREST_ACTIONID_CARNUMID_test1                    = 17000
+    __HUIREST_ACTIONID_CARNUMID_max                      = 17999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_CARNUMID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_CARNUMID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_CARNUMID_test1):
+                proc = ModCarnumidGeneral.ClassModCarnumidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestCarnumidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_CARNUMID_min, self.__HUIREST_ACTIONID_CARNUMID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+BILLID SERVICE
+'''
+class ClassHuirestBillidInputCmdHandler:
+    __HUIREST_SVTAG = "billid"
+    __HUIREST_ACTIONID_BILLID_min                      = 18000
+    __HUIREST_ACTIONID_BILLID_test1                    = 18000
+    __HUIREST_ACTIONID_BILLID_max                      = 18999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_BILLID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_BILLID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_BILLID_test1):
+                proc = ModBillidGeneral.ClassModBillidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestBillidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_BILLID_min, self.__HUIREST_ACTIONID_BILLID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+INVOICEID SERVICE
+'''
+class ClassHuirestInvoiceidInputCmdHandler:
+    __HUIREST_SVTAG = "invoiceid"
+    __HUIREST_ACTIONID_INVOICEID_min                      = 19000
+    __HUIREST_ACTIONID_INVOICEID_test1                    = 19000
+    __HUIREST_ACTIONID_INVOICEID_max                      = 19999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_INVOICEID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_INVOICEID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_INVOICEID_test1):
+                proc = ModInvoiceidGeneral.ClassModInvoiceidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestInvoiceidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_INVOICEID_min, self.__HUIREST_ACTIONID_INVOICEID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+STEPID SERVICE
+'''
+class ClassHuirestStepidInputCmdHandler:
+    __HUIREST_SVTAG = "stepid"
+    __HUIREST_ACTIONID_STEPID_min                      = 20000
+    __HUIREST_ACTIONID_STEPID_test1                    = 20000
+    __HUIREST_ACTIONID_STEPID_max                      = 20999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_STEPID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_STEPID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_STEPID_test1):
+                proc = ModStepidGeneral.ClassModStepidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestStepidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_STEPID_min, self.__HUIREST_ACTIONID_STEPID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+PATID SERVICE
+'''
+class ClassHuirestPatidInputCmdHandler:
+    __HUIREST_SVTAG = "patid"
+    __HUIREST_ACTIONID_PATID_min                      = 21000
+    __HUIREST_ACTIONID_PATID_test1                    = 21000
+    __HUIREST_ACTIONID_PATID_max                      = 21999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_PATID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_PATID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_PATID_test1):
+                proc = ModPatidGeneral.ClassModPatidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestPatidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_PATID_min, self.__HUIREST_ACTIONID_PATID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+FRUITID SERVICE
+'''
+class ClassHuirestFruitidInputCmdHandler:
+    __HUIREST_SVTAG = "fruitid"
+    __HUIREST_ACTIONID_FRUITID_min                      = 22000
+    __HUIREST_ACTIONID_FRUITID_test1                    = 22000
+    __HUIREST_ACTIONID_FRUITID_max                      = 22999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_FRUITID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_FRUITID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_FRUITID_test1):
+                proc = ModFruitidGeneral.ClassModFruitidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestFruitidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_FRUITID_min, self.__HUIREST_ACTIONID_FRUITID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+VEGID SERVICE
+'''
+class ClassHuirestVegidInputCmdHandler:
+    __HUIREST_SVTAG = "vegid"
+    __HUIREST_ACTIONID_VEGID_min                      = 23000
+    __HUIREST_ACTIONID_VEGID_test1                    = 23000
+    __HUIREST_ACTIONID_VEGID_max                      = 23999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_VEGID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_VEGID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_VEGID_test1):
+                proc = ModVegidGeneral.ClassModVegidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestVegidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_VEGID_min, self.__HUIREST_ACTIONID_VEGID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+FLOWERID SERVICE
+'''
+class ClassHuirestFloweridInputCmdHandler:
+    __HUIREST_SVTAG = "flowerid"
+    __HUIREST_ACTIONID_FLOWERID_min                      = 24000
+    __HUIREST_ACTIONID_FLOWERID_test1                    = 24000
+    __HUIREST_ACTIONID_FLOWERID_max                      = 24999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_FLOWERID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_FLOWERID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_FLOWERID_test1):
+                proc = ModFloweridGeneral.ClassModFloweridTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestFloweridInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_FLOWERID_min, self.__HUIREST_ACTIONID_FLOWERID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+ROADWID SERVICE
+'''
+class ClassHuirestRoadwidInputCmdHandler:
+    __HUIREST_SVTAG = "roadwid"
+    __HUIREST_ACTIONID_ROADWID_min                      = 25000
+    __HUIREST_ACTIONID_ROADWID_test1                    = 25000
+    __HUIREST_ACTIONID_ROADWID_max                      = 25999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_ROADWID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_ROADWID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_ROADWID_test1):
+                proc = ModRoadwidGeneral.ClassModRoadwidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestRoadwidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_ROADWID_min, self.__HUIREST_ACTIONID_ROADWID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+'''
+ROADFID SERVICE
+'''
+class ClassHuirestRoadfidInputCmdHandler:
+    __HUIREST_SVTAG = "roadfid"
+    __HUIREST_ACTIONID_ROADFID_min                      = 26000
+    __HUIREST_ACTIONID_ROADFID_test1                    = 26000
+    __HUIREST_ACTIONID_ROADFID_max                      = 26999
+
+    achCtrlFlag = False
+    achProcResult=''
+    achContentResExt=''
+     
+    def __init__(self):
+        self.achCtrlFlag = True
+        self.achProcResult = ''
+        self.achContentResExt = ""
+ 
+    #HUIREST
+    def inputCmdHandlerEntry(self, inputStr):
+        #
+        if (inputStr['restTag'] != self.__HUIREST_SVTAG):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_ROADFID_min):
+            self.achCtrlFlag = False;
+        if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_ROADFID_max):
+            self.achCtrlFlag = False;
+        if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+            self.achCtrlFlag = False;
+                     
+        #
+        if (self.achCtrlFlag == True):
+            if (inputStr['actionId'] == self.__HUIREST_ACTIONID_ROADFID_test1):
+                proc = ModRoadfidGeneral.ClassModRoadfidTest1()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            else:
+                print("ClassHuirestRoadfidInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_ROADFID_min, self.__HUIREST_ACTIONID_ROADFID_max, inputStr['actionId']))
+                self.achCtrlFlag = False
+
+        #RETURN BACK
+        outputStr= {}
+        outputStr['restTag'] = self.__HUIREST_SVTAG;
+        outputStr['actionId'] = inputStr["actionId"];
+        outputStr['parFlag'] = int(True);
+        parContentStrSuc={'sucFlag':int(True), 'errCode':0}
+        parContentStrErr={'sucFlag':int(False), 'errCode':1}
+        if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
+            outputStr['parContent'] = self.achContentResExt;
+        elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
+            return self.achProcResult
+        elif (self.achCtrlFlag == True):
+            outputStr['parContent'] = parContentStrSuc;
+        elif (self.achCtrlFlag == False):
+            outputStr['parContent'] = parContentStrErr;
+        else:
+            outputStr['parContent'] = self.achCtrlFlag;
+        return outputStr
+
+
+
+
+
+
 
 
 

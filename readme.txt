@@ -10,10 +10,8 @@
 
 
 
-
-
-
-
+//=ZJL, 2019 Feb.1, CURRENT_SW_DELIVERY R1.43 =>HST
+= 构建相关图像识别算法相关的处理过程服务框架
 
 //=ZJL, 2019 Jan30, CURRENT_SW_DELIVERY R1.42 =>HST
 = 增加DjangDB的设置与配置，方便各种条件下的共融性
