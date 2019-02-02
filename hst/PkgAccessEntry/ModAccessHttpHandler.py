@@ -13,6 +13,16 @@ import re   #引入正则表达式对象
 import urllib   #用于对URL进行编解码  
 import http
 import socket
+import urllib
+import urllib3
+import requests
+import socket
+import pycurl
+import io
+import certifi  #导入根证书集合，用于验证SSL证书可信和TLS主机身份
+from io import BytesIO
+from urllib.parse import urlencode
+
 from http.server import BaseHTTPRequestHandler
 
 #自定义
@@ -54,9 +64,16 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         inputData = self.rfile.read(nbytes)
         #统一处理入口，需要解码json输入结构
         #print("INPUTDATA = ", type(inputData))
-        jsonInput = json.loads(inputData)
+        jsonInput = ''
+        try:
+            jsonInput = json.loads(inputData)
+        except Exception:
+            #jsonInput = urllib.parse.unquote(bytes(inputData))\
+            #jsonInput = urllib.parse.urlurlopen(inputData)
+            pass
+        
         #测试收到的内容
-        print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", jsonInput)
+        print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", str(jsonInput))
         if(('socketid' in jsonInput) or ('data' in jsonInput)):
             varClassInputHandler = ModAccessCmdHandler.ClassHCUReportDataToDba()
         else:

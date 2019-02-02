@@ -17,7 +17,7 @@ class ClassJoinContents:
     def callback(self,curl):
         self.contents = self.contents + curl.decode('utf-8')
 
-#以curl为方式的client连接 - 暂时未用
+#以curl为方式的client连接 - 暂时未用 - 使用pycurl的方式，应该是可信的
 def hst_curl_client_connection():
     t = ClassJoinContents()
     c = pycurl.Curl()
