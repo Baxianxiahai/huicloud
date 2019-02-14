@@ -655,7 +655,7 @@ class ClassDbaMainEntry():
             result=dbaCebsObj.dft_dbi_counter_read(inputData)
         elif inputData['cmd']=='modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_counter_(inputData)
+            result=dbaCebsObj.dft_dbi_env_modify(inputData)
         elif inputData['cmd']=='delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_counter_delete(inputData)

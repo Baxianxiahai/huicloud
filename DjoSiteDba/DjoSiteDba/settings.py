@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 _SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-20180113SZM ', 'index':1},\
                        {'att':'pc', 'name':'ZJLPC', 'index':2},
                        {'att':'pc', 'name':'XDPC', 'index':3},
+                       {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
                        ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
@@ -55,6 +56,11 @@ for element in _SERVER_HOSTNAME_SET:
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'XDPC'):
         IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = 'bxxh@xiaohui';
+        LOCAL_WK_TARGET = element['index']
+        PasswordSetFlag = True
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
+        IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = '123456';
         LOCAL_WK_TARGET = element['index']
         PasswordSetFlag = True
 if (PasswordSetFlag == False):
@@ -168,6 +174,24 @@ elif (LOCAL_WK_TARGET == 3):
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'djztest6',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        }
+    }    
+    
+#LCPC
+elif (LOCAL_WK_TARGET == 4):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',

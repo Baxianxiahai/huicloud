@@ -33,10 +33,10 @@ from PkgAccessEntry import ModAccessCom
 # 类继承
 class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
     def _writeheaders(self):
-        #print ("Path=", self.path)
-        #print ("Header=", self.headers)
-        #print ("RequestLine=", self.raw_requestline)
-        #print ("Request=", self.request)
+#         print ("Path=", self.path)
+#         print ("Header=", self.headers)
+#         print ("RequestLine=", self.raw_requestline)
+#         print ("Request=", self.request)
         self.send_response(200);
         self.send_header('Content-type','text/html');
         self.end_headers()

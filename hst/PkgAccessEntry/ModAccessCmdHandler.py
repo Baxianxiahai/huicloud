@@ -220,15 +220,22 @@ class ClassHuirestDbaInputCmdHandler:
             self.achCtrlFlag=False
         if((inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min) and (inputStr['actionId']>self.__HUIREST_ACTIONID_DBA_max)):
             self.achCtrlFlag=False
-        if(inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.achCtrlFlag=False
+        print("this=",inputStr['parFlag'])
+        print(inputStr['restTag'])
+        print(inputStr['actionId'])
+        print(inputStr['parContent'])
+         
+#         if(inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.achCtrlFlag=False
             
+
+        
         if self.achCtrlFlag == True:
             if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_COMM:
                 self.achProcResult = False
             if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F1sym:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achProcResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])  
+                self.achProcResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F2cm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
@@ -289,6 +296,8 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_env:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_cebs_msg_process_env(inputStr['parContent'])
+                
+                print("self.achProcResult",self.achProcResult)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 #self.achProcResult = proc.dft_cebs_msg_process_counter(inputStr['parContent'])
@@ -308,7 +317,9 @@ class ClassHuirestDbaInputCmdHandler:
                 self.achProcResult = False
             else:
                 self.achCtrlFlag=False
-
+                
+                
+       
         #RETURN BACK
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
