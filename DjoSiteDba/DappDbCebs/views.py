@@ -97,65 +97,97 @@ class dct_classDbiViewDebs:
             pic_origin = inputData['tupLable']['pic_origin'],\
             pic_middle = inputData['tupLable']['pic_middle'],\
             )
-        return HttpResponse("OK")
+        return True
 
     def dft_dbi_env_read(self, inputData):
+        res = models.t_cebs_env.objects.all()
+        for line in res:
+            print(line.workdir)
+        print("res",res)
         #print(inputData['tupLable']['workdir'])
 #         res = models.t_cebs_env.objects.all().values(inputData['tupLable']['workdir']) 
 #         res2 = models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin']) 
 #         res3 = models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_middle']) 
 #         print("res=%d,res2%d,res3%d"%(res,res2,res3))
-        models.t_cebs_env.objects.all().values(inputData['tupLable']['workdir'])
-        models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin'])
+
+#         models.t_cebs_env.objects.all().values(inputData['tupLable']['workdir'])
+#         models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin'])
         #print(res)
         #print(res2)
-        return HttpResponse("OK")   
+        return True   
         
 
     def dft_dbi_env_modify(self, inputData):
         #print(inputData['tupLable']['workdir'])
         models.t_cebs_env.objects.filter().update(workdir=inputData['tupLable']['workdir'])
-        return HttpResponse("OK") 
+        return True 
 
     def dft_dbi_env_delete(self, inputData):
         #print(inputData['tupLable']['workdir'])
         models.t_cebs_env.objects.filter(workdir = inputData['tupLable']['workdir']).delete()
-        return HttpResponse("OK")
+        return True
 
     def dft_dbi_counter_add(self, inputData):
+        models.t_cebs_counter.objects.create(\
+            picbatchcnt = inputData['tupLable']['picbatchcnt'],\
+            )
         return True
 
     def dft_dbi_counter_read(self, inputData):
+        print(inputData)
+        res = models.t_cebs_counter.objects.all().values(inputData['tupLable']['picbatchcnt'])
+        print("counter_res",res)
         return True
 
     def dft_dbi_counter_modify(self, inputData):
+        print(inputData)
+        models.t_cebs_counter.objects.filter().update(picbatchcnt=inputData['tupLable']['picbatchcnt'])
         return True
 
     def dft_dbi_counter_delete(self, inputData):
+        models.t_cebs_counter.objects.filter(picbatchcnt = inputData['tupLable']['picbatchcnt']).delete()
         return True
 
     def dft_dbi_fspc_add(self, inputData):
+        models.t_cebs_fspc.objects.create(\
+            mark_line = inputData['tupLable']['mark_line'],\
+            )
         return True
 
     def dft_dbi_fspc_read(self, inputData):
+        print(inputData)
+        res = models.t_cebs_fspc.objects.all().values(inputData['tupLable']['mark_line'])
+        print("fspc_res",res)
         return True
 
     def dft_dbi_fspc_modify(self, inputData):
+        print(inputData)
+        models.t_cebs_fspc.objects.filter().update(mark_line=inputData['tupLable']['mark_line'])
         return True
 
     def dft_dbi_fspc_delete(self, inputData):
+        models.t_cebs_fspc.objects.filter(mark_line = inputData['tupLable']['mark_line']).delete()
         return True
 
     def dft_dbi_file_add(self, inputData):
+        models.t_cebs_batch_file.objects.create(\
+            batch_no = inputData['tupLable']['batch_no'],\
+            )
         return True
 
     def dft_dbi_file_read(self, inputData):
+        print(inputData)
+        res = models.t_cebs_batch_file.objects.all().values(inputData['tupLable']['batch_no'])
+        print("file_res",res)
         return True
 
     def dft_dbi_file_modify(self, inputData):
+        print(inputData)
+        models.t_cebs_batch_file.objects.filter().update(batch_no=inputData['tupLable']['batch_no'])
         return True
 
     def dft_dbi_file_delete(self, inputData):
+        models.t_cebs_batch_file.objects.filter(batch_no = inputData['tupLable']['batch_no']).delete()
         return True
 
 
