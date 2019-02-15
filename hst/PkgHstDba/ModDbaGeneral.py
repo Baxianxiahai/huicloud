@@ -17,13 +17,13 @@ sys.path.append('../DjoSiteDba/')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
 #from DjoSiteDba.wsgi import *
 django.setup()
-from DappDbTest import views as DappDbTest_views
-from DappDbComm import views as DappDbComm_views
-from DappDbCebs import views as DappDbCebs_views
-from DappDbBfdf import views as DappDbBfdf_views
-from DappDbBfhs import views as DappDbBfhs_views
-from DappDbBfhs import views as DappDbCcl_views
-from DappDbBfhs import views as DappDbFaam_views
+# from DappDbTest import views as DappDbTest_views
+# from DappDbComm import views as DappDbComm_views
+# from DappDbCebs import views as DappDbCebs_views
+# from DappDbBfdf import views as DappDbBfdf_views
+# from DappDbBfhs import views as DappDbBfhs_views
+# from DappDbBfhs import views as DappDbCcl_views
+# from DappDbBfhs import views as DappDbFaam_views
 
 #CLASS
 class ClassDbaTempUpdate:
