@@ -729,6 +729,34 @@ class classDappDbF2cm:
             result = []
         return result
     '''内部人员使用的功能函数结束'''
+    '''PC端工具进行修改设备的参数信息'''
+    def dft_dbi_pc_get_device_list(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_pc_get_device_list_view(inputData)
+        except Exception:
+            result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_pc_get_device_data(self,inputData):
+#         try:
+#             with transaction.atomic():
+        DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+        result=DappDbF2cm_view.dft_dbi_pc_get_device_data_view(inputData)
+#         except Exception:
+#             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
+        return result
+    
+    def dft_dbi_pc_set_device_data(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF2cm_view=DappDbF2cm.dct_classDbiL3apF2cm()
+                result=DappDbF2cm_view.dft_dbi_pc_set_device_data_view(inputData)
+        except Exception:
+            result={"status":"false","message":"信息更改失败，请重试"}
+        return result
+    '''PC端工具进行修改设备的参数信息'''
 
 class HCUF2cmDataBaseConfirm():
     

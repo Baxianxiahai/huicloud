@@ -33,10 +33,10 @@ from PkgAccessEntry import ModAccessCom
 # 类继承
 class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
     def _writeheaders(self):
-        #print ("Path=", self.path)
-        #print ("Header=", self.headers)
-        #print ("RequestLine=", self.raw_requestline)
-        #print ("Request=", self.request)
+#         print ("Path=", self.path)
+#         print ("Header=", self.headers)
+#         print ("RequestLine=", self.raw_requestline)
+#         print ("Request=", self.request)
         self.send_response(200);
         self.send_header('Content-type','text/html');
         self.end_headers()
@@ -67,6 +67,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         jsonInput = ''
         try:
             jsonInput = json.loads(inputData)
+            jsonInput = json.loads(jsonInput,strict=False)
         except Exception:
             #jsonInput = urllib.parse.unquote(bytes(inputData))\
             #jsonInput = urllib.parse.urlurlopen(inputData)
@@ -74,6 +75,7 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         
         #测试收到的内容
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Receiving Post Data Buf = ", str(jsonInput))
+#         print(type(jsonInput))
         if(('socketid' in jsonInput) or ('data' in jsonInput)):
             varClassInputHandler = ModAccessCmdHandler.ClassHCUReportDataToDba()
         else:

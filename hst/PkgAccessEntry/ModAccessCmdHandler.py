@@ -176,33 +176,34 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_SVTAG = "dba"
     __HUIREST_ACTIONID_DBA_min                      = 2000
     __HUIREST_ACTIONID_DBA_COMM                     = 2000
-    __HUIREST_ACTIONID_DBA_F1sym                    = 2100
-    __HUIREST_ACTIONID_DBA_F2cm                     = 2200
-    __HUIREST_ACTIONID_DBA_F3dm                     = 2300
-    __HUIREST_ACTIONID_DBA_F4icm                    = 2400
-    __HUIREST_ACTIONID_DBA_F5fm                     = 2500
-    __HUIREST_ACTIONID_DBA_F6pm                     = 2600
-    __HUIREST_ACTIONID_DBA_F7ads                    = 2700
-    __HUIREST_ACTIONID_DBA_F8psm                    = 2800
-    __HUIREST_ACTIONID_DBA_F9gism                   = 2900
-    __HUIREST_ACTIONID_DBA_F10oam                   = 3000
-    __HUIREST_ACTIONID_DBA_F11faam                  = 3100
-    __HUIREST_ACTIONID_DBA_Fxprcm                   = 3200
-    __HUIREST_ACTIONID_DBA_L2snr                    = 3300
+    __HUIREST_ACTIONID_DBA_F1sym                    = 0x1100
+    __HUIREST_ACTIONID_DBA_F2cm                     = 0x1200
+    __HUIREST_ACTIONID_DBA_F3dm                     = 0x1300
+    __HUIREST_ACTIONID_DBA_F4icm                    = 0x1400
+    __HUIREST_ACTIONID_DBA_F5fm                     = 0x1500
+    __HUIREST_ACTIONID_DBA_F6pm                     = 0x1600
+    __HUIREST_ACTIONID_DBA_F7ads                    = 0x1700
+    __HUIREST_ACTIONID_DBA_F8psm                    = 0x1800
+    __HUIREST_ACTIONID_DBA_F9gism                   = 0x1900
+    __HUIREST_ACTIONID_DBA_F10oam                   = 0x1A00
+    __HUIREST_ACTIONID_DBA_F11faam                  = 0x1B00
+    __HUIREST_ACTIONID_DBA_Fxprcm                   = 0x1C00
+    __HUIREST_ACTIONID_DBA_F12iwdp                  = 0x1D00
+    __HUIREST_ACTIONID_DBA_L2snr                    = 0x1F00
     __HUIREST_ACTIONID_DBA_AQYC                     = 3400
     __HUIREST_ACTIONID_DBA_BFDF                     = 3500
     __HUIREST_ACTIONID_DBA_BFHS                     = 3600
     __HUIREST_ACTIONID_DBA_CCL                      = 3700
-    __HUIREST_ACTIONID_DBA_CEBS_env                 = 3800
-    __HUIREST_ACTIONID_DBA_CEBS_counter             = 3801
-    __HUIREST_ACTIONID_DBA_CEBS_fspc                = 3802
-    __HUIREST_ACTIONID_DBA_CEBS_file                = 3803
+    __HUIREST_ACTIONID_DBA_CEBS_env                 = 0x3800
+    __HUIREST_ACTIONID_DBA_CEBS_counter             = 0x3801
+    __HUIREST_ACTIONID_DBA_CEBS_fspc                = 0x3802
+    __HUIREST_ACTIONID_DBA_CEBS_file                = 0x3803
     __HUIREST_ACTIONID_DBA_FAAM                     = 3900
     __HUIREST_ACTIONID_DBA_FSTT                     = 4000
     __HUIREST_ACTIONID_DBA_TEST                     = 4100
     
     #END FLAG
-    __HUIREST_ACTIONID_DBA_max                      = 9999
+    __HUIREST_ACTIONID_DBA_max                      = 0X2000
     
     #Init global control variable
     achCtrlFlag = False
@@ -220,59 +221,79 @@ class ClassHuirestDbaInputCmdHandler:
             self.achCtrlFlag=False
         if((inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min) and (inputStr['actionId']>self.__HUIREST_ACTIONID_DBA_max)):
             self.achCtrlFlag=False
-        if(inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.achCtrlFlag=False
-            
+#         print("this=",inputStr['parFlag'])
+#         print(inputStr['restTag'])
+#         print(inputStr['actionId'])
+#         print(inputStr['parContent'])
+         
+#         if(inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
+#             self.achCtrlFlag=False
         if self.achCtrlFlag == True:
             if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_COMM:
                 self.achProcResult = False
             if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F1sym:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achProcResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])  
+                self.achProcResult = proc.dft_F1sym_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F2cm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F2cm_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
-            if inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F3dm:
+                
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F3dm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F3dm_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F4icm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F4icm_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F5fm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F5fm_Send_Message(inputStr['parContent']) 
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F6pm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F6pm_Send_Message(inputStr['parContent']) 
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F7ads:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F7ads_Send_Message(inputStr['parContent']) 
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F8psm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F8psm_Send_Message(inputStr['parContent'])   
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F9gism:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F9gism_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F10oam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F10oam_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_F11faam:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_F11Faam_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_Fxprcm:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_Fxprcm_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F12iwdp:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.achProcResult=proc.dft_F12Iwdp_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_L2snr:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
@@ -289,10 +310,9 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_env:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_cebs_msg_process_env(inputStr['parContent'])
+                print("self.achProcResult",self.achProcResult)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                #self.achProcResult = proc.dft_cebs_msg_process_counter(inputStr['parContent'])
-                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 self.achContentResExt = proc.dft_cebs_msg_process_counter(inputStr['parContent'])
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_fspc:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
@@ -308,7 +328,6 @@ class ClassHuirestDbaInputCmdHandler:
                 self.achProcResult = False
             else:
                 self.achCtrlFlag=False
-
         #RETURN BACK
         outputStr= {}
         outputStr['restTag'] = self.__HUIREST_SVTAG;
@@ -322,11 +341,13 @@ class ClassHuirestDbaInputCmdHandler:
             return self.achProcResult
         elif (self.achCtrlFlag == True):
             outputStr['parContent'] = parContentStrSuc;
+            return outputStr
         elif (self.achCtrlFlag == False):
             outputStr['parContent'] = parContentStrErr;
+            return outputStr
         else:
             outputStr['parContent'] = self.achCtrlFlag;
-        return outputStr
+            return outputStr
         #return self.achProcResult
    
 

@@ -20,6 +20,7 @@ class ClassDbaCebs():
 
     def dft_dbi_env_add(self, inputData):
         try:
+            print("inputData=",inputData)
             with transaction.atomic():
                 DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
                 result = DappDbCebs_view.dft_dbi_env_add(inputData)

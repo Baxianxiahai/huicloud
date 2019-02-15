@@ -1192,7 +1192,8 @@ class dct_classDbiL3apF2cm:
         status = "C"
         dct_t_l3f2cm_site_common.objects.filter(site_code=statcode).update(status=status)
         return True
-
+    
+    
     def dft_dbi_qrcode_scan_newcode_check(self,inputData):
         devCode=inputData['devcode']
         validFlag="Y"
@@ -2398,6 +2399,222 @@ class dct_classDbiL3apF2cm:
         resp_str={'status':status,'msg':msg}
         return resp_str
     '''内部人员使用函数的结束标志'''
+   
+   
+    '''PC端使用工具修改设备的参数信息'''
+
+    def dft_dbi_pc_get_device_list_view(self, inputDate):
+        dev_code = inputDate['code']
+        result = dct_t_l3f2cm_device_inventory.objects.filter(dev_code__icontains=dev_code)
+        dev_list = []
+        if result.exists():
+            for line in result:
+                dev_list.append(line.dev_code)
+        return dev_list
+
+    def dft_dbi_pc_get_device_data_view(self, inputData):
+        device_code = inputData['code']
+        resp = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=device_code)
+        result = dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=device_code)
+        hcuLable = ""
+        hwtype = ""
+        swtype = ""
+        upgradeFlag = ""
+        restartRightNow = ""
+        ngrokPort = ""
+        cus_info = ""
+        userDef1 = ""
+        userDef2 = ""
+        userDef3 = ""
+        userDef4 = ""
+        userName = ""
+        userPswd = ""
+        eccPort = ""
+        prescaleXHT = ""
+        prescaleCUS = ""
+        prescaleOFC = ""
+        calPm25CoefMax = ""
+        calPm25CoefMin = ""
+        calPm25CoefK = ""
+        calPm25CoefB = ""
+        calTempCoefMax = ""
+        calTempCoefMin = ""
+        calTempCoefK = ""
+        calTempCoefB = ""
+        calHumidCoefMax = ""
+        calHumidCoefMin = ""
+        calHumidCoefK = ""
+        calHumidCoefB = ""
+        calNoiseCoefMax = ""
+        calNoiseCoefMin = ""
+        calNoiseCoefK = ""
+        calNoiseCoefB = ""
+        calWindspdCoefMax = ""
+        calWindspdCoefMin = ""
+        calWindspdCoefK = ""
+        calWindspdCoefB = ""
+        calWinddirCoefMax = ""
+        calWinddirCoefMin = ""
+        calWinddirCoefK = ""
+        calWinddirCoefB = ""
+        calWinddir = ""
+        calPm25ThdCannon = ""
+        if resp.exists():
+            for line_dev in resp:
+                hcuLable = line_dev.dev_code
+                hwtype = line_dev.hw_type
+                swtype = line_dev.sw_ver
+                upgradeFlag = line_dev.upgradeflag
+                restartRightNow = line_dev.rebootflag
+                ngrokPort = line_dev.base_port
+                cus_info = line_dev.cus_info
+                userDef1 = line_dev.userdef1
+                userDef2 = line_dev.userdef2
+                userDef3 = line_dev.userdef3
+                userDef4 = line_dev.userdef4
+                userName = line_dev.username
+                userPswd = line_dev.userpswd
+                eccPort = line_dev.eccport
+                prescaleOFC = line_dev.prescale_ofc
+                prescaleXHT = line_dev.prescale_xht
+                prescaleCUS = line_dev.prescale_cus
+        if (result.exists()):
+            for line in result:
+                calPm25CoefMax = line.dust_coefmax
+                calPm25CoefMin = line.dust_coefmin
+                calPm25CoefK = line.dust_coefK
+                calPm25CoefB = line.dust_coefB
+                calTempCoefMax = line.temp_coefmax
+                calTempCoefMin = line.temp_coefmin
+                calTempCoefK = line.temp_coefK
+                calTempCoefB = line.temp_coefB
+                calHumidCoefMax = line.humid_coefmax
+                calHumidCoefMin = line.humid_coefmin
+                calHumidCoefK = line.humid_coefK
+                calHumidCoefB = line.humid_coefB
+                calNoiseCoefMax = line.noise_coefmax
+                calNoiseCoefMin = line.noise_coefmin
+                calNoiseCoefK = line.noise_coefK
+                calNoiseCoefB = line.noise_coefB
+                calWindspdCoefMax = line.windspd_coefmax
+                calWindspdCoefMin = line.windspd_coefmin
+                calWindspdCoefK = line.windspd_coefK
+                calWindspdCoefB = line.windspd_coefB
+                calWinddirCoefMax = line.winddir_coefmax
+                calWinddirCoefMin = line.winddir_coefmin
+                calWinddirCoefK = line.winddir_coefK
+                calWinddirCoefB = line.winddir_coefB
+                calWinddir = line.winddir_delta
+                calPm25ThdCannon = line.dust_cannon
+        msgIeCnt = {
+            "hcuLable": hcuLable,
+            "hwtype": hwtype,
+            "swtype": swtype,
+            "upgradeFlag": upgradeFlag,
+            "restartRightNow": restartRightNow,
+            "ngrokPort": ngrokPort,
+            "cus_info": cus_info,
+            "userDef1": userDef1,
+            "userDef2": userDef2,
+            "userDef3": userDef3,
+            "userDef4": userDef4,
+            "userName": userName,
+            "userPswd": userPswd,
+            "eccPort": eccPort,
+            "prescaleXHT": prescaleXHT,
+            "prescaleCUS": prescaleCUS,
+            "prescaleOFC": prescaleOFC,
+            "calPm25CoefMax": calPm25CoefMax,
+            "calPm25CoefMin": calPm25CoefMin,
+            "calPm25CoefK": calPm25CoefK,
+            "calPm25CoefB": calPm25CoefB,
+            "calTempCoefMax": calTempCoefMax,
+            "calTempCoefMin": calTempCoefMin,
+            "calTempCoefK": calTempCoefK,
+            "calTempCoefB": calTempCoefB,
+            "calHumidCoefMax": calHumidCoefMax,
+            "calHumidCoefMin": calHumidCoefMin,
+            "calHumidCoefK": calHumidCoefK,
+            "calHumidCoefB": calHumidCoefB,
+            "calNoiseCoefMax": calNoiseCoefMax,
+            "calNoiseCoefMin": calNoiseCoefMin,
+            "calNoiseCoefK": calNoiseCoefK,
+            "calNoiseCoefB": calNoiseCoefB,
+            "calWindspdCoefMax": calWindspdCoefMax,
+            "calWindspdCoefMin": calWindspdCoefMin,
+            "calWindspdCoefK": calWindspdCoefK,
+            "calWindspdCoefB": calWindspdCoefB,
+            "calWinddirCoefMax": calWinddirCoefMax,
+            "calWinddirCoefMin": calWinddirCoefMin,
+            "calWinddirCoefK": calWinddirCoefK,
+            "calWinddirCoefB": calWinddirCoefB,
+            "calWinddir": calWinddir,
+            "calPm25ThdCannon": calPm25ThdCannon,
+        }
+        return msgIeCnt
+    def dft_dbi_pc_set_device_data_view(self, inputData):
+        device_code = inputData['code']
+        device_data = inputData['new_data']
+        hwtype = device_data["hwtype"]
+        swtype = device_data["swtype"]
+        upgradeFlag = device_data["upgradeFlag"]
+        restartRightNow = device_data["restartRightNow"]
+        ngrokPort = device_data["ngrokPort"]
+        cus_info = device_data["cus_info"]
+        userDef1 = device_data["userDef1"]
+        userDef2 = device_data["userDef2"]
+        userDef3 = device_data["userDef3"]
+        userDef4 = device_data["userDef4"]
+        userName = device_data["userName"]
+        userPswd = device_data["userPswd"]
+        eccPort = device_data["eccPort"]
+        prescaleXHT = device_data["prescaleXHT"]
+        prescaleCUS = device_data["prescaleCUS"]
+        prescaleOFC = device_data["prescaleOFC"]
+        calPm25CoefMax = device_data["calPm25CoefMax"]
+        calPm25CoefMin = device_data["calPm25CoefMin"]
+        calPm25CoefK = device_data["calPm25CoefK"]
+        calPm25CoefB = device_data["calPm25CoefB"]
+        calTempCoefMax = device_data["calTempCoefMax"]
+        calTempCoefMin = device_data["calTempCoefMin"]
+        calTempCoefK = device_data["calTempCoefK"]
+        calTempCoefB = device_data["calTempCoefB"]
+        calHumidCoefMax = device_data["calHumidCoefMax"]
+        calHumidCoefMin = device_data["calHumidCoefMin"]
+        calHumidCoefK = device_data["calHumidCoefK"]
+        calHumidCoefB = device_data["calHumidCoefB"]
+        calNoiseCoefMax = device_data["calNoiseCoefMax"]
+        calNoiseCoefMin = device_data["calNoiseCoefMin"]
+        calNoiseCoefK = device_data["calNoiseCoefK"]
+        calNoiseCoefB = device_data["calNoiseCoefB"]
+        calWindspdCoefMax = device_data["calWindspdCoefMax"]
+        calWindspdCoefMin = device_data["calWindspdCoefMin"]
+        calWindspdCoefK = device_data["calWindspdCoefK"]
+        calWindspdCoefB = device_data["calWindspdCoefB"]
+        calWinddirCoefMax = device_data["calWinddirCoefMax"]
+        calWinddirCoefMin = device_data["calWinddirCoefMin"]
+        calWinddirCoefK = device_data["calWinddirCoefK"]
+        calWinddirCoefB = device_data["calWinddirCoefB"]
+        calWinddir = device_data["calWinddir"]
+        calPm25ThdCannon = device_data["calPm25ThdCannon"]
+        dct_t_l3f2cm_device_inventory.objects.filter(dev_code=device_code).update(hw_type=hwtype,
+                                                            sw_ver=swtype,upgradeflag=upgradeFlag,rebootflag=restartRightNow,base_port=ngrokPort,
+                                                            cus_info=cus_info,userdef1=userDef1,userdef2=userDef2,userdef3=userDef3,userdef4=userDef4,
+                                                            username=userName,userpswd=userPswd,eccport=eccPort,prescale_xht=prescaleXHT,prescale_ofc=prescaleOFC,
+                                                            prescale_cus=prescaleCUS)
+        dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=device_code).update(dust_coefmax=calPm25CoefMax,
+                                                dust_coefmin=calPm25CoefMin,dust_coefK=calPm25CoefK,dust_coefB=calPm25CoefB,
+                                                temp_coefmax=calTempCoefMax,temp_coefmin=calTempCoefMin,temp_coefK=calTempCoefK,
+                                                temp_coefB=calTempCoefB,humid_coefmax=calHumidCoefMax,humid_coefmin=calHumidCoefMin,
+                                                humid_coefK=calHumidCoefK,humid_coefB=calHumidCoefB,noise_coefmax=calNoiseCoefMax,
+                                                noise_coefmin=calNoiseCoefMin,noise_coefK=calNoiseCoefK,noise_coefB=calNoiseCoefB,
+                                                windspd_coefmax=calWindspdCoefMax,windspd_coefmin=calWindspdCoefMin,windspd_coefK=calWindspdCoefK,
+                                                windspd_coefB=calWindspdCoefB,winddir_coefmax=calWinddirCoefMax,winddir_coefmin=calWinddirCoefMin,
+                                                winddir_coefK=calWinddirCoefK,winddir_coefB=calWinddirCoefB,winddir_delta=calWinddir,
+                                                dust_cannon=calPm25ThdCannon)
+        result={"state":'true','message':'修改成功'}
+        return result
+    '''结束'''
 
 class HCUReportAndConfirm():
     
