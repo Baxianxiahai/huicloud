@@ -91,16 +91,36 @@ class dct_classDbiViewDebs:
         return models.t_cebs_classify_exec_log.objects.get(user=request['user']);
 
     def dft_dbi_env_add(self, inputData):
-        return True
+        #models.t_cebs_env.objects.create(workdir = inputData['tupLable'])
+        models.t_cebs_env.objects.create(\
+            workdir = inputData['tupLable']['workdir'],\
+            pic_origin = inputData['tupLable']['pic_origin'],\
+            pic_middle = inputData['tupLable']['pic_middle'],\
+            )
+        return HttpResponse("OK")
 
     def dft_dbi_env_read(self, inputData):
-        return True
+        #print(inputData['tupLable']['workdir'])
+#         res = models.t_cebs_env.objects.all().values(inputData['tupLable']['workdir']) 
+#         res2 = models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin']) 
+#         res3 = models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_middle']) 
+#         print("res=%d,res2%d,res3%d"%(res,res2,res3))
+        models.t_cebs_env.objects.all().values(inputData['tupLable']['workdir'])
+        models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin'])
+        #print(res)
+        #print(res2)
+        return HttpResponse("OK")   
+        
 
     def dft_dbi_env_modify(self, inputData):
-        return True
+        #print(inputData['tupLable']['workdir'])
+        models.t_cebs_env.objects.filter().update(workdir=inputData['tupLable']['workdir'])
+        return HttpResponse("OK") 
 
     def dft_dbi_env_delete(self, inputData):
-        return True
+        #print(inputData['tupLable']['workdir'])
+        models.t_cebs_env.objects.filter(workdir = inputData['tupLable']['workdir']).delete()
+        return HttpResponse("OK")
 
     def dft_dbi_counter_add(self, inputData):
         return True
