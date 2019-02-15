@@ -231,7 +231,30 @@ elif (LOCAL_WK_TARGET == 3):
             'CONN_MAX_AGE': None,
             }
         }
-    
+    DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
+    DATABASE_APPS_MAPPING={
+        'admin': 'default',
+        'auth': 'default',
+        'contenttypes': 'default',
+        'sessions': 'default',
+        'messages': 'default',
+        'staticfiles': 'default',
+        'DappDbF1sym':'default',
+        'DappDbF2cm':'default',
+        'DappDbF3dm':'default',
+        'DappDbF4icm':'default',
+        'DappDbF5fm':'default',
+        'DappDbF6pm':'default',
+        'DappDbF7ads':'default',
+        'DappDbF8psm':'default',
+        'DappDbF9gism':'default',
+        'DappDbF10oam':'default',
+        'DappDbF11faam':'default',
+        'DappDbFxprcm':'default',
+        'DappDbSnr':'default',
+        'DappDbCebs':'default',
+        'DappDbF12iwdp':'IWDP'
+    }
 #LCPC
 elif (LOCAL_WK_TARGET == 4):
     DATABASES = {
@@ -272,30 +295,7 @@ else:
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
 
-DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
-DATABASE_APPS_MAPPING={
-    'admin': 'default',
-    'auth': 'default',
-    'contenttypes': 'default',
-    'sessions': 'default',
-    'messages': 'default',
-    'staticfiles': 'default',
-    'DappDbF1sym':'default',
-    'DappDbF2cm':'default',
-    'DappDbF3dm':'default',
-    'DappDbF4icm':'default',
-    'DappDbF5fm':'default',
-    'DappDbF6pm':'default',
-    'DappDbF7ads':'default',
-    'DappDbF8psm':'default',
-    'DappDbF9gism':'default',
-    'DappDbF10oam':'default',
-    'DappDbF11faam':'default',
-    'DappDbFxprcm':'default',
-    'DappDbSnr':'default',
-    'DappDbCebs':'default',
-    'DappDbF12iwdp':'IWDP'
-}
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

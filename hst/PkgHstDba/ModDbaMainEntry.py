@@ -637,6 +637,7 @@ class ClassDbaMainEntry():
 
     def dft_cebs_msg_process_env(self, inputData):
         if inputData['cmd']=='add':
+            print("I am here")
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_env_add(inputData)
         elif inputData['cmd']=='read':
