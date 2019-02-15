@@ -237,7 +237,12 @@ class ClassDbaMainEntry():
             result=F2cm.dft_dbi_fstt_dev_info_new(inputData['body'])
         elif inputData['action']=='FSTTDevMod':
             result=F2cm.dft_dbi_fstt_dev_info_update(inputData['body'])
-        
+        elif inputData['action']=="DeviceList":
+            result=F2cm.dft_dbi_pc_get_device_list(inputData['body'])
+        elif inputData['action']=="DeviceInfo":
+            result=F2cm.dft_dbi_pc_get_device_data(inputData['body'])
+        elif inputData['action']=="DeviceChangeLog":
+            result=F2cm.dft_dbi_pc_set_device_data(inputData['body'])
         else:
             result=""
         return result
