@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 '''
 _SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-20180113SZM ', 'index':1},\
                        {'att':'pc', 'name':'ZJLPC', 'index':2},
-                       {'att':'pc', 'name':'XDPC', 'index':3},
+                       {'att':'pc', 'name':'PGS-20180113DJZ', 'index':3},
                        {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
                        ]
 PasswordSetFlag=False
@@ -53,9 +53,9 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_DB_PASSWORD = '123456';
         LOCAL_WK_TARGET = element['index']
         PasswordSetFlag = True
-    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'XDPC'):
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113DJZ'):
         IS_FORMAL_DEPLOYMENT = False
-        LOCAL_DB_PASSWORD = 'bxxh@xiaohui';
+        LOCAL_DB_PASSWORD = '123456';
         LOCAL_WK_TARGET = element['index']
         PasswordSetFlag = True
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
@@ -77,12 +77,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'DappDbAqyc',
-    'DappDbBfdf',
-    'DappDbBfhs',
-    'DappDbCcl',
+#     'DappDbAqyc',
+#     'DappDbBfdf',
+#     'DappDbBfhs',
+#     'DappDbCcl',
     'DappDbCebs',
-    'DappDbComm',
+#     'DappDbComm',
     'DappDbF1sym',
     'DappDbF2cm',
     'DappDbF3dm',
@@ -96,8 +96,9 @@ INSTALLED_APPS = [
     'DappDbF11faam',
     'DappDbFxprcm',
     'DappDbSnr',
-    'DappDbFstt',
-    'DappDbTest',
+    'DappDbF12iwdp'
+#     'DappDbFstt',
+#     'DappDbTest',
 ]
 
 MIDDLEWARE = [
@@ -146,9 +147,33 @@ if (LOCAL_WK_TARGET == 1):
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
+#             'OPTIONS': {
+#                 'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             },
+            'OPTIONS': {
+                "init_command": "SET default_storage_engine='INNODB'"
+                },
             'CONN_MAX_AGE': None,
+            },
+        "IWDP":{
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': 'iwdp',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+#             'OPTIONS': {
+#                 'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             },
+            'OPTIONS': {
+                "init_command": "SET default_storage_engine='INNODB'"
+                },
+            'CONN_MAX_AGE': None,
+            }
         }
-    }
     
 #ZJL PC
 elif (LOCAL_WK_TARGET == 2):
@@ -173,18 +198,39 @@ elif (LOCAL_WK_TARGET == 3):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
+            #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
             'NAME': 'djztest6',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
+#             'OPTIONS': {
+#                 'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             },
             'OPTIONS': {
-                'autocommit': True,
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            },
+                "init_command": "SET default_storage_engine='INNODB'"
+                },
             'CONN_MAX_AGE': None,
+            },
+        "IWDP":{
+            'ENGINE': 'django.db.backends.mysql',
+            #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': 'iwdp',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+#             'OPTIONS': {
+#                 'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#             },
+            'OPTIONS': {
+                "init_command": "SET default_storage_engine='INNODB'"
+                },
+            'CONN_MAX_AGE': None,
+            }
         }
-    }    
     
 #LCPC
 elif (LOCAL_WK_TARGET == 4):
@@ -225,6 +271,31 @@ else:
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
+
+DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
+DATABASE_APPS_MAPPING={
+    'admin': 'default',
+    'auth': 'default',
+    'contenttypes': 'default',
+    'sessions': 'default',
+    'messages': 'default',
+    'staticfiles': 'default',
+    'DappDbF1sym':'default',
+    'DappDbF2cm':'default',
+    'DappDbF3dm':'default',
+    'DappDbF4icm':'default',
+    'DappDbF5fm':'default',
+    'DappDbF6pm':'default',
+    'DappDbF7ads':'default',
+    'DappDbF8psm':'default',
+    'DappDbF9gism':'default',
+    'DappDbF10oam':'default',
+    'DappDbF11faam':'default',
+    'DappDbFxprcm':'default',
+    'DappDbSnr':'default',
+    'DappDbCebs':'default',
+    'DappDbF12iwdp':'IWDP'
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {

@@ -1,7 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import default
 from enum import unique
-from asn1crypto._ffi import null
 
 # Create your models here.
 
@@ -144,7 +143,7 @@ class dct_t_l3f11faam_batch_scan(models.Model):
     sid=models.AutoField(primary_key=True)
     pjcode=models.CharField(max_length=10,db_index=True,default="HYGS")
     qrcode=models.CharField(max_length=20)
-    owner=models.CharField(max_length=10,default="李坤洋")
+    owner=models.CharField(max_length=10,default="鏉庡潳娲�")
     applyweek=models.IntegerField(default=0,db_index=True)
     applydate=models.DateTimeField(null=True)
     activetime=models.DateTimeField(db_index=True,null=True)

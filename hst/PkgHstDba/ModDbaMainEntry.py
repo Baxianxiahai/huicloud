@@ -19,6 +19,7 @@ from PkgHstDba import ModDbaF11Faam
 from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
 from PkgHstDba import ModDbaCebs
+from PkgHstDba import ModDbaF12Iwdp
 from PkgAccessEntry.ModAccessDict import *
 
 
@@ -696,17 +697,88 @@ class ClassDbaMainEntry():
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
-
-
-
-
-
-
-
-
-
-
-
+    
+    
+    def dft_F12Iwdp_Send_Message(self,inputData):
+#         print(inputData)
+        if inputData['action']=="EmployeeInsert":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_insert_employee(inputData["body"])
+        elif inputData['action']=="IntegralSet":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_integral_setting(inputData["body"])
+        elif inputData['action']=="IntegralGet":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_integral_get(inputData["body"])
+        elif inputData['action']=="GetEmployeeDetail":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_get_employee_user_info(inputData["body"])
+        elif inputData['action']=="GetDDTicket":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_get_company_jsapi_ticket(inputData["body"])
+        elif inputData['action']=="SetTicket":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_set_company_jsapi_ticket(inputData["body"])
+        elif inputData['action']=="SaveTask":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_release_or_save_task(inputData["body"],True)
+        elif inputData['action']=="ReleaseTask":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_release_or_save_task(inputData["body"],False)
+        elif inputData['action']=="AllTask":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_get_employee_all_task_list(inputData["body"])
+        elif inputData['action']=="GetTaskDetail":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_get_task_detail(inputData["body"])
+        elif inputData['action']=="TaskClick":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_task_click(inputData["body"])
+        elif inputData['action']=="TaskDelete":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_delete_task(inputData["body"])
+        elif inputData['action']=="AcceptTask":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_accept_task(inputData["body"])
+        elif inputData['action']=="RefuseTask":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_refuse_task(inputData["body"])
+        elif inputData['action']=="TaskSuccess":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_success_task(inputData["body"])
+        elif inputData['action']=="TaskFail":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_fail_task(inputData["body"])
+        elif inputData['action']=="TaskSupAdopt":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_superior_adopt_task(inputData["body"])
+        elif inputData['action']=="TaskSupRefuse":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_superior_refuse_task(inputData["body"])
+        elif inputData['action']=="TaskFinAdopt":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_finance_adopt_task(inputData["body"])
+        elif inputData['action']=="TaskFinRefuse":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_finance_refuse_task(inputData["body"])
+        elif inputData['action']=="TaskSearch":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_search_task(inputData["body"])
+        elif inputData['action']=="IntegralAll":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_get_employee_integral_all(inputData["body"])
+        elif inputData['action']=="IntegralDay":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_get_employee_integral_day(inputData["body"])
+        elif inputData['action']=="TaskComment":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_get_comments(inputData["body"])
+        elif inputData['action']=="CommentPublish":
+            F12Iwdp=ModDbaF12Iwdp.classDappDbF12Iwap()
+            result=F12Iwdp.dft_dbi_employee_publish_comment(inputData["body"])
+        else:
+            result={"errcode":"1","errmsg":"非合法操作"}
+        return result
 
 #HCU    
 class ClassHCUDbaMainEntry():
