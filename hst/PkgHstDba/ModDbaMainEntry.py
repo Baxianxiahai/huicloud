@@ -637,7 +637,6 @@ class ClassDbaMainEntry():
 
     def dft_cebs_msg_process_env(self, inputData):
         if inputData['cmd']=='add':
-            print("I am here")
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_env_add(inputData)
         elif inputData['cmd']=='read':
@@ -662,7 +661,7 @@ class ClassDbaMainEntry():
             result=dbaCebsObj.dft_dbi_counter_read(inputData)
         elif inputData['cmd']=='modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_env_modify(inputData)
+            result=dbaCebsObj.dft_dbi_counter_modify(inputData)
         elif inputData['cmd']=='delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_counter_delete(inputData)

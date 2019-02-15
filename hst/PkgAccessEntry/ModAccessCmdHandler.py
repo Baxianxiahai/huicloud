@@ -194,10 +194,10 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_BFDF                     = 3500
     __HUIREST_ACTIONID_DBA_BFHS                     = 3600
     __HUIREST_ACTIONID_DBA_CCL                      = 3700
-    __HUIREST_ACTIONID_DBA_CEBS_env                 = 3800
-    __HUIREST_ACTIONID_DBA_CEBS_counter             = 3801
-    __HUIREST_ACTIONID_DBA_CEBS_fspc                = 3802
-    __HUIREST_ACTIONID_DBA_CEBS_file                = 3803
+    __HUIREST_ACTIONID_DBA_CEBS_env                 = 0x3800
+    __HUIREST_ACTIONID_DBA_CEBS_counter             = 0x3801
+    __HUIREST_ACTIONID_DBA_CEBS_fspc                = 0x3802
+    __HUIREST_ACTIONID_DBA_CEBS_file                = 0x3803
     __HUIREST_ACTIONID_DBA_FAAM                     = 3900
     __HUIREST_ACTIONID_DBA_FSTT                     = 4000
     __HUIREST_ACTIONID_DBA_TEST                     = 4100
@@ -313,7 +313,6 @@ class ClassHuirestDbaInputCmdHandler:
                 print("self.achProcResult",self.achProcResult)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 self.achContentResExt = proc.dft_cebs_msg_process_counter(inputStr['parContent'])
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_fspc:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
