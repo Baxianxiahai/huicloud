@@ -30,16 +30,8 @@ def hst_start_server(addr, port):
 
 def main():
     HST_HOST_NAME = "localhost"
-    HST_HOST_PORT = 7999
+    HST_HOST_PORT = 8000
     zHstAddrBind = (HST_HOST_NAME, HST_HOST_PORT)
     hst_start_server(zHstAddrBind, HST_HOST_PORT)
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-

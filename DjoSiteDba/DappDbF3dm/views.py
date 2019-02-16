@@ -1375,7 +1375,7 @@ class dct_classDbiL3apF3dm():
         result_min=dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__range=(time_start,time_end))
         if result_min.exists():
             for line in result_min:
-                print(line.report_date)
+                # print(line.report_date)
                 if line.site_code_id not in data.keys():
                     data[line.site_code_id]={}
                     if line.dev_code_id not in data[line.site_code_id].keys():
@@ -1583,6 +1583,232 @@ class dct_classDbiL3apF3dm():
                                                   toxicgas=toxicgas_aveage_3, rssi=rssi_aveage_3,
                                                   pwrind=pwrind_aveage_3))
         dct_t_l3f3dm_hour_report_aqyc.objects.bulk_create(hour)
+        return True
+
+    '''每天定时计算各个数值的小时平均值'''
+
+    def dft_dbi_calculation_day_data(self):
+        time_old = datetime.datetime.now() - datetime.timedelta(days=1)
+        now_date = time_old.date()
+        time_start = str(now_date) + " " +"00:00:00"
+        time_end = str(now_date) + " " + "23:59:59"
+        data = {}
+        day = list()
+        result_min = dct_t_l3f3dm_minute_report_aqyc.objects.filter(report_date__range=(time_start, time_end))
+        if result_min.exists():
+            for line in result_min:
+                # print(line.report_date)
+                if line.site_code_id not in data.keys():
+                    data[line.site_code_id] = {}
+                    if line.dev_code_id not in data[line.site_code_id].keys():
+                        data[line.site_code_id][line.dev_code_id] = []
+                        tsp = []
+                        tsp.append(line.tsp)
+                        data[line.site_code_id][line.dev_code_id].append(tsp)
+                        pm01 = []
+                        pm01.append(line.pm01)
+                        data[line.site_code_id][line.dev_code_id].append(pm01)
+                        pm25 = []
+                        pm25.append(line.pm25)
+                        data[line.site_code_id][line.dev_code_id].append(pm25)
+                        pm10 = []
+                        pm10.append(line.pm10)
+                        data[line.site_code_id][line.dev_code_id].append(pm10)
+                        noise = []
+                        noise.append(line.noise)
+                        data[line.site_code_id][line.dev_code_id].append(noise)
+                        temperature = []
+                        temperature.append(line.temperature)
+                        data[line.site_code_id][line.dev_code_id].append(temperature)
+                        humidity = []
+                        humidity.append(line.humidity)
+                        data[line.site_code_id][line.dev_code_id].append(humidity)
+                        winddir = []
+                        winddir.append(line.winddir)
+                        data[line.site_code_id][line.dev_code_id].append(winddir)
+                        windspd = []
+                        windspd.append(line.windspd)
+                        data[line.site_code_id][line.dev_code_id].append(windspd)
+                        rain = []
+                        rain.append(line.rain)
+                        data[line.site_code_id][line.dev_code_id].append(rain)
+                        airpresure = []
+                        airpresure.append(line.airpresure)
+                        data[line.site_code_id][line.dev_code_id].append(airpresure)
+                        lightstr = []
+                        lightstr.append(line.lightstr)
+                        data[line.site_code_id][line.dev_code_id].append(lightstr)
+                        so2 = []
+                        so2.append(line.so2)
+                        data[line.site_code_id][line.dev_code_id].append(so2)
+                        co1 = []
+                        co1.append(line.co1)
+                        data[line.site_code_id][line.dev_code_id].append(co1)
+                        no1 = []
+                        no1.append(line.no1)
+                        data[line.site_code_id][line.dev_code_id].append(no1)
+                        h2s = []
+                        h2s.append(line.h2s)
+                        data[line.site_code_id][line.dev_code_id].append(h2s)
+                        hcho = []
+                        hcho.append(line.hcho)
+                        data[line.site_code_id][line.dev_code_id].append(hcho)
+                        toxicgas = []
+                        toxicgas.append(line.toxicgas)
+                        data[line.site_code_id][line.dev_code_id].append(toxicgas)
+                        # rssi = []
+                        # rssi.append(line.rssi)
+                        # data[line.site_code_id][line.dev_code_id].append(rssi)
+                        # pwrind = []
+                        # pwrind.append(line.pwrind)
+                        # data[line.site_code_id][line.dev_code_id].append(pwrind)
+                    else:
+                        data[line.site_code_id][line.dev_code_id][0].append(line.tsp)
+                        data[line.site_code_id][line.dev_code_id][1].append(line.pm01)
+                        data[line.site_code_id][line.dev_code_id][2].append(line.pm25)
+                        data[line.site_code_id][line.dev_code_id][3].append(line.pm10)
+                        data[line.site_code_id][line.dev_code_id][4].append(line.noise)
+                        data[line.site_code_id][line.dev_code_id][5].append(line.temperature)
+                        data[line.site_code_id][line.dev_code_id][6].append(line.humidity)
+                        data[line.site_code_id][line.dev_code_id][7].append(line.winddir)
+                        data[line.site_code_id][line.dev_code_id][8].append(line.windspd)
+                        data[line.site_code_id][line.dev_code_id][9].append(line.rain)
+                        data[line.site_code_id][line.dev_code_id][10].append(line.airpresure)
+                        data[line.site_code_id][line.dev_code_id][11].append(line.lightstr)
+                        data[line.site_code_id][line.dev_code_id][12].append(line.so2)
+                        data[line.site_code_id][line.dev_code_id][13].append(line.co1)
+                        data[line.site_code_id][line.dev_code_id][14].append(line.no1)
+                        data[line.site_code_id][line.dev_code_id][15].append(line.h2s)
+                        data[line.site_code_id][line.dev_code_id][16].append(line.hcho)
+                        data[line.site_code_id][line.dev_code_id][17].append(line.toxicgas)
+                        # data[line.site_code_id][line.dev_code_id][18].append(line.rssi)
+                        # data[line.site_code_id][line.dev_code_id][19].append(line.pwrind)
+                else:
+                    if line.dev_code_id not in data[line.site_code_id].keys():
+                        data[line.site_code_id][line.dev_code_id] = []
+                        tsp = []
+                        tsp.append(line.tsp)
+                        data[line.site_code_id][line.dev_code_id].append(tsp)
+                        pm01 = []
+                        pm01.append(line.pm01)
+                        data[line.site_code_id][line.dev_code_id].append(pm01)
+                        pm25 = []
+                        pm25.append(line.pm25)
+                        data[line.site_code_id][line.dev_code_id].append(pm25)
+                        pm10 = []
+                        pm10.append(line.pm10)
+                        data[line.site_code_id][line.dev_code_id].append(pm10)
+                        noise = []
+                        noise.append(line.noise)
+                        data[line.site_code_id][line.dev_code_id].append(noise)
+                        temperature = []
+                        temperature.append(line.temperature)
+                        data[line.site_code_id][line.dev_code_id].append(temperature)
+                        humidity = []
+                        humidity.append(line.humidity)
+                        data[line.site_code_id][line.dev_code_id].append(humidity)
+                        winddir = []
+                        winddir.append(line.winddir)
+                        data[line.site_code_id][line.dev_code_id].append(winddir)
+                        windspd = []
+                        windspd.append(line.windspd)
+                        data[line.site_code_id][line.dev_code_id].append(windspd)
+                        rain = []
+                        rain.append(line.rain)
+                        data[line.site_code_id][line.dev_code_id].append(rain)
+                        airpresure = []
+                        airpresure.append(line.airpresure)
+                        data[line.site_code_id][line.dev_code_id].append(airpresure)
+                        lightstr = []
+                        lightstr.append(line.lightstr)
+                        data[line.site_code_id][line.dev_code_id].append(lightstr)
+                        so2 = []
+                        so2.append(line.so2)
+                        data[line.site_code_id][line.dev_code_id].append(so2)
+                        co1 = []
+                        co1.append(line.co1)
+                        data[line.site_code_id][line.dev_code_id].append(co1)
+                        no1 = []
+                        no1.append(line.no1)
+                        data[line.site_code_id][line.dev_code_id].append(no1)
+                        h2s = []
+                        h2s.append(line.h2s)
+                        data[line.site_code_id][line.dev_code_id].append(h2s)
+                        hcho = []
+                        hcho.append(line.hcho)
+                        data[line.site_code_id][line.dev_code_id].append(hcho)
+                        toxicgas = []
+                        toxicgas.append(line.toxicgas)
+                        data[line.site_code_id][line.dev_code_id].append(toxicgas)
+                        # rssi = []
+                        # rssi.append(line.rssi)
+                        # data[line.site_code_id][line.dev_code_id].append(rssi)
+                        # pwrind = []
+                        # pwrind.append(line.pwrind)
+                        # data[line.site_code_id][line.dev_code_id].append(pwrind)
+                    else:
+                        data[line.site_code_id][line.dev_code_id][0].append(line.tsp)
+                        data[line.site_code_id][line.dev_code_id][1].append(line.pm01)
+                        data[line.site_code_id][line.dev_code_id][2].append(line.pm25)
+                        data[line.site_code_id][line.dev_code_id][3].append(line.pm10)
+                        data[line.site_code_id][line.dev_code_id][4].append(line.noise)
+                        data[line.site_code_id][line.dev_code_id][5].append(line.temperature)
+                        data[line.site_code_id][line.dev_code_id][6].append(line.humidity)
+                        data[line.site_code_id][line.dev_code_id][7].append(line.winddir)
+                        data[line.site_code_id][line.dev_code_id][8].append(line.windspd)
+                        data[line.site_code_id][line.dev_code_id][9].append(line.rain)
+                        data[line.site_code_id][line.dev_code_id][10].append(line.airpresure)
+                        data[line.site_code_id][line.dev_code_id][11].append(line.lightstr)
+                        data[line.site_code_id][line.dev_code_id][12].append(line.so2)
+                        data[line.site_code_id][line.dev_code_id][13].append(line.co1)
+                        data[line.site_code_id][line.dev_code_id][14].append(line.no1)
+                        data[line.site_code_id][line.dev_code_id][15].append(line.h2s)
+                        data[line.site_code_id][line.dev_code_id][16].append(line.hcho)
+                        data[line.site_code_id][line.dev_code_id][17].append(line.toxicgas)
+                        # data[line.site_code_id][line.dev_code_id][18].append(line.rssi)
+                        # data[line.site_code_id][line.dev_code_id][19].append(line.pwrind)
+        else:
+            return False
+        for key, value in data.items():
+            for key_dev, value_dev in data[key].items():
+                tsp_aveage_3 = round(np.mean(value_dev[0]), 3)
+                tsp_max=max(value_dev[0])
+                tsp_min=min(value_dev[0])
+                pm01_aveage_3 = round(np.mean(value_dev[1]), 3)
+                pm25_aveage_3 = round(np.mean(value_dev[2]), 3)
+                pm10_aveage_3 = round(np.mean(value_dev[3]), 3)
+                noise_aveage_3 = round(np.mean(value_dev[4]), 3)
+                temperature_aveage_3 = round(np.mean(value_dev[5]), 3)
+                humidity_aveage_3 = round(np.mean(value_dev[6]), 3)
+                winddir_aveage_3 = round(np.mean(value_dev[7]), 3)
+                windspd_aveage_3 = round(np.mean(value_dev[8]), 3)
+                rain_aveage_3 = round(np.mean(value_dev[9]), 3)
+                airpresure_aveage_3 = round(np.mean(value_dev[10]), 3)
+                lightstr_aveage_3 = round(np.mean(value_dev[11]), 3)
+                so2_aveage_3 = round(np.mean(value_dev[12]), 3)
+                co1_aveage_3 = round(np.mean(value_dev[13]), 3)
+                no1_aveage_3 = round(np.mean(value_dev[14]), 3)
+                h2s_aveage_3 = round(np.mean(value_dev[15]), 3)
+                hcho_aveage_3 = round(np.mean(value_dev[16]), 3)
+                toxicgas_aveage_3 = round(np.mean(value_dev[17]), 3)
+                # rssi_aveage_3 = round(np.mean(value_dev[18]), 3)
+                # pwrind_aveage_3 = round(np.mean(value_dev[19]), 3)
+                day.append(
+                    dct_t_l3f3dm_day_report_aqyc(dev_code_id=key_dev, site_code_id=key,
+                                                  report_date=str(now_date),
+                                                  tsp=tsp_aveage_3, tsp_max=tsp_max,tsp_min=tsp_min,pm01=pm01_aveage_3, pm25=pm25_aveage_3,
+                                                  pm10=pm10_aveage_3, noise=noise_aveage_3,
+                                                  temperature=temperature_aveage_3,
+                                                  humidity=humidity_aveage_3, winddir=winddir_aveage_3,
+                                                  windspd=windspd_aveage_3,
+                                                  rain=rain_aveage_3, airpresure=airpresure_aveage_3,
+                                                  lightstr=lightstr_aveage_3,
+                                                  so2=so2_aveage_3, co1=co1_aveage_3, no1=no1_aveage_3,
+                                                  h2s=h2s_aveage_3, hcho=hcho_aveage_3,
+                                                  toxicgas=toxicgas_aveage_3
+                                                 # ,rssi=rssi_aveage_3, pwrind=pwrind_aveage_3
+                                                 ))
+        dct_t_l3f3dm_day_report_aqyc.objects.bulk_create(day)
         return True
     
 class dct_t_HCU_Data_Report():
