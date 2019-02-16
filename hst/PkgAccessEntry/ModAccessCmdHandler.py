@@ -310,7 +310,6 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_env:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_cebs_msg_process_env(inputStr['parContent'])
-                print("self.achProcResult",self.achProcResult)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achContentResExt = proc.dft_cebs_msg_process_counter(inputStr['parContent'])

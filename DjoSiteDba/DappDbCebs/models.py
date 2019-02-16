@@ -80,7 +80,6 @@ class t_cebs_fspc(models.Model):
     cell_square_max = models.IntegerField(default=0)
     cell_raduis_min = models.IntegerField(default=0)
     cell_raduis_max = models.IntegerField(default=0)
-    cell_square_min = models.IntegerField(default=0)
     cell_dilate = models.IntegerField(default=0)
     cell_erode = models.IntegerField(default=0)
     cell_ce = models.IntegerField(default=0)
