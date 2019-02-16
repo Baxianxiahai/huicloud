@@ -205,10 +205,20 @@ class dct_classDbiViewDebs:
         return True
 
     def dft_dbi_env_read(self, inputData):
-        res = models.t_cebs_env.objects.all()
-        for line in res:
-            print(line.workdir)
-        print("res",res)
+        print(inputData)
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        #if "tup_lable" in bufferdata.keys():
+                
+        res = models.t_cebs_env.objects.filter(workdir = inputData['tupLable']['workdir'])
+        #print(res[0].workdir) #取少量
+        
+        print("res = ",res)
+#         for line in res:
+#             print(line.workdir)
+#             
+#         if "tupLable" in bufferdata.keys():
+            
         #print(inputData['tupLable']['workdir'])
 #         res = models.t_cebs_env.objects.all().values(inputData['tupLable']['workdir']) 
 #         res2 = models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin']) 
@@ -435,8 +445,10 @@ class dct_classDbiViewDebs:
         return True 
 
     def dft_dbi_env_delete(self, inputData):
-        #print(inputData['tupLable']['workdir'])
-        models.t_cebs_env.objects.filter(workdir = inputData['tupLable']['workdir']).delete()
+        #print(inputData['tupLable']['workdir'])\
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable']).delete()
         return True
 
     def dft_dbi_counter_add(self, inputData):
@@ -550,7 +562,9 @@ class dct_classDbiViewDebs:
         return True 
 
     def dft_dbi_counter_delete(self, inputData):
-        models.t_cebs_counter.objects.filter(picbatchcnt = inputData['tupLable']['picbatchcnt']).delete()
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        models.t_cebs_counter.objects.filter(tup_lable = bufferdata['tupLable']).delete()
         return True
 
     def dft_dbi_fspc_add(self, inputData):
@@ -818,7 +832,9 @@ class dct_classDbiViewDebs:
         return True 
 
     def dft_dbi_fspc_delete(self, inputData):
-        models.t_cebs_fspc.objects.filter(mark_line = inputData['tupLable']['mark_line']).delete()
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        models.t_cebs_fspc.objects.filter(tup_lable = bufferdata['tupLable']).delete()
         return True
 
     def dft_dbi_file_add(self, inputData):
@@ -959,7 +975,9 @@ class dct_classDbiViewDebs:
         return True 
 
     def dft_dbi_file_delete(self, inputData):
-        models.t_cebs_batch_file.objects.filter(batch_no = inputData['tupLable']['batch_no']).delete()
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no']).delete()
         return True
 
 

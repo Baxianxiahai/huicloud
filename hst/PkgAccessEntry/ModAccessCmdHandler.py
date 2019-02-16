@@ -190,7 +190,7 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_Fxprcm                   = 0x1C00
     __HUIREST_ACTIONID_DBA_F12iwdp                  = 0x1D00
     __HUIREST_ACTIONID_DBA_L2snr                    = 0x1F00
-# <<<<<<< HEAD
+
     __HUIREST_ACTIONID_DBA_AQYC                     = 0X0D48
     __HUIREST_ACTIONID_DBA_BFDF                     = 0X0DAC
     __HUIREST_ACTIONID_DBA_BFHS                     = 0X0E10
@@ -201,20 +201,8 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_FAAM                     = 0X0F3C
     __HUIREST_ACTIONID_DBA_FSTT                     = 0X0FA0
     __HUIREST_ACTIONID_DBA_TEST                     = 0X1004
-# =======
-#     __HUIREST_ACTIONID_DBA_AQYC                     = 3400
-#     __HUIREST_ACTIONID_DBA_BFDF                     = 3500
-#     __HUIREST_ACTIONID_DBA_BFHS                     = 3600
-#     __HUIREST_ACTIONID_DBA_CCL                      = 3700
-#     __HUIREST_ACTIONID_DBA_CEBS_env                 = 0x3800
-#     __HUIREST_ACTIONID_DBA_CEBS_counter             = 0x3801
-#     __HUIREST_ACTIONID_DBA_CEBS_fspc                = 0x3802
-#     __HUIREST_ACTIONID_DBA_CEBS_file                = 0x3803
-#     __HUIREST_ACTIONID_DBA_FAAM                     = 3900
-#     __HUIREST_ACTIONID_DBA_FSTT                     = 4000
-#     __HUIREST_ACTIONID_DBA_TEST                     = 4100
-# >>>>>>> 19bd6fb282bc77c06f8b7e82c19c8f0f98423a55
-    
+
+    __HUIREST_ACTIONID_DBA_CCL                      = 0X0E74
     #END FLAG
     __HUIREST_ACTIONID_DBA_max                      = 0X2000
     
