@@ -1109,44 +1109,52 @@ class dct_classDbiViewDebs:
         print(inputData)
         bufferdata = inputData['tupLable']
         print(bufferdata)
-        res = models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'])
+        res = models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'],hole_no = bufferdata['hole_no'])
         bufferout= {}
-#         for line in res:
-#             print(line.hole_no)
-
-        if "hole_no" in bufferdata.keys():
-            bufferout['hole_no'] = res[0].hole_no;
-
-        else:
-            pass
+        for line in res:
+            res.hole_name = line.hole_name
+            res.pic_file_name = line.pic_file_name
+            res.file_att = line.file_att
+            res.vid_file_name = line.vid_file_name
+            res.classified_flag = line.classified_flag
+            res.video_flag = line.video_flag
+            res.cfy_res = line.cfy_res
+        
+        
+#         if "hole_no" in bufferdata.keys():
+#             bufferout['hole_no'] = res[0].hole_no;
+#         else:
+#             pass
         if "hole_name" in bufferdata.keys():
-            bufferout['hole_name'] = res[0].hole_name;
+            bufferout['hole_name'] = res.hole_name
         else:
             pass
         if "pic_file_name" in bufferdata.keys():
-            bufferout['pic_file_name'] = res[0].pic_file_name;
+            bufferout['pic_file_name'] = res.pic_file_name
+            print("bufferout['pic_file_name']",bufferout['pic_file_name'])
         else:
             pass
         if "file_att" in bufferdata.keys():
-            bufferout['file_att'] = res[0].file_att;
+            bufferout['file_att'] = res.file_att
         else:
             pass
         if "vid_file_name" in bufferdata.keys():
-            bufferout['vid_file_name'] = res[0].vid_file_name;
+            bufferout['vid_file_name'] = res.vid_file_name
         else:
             pass
         if "classified_flag" in bufferdata.keys():
-            bufferout['classified_flag'] = res[0].classified_flag;
+            bufferout['classified_flag'] = res.classified_flag
         else:
             pass
         if "video_flag" in bufferdata.keys():
-            bufferout['video_flag'] = res[0].video_flag;
+            bufferout['video_flag'] = res.video_flag
         else:
             pass
         if "cfy_res" in bufferdata.keys():
-            bufferout['cfy_res'] = res[0].cfy_res;
+            bufferout['cfy_res'] = res.cfy_res
         else:
             pass
+        
         print(bufferout)
         return bufferout
 
