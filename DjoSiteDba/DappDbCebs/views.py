@@ -639,7 +639,7 @@ class dct_classDbiViewDebs:
             pass
         
         print(bufferout)
-        return True
+        return bufferout
 
     def dft_dbi_counter_modify(self, inputData):
         print(inputData)
@@ -882,7 +882,7 @@ class dct_classDbiViewDebs:
             pass
         
         print(bufferout)
-        return True
+        return bufferout
 
     def dft_dbi_fspc_modify(self, inputData):
         print(inputData)
@@ -1148,7 +1148,7 @@ class dct_classDbiViewDebs:
         else:
             pass
         print(bufferout)
-        return True
+        return bufferout
 
 
     def dft_dbi_file_modify(self, inputData):
