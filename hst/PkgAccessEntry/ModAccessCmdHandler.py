@@ -310,10 +310,10 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CCL:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_env:
-#                 if (inputStr['parContent']['cmd']=='read'):
-#                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
+                if (inputStr['parContent']['cmd']=='read'):
+                    self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achProcResult = proc.dft_cebs_msg_process_env(inputStr['parContent'])
+                self.achContentResExt = proc.dft_cebs_msg_process_env(inputStr['parContent'])
                 print("env flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
 #                 if (inputStr['parContent']['cmd']=='read'):
@@ -325,13 +325,13 @@ class ClassHuirestDbaInputCmdHandler:
 #                 if (inputStr['parContent']['cmd']=='read'):
 #                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achProcResult = proc.dft_cebs_msg_process_fspc(inputStr['parContent'])
+                self.achContentResExt = proc.dft_cebs_msg_process_fspc(inputStr['parContent'])
                 print("fspc flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_file:
 #                 if (inputStr['parContent']['cmd']=='read'):
 #                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achProcResult = proc.dft_cebs_msg_process_file(inputStr['parContent'])
+                self.achContentResExt = proc.dft_cebs_msg_process_file(inputStr['parContent'])
                 print("file flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FAAM:
                 self.achProcResult = False
@@ -350,6 +350,8 @@ class ClassHuirestDbaInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
+            print("output",outputStr)
+            return outputStr
         elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
             return self.achProcResult
         elif (self.achCtrlFlag == True):

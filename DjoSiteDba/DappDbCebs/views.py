@@ -302,8 +302,8 @@ class dct_classDbiViewDebs:
             bufferout['vis_clfy_gen_par4'] = res[0].vis_clfy_gen_par4;
         else:
             pass
-        print(bufferout)
-        return True
+        print("read ret",bufferout)
+        return bufferout
         #if "tup_lable" in bufferdata.keys():
         #要知道才能查      
 #         res = models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable'])
