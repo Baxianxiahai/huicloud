@@ -203,17 +203,136 @@ class dct_classDbiViewDebs:
             vis_clfy_gen_par3 = vis_clfy_gen_par3_val,vis_clfy_gen_par4 = vis_clfy_gen_par4_val,\
             )
         return True
-
+    #read 操作不太好复用
     def dft_dbi_env_read(self, inputData):
         print(inputData)
         bufferdata = inputData['tupLable']
         print(bufferdata)
+        res = models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable'])
+        bufferout= {}
+        if "workdir" in bufferdata.keys():
+            bufferout['workdir'] = res[0].workdir;
+        else:
+            pass
+        if "pic_origin" in bufferdata.keys():
+            bufferout['pic_origin'] = res[0].pic_origin;
+        else:
+            pass
+        if "pic_middle" in bufferdata.keys():
+            bufferout['pic_middle'] = res[0].pic_middle;
+        else:
+            pass
+        if "holeboard_type" in bufferdata.keys():
+            bufferout['holeboard_type'] = res[0].holeboard_type;
+        else:
+            pass
+        if "holeboard_left_bot_x" in bufferdata.keys():
+            bufferout['holeboard_left_bot_x'] = res[0].holeboard_left_bot_x;
+        else:
+            pass
+        if "holeboard_left_bot_y" in bufferdata.keys():
+            bufferout['holeboard_left_bot_y'] = res[0].holeboard_left_bot_y;
+        else:
+            pass
+        if "holeboard_right_up_x" in bufferdata.keys():
+            bufferout['holeboard_right_up_x'] = res[0].holeboard_right_up_x;
+        else:
+            pass
+        if "holeboard_right_up_y" in bufferdata.keys():
+            bufferout['holeboard_right_up_y'] = res[0].holeboard_right_up_y;
+        else:
+            pass
+        if "pic_take_fix_point_set" in bufferdata.keys():
+            bufferout['pic_take_fix_point_set'] = res[0].pic_take_fix_point_set;
+        else:
+            pass
+        if "pic_classification_set" in bufferdata.keys():
+            bufferout['pic_classification_set'] = res[0].pic_classification_set;
+        else:
+            pass
+        if "pic_auto_work_after_start_set" in bufferdata.keys():
+            bufferout['pic_auto_work_after_start_set'] = res[0].pic_auto_work_after_start_set;
+        else:
+            pass
+        if "pic_auto_work_tti" in bufferdata.keys():
+            bufferout['pic_auto_work_tti'] = res[0].pic_auto_work_tti;
+        else:
+            pass
+        if "vis_small_low_limit" in bufferdata.keys():
+            bufferout['vis_small_low_limit'] = res[0].vis_small_low_limit;
+        else:
+            pass
+        if "vis_small_mid_limit" in bufferdata.keys():
+            bufferout['vis_small_mid_limit'] = res[0].vis_small_mid_limit;
+        else:
+            pass
+        if "vis_mid_big_limit" in bufferdata.keys():
+            bufferout['vis_mid_big_limit'] = res[0].vis_mid_big_limit;
+        else:
+            pass
+        if "vis_big_upper_limit" in bufferdata.keys():
+            bufferout['vis_big_upper_limit'] = res[0].vis_big_upper_limit;
+        else:
+            pass
+        if "vis_res_addup_set" in bufferdata.keys():
+            bufferout['vis_res_addup_set'] = res[0].vis_res_addup_set;
+        else:
+            pass
+        if "vis_cap_enable_set" in bufferdata.keys():
+            bufferout['vis_cap_enable_set'] = res[0].vis_cap_enable_set;
+        else:
+            pass
+        if "vis_cap_dur_in_sec" in bufferdata.keys():
+            bufferout['vis_cap_dur_in_sec'] = res[0].vis_cap_dur_in_sec;
+        else:
+            pass
+        if "vis_clfy_gen_par1" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par1'] = res[0].vis_clfy_gen_par1;
+        else:
+            pass
+        if "vis_clfy_gen_par2" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par2'] = res[0].vis_clfy_gen_par2;
+        else:
+            pass
+        if "vis_clfy_gen_par3" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par3'] = res[0].vis_clfy_gen_par3;
+        else:
+            pass
+        if "vis_clfy_gen_par4" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par4'] = res[0].vis_clfy_gen_par4;
+        else:
+            pass
+        print(bufferout)
+        return True
         #if "tup_lable" in bufferdata.keys():
-                
-        res = models.t_cebs_env.objects.filter(workdir = inputData['tupLable']['workdir'])
-        #print(res[0].workdir) #取少量
-        
-        print("res = ",res)
+        #要知道才能查      
+#         res = models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable'])
+#         print(res)
+#         for line in res:
+#             print(line.tup_lable)
+#             print(line.workdir)  
+#             print(line.pic_origin)
+#             print(line.pic_middle)
+#             print(line.holeboard_type)
+#             print(line.holeboard_left_bot_x)
+#             print(line.holeboard_left_bot_y)
+#             print(line.holeboard_right_up_x)
+#             print(line.holeboard_right_up_y)
+#             print(line.pic_take_fix_point_set)
+#             print(line.pic_classification_set)
+#             print(line.pic_auto_work_after_start_set)
+#             print(line.pic_auto_work_tti)
+#             print(line.vis_small_low_limit)
+#             print(line.vis_small_mid_limit)
+#             print(line.vis_mid_big_limit)
+#             print(line.vis_big_upper_limit)
+#             print(line.vis_res_addup_set)
+#             print(line.vis_cap_enable_set)
+#             print(line.vis_cap_dur_in_sec)
+#             print(line.vis_clfy_gen_par1)
+#             print(line.vis_clfy_gen_par2)
+#             print(line.vis_clfy_gen_par3)
+#             print(line.vis_clfy_gen_par4)
 #         for line in res:
 #             print(line.workdir)
 #             
@@ -229,7 +348,7 @@ class dct_classDbiViewDebs:
 #         models.t_cebs_env.objects.all().values(inputData['tupLable']['pic_origin'])
         #print(res)
         #print(res2)
-        return True   
+        
         
 
     def dft_dbi_env_modify(self, inputData):
@@ -237,7 +356,7 @@ class dct_classDbiViewDebs:
         bufferdata = inputData['tupLable']
         print(bufferdata) 
         
-        res = models.t_cebs_env.objects.all() 
+        res = models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable'])
         for line in res:
             res.tup_lable = line.tup_lable
             res.workdir = line.workdir  
@@ -264,13 +383,13 @@ class dct_classDbiViewDebs:
             res.vis_clfy_gen_par3 = line.vis_clfy_gen_par3
             res.vis_clfy_gen_par4 = line.vis_clfy_gen_par4
             
-        print(res.tup_lable)
-        print(bufferdata['tupLable'])   
+#         print(res.tup_lable)
+#         print(bufferdata['tupLable'])   
         if "tupLable" in bufferdata.keys():
             if (res.tup_lable == bufferdata['tupLable']):
                 tup_lable_val = res.tup_lable
             else:
-                tup_lable_val = bufferdata['tuplable'] 
+                tup_lable_val = bufferdata['tupLable'] 
         else:
             tup_lable_val = res.tup_lable
         if "workdir" in bufferdata.keys():
@@ -279,7 +398,10 @@ class dct_classDbiViewDebs:
             else:
                 workdir_val = bufferdata['workdir']
         else:
+            
             workdir_val = res.workdir
+            print(res.workdir)
+            print(workdir_val)
         if "pic_origin" in bufferdata.keys():
             if (res.pic_origin == bufferdata['pic_origin']):
                 pic_origin_val = res.pic_origin
@@ -491,8 +613,32 @@ class dct_classDbiViewDebs:
 
     def dft_dbi_counter_read(self, inputData):
         print(inputData)
-        res = models.t_cebs_counter.objects.all().values(inputData['tupLable']['picbatchcnt'])
-        print("counter_res",res)
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        res = models.t_cebs_counter.objects.filter(tup_lable = bufferdata['tupLable'])
+        bufferout= {}
+        if "picbatchcnt" in bufferdata.keys():
+            bufferout['picbatchcnt'] = res[0].picbatchcnt;
+        else:
+            pass
+        if "picbatchclas" in bufferdata.keys():
+            bufferout['picbatchclas'] = res[0].picbatchclas;
+        else:
+            pass
+        if "picremaincnt" in bufferdata.keys():
+            bufferout['picremaincnt'] = res[0].picremaincnt;
+        else:
+            pass
+        if "picbatfluclas" in bufferdata.keys():
+            bufferout['picbatfluclas'] = res[0].picbatfluclas;
+        else:
+            pass
+        if "picremflucnt" in bufferdata.keys():
+            bufferout['picremflucnt'] = res[0].picremflucnt;
+        else:
+            pass
+        
+        print(bufferout)
         return True
 
     def dft_dbi_counter_modify(self, inputData):
@@ -500,7 +646,7 @@ class dct_classDbiViewDebs:
         bufferdata = inputData['tupLable']
         print(bufferdata) 
         
-        res = models.t_cebs_counter.objects.all() 
+        res = models.t_cebs_counter.objects.filter(tup_lable = bufferdata['tupLable']) 
         for line in res:
             res.tup_lable = line.tup_lable
             res.picbatchcnt = line.picbatchcnt  
@@ -658,8 +804,84 @@ class dct_classDbiViewDebs:
 
     def dft_dbi_fspc_read(self, inputData):
         print(inputData)
-        res = models.t_cebs_fspc.objects.all().values(inputData['tupLable']['mark_line'])
-        print("fspc_res",res)
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        res = models.t_cebs_fspc.objects.filter(tup_lable = bufferdata['tupLable'])
+        bufferout= {}
+        if "mark_line" in bufferdata.keys():
+            bufferout['mark_line'] = res[0].mark_line;
+        else:
+            pass
+        if "mark_width" in bufferdata.keys():
+            bufferout['mark_width'] = res[0].mark_width;
+        else:
+            pass
+        if "mark_area" in bufferdata.keys():
+            bufferout['mark_area'] = res[0].mark_area;
+        else:
+            pass
+        if "mark_dilate" in bufferdata.keys():
+            bufferout['mark_dilate'] = res[0].mark_dilate;
+        else:
+            pass
+        if "area_square_min" in bufferdata.keys():
+            bufferout['area_square_min'] = res[0].area_square_min;
+        else:
+            pass
+        if "area_squre_max" in bufferdata.keys():
+            bufferout['area_squre_max'] = res[0].area_squre_max;
+        else:
+            pass
+        if "area_dilate" in bufferdata.keys():
+            bufferout['area_dilate'] = res[0].area_dilate;
+        else:
+            pass
+        if "area_erode" in bufferdata.keys():
+            bufferout['area_erode'] = res[0].area_erode;
+        else:
+            pass
+        if "cell_square_min" in bufferdata.keys():
+            bufferout['cell_square_min'] = res[0].cell_square_min;
+        else:
+            pass
+        if "cell_square_max" in bufferdata.keys():
+            bufferout['cell_square_max'] = res[0].cell_square_max;
+        else:
+            pass
+        if "cell_raduis_min" in bufferdata.keys():
+            bufferout['cell_raduis_min'] = res[0].cell_raduis_min;
+        else:
+            pass
+        if "cell_raduis_max" in bufferdata.keys():
+            bufferout['cell_raduis_max'] = res[0].cell_raduis_max;
+        else:
+            pass
+        if "cell_dilate" in bufferdata.keys():
+            bufferout['cell_dilate'] = res[0].cell_dilate;
+        else:
+            pass
+        if "cell_erode" in bufferdata.keys():
+            bufferout['cell_erode'] = res[0].cell_erode;
+        else:
+            pass
+        if "cell_ce" in bufferdata.keys():
+            bufferout['cell_ce'] = res[0].cell_ce;
+        else:
+            pass
+        if "cell_distance" in bufferdata.keys():
+            bufferout['cell_distance'] = res[0].cell_distance;
+        else:
+            pass
+        if "pic_train_delay" in bufferdata.keys():
+            bufferout['pic_train_delay'] = res[0].pic_train_delay;
+        else:
+            pass
+        if "addup_set" in bufferdata.keys():
+            bufferout['addup_set'] = res[0].addup_set;
+        else:
+            pass
+        
+        print(bufferout)
         return True
 
     def dft_dbi_fspc_modify(self, inputData):
@@ -667,7 +889,7 @@ class dct_classDbiViewDebs:
         bufferdata = inputData['tupLable']
         print(bufferdata) 
         
-        res = models.t_cebs_fspc.objects.all() 
+        res = models.t_cebs_fspc.objects.filter(tup_lable = bufferdata['tupLable'])
         for line in res:
             res.tup_lable = line.tup_lable
             res.mark_line = line.mark_line  
@@ -885,16 +1107,56 @@ class dct_classDbiViewDebs:
 
     def dft_dbi_file_read(self, inputData):
         print(inputData)
-        res = models.t_cebs_batch_file.objects.all().values(inputData['tupLable']['batch_no'])
-        print("file_res",res)
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        res = models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'])
+        bufferout= {}
+#         for line in res:
+#             print(line.hole_no)
+
+        if "hole_no" in bufferdata.keys():
+            bufferout['hole_no'] = res[0].hole_no;
+
+        else:
+            pass
+        if "hole_name" in bufferdata.keys():
+            bufferout['hole_name'] = res[0].hole_name;
+        else:
+            pass
+        if "pic_file_name" in bufferdata.keys():
+            bufferout['pic_file_name'] = res[0].pic_file_name;
+        else:
+            pass
+        if "file_att" in bufferdata.keys():
+            bufferout['file_att'] = res[0].file_att;
+        else:
+            pass
+        if "vid_file_name" in bufferdata.keys():
+            bufferout['vid_file_name'] = res[0].vid_file_name;
+        else:
+            pass
+        if "classified_flag" in bufferdata.keys():
+            bufferout['classified_flag'] = res[0].classified_flag;
+        else:
+            pass
+        if "video_flag" in bufferdata.keys():
+            bufferout['video_flag'] = res[0].video_flag;
+        else:
+            pass
+        if "cfy_res" in bufferdata.keys():
+            bufferout['cfy_res'] = res[0].cfy_res;
+        else:
+            pass
+        print(bufferout)
         return True
+
 
     def dft_dbi_file_modify(self, inputData):
         print(inputData)
         bufferdata = inputData['tupLable']
         print(bufferdata) 
         
-        res = models.t_cebs_batch_file.objects.all() 
+        res = models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'])
         for line in res:
             res.batch_no = line.batch_no
             res.hole_no = line.hole_no  
@@ -969,8 +1231,8 @@ class dct_classDbiViewDebs:
                 cfy_res_val = bufferdata['cfy_res']
         else:
             cfy_res_val = res.cfy_res
-        models.t_cebs_batch_file.objects.filter().update(                       
-            batch_no = batch_no_val,hole_no = hole_no_val,hole_name = hole_name_val,pic_file_name = pic_file_name_val,\
+        models.t_cebs_batch_file.objects.filter(batch_no = batch_no_val).update(                       
+            hole_no = hole_no_val,hole_name = hole_name_val,pic_file_name = pic_file_name_val,\
             file_att = file_att_val,vid_file_name = vid_file_name_val,classified_flag = classified_flag_val,video_flag = video_flag_val,cfy_res = cfy_res_val)         
         return True 
 

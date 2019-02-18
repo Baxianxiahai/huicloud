@@ -218,11 +218,12 @@ class ClassHuirestDbaInputCmdHandler:
 
     #HUIREST
     def inputCmdHandlerEntry(self,inputStr):
+        
         if(inputStr['restTag'] != self.__HUIREST_SVTAG):
             self.achCtrlFlag=False
         if((inputStr['actionId'] < self.__HUIREST_ACTIONID_DBA_min) and (inputStr['actionId']>self.__HUIREST_ACTIONID_DBA_max)):
             self.achCtrlFlag=False
-#         print("this=",inputStr['parFlag'])
+#         print("this=",inputStr)
 #         print(inputStr['restTag'])
 #         print(inputStr['actionId'])
 #         print(inputStr['parContent'])
@@ -309,17 +310,29 @@ class ClassHuirestDbaInputCmdHandler:
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CCL:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_env:
+#                 if (inputStr['parContent']['cmd']=='read'):
+#                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_cebs_msg_process_env(inputStr['parContent'])
+                print("env flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
+#                 if (inputStr['parContent']['cmd']=='read'):
+#                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achContentResExt = proc.dft_cebs_msg_process_counter(inputStr['parContent'])
+                print("counter flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_fspc:
+#                 if (inputStr['parContent']['cmd']=='read'):
+#                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_cebs_msg_process_fspc(inputStr['parContent'])
+                print("fspc flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_file:
+#                 if (inputStr['parContent']['cmd']=='read'):
+#                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_cebs_msg_process_file(inputStr['parContent'])
+                print("file flag",self.achCtrlFlag)
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FAAM:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FSTT:
