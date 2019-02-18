@@ -1247,7 +1247,7 @@ class dct_classDbiViewDebs:
     def dft_dbi_file_delete(self, inputData):
         bufferdata = inputData['tupLable']
         print(bufferdata)
-        models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no']).delete()
+        models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'],hole_no = bufferdata['hole_no']).delete()
         return True
 
 
