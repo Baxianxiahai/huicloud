@@ -3,7 +3,6 @@ var http = require('http');
 
 var mosca = require('mosca');
 var MqttServer = new mosca.Server({
-
     http:{
         port:3000,
         bundle:true,
@@ -15,19 +14,16 @@ var MqttServer = new mosca.Server({
 var login = false;
 MqttServer.on('clientConnected', function(client){
     console.log('client connected', client.id);
-    if(client.id == "HUICOBUS_MQTT_CLIENTID_UIPRESENT"){
-        login = true;
-        console.log('UIPRESENT connected:', client.id);
-    }
-    if(client.id == "HUICOBUS_MQTT_CLIENTID_HCUENTRY"){
-        login = true;
-        console.log('HCUENTRY connected:', client.id);
-    }
-    if(client.id == "HUICOBUS_MQTT_CLIENTID_UIROUTER"){
-        login = true;
-        console.log('UIROUTER connected:', client.id);
-    }
+//    if(client.id == "HUICOBUS_MQTT_CLIENTID_UIPRESENT"){
+//        login = true;
+//        console.log('UIPRESENT connected:', client.id);
+//    }
+//    if(client.id == "HUICOBUS_MQTT_CLIENTID_HCUENTRY"){
+//        login = true;
+//        console.log('HCUENTRY connected:', client.id);
+//    }
 });
+
 
 MqttServer.on('published', function(packet, client) {
     var topic = packet.topic;
@@ -37,7 +33,7 @@ MqttServer.on('published', function(packet, client) {
 });
 
 MqttServer.on('ready', function(){
-    console.log('BFDF mqtt server is running...');
+    console.log('Xiaohui mqtt general server is running...');
 
     //MqttServer.authenticate = authenticate;  
 });
