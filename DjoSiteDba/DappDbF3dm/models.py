@@ -213,6 +213,34 @@ class dct_t_l3f3dm_hour_report_aqyc(models.Model):
     rssi = models.FloatField(default=0, verbose_name="信号强度")
     pwrind = models.FloatField(default=0, verbose_name="电量强度")
 
+class dct_t_l3f3dm_day_report_aqyc(models.Model):
+    sid = models.AutoField(primary_key=True)
+    dev_code = models.ForeignKey(dct_t_l3f2cm_device_inventory, on_delete=models.CASCADE,db_index=True)
+    site_code = models.ForeignKey(dct_t_l3f2cm_site_common, on_delete=models.CASCADE,null=True)
+    report_date = models.DateField(db_index=True)
+    tsp = models.FloatField(default=0, verbose_name="TSP")
+    tsp_max = models.FloatField(default=0, verbose_name="TSP最大值")
+    tsp_min = models.FloatField(default=0, verbose_name="TSP最小值")
+    pm01 = models.FloatField(default=0, verbose_name="PM0.1")
+    pm25 = models.FloatField(default=0, verbose_name="PM2.5")
+    pm10 = models.FloatField(default=0, verbose_name="PM10")
+    noise = models.FloatField(default=0, verbose_name="噪声")
+    temperature = models.FloatField(default=0, verbose_name="温度")
+    humidity = models.FloatField(default=0, verbose_name="湿度")
+    winddir = models.FloatField(default=0, verbose_name="风向")
+    windspd = models.FloatField(default=0, verbose_name="风速")
+    rain = models.FloatField(default=0, verbose_name="雨量")
+    airpresure = models.FloatField(default=0, verbose_name="气压")
+    lightstr = models.FloatField(default=0, verbose_name="光照")
+    so2 = models.FloatField(default=0, verbose_name="二氧化硫")
+    co1 = models.FloatField(default=0, verbose_name="一氧化碳")
+    no1 = models.FloatField(default=0, verbose_name="一氧化氮")
+    h2s = models.FloatField(default=0, verbose_name="硫化氢")
+    hcho = models.FloatField(default=0, verbose_name="酒精")
+    toxicgas = models.FloatField(default=0, verbose_name="煤气")
+    # rssi = models.FloatField(default=0, verbose_name="信号强度")
+    # pwrind = models.FloatField(default=0, verbose_name="电量强度")
+
     
     
     

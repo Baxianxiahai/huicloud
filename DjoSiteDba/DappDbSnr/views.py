@@ -79,9 +79,9 @@ class dct_classDappDbSnr:
         time_now = datetime.date.today()
         time_old = time_now - datetime.timedelta(days=delete_days)
         time_old=str(time_old)
-        print(time_old)
         l3time_old=time_old+" 23:59:59"
         dct_t_l2snr_temperature.objects.filter(report_data__lte=time_old).delete()
+        dct_t_l2snr_dust.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_humidity.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_winddir.objects.filter(report_data__lte=time_old).delete()
         dct_t_l2snr_windspd.objects.filter(report_data__lte=time_old).delete()
