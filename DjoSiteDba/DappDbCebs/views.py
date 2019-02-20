@@ -204,18 +204,153 @@ class dct_classDbiViewDebs:
             vis_clfy_gen_par3 = vis_clfy_gen_par3_val,vis_clfy_gen_par4 = vis_clfy_gen_par4_val,\
             )
         return True
-    #read LC：这里留下一个读取多行的demo  以后按照需要来进行完善   其他read都是读取一行
+    
     def dft_dbi_env_read(self, inputData):
         print(inputData)
         bufferdata = inputData['tupLable']
         print(bufferdata)
         print(bufferdata['tupLable'])
+        
+        res = models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable'])
+            
+        bufferout= {}
+        if res.exists():
+            for line in res:
+                res.workdir = line.workdir  
+                res.pic_origin = line.pic_origin
+                res.pic_middle = line.pic_middle
+                res.holeboard_type = line.holeboard_type
+                res.holeboard_left_bot_x = line.holeboard_left_bot_x
+                res.holeboard_left_bot_y = line.holeboard_left_bot_y
+                res.holeboard_right_up_x = line.holeboard_right_up_x
+                res.holeboard_right_up_y = line.holeboard_right_up_y
+                res.pic_take_fix_point_set = line.pic_take_fix_point_set
+                res.pic_classification_set = line.pic_classification_set
+                res.pic_auto_work_after_start_set = line.pic_auto_work_after_start_set
+                res.pic_auto_work_tti = line.pic_auto_work_tti
+                res.vis_small_low_limit = line.vis_small_low_limit
+                res.vis_small_mid_limit = line.vis_small_mid_limit
+                res.vis_mid_big_limit = line.vis_mid_big_limit
+                res.vis_big_upper_limit = line.vis_big_upper_limit
+                res.vis_res_addup_set = line.vis_res_addup_set
+                res.vis_cap_enable_set = line.vis_cap_enable_set
+                res.vis_cap_dur_in_sec = line.vis_cap_dur_in_sec
+                res.vis_clfy_gen_par1 = line.vis_clfy_gen_par1
+                res.vis_clfy_gen_par2 = line.vis_clfy_gen_par2
+                res.vis_clfy_gen_par3 = line.vis_clfy_gen_par3
+                res.vis_clfy_gen_par4 = line.vis_clfy_gen_par4
+        else:
+            return False   
+        
+        if "workdir" in bufferdata.keys():
+            bufferout['workdir'] = res.workdir;
+        else:
+            pass
+        if "pic_origin" in bufferdata.keys():
+            bufferout['pic_origin'] = res.pic_origin;
+        else:
+            pass
+        if "pic_middle" in bufferdata.keys():
+            bufferout['pic_middle'] = res.pic_middle;
+        else:
+            pass
+        if "holeboard_type" in bufferdata.keys():
+            bufferout['holeboard_type'] = res.holeboard_type;
+        else:
+            pass
+        if "holeboard_left_bot_x" in bufferdata.keys():
+            bufferout['holeboard_left_bot_x'] = res.holeboard_left_bot_x;
+        else:
+            pass
+        if "holeboard_left_bot_y" in bufferdata.keys():
+            bufferout['holeboard_left_bot_y'] = res.holeboard_left_bot_y;
+        else:
+            pass
+        if "holeboard_right_up_x" in bufferdata.keys():
+            bufferout['holeboard_right_up_x'] = res.holeboard_right_up_x;
+        else:
+            pass
+        if "holeboard_right_up_y" in bufferdata.keys():
+            bufferout['holeboard_right_up_y'] = res.holeboard_right_up_y;
+        else:
+            pass
+        if "pic_take_fix_point_set" in bufferdata.keys():
+            bufferout['pic_take_fix_point_set'] = res.pic_take_fix_point_set;
+        else:
+            pass
+        if "pic_classification_set" in bufferdata.keys():
+            bufferout['pic_classification_set'] = res.pic_classification_set;
+        else:
+            pass
+        if "pic_auto_work_after_start_set" in bufferdata.keys():
+            bufferout['pic_auto_work_after_start_set'] = res.pic_auto_work_after_start_set;
+        else:
+            pass
+        if "pic_auto_work_tti" in bufferdata.keys():
+            bufferout['pic_auto_work_tti'] = res.pic_auto_work_tti;
+        else:
+            pass
+        if "vis_small_low_limit" in bufferdata.keys():
+            bufferout['vis_small_low_limit'] = res.vis_small_low_limit;
+        else:
+            pass
+        if "vis_small_mid_limit" in bufferdata.keys():
+            bufferout['vis_small_mid_limit'] = res.vis_small_mid_limit;
+        else:
+            pass
+        if "vis_mid_big_limit" in bufferdata.keys():
+            bufferout['vis_mid_big_limit'] = res.vis_mid_big_limit;
+        else:
+            pass
+        if "vis_big_upper_limit" in bufferdata.keys():
+            bufferout['vis_big_upper_limit'] = res.vis_big_upper_limit;
+        else:
+            pass
+        if "vis_res_addup_set" in bufferdata.keys():
+            bufferout['vis_res_addup_set'] = res.vis_res_addup_set;
+        else:
+            pass
+        if "vis_cap_enable_set" in bufferdata.keys():
+            bufferout['vis_cap_enable_set'] = res.vis_cap_enable_set;
+        else:
+            pass
+        if "vis_cap_dur_in_sec" in bufferdata.keys():
+            bufferout['vis_cap_dur_in_sec'] = res.vis_cap_dur_in_sec;
+        else:
+            pass
+        if "vis_clfy_gen_par1" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par1'] = res.vis_clfy_gen_par1;
+        else:
+            pass
+        if "vis_clfy_gen_par2" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par2'] = res.vis_clfy_gen_par2;
+        else:
+            pass
+        if "vis_clfy_gen_par3" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par3'] = res.vis_clfy_gen_par3;
+        else:
+            pass
+        if "vis_clfy_gen_par4" in bufferdata.keys():
+            bufferout['vis_clfy_gen_par4'] = res.vis_clfy_gen_par4;
+        else:
+            pass
+            
+        return bufferout
+
+    #read LC：这里留下一个读取多行的demo  以后按照需要来进行完善   其他read都是读取一行
+    def dft_dbi_env_read_multi(self, inputData):
+        print(inputData)
+        bufferdata = inputData['tupLable']
+        print(bufferdata)
+        print(bufferdata['tupLable'])
         datalength = len(bufferdata['tupLable'])
+
         
         for i in range (0,datalength,1):
             res = models.t_cebs_env.objects.filter(tup_lable = bufferdata['tupLable'][i])
             
             bufferout= {}
+            data = {}
             if res.exists():
                 for line in res:
                     res.workdir = line.workdir  
@@ -336,7 +471,9 @@ class dct_classDbiViewDebs:
                 bufferout['vis_clfy_gen_par4'] = res.vis_clfy_gen_par4;
             else:
                 pass
-            print("read ret",bufferout)
+            #data = f'bufferout'
+            #data.append(bufferout[i])
+        print("data",data)    
         return bufferout
     
        
@@ -391,10 +528,7 @@ class dct_classDbiViewDebs:
             else:
                 workdir_val = bufferdata['workdir']
         else:
-            
             workdir_val = res.workdir
-            print(res.workdir)
-            print(workdir_val)
         if "pic_origin" in bufferdata.keys():
             if (res.pic_origin == bufferdata['pic_origin']):
                 pic_origin_val = res.pic_origin
@@ -1121,6 +1255,8 @@ class dct_classDbiViewDebs:
         bufferout= {}
         if res.exists():
             for line in res:
+#                 res.batch_no = line.batch_no
+#                 res.hole_no = line.hole_no
                 res.hole_name = line.hole_name
                 res.pic_file_name = line.pic_file_name
                 res.file_att = line.file_att
@@ -1128,11 +1264,17 @@ class dct_classDbiViewDebs:
                 res.classified_flag = line.classified_flag
                 res.video_flag = line.video_flag
                 res.cfy_res = line.cfy_res
-        
+                
+                print(line.pic_file_name)
+                print(res.pic_file_name)
         else:
             return False
+#         if "batch_no" in bufferdata.keys():
+#             bufferout['batch_no'] = res.batch_no;
+#         else:
+#             pass
 #         if "hole_no" in bufferdata.keys():
-#             bufferout['hole_no'] = res[0].hole_no;
+#             bufferout['hole_no'] = res.hole_no;
 #         else:
 #             pass
         if "hole_name" in bufferdata.keys():
@@ -1141,7 +1283,6 @@ class dct_classDbiViewDebs:
             pass
         if "pic_file_name" in bufferdata.keys():
             bufferout['pic_file_name'] = res.pic_file_name
-            print("bufferout['pic_file_name']",bufferout['pic_file_name'])
         else:
             pass
         if "file_att" in bufferdata.keys():
@@ -1174,7 +1315,7 @@ class dct_classDbiViewDebs:
         bufferdata = inputData['tupLable']
         print(bufferdata) 
         
-        res = models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'])
+        res = models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'],hole_no = bufferdata['hole_no'])
         if res.exists():
             for line in res:
                 res.batch_no = line.batch_no
@@ -1252,8 +1393,8 @@ class dct_classDbiViewDebs:
                 cfy_res_val = bufferdata['cfy_res']
         else:
             cfy_res_val = res.cfy_res
-        models.t_cebs_batch_file.objects.filter(batch_no = batch_no_val).update(                       
-            hole_no = hole_no_val,hole_name = hole_name_val,pic_file_name = pic_file_name_val,\
+        models.t_cebs_batch_file.objects.filter(batch_no = batch_no_val,hole_no = hole_no_val).update(                       
+            hole_name = hole_name_val,pic_file_name = pic_file_name_val,\
             file_att = file_att_val,vid_file_name = vid_file_name_val,classified_flag = classified_flag_val,video_flag = video_flag_val,cfy_res = cfy_res_val)         
         return True 
 
