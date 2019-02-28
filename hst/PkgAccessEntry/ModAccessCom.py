@@ -18,6 +18,8 @@ import socket
 #DEFINE ALL PROJECT AS TEST
 GL_PRJ_SET_HCU_TEST_WIN     = 1     #HCU测试-WINDOWS
 GL_PRJ_SET_HCU_TEST_MATE    = 2     #HCU测试-MATE
+GL_PRJ_SET_TUP_TEST_WIN     = 3     #TUP测试-WIN
+GL_PRJ_SET_TUP_TEST_UBUNTU  = 4     #TUP测试-UBUNTU
 #后台服务
 GL_PRJ_SET_MFUN_CENTOS      = 10     #后台服务
 #流水线
@@ -113,7 +115,25 @@ class clsL0_PrjCfgPar():
         PRJ_SER_SENSOR = True
         PRJ_SER_SPECIAL = True        
         PRJ_SER_MDC = True        
-        PRJ_SER_MPLAYER = True        
+        PRJ_SER_MPLAYER = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_TUP_TEST_WIN:
+        PRJ_SER_PRINTER = True
+        PRJ_SER_DBA = True
+        PRJ_SER_VISION = True
+        PRJ_SER_AIWGT = True
+        PRJ_SER_SENSOR = True
+        PRJ_SER_SPECIAL = True        
+        PRJ_SER_MDC = True        
+        PRJ_SER_MPLAYER = True
+    if GL_PRJ_CUR_SET == GL_PRJ_SET_TUP_TEST_UBUNTU:
+        PRJ_SER_PRINTER = True
+        PRJ_SER_DBA = True
+        PRJ_SER_VISION = True
+        PRJ_SER_AIWGT = True
+        PRJ_SER_SENSOR = True
+        PRJ_SER_SPECIAL = True        
+        PRJ_SER_MDC = True        
+        PRJ_SER_MPLAYER = True
     if GL_PRJ_CUR_SET == GL_PRJ_SET_BFSL_UBUNTU:
         PRJ_SER_PRINTER = True
         PRJ_SER_AIWGT = True

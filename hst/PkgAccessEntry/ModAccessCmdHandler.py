@@ -50,6 +50,7 @@ if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MDC == True):
     from PkgHstMdc import ModMdcGeneral
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MPLAYER == True):
     from PkgHstMplayer import ModMplayerGeneral
+    from PkgHstMplayer import ModMplayerVrgls
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FACEID == True):
     from PkgHstFaceid import ModFaceidGeneral
 if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CARNUMID == True):
@@ -723,6 +724,8 @@ class ClassHuirestMplayerInputCmdHandler:
     __HUIREST_ACTIONID_MPLAYER_play_ctrl                = 15000
     __HUIREST_ACTIONID_MPLAYER_refresh_list             = 15001
     __HUIREST_ACTIONID_MPLAYER_fetch_status             = 15002
+    __HUIREST_ACTIONID_MPLAYER_vrgls_ctrl               = 15010
+    __HUIREST_ACTIONID_MPLAYER_vrgls_data               = 15011
     __HUIREST_ACTIONID_MPLAYERC_max                     = 15999
 
     achCtrlFlag = False
@@ -756,6 +759,9 @@ class ClassHuirestMplayerInputCmdHandler:
                 self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])
             elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_MPLAYER_fetch_status):
                 proc = ModMplayerGeneral.ClassModMplayerFetchStatus()
+                self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
+            elif (inputStr['actionId'] == self.__HUIREST_ACTIONID_MPLAYER_vrgls_data):
+                proc = ModMplayerVrgls.ClassModMplayerVrglsData()
                 self.achCtrlFlag = proc.cmdHandleProcedure(inputStr['parContent'])          
             else:
                 print("ClassHuirestMplayerInputCmdHandler: Error ActionId Received! Min-Max=(%d, %d) while actual=%d" % (self.__HUIREST_ACTIONID_MPLAYER_min, self.__HUIREST_ACTIONID_MPLAYER_max, inputStr['actionId']))
