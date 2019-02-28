@@ -9,6 +9,7 @@ import io
 
 from DappDbCebs import models
 from django.template.defaultfilters import length
+#from test.badsyntax_future3 import result
 
 # Create your views here.
 class dct_classDbiViewDebs:
@@ -1406,14 +1407,97 @@ class dct_classDbiViewDebs:
 
 
 
+    def dft_dbi_user_sheet_add(self, inputData):
+        uid_val = inputData['uid']
+        login_name_val = inputData['login_name']
+        pass_word_val = inputData['pass_word']
+        grade_level_val = inputData['grade_level']
+        email_val = inputData['email']
+        memo_val = inputData['memo']
+        models.t_cebs_user_sheet.objects.create(
+            uid = uid_val,login_name = login_name_val,pass_word = pass_word_val,
+            grade_level = grade_level_val,email = email_val,memo = memo_val         
+            )
 
 
+    def dft_dbi_product_profile_add(self, inputData):
+        dev_code_val = inputData['dev_code']
+        hw_ver_val= inputData['hw_ver']
+        sw_ver_val = inputData['sw_ver']
+        authtoken_val = inputData['authtoken']
+        models.t_cebs_product_profile.objects.create(
+            dev_code = dev_code_val, hw_ver = hw_ver_val,
+            sw_ver = sw_ver_val,authtoken = authtoken_val
+            )
 
-
-
-
-
-
-
-
-
+    def dft_dbi_cali_profile_add(self, inputData):
+        platetype_val = inputData['platetype']
+        left_bot_x_val = inputData['left_bot_x']
+        left_bot_y_val = inputData['left_bot_y']
+        right_up_x_val = inputData['right_up_x']
+        right_up_y_val = inputData['right_up_y']
+        accspeed_val = inputData['accspeed']
+        decspeed_val = inputData['decspeed']
+        movespeed_val = inputData['movespeed']
+        zero_spd_val = inputData['zero_spd']
+        zero_dec_val = inputData['zero_dec']
+        back_step_val = inputData['back_step']
+        foreignkeyname = inputData['uid']
+        print(inputData)
+        print(foreignkeyname)
+        result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+        print(result[0].login_name)
+        if result.exists():
+            uid_val = result[0].uid
+            print(uid_val)
+        #注意：子表中得加id    
+        models.t_cebs_cali_profile.objects.create(
+            platetype = platetype_val, uid_id = uid_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            right_up_x = right_up_x_val, right_up_y = right_up_y_val, accspeed = accspeed_val,
+            decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
+            zero_dec = zero_dec_val, back_step = back_step_val
+            )
+            
+    def dft_dbi_object_profil_add(self, inputData):
+        objname_val = inputData['objname']
+        objtype_val = inputData['objtype']
+        dir_origin_val = inputData['dir_origin']
+        dir_middle_val = inputData['dir_middle']
+        memo_val = inputData['memo']
+        foreignkeyname = inputData['uid']
+        result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+        if result.exists():
+            uid_val = result[0].uid
+        models.t_cebs_object_profile.objects.create(
+            objname = objname_val, objtype = objtype_val, uid_id = uid_val, dir_origin = dir_origin_val,
+            dir_middle = dir_middle_val,memo = memo_val
+            )
+        
+    def dft_dbi_config_eleg_add(self, inputData):
+        fixpoint_val = inputData['fixpoint']
+        autovideo_val = inputData['autovideo']
+        autodist_val = inputData['autodist']
+        addset_val = inputData['addset']
+        autocap_val = inputData['autocap']
+        autoperiod_val = inputData['autoperiod']
+        videotime_val = inputData['videotime']
+        slimit_val = inputData['slimit']
+        smlimit_val = inputData['smlimit']
+        mblimit_val = inputData['mblimit']
+        blimit_val = inputData['blimit']
+        foreignkeyname = inputData['objid']
+        print(foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        if result.exists():
+           objid_val = result[0].uid.uid 
+#         result = models.t_cebs_config_eleg.objects.filter(confid = foreignkeyname)
+#         if result.exists():
+#             objid_val = result[0].objid.uid.uid
+        print(objid_val)
+        models.t_cebs_config_eleg.objects.create(
+            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
+            addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
+            slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val
+        )
+        
+        

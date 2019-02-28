@@ -141,7 +141,7 @@ class t_cebs_product_profile(models.Model):
     mfd = models.DateTimeField(auto_now=True)
     
 class t_cebs_cali_profile(models.Model):
-    platetype = models.IntegerField(default=5,null=True)
+    dir_originplatetype = models.IntegerField(default=5,null=True)
     calitime = models.DateTimeField(auto_now=True)
     uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
     left_bot_x = models.IntegerField(default=0)

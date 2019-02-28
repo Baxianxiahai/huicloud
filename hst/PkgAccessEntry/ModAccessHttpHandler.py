@@ -144,8 +144,8 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestCewormInputCmdHandler()
             
             #NOT EXIST OPTION
-            else:
-                print("HUIREST: Receiving restTag domain error!")
+#             else:
+#                 print("HUIREST: Receiving restTag domain error!")
                 return
         #准备继续干活
         varProcessResult = varClassInputHandler.inputCmdHandlerEntry(jsonInput)
