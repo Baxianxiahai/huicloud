@@ -635,74 +635,142 @@ class ClassDbaMainEntry():
             result=""
         return result
 
-    def dft_cebs_msg_process_env(self, inputData):
+    def dft_cebs_msg_process_user_sheet(self, inputData):
         if inputData['cmd']=='add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_env_add(inputData)
+            result=dbaCebsObj.dft_dbi_user_sheet_add(inputData)
         elif inputData['cmd']=='read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_env_read(inputData)
+            result=dbaCebsObj.dft_dbi_user_sheet_read(inputData)
         elif inputData['cmd']=='modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_env_modify(inputData)
+            result=dbaCebsObj.dft_dbi_user_sheet_modify(inputData)
         elif inputData['cmd']=='delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_env_delete(inputData)
+            result=dbaCebsObj.dft_dbi_user_sheet_delete(inputData)
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
 
-    def dft_cebs_msg_process_counter(self, inputData):
+    def dft_cebs_msg_process_product_profile(self, inputData):
         if inputData['cmd']=='add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_counter_add(inputData)
+            result=dbaCebsObj.dft_dbi_product_profile_add(inputData)
         elif inputData['cmd']=='read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_counter_read(inputData)
+            result=dbaCebsObj.dft_dbi_product_profile_read(inputData)
         elif inputData['cmd']=='modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_counter_modify(inputData)
+            result=dbaCebsObj.dft_dbi_product_profile_modify(inputData)
         elif inputData['cmd']=='delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_counter_delete(inputData)
+            result=dbaCebsObj.dft_dbi_product_profile_delete(inputData)
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
 
-    def dft_cebs_msg_process_fspc(self, inputData):
+    def dft_cebs_msg_process_cali_profile(self, inputData):
         if inputData['cmd']=='add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_fspc_add(inputData)
+            result=dbaCebsObj.dft_dbi_cali_profile_add(inputData)
         elif inputData['cmd']=='read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_fspc_read(inputData)
+            result=dbaCebsObj.dft_dbi_cali_profile_read(inputData)
         elif inputData['cmd']=='modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_fspc_modify(inputData)
+            result=dbaCebsObj.dft_dbi_cali_profile_modify(inputData)
         elif inputData['cmd']=='delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_fspc_delete(inputData)
+            result=dbaCebsObj.dft_dbi_cali_profile_delete(inputData)
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
 
-    def dft_cebs_msg_process_file(self, inputData):
+    def dft_cebs_msg_process_object_profile(self, inputData):
         if inputData['cmd']=='add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_file_add(inputData)
+            result=dbaCebsObj.dft_dbi_object_profile_add(inputData)
         elif inputData['cmd']=='read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_file_read(inputData)
+            result=dbaCebsObj.dft_dbi_object_profile_read(inputData)
         elif inputData['cmd']=='modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_file_modify(inputData)
+            result=dbaCebsObj.dft_dbi_object_profile_modify(inputData)
         elif inputData['cmd']=='delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_file_delete(inputData)
+            result=dbaCebsObj.dft_dbi_object_profile_delete(inputData)
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
     
+    def dft_cebs_msg_process_config_eleg(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_eleg_add(inputData)
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_eleg_read(inputData)
+        elif inputData['cmd']=='modify':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_eleg_modify(inputData)
+        elif inputData['cmd']=='delete':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_eleg_delete(inputData)
+        else:
+            result= {'res':False, 'reason':'not exist command'}
+        return result
+    
+    def dft_cebs_msg_process_config_stackcell(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_stackcell_add(inputData)
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_stackcell_read(inputData)
+        elif inputData['cmd']=='modify':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_stackcell_modify(inputData)
+        elif inputData['cmd']=='delete':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_config_stackcell_delete(inputData)
+        else:
+            result= {'res':False, 'reason':'not exist command'}
+        return result
+    
+    def dft_cebs_msg_process_result_eleg(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_eleg_add(inputData)
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_eleg_read(inputData)
+        elif inputData['cmd']=='modify':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_eleg_modify(inputData)
+        elif inputData['cmd']=='delete':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_eleg_delete(inputData)
+        else:
+            result= {'res':False, 'reason':'not exist command'}
+        return result
+    
+    
+    def dft_cebs_msg_process_result_stackcell(self, inputData):
+        if inputData['cmd']=='add':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_stackcell_add(inputData)
+        elif inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_stackcell_read(inputData)
+        elif inputData['cmd']=='modify':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_stackcell_modify(inputData)
+        elif inputData['cmd']=='delete':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_result_stackcell_delete(inputData)
+        else:
+            result= {'res':False, 'reason':'not exist command'}
+        return result
     
     def dft_F12Iwdp_Send_Message(self,inputData):
 #         print(inputData)

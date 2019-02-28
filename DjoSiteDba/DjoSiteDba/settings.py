@@ -294,7 +294,44 @@ elif (LOCAL_WK_TARGET == 4):
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
+        },
+        'cebs': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+            }
         }
+    DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
+    DATABASE_APPS_MAPPING={
+        'admin': 'default',
+        'auth': 'default',
+        'contenttypes': 'default',
+        'sessions': 'default',
+        'messages': 'default',
+        'staticfiles': 'default',
+        'DappDbF1sym':'default',
+        'DappDbF2cm':'default',
+        'DappDbF3dm':'default',
+        'DappDbF4icm':'default',
+        'DappDbF5fm':'default',
+        'DappDbF6pm':'default',
+        'DappDbF7ads':'default',
+        'DappDbF8psm':'default',
+        'DappDbF9gism':'default',
+        'DappDbF10oam':'default',
+        'DappDbF11faam':'default',
+        'DappDbFxprcm':'default',
+        'DappDbSnr':'default',
+        'DappDbCebs':'cebs',
+        
     }    
 
 #FORMAL SERVER DEPLOYMENT

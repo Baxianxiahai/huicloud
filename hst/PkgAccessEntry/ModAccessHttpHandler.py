@@ -85,61 +85,61 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
             if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PRINTER == True):
                 if (jsonInput['restTag'] == 'printer'): 
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestPrinterInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_DBA == True):
                 if (jsonInput['restTag'] == 'dba'): 
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestDbaInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VISION == True):
                 if (jsonInput['restTag'] == 'vision'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestVisionInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_AIWGT == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_AIWGT == True):
                 if (jsonInput['restTag'] == 'aiwgt'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestAiwgtInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SENSOR == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SENSOR == True):
                 if (jsonInput['restTag'] == 'sensor'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestSensorInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_SPECIAL == True):
                 if (jsonInput['restTag'] == 'special'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestSpecialInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MDC == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MDC == True):
                 if (jsonInput['restTag'] == 'mdc'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestMdcInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MPLAYER == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_MPLAYER == True):
                 if (jsonInput['restTag'] == 'mplayer'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestMplayerInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FACEID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FACEID == True):
                 if (jsonInput['restTag'] == 'faceid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestFaceidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CARNUMID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CARNUMID == True):
                 if (jsonInput['restTag'] == 'carnumid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestCarnumidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_BILLID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_BILLID == True):
                 if (jsonInput['restTag'] == 'billid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestBillidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_INVOICEID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_INVOICEID == True):
                 if (jsonInput['restTag'] == 'involiceid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestInvoiceidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_STEPID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_STEPID == True):
                 if (jsonInput['restTag'] == 'stepid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestStepidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PATID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_PATID == True):
                 if (jsonInput['restTag'] == 'patid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestPatidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FRUITID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FRUITID == True):
                 if (jsonInput['restTag'] == 'fruitid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestFruitidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VEGID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_VEGID == True):
                 if (jsonInput['restTag'] == 'vegid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestVegidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FLOWERID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_FLOWERID == True):
                 if (jsonInput['restTag'] == 'flowerid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestFloweridInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADWID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADWID == True):
                 if (jsonInput['restTag'] == 'roadwid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestRoadwidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADFID == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_ROADFID == True):
                 if (jsonInput['restTag'] == 'roadfid'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestRoadfidInputCmdHandler()
-            elif (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CEWORM == True):
+            if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CEWORM == True):
                 if (jsonInput['restTag'] == 'ceworm'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestCewormInputCmdHandler()
             

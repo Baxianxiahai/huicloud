@@ -194,10 +194,14 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_AQYC                     = 0X0D48
     __HUIREST_ACTIONID_DBA_BFDF                     = 0X0DAC
     __HUIREST_ACTIONID_DBA_BFHS                     = 0X0E10
-    __HUIREST_ACTIONID_DBA_CEBS_env                 = 0X0ED8
-    __HUIREST_ACTIONID_DBA_CEBS_counter             = 0X0ED9
-    __HUIREST_ACTIONID_DBA_CEBS_fspc                = 0X0EDA
-    __HUIREST_ACTIONID_DBA_CEBS_file                = 0X0EDB
+    __HUIREST_ACTIONID_DBA_CEBS_user_sheet          = 0X0ED7
+    __HUIREST_ACTIONID_DBA_CEBS_product_profile     = 0X0ED8
+    __HUIREST_ACTIONID_DBA_CEBS_cali_profile        = 0X0ED9
+    __HUIREST_ACTIONID_DBA_CEBS_object_profile      = 0X0EDA
+    __HUIREST_ACTIONID_DBA_CEBS_config_eleg         = 0X0EDB
+    __HUIREST_ACTIONID_DBA_CEBS_config_stackcell    = 0X0EDC
+    __HUIREST_ACTIONID_DBA_CEBS_result_eleg         = 0X0EDD
+    __HUIREST_ACTIONID_DBA_CEBS_result_stackcell    = 0X0EDE
     __HUIREST_ACTIONID_DBA_FAAM                     = 0X0F3C
     __HUIREST_ACTIONID_DBA_FSTT                     = 0X0FA0
     __HUIREST_ACTIONID_DBA_TEST                     = 0X1004
@@ -309,30 +313,46 @@ class ClassHuirestDbaInputCmdHandler:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CCL:
                 self.achProcResult = False
-            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_env:
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_user_sheet:
                 if (inputStr['parContent']['cmd']=='read'):
                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achContentResExt = proc.dft_cebs_msg_process_env(inputStr['parContent'])
-                print("env flag",self.achCtrlFlag)
-            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_counter:
+                self.achContentResExt = proc.dft_cebs_msg_process_user_sheet(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_product_profile:
                 if (inputStr['parContent']['cmd']=='read'):
                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achContentResExt = proc.dft_cebs_msg_process_counter(inputStr['parContent'])
-                print("counter flag",self.achCtrlFlag)
-            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_fspc:
+                self.achContentResExt = proc.dft_cebs_msg_process_product_profile(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_cali_profile:
                 if (inputStr['parContent']['cmd']=='read'):
                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achContentResExt = proc.dft_cebs_msg_process_fspc(inputStr['parContent'])
-                print("fspc flag",self.achCtrlFlag)
-            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_file:
+                self.achContentResExt = proc.dft_cebs_msg_process_cali_profile(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_object_profile:
                 if (inputStr['parContent']['cmd']=='read'):
                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
-                self.achContentResExt = proc.dft_cebs_msg_process_file(inputStr['parContent'])
-                print("file flag",self.achCtrlFlag)
+                self.achContentResExt = proc.dft_cebs_msg_process_object_profile(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_config_eleg:
+                if (inputStr['parContent']['cmd']=='read'):
+                    self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.achContentResExt = proc.dft_cebs_msg_process_config_eleg(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_config_stackcell:
+                if (inputStr['parContent']['cmd']=='read'):
+                    self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.achContentResExt = proc.dft_cebs_msg_process_config_stackcell(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_result_eleg:
+                if (inputStr['parContent']['cmd']=='read'):
+                    self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.achContentResExt = proc.dft_cebs_msg_process_result_eleg(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_result_stackcell:
+                if (inputStr['parContent']['cmd']=='read'):
+                    self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.achContentResExt = proc.dft_cebs_msg_process_result_stackcell(inputStr['parContent'])
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FAAM:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FSTT:
