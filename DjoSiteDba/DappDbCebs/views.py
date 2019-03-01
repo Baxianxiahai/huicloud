@@ -1424,7 +1424,23 @@ class dct_classDbiViewDebs:
         uid = inputData['uid']
         models.t_cebs_user_sheet.objects.filter(uid = uid).delete()
         return True
-    
+
+    def dft_dbi_user_sheet_read(self, inputData):
+        uid = inputData['uid']
+        bufferout = {}
+        result = models.t_cebs_user_sheet.objects.filter(uid = uid)
+        if result.exists():
+            bufferout['login_name'] = result[0].login_name
+            bufferout['pass_word'] = result[0].pass_word
+            bufferout['grade_level'] = result[0].grade_level
+            bufferout['reg_date'] = result[0].reg_date.strftime('%Y-%m-%d %H:%M:%S')
+            bufferout['email'] = result[0].email
+            bufferout['memo'] = result[0].memo
+            print(bufferout)
+            return bufferout        
+        
+        
+            
     def dft_dbi_product_profile_add(self, inputData):
         dev_code_val = inputData['dev_code']
         hw_ver_val= inputData['hw_ver']
@@ -1440,7 +1456,21 @@ class dct_classDbiViewDebs:
         id = inputData['id']
         models.t_cebs_product_profile.objects.filter(id =id).delete()
         return True
-    
+
+    def dft_dbi_product_profile_read(self, inputData):
+        id = inputData['id']
+        bufferout = {}
+        result = models.t_cebs_product_profile.objects.filter(id = id)
+        if result.exists():
+            bufferout['dev_code'] = result[0].dev_code
+            bufferout['hw_ver'] = result[0].hw_ver
+            bufferout['sw_ver'] = result[0].sw_ver
+            bufferout['authtoken'] = result[0].authtoken
+            bufferout['mfd'] = result[0].mfd.strftime('%Y-%m-%d %H:%M:%S')
+            print(bufferout)
+            return bufferout
+        
+          
     def dft_dbi_cali_profile_add(self, inputData):
         platetype_val = inputData['platetype']
         left_bot_x_val = inputData['left_bot_x']
@@ -1474,7 +1504,28 @@ class dct_classDbiViewDebs:
         id = inputData['id']
         models.t_cebs_cali_profile.objects.filter(id = id).delete()
         return True
-        
+
+    def dft_dbi_cali_profile_read(self, inputData):  
+        id = inputData['id']
+        bufferout = {}
+        result = models.t_cebs_cali_profile.objects.filter(id = id)
+        if result.exists():
+            bufferout['platetype'] = result[0].platetype
+            bufferout['calitime'] = result[0].calitime.strftime('%Y-%m-%d %H:%M:%S')
+            bufferout['uid'] = result[0].uid_id
+            bufferout['left_bot_x'] = result[0].left_bot_x
+            bufferout['left_bot_y'] = result[0].left_bot_y
+            bufferout['right_up_x'] = result[0].right_up_x
+            bufferout['right_up_y'] = result[0].right_up_y
+            bufferout['accspeed'] = result[0].accspeed
+            bufferout['decspeed'] = result[0].decspeed
+            bufferout['movespeed'] = result[0].movespeed
+            bufferout['zero_spd'] = result[0].zero_spd
+            bufferout['zero_dec'] = result[0].zero_dec
+            bufferout['back_step'] = result[0].back_step
+            print(bufferout)
+            return bufferout
+                     
     def dft_dbi_object_profil_add(self, inputData):
         objname_val = inputData['objname']
         objtype_val = inputData['objtype']
@@ -1495,7 +1546,22 @@ class dct_classDbiViewDebs:
         objid = inputData['objid']
         models.t_cebs_object_profile.objects.filter(objid = objid).delete()
         return True   
-      
+
+    def dft_dbi_object_profile_read(self, inputData):
+        objid = inputData['objid']
+        bufferout = {}
+        result = models.t_cebs_object_profile.objects.filter(objid = objid)
+        if result.exists():
+            bufferout['objname'] = result[0].objname
+            bufferout['objtype'] = result[0].objtype
+            bufferout['uid'] = result[0].uid_id
+            bufferout['dir_origin'] = result[0].dir_origin
+            bufferout['dir_middle'] = result[0].dir_middle
+            bufferout['memo'] = result[0].memo
+            print(bufferout)
+            return bufferout
+                   
+                 
     def dft_dbi_config_eleg_add(self, inputData):
         fixpoint_val = inputData['fixpoint']
         autovideo_val = inputData['autovideo']
@@ -1512,23 +1578,41 @@ class dct_classDbiViewDebs:
         print(foreignkeyname)
         result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
         if result.exists():
-           objid_val = result[0].uid.uid 
-#         result = models.t_cebs_config_eleg.objects.filter(confid = foreignkeyname)
-#         if result.exists():
-#             objid_val = result[0].objid.uid.uid
-        print(objid_val)
+            objid_val = result[0].uid.uid 
+            print(objid_val)
         models.t_cebs_config_eleg.objects.create(
             objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val
-        )
+            )
         return True
-    
+
+    def dft_dbi_config_eleg_read(self, inputData):
+        confid = inputData['confid']
+        bufferout = {}
+        result = models.t_cebs_config_eleg.objects.filter(confid = confid) 
+        if result.exists():
+            bufferout['objid'] = result[0].objid_id
+            bufferout['fixpoint'] = result[0].fixpoint
+            bufferout['autovideo'] = result[0].autovideo
+            bufferout['autodist'] = result[0].autodist
+            bufferout['addset'] = result[0].addset
+            bufferout['autocap'] = result[0].autocap
+            bufferout['autoperiod'] = result[0].autoperiod
+            bufferout['videotime'] = result[0].videotime
+            bufferout['slimit'] = result[0].slimit
+            bufferout['smlimit'] = result[0].smlimit
+            bufferout['mblimit'] = result[0].mblimit
+            bufferout['blimit'] = result[0].blimit
+            print(bufferout)
+            return bufferout
+        
     def dft_dbi_config_eleg_delete(self, inputData):
         confid = inputData['confid']
         models.t_cebs_config_eleg.objects.filter(confid = confid).delete()
         return True   
-    
+            
+                
     def dft_dbi_config_stackcell_add(self, inputData):
         addset_val = inputData['addset']  
         line_area_val = inputData['line_area']
@@ -1552,7 +1636,7 @@ class dct_classDbiViewDebs:
         print(foreignkeyname)
         result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
         if result.exists():
-           objid_val = result[0].uid.uid
+            objid_val = result[0].uid.uid
         models.t_cebs_config_stackcell.objects.create(
             objid_id = objid_val, addset = addset_val,  line_area = line_area_val, line_width = line_width_val, line_long = line_long_val,
             line_dilate = line_dilate_val, area_up = area_up_val,  area_low = area_low_val, area_dilate = area_dilate_val,
@@ -1566,7 +1650,35 @@ class dct_classDbiViewDebs:
         confid = inputData['confid']
         models.t_cebs_config_stackcell.objects.filter(confid = confid).delete()
         return True
-    
+
+    def dft_dbi_config_stackcell_read(self, inputData):
+        confid = inputData['confid']
+        bufferout = {}
+        result = models.t_cebs_config_stackcell.objects.filter(confid = confid) 
+        if result.exists():
+            bufferout['objid'] = result[0].objid_id
+            bufferout['addset'] = result[0].addset
+            bufferout['line_area'] = result[0].line_area
+            bufferout['line_width'] = result[0].line_width
+            bufferout['line_long'] = result[0].line_long
+            bufferout['line_dilate'] = result[0].line_dilate
+            bufferout['area_up'] = result[0].area_up
+            bufferout['area_low'] = result[0].area_low
+            bufferout['area_dilate'] = result[0].area_dilate
+            bufferout['area_erode'] = result[0].area_erode
+            bufferout['square_min'] = result[0].square_min
+            bufferout['square_max'] = result[0].square_max
+            bufferout['radius_min'] = result[0].radius_min
+            bufferout['radius_max'] = result[0].radius_max
+            bufferout['cell_dilate'] = result[0].cell_dilate
+            bufferout['cell_erode'] = result[0].cell_erode
+            bufferout['cell_round'] = result[0].cell_round
+            bufferout['cell_distance'] = result[0].cell_distance
+            bufferout['train_delay'] = result[0].train_delay
+            print(bufferout)
+            return bufferout    
+        
+        
     def dft_dbi_result_eleg_add(self, inputData):
         snbatch_val = inputData['snbatch']
         snhole_val = inputData['snhole'] 
@@ -1588,7 +1700,7 @@ class dct_classDbiViewDebs:
         print(foreignkeyname)
         result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
         if result.exists():
-           confid_val = result[0].uid.uid
+            confid_val = result[0].uid.uid
         models.t_cebs_result_eleg.objects.create(
             confid_id = confid_val, snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,
             name_after = name_after_val, bigalive = bigalive_val, bigdead = bigdead_val, midalive = midalive_val, middead = middead_val,
@@ -1601,7 +1713,34 @@ class dct_classDbiViewDebs:
         sid = inputData['sid']
         models.t_cebs_result_eleg.objects.filter(sid = sid).delete()
         return True
-          
+
+    def dft_dbi_result_eleg_read(self, inputData):
+        sid = inputData['sid']
+        bufferout= {}
+        result = models.t_cebs_result_eleg.objects.filter(sid = sid)
+        if result.exists():
+            bufferout['confid'] = result[0].confid_id
+            bufferout['snbatch'] = result[0].snbatch
+            bufferout['snhole'] = result[0].snhole
+            bufferout['name_before'] = result[0].name_before
+            bufferout['cap_time'] = result[0].cap_time.strftime('%Y-%m-%d %H:%M:%S') 
+            bufferout['name_after'] = result[0].name_after
+            bufferout['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') 
+            bufferout['bigalive'] = result[0].bigalive
+            bufferout['bigdead'] = result[0].bigdead  
+            bufferout['midalive'] = result[0].midalive 
+            bufferout['middead'] = result[0].middead 
+            bufferout['smaalive'] = result[0].smaalive 
+            bufferout['smdead'] = result[0].smdead 
+            bufferout['totalalive'] = result[0].totalalive 
+            bufferout['totaldead'] = result[0].totaldead 
+            bufferout['totalsum'] = result[0].totalsum 
+            bufferout['doneflag'] = result[0].doneflag 
+            bufferout['memo'] = result[0].memo 
+            print(bufferout)
+            return bufferout 
+                   
+                  
     def dft_dbi_result_stackcell_add(self, inputData):
         file_attr_val = inputData['file_attr'] 
         name_before_val = inputData['name_before'] 
@@ -1614,7 +1753,7 @@ class dct_classDbiViewDebs:
         print(foreignkeyname)
         result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
         if result.exists():
-           confid_val = result[0].uid.uid
+            confid_val = result[0].uid.uid
         models.t_cebs_result_stackcell.objects.create(
             confid_id = confid_val,file_attr = file_attr_val, name_before = name_before_val, name_after = name_after_val,
             totalnbr = totalnbr_val, validnbr = validnbr_val, doneflag = doneflag_val, memo = memo_val              
@@ -1626,5 +1765,52 @@ class dct_classDbiViewDebs:
         models.t_cebs_result_stackcell.objects.filter(sid = sid).delete()         
         return True
           
-          
-          
+    def dft_dbi_result_stackcell_read(self, inputData):            
+        sid = inputData['sid']
+        bufferout= {}
+        result = models.t_cebs_result_stackcell.objects.filter(sid = sid)
+        if result.exists():
+            bufferout['confid'] = result[0].confid_id
+            bufferout['file_attr'] = result[0].file_attr
+            bufferout['name_before'] = result[0].name_before
+            bufferout['name_after'] = result[0].name_after
+            bufferout['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') 
+            bufferout['totalnbr'] = result[0].totalnbr
+            bufferout['validnbr'] = result[0].validnbr
+            bufferout['doneflag'] = result[0].doneflag
+            bufferout['memo'] = result[0].memo            
+#             if "file_attr" in inputData.keys():
+#                 bufferout['file_attr'] = result[0].file_attr;
+#             else:
+#                 pass
+#             if "name_before" in inputData.keys():
+#                 bufferout['name_before'] = result[0].name_before;
+#             else:
+#                 pass
+#             if "name_after" in inputData.keys():
+#                 bufferout['name_after'] = result[0].name_after;
+#             else:
+#                 pass
+#             if "rec_time" in inputData.keys():
+#                 bufferout['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') ;
+#             else:
+#                 pass
+#             if "totalnbr" in inputData.keys():
+#                 bufferout['totalnbr'] = result[0].totalnbr;
+#             else:
+#                 pass
+#             if "validnbr" in inputData.keys():
+#                 bufferout['validnbr'] = result[0].validnbr;
+#             else:
+#                 pass
+#             if "doneflag" in inputData.keys():
+#                 bufferout['doneflag'] = result[0].doneflag;
+#             else:
+#                 pass
+#             if "memo" in inputData.keys():
+#                 bufferout['memo'] = result[0].memo;
+#             else:
+#                 pass
+            print(bufferout)
+            return bufferout
+        
