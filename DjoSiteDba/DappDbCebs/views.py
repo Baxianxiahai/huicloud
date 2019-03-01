@@ -1418,8 +1418,13 @@ class dct_classDbiViewDebs:
             uid = uid_val,login_name = login_name_val,pass_word = pass_word_val,
             grade_level = grade_level_val,email = email_val,memo = memo_val         
             )
-
-
+        return True
+    
+    def dft_dbi_user_sheet_delete(self, inputData):
+        uid = inputData['uid']
+        models.t_cebs_user_sheet.objects.filter(uid = uid).delete()
+        return True
+    
     def dft_dbi_product_profile_add(self, inputData):
         dev_code_val = inputData['dev_code']
         hw_ver_val= inputData['hw_ver']
@@ -1429,7 +1434,13 @@ class dct_classDbiViewDebs:
             dev_code = dev_code_val, hw_ver = hw_ver_val,
             sw_ver = sw_ver_val,authtoken = authtoken_val
             )
-
+        return True
+    
+    def dft_dbi_product_profile_delete(self, inputData):
+        id = inputData['id']
+        models.t_cebs_product_profile.objects.filter(id =id).delete()
+        return True
+    
     def dft_dbi_cali_profile_add(self, inputData):
         platetype_val = inputData['platetype']
         left_bot_x_val = inputData['left_bot_x']
@@ -1457,7 +1468,13 @@ class dct_classDbiViewDebs:
             decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
             zero_dec = zero_dec_val, back_step = back_step_val
             )
-            
+        return True
+    
+    def dft_dbi_cali_profile_delete(self, inputData):    
+        id = inputData['id']
+        models.t_cebs_cali_profile.objects.filter(id = id).delete()
+        return True
+        
     def dft_dbi_object_profil_add(self, inputData):
         objname_val = inputData['objname']
         objtype_val = inputData['objtype']
@@ -1472,7 +1489,13 @@ class dct_classDbiViewDebs:
             objname = objname_val, objtype = objtype_val, uid_id = uid_val, dir_origin = dir_origin_val,
             dir_middle = dir_middle_val,memo = memo_val
             )
-        
+        return True
+    
+    def dft_dbi_object_profile_delete(self, inputData):
+        objid = inputData['objid']
+        models.t_cebs_object_profile.objects.filter(objid = objid).delete()
+        return True   
+      
     def dft_dbi_config_eleg_add(self, inputData):
         fixpoint_val = inputData['fixpoint']
         autovideo_val = inputData['autovideo']
@@ -1499,5 +1522,109 @@ class dct_classDbiViewDebs:
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val
         )
-        
-        
+        return True
+    
+    def dft_dbi_config_eleg_delete(self, inputData):
+        confid = inputData['confid']
+        models.t_cebs_config_eleg.objects.filter(confid = confid).delete()
+        return True   
+    
+    def dft_dbi_config_stackcell_add(self, inputData):
+        addset_val = inputData['addset']  
+        line_area_val = inputData['line_area']
+        line_width_val = inputData['line_width']
+        line_long_val = inputData['line_long']
+        line_dilate_val = inputData['line_dilate']
+        area_up_val = inputData['area_up']
+        area_low_val = inputData['area_low']
+        area_dilate_val = inputData['area_dilate']
+        area_erode_val = inputData['area_erode']
+        square_min_val = inputData['square_min']
+        square_max_val = inputData['square_max']
+        radius_min_val = inputData['radius_min']
+        radius_max_val = inputData['radius_max']
+        cell_dilate_val = inputData['cell_dilate']
+        cell_erode_val = inputData['cell_erode']
+        cell_round_val = inputData['cell_round']
+        cell_distance_val = inputData['cell_distance']
+        train_delay_val = inputData['train_delay']
+        foreignkeyname = inputData['objid']
+        print(foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        if result.exists():
+           objid_val = result[0].uid.uid
+        models.t_cebs_config_stackcell.objects.create(
+            objid_id = objid_val, addset = addset_val,  line_area = line_area_val, line_width = line_width_val, line_long = line_long_val,
+            line_dilate = line_dilate_val, area_up = area_up_val,  area_low = area_low_val, area_dilate = area_dilate_val,
+            area_erode = area_erode_val, square_min = square_min_val, square_max = square_max_val, radius_min= radius_min_val,
+            radius_max = radius_max_val, cell_dilate = cell_dilate_val, cell_erode = cell_erode_val, cell_round = cell_round_val,
+            cell_distance = cell_distance_val,train_delay = train_delay_val
+            )  
+        return True
+
+    def dft_dbi_config_stackcell_delete(self, inputData):    
+        confid = inputData['confid']
+        models.t_cebs_config_stackcell.objects.filter(confid = confid).delete()
+        return True
+    
+    def dft_dbi_result_eleg_add(self, inputData):
+        snbatch_val = inputData['snbatch']
+        snhole_val = inputData['snhole'] 
+        file_attr_val = inputData['file_attr'] 
+        name_before_val = inputData['name_before'] 
+        name_after_val = inputData['name_after'] 
+        bigalive_val = inputData['bigalive'] 
+        bigdead_val = inputData['bigdead'] 
+        midalive_val = inputData['midalive'] 
+        middead_val = inputData['middead'] 
+        smaalive_val = inputData['smaalive'] 
+        smdead_val = inputData['smdead'] 
+        totalalive_val = inputData['totalalive'] 
+        totaldead_val = inputData['totaldead'] 
+        totalsum_val = inputData['totalsum'] 
+        doneflag_val = inputData['doneflag'] 
+        memo_val = inputData['memo'] 
+        foreignkeyname = inputData['confid'] 
+        print(foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        if result.exists():
+           confid_val = result[0].uid.uid
+        models.t_cebs_result_eleg.objects.create(
+            confid_id = confid_val, snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,
+            name_after = name_after_val, bigalive = bigalive_val, bigdead = bigdead_val, midalive = midalive_val, middead = middead_val,
+            smaalive = smaalive_val, smdead = smdead_val,totalalive = totalalive_val, totaldead = totaldead_val, totalsum = totalsum_val, 
+            doneflag = doneflag_val, memo = memo_val
+            )           
+        return True
+    
+    def dft_dbi_result_eleg_delete(self, inputData):
+        sid = inputData['sid']
+        models.t_cebs_result_eleg.objects.filter(sid = sid).delete()
+        return True
+          
+    def dft_dbi_result_stackcell_add(self, inputData):
+        file_attr_val = inputData['file_attr'] 
+        name_before_val = inputData['name_before'] 
+        name_after_val = inputData['name_after'] 
+        totalnbr_val = inputData['totalnbr']   
+        validnbr_val = inputData['validnbr'] 
+        doneflag_val = inputData['doneflag'] 
+        memo_val = inputData['memo'] 
+        foreignkeyname = inputData['confid'] 
+        print(foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        if result.exists():
+           confid_val = result[0].uid.uid
+        models.t_cebs_result_stackcell.objects.create(
+            confid_id = confid_val,file_attr = file_attr_val, name_before = name_before_val, name_after = name_after_val,
+            totalnbr = totalnbr_val, validnbr = validnbr_val, doneflag = doneflag_val, memo = memo_val              
+            )
+        return True
+    
+    def dft_dbi_result_stackcell_delete(self, inputData):   
+        sid = inputData['sid']
+        models.t_cebs_result_stackcell.objects.filter(sid = sid).delete()         
+        return True
+          
+          
+          

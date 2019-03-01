@@ -108,7 +108,7 @@ class t_cebs_user_sheet(models.Model):
     login_name=models.CharField(max_length=20)
     pass_word=models.CharField(max_length=100)
     grade_level=models.IntegerField(default=4,null=True)
-    reg_date=models.DateTimeField(auto_now=True)
+    reg_date=models.DateTimeField(auto_now_add=True)  #创建时间不再更新
     email=models.EmailField(null=True,blank=True)
     memo=models.CharField(max_length=500,null=True)
     
@@ -138,10 +138,10 @@ class t_cebs_product_profile(models.Model):
     hw_ver = models.IntegerField(null=True,blank=True)
     sw_ver = models.IntegerField(null=True,blank=True)
     authtoken = models.CharField(max_length=128)
-    mfd = models.DateTimeField(auto_now=True)
+    mfd = models.DateTimeField(auto_now_add=True)
     
 class t_cebs_cali_profile(models.Model):
-    dir_originplatetype = models.IntegerField(default=5,null=True)
+    platetype = models.IntegerField(default=5,null=True)
     calitime = models.DateTimeField(auto_now=True)
     uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
     left_bot_x = models.IntegerField(default=0)
@@ -208,9 +208,9 @@ class  t_cebs_result_eleg(models.Model):
     snhole = models.IntegerField(default=0)
     file_attr = models.IntegerField(default=1,db_index=True)
     name_before = models.CharField(max_length=20)
-    cap_time = models.DateTimeField(auto_now=True)
+    cap_time = models.DateTimeField(auto_now_add=True)
     name_after = models.CharField(max_length=20)
-    rec_time = models.DateTimeField(default=None)
+    rec_time = models.DateTimeField(auto_now=True)
     bigalive = models.IntegerField(default=0)
     bigdead = models.IntegerField(default=0)
     midalive = models.IntegerField(default=0)
