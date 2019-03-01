@@ -1576,10 +1576,10 @@ class dct_classDbiViewDebs:
         blimit_val = inputData['blimit']
         foreignkeyname = inputData['objid']
         print(foreignkeyname)
-        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        #关联到别的表单就要加  _id   只能锁定上表的主键
+        result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
         if result.exists():
-            objid_val = result[0].uid.uid 
-            print(objid_val)
+            objid_val = result[0].objid
         models.t_cebs_config_eleg.objects.create(
             objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
@@ -1634,9 +1634,9 @@ class dct_classDbiViewDebs:
         train_delay_val = inputData['train_delay']
         foreignkeyname = inputData['objid']
         print(foreignkeyname)
-        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
         if result.exists():
-            objid_val = result[0].uid.uid
+            objid_val = result[0].objid
         models.t_cebs_config_stackcell.objects.create(
             objid_id = objid_val, addset = addset_val,  line_area = line_area_val, line_width = line_width_val, line_long = line_long_val,
             line_dilate = line_dilate_val, area_up = area_up_val,  area_low = area_low_val, area_dilate = area_dilate_val,
@@ -1698,9 +1698,9 @@ class dct_classDbiViewDebs:
         memo_val = inputData['memo'] 
         foreignkeyname = inputData['confid'] 
         print(foreignkeyname)
-        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
         if result.exists():
-            confid_val = result[0].uid.uid
+            confid_val = result[0].objid
         models.t_cebs_result_eleg.objects.create(
             confid_id = confid_val, snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,
             name_after = name_after_val, bigalive = bigalive_val, bigdead = bigdead_val, midalive = midalive_val, middead = middead_val,
@@ -1751,9 +1751,9 @@ class dct_classDbiViewDebs:
         memo_val = inputData['memo'] 
         foreignkeyname = inputData['confid'] 
         print(foreignkeyname)
-        result = models.t_cebs_object_profile.objects.filter(uid = foreignkeyname)
+        result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
         if result.exists():
-            confid_val = result[0].uid.uid
+            confid_val = result[0].objid
         models.t_cebs_result_stackcell.objects.create(
             confid_id = confid_val,file_attr = file_attr_val, name_before = name_before_val, name_after = name_after_val,
             totalnbr = totalnbr_val, validnbr = validnbr_val, doneflag = doneflag_val, memo = memo_val              
