@@ -139,7 +139,7 @@ class ClassDbaCebs():
 #         try:
 #             with transaction.atomic():
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_object_profil_modify(inputData)
+        result = DappDbCebs_view.dft_dbi_object_profile_modify(inputData)
 #         except Exception:
 #             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
