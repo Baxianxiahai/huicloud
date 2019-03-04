@@ -10,6 +10,7 @@ import io
 from DappDbCebs import models
 from django.template.defaultfilters import length
 from DappDbInsertData.CheckoutMenuAndAction import update_menu_and_action
+from numpy import append
 #from test.badsyntax_future3 import result
 
 # Create your views here.
@@ -1853,7 +1854,7 @@ class dct_classDbiViewDebs:
         if result.exists():
             objid_val = result[0].objid
         models.t_cebs_config_stackcell.objects.create(
-            objid_id = objid_val, addset = addset_val,  line_area = line_area_val, line_width = line_width_val, line_long = line_long_val,
+            objid_id = objid_val, addset = addset_val, line_area = line_area_val, line_width = line_width_val, line_long = line_long_val,
             line_dilate = line_dilate_val, area_up = area_up_val,  area_low = area_low_val, area_dilate = area_dilate_val,
             area_erode = area_erode_val, square_min = square_min_val, square_max = square_max_val, radius_min= radius_min_val,
             radius_max = radius_max_val, cell_dilate = cell_dilate_val, cell_erode = cell_erode_val, cell_round = cell_round_val,
@@ -2205,53 +2206,91 @@ class dct_classDbiViewDebs:
         else:           
             return False        
             
-             
+    #this read operation api will return all the data in this row         
     def dft_dbi_result_stackcell_read(self, inputData):            
         sid = inputData['sid']
         bufferout= {}
         result = models.t_cebs_result_stackcell.objects.filter(sid = sid)
         if result.exists():
             bufferout['confid'] = result[0].confid_id
-            bufferout['file_attr'] = result[0].file_attr
+            bufferout['file_attr'] = result[0].file_attr 
             bufferout['name_before'] = result[0].name_before
             bufferout['name_after'] = result[0].name_after
             bufferout['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') 
             bufferout['totalnbr'] = result[0].totalnbr
             bufferout['validnbr'] = result[0].validnbr
             bufferout['doneflag'] = result[0].doneflag
-            bufferout['memo'] = result[0].memo            
-#             if "file_attr" in inputData.keys():
-#                 bufferout['file_attr'] = result[0].file_attr;
-#             else:
-#                 pass
-#             if "name_before" in inputData.keys():
-#                 bufferout['name_before'] = result[0].name_before;
-#             else:
-#                 pass
-#             if "name_after" in inputData.keys():
-#                 bufferout['name_after'] = result[0].name_after;
-#             else:
-#                 pass
-#             if "rec_time" in inputData.keys():
-#                 bufferout['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') ;
-#             else:
-#                 pass
-#             if "totalnbr" in inputData.keys():
-#                 bufferout['totalnbr'] = result[0].totalnbr;
-#             else:
-#                 pass
-#             if "validnbr" in inputData.keys():
-#                 bufferout['validnbr'] = result[0].validnbr;
-#             else:
-#                 pass
-#             if "doneflag" in inputData.keys():
-#                 bufferout['doneflag'] = result[0].doneflag;
-#             else:
-#                 pass
-#             if "memo" in inputData.keys():
-#                 bufferout['memo'] = result[0].memo;
-#             else:
-#                 pass
+            bufferout['memo'] = result[0].memo
             print(bufferout)
             return bufferout
+    
+    #here leave a demo for return the value you only need, not all the data return
+    def dft_dbi_result_stackcell_read_input(self, inputData):
+        sid = inputData['sid']
+        bufferout= {}
+        result = models.t_cebs_result_stackcell.objects.filter(sid = sid)
+        if result.exists():        
+            if 'confid' in inputData.keys():
+                bufferout['confid'] = result[0].confid_id
+            else:
+                pass
+            if 'file_attr' in inputData.keys():
+                bufferout['file_attr'] = result[0].file_attr;
+            else:
+                pass
+            if 'name_before' in inputData.keys():
+                bufferout['name_before'] = result[0].name_before;
+            else:
+                pass
+            if 'name_after' in inputData.keys():
+                bufferout['name_after'] = result[0].name_after;
+            else:
+                pass
+            if 'rec_time' in inputData.keys():
+                bufferout['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') ;
+            else:
+                pass
+            if 'totalnbr' in inputData.keys():
+                bufferout['totalnbr'] = result[0].totalnbr;
+            else:
+                pass
+            if 'validnbr' in inputData.keys():
+                bufferout['validnbr'] = result[0].validnbr;
+            else:
+                pass
+            if 'doneflag' in inputData.keys():
+                bufferout['doneflag'] = result[0].doneflag;
+            else:
+                pass
+            if 'memo' in inputData.keys():
+                bufferout['memo'] = result[0].memo;
+            else:
+                pass
+        print(bufferout)
+        return bufferout      
+
+    #this is demo to catch the one batch file  result
+    def dft_dbi_cebs_result_eleg(self, inputData):
+        snbatch = inputData['snbatch']
+        result = models.t_cebs_result_eleg.objects.filter(snbatch = snbatch)
+        res = []
+        if result.exists():
+            for i in range(0,len(result)):
+                bufferout = {}
+                bufferout['snhole']= result[i].snhole
+                bufferout['bigalive']= result[i].bigalive
+                bufferout['bigdead']= result[i].bigdead
+                bufferout['midalive']= result[i].midalive
+                bufferout['middead']= result[i].middead
+                bufferout['smaalive']= result[i].smaalive
+                bufferout['totalalive']= result[i].totalalive
+                bufferout['totaldead']= result[i].totaldead
+                bufferout['totalsum']= result[i].totalsum
+                res.append(bufferout)
+                print(bufferout)
+        print('res',res)       
+        return res       
+           
+            
+        
         
