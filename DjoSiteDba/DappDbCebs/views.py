@@ -1457,7 +1457,7 @@ class dct_classDbiViewDebs:
                 memo_val = result[0].memo
             models.t_cebs_user_sheet.objects.filter(uid = uid).update(
                 login_name = login_name_val,pass_word = pass_word_val,
-                grade_level = grade_level_val,email = email_val,memo = memo_val  
+                grade_level = grade_level_val,reg_date = reg_date_val,email = email_val,memo = memo_val  
                 )
         return False        
         
@@ -1489,13 +1489,13 @@ class dct_classDbiViewDebs:
         return True
     
     def dft_dbi_product_profile_delete(self, inputData):
-        id = inputData['id']
-        models.t_cebs_product_profile.objects.filter(id =id).delete()
+        sid = inputData['id']
+        models.t_cebs_product_profile.objects.filter(id = sid).delete()
         return True
 
     def dft_dbi_product_profile_modify(self, inputData):
-        id = inputData['id']
-        result = models.t_cebs_product_profile.objects.filter(id = id)
+        sid = inputData['id']
+        result = models.t_cebs_product_profile.objects.filter(id = sid)
         if result.exists():
             if 'dev_code' in inputData.keys():
                 dev_code_val = inputData['dev_code']
@@ -1517,16 +1517,16 @@ class dct_classDbiViewDebs:
                 mfd_val = inputData['mfd']
             else:
                 mfd_val = result[0].mfd.strftime('%Y-%m-%d %H:%M:%S')
-            models.t_cebs_product_profile.objects.filter(id = id).update(
+            models.t_cebs_product_profile.objects.filter(id = sid).update(
                 dev_code = dev_code_val, hw_ver = hw_ver_val,
-                sw_ver = sw_ver_val,authtoken = authtoken_val
+                sw_ver = sw_ver_val,authtoken = authtoken_val,mfd = mfd_val,
                 )
         return False
        
     def dft_dbi_product_profile_read(self, inputData):
-        id = inputData['id']
+        sid = inputData['id']
         bufferout = {}
-        result = models.t_cebs_product_profile.objects.filter(id = id)
+        result = models.t_cebs_product_profile.objects.filter(id = sid)
         if result.exists():
             bufferout['dev_code'] = result[0].dev_code
             bufferout['hw_ver'] = result[0].hw_ver
@@ -1567,14 +1567,14 @@ class dct_classDbiViewDebs:
         return True
     
     def dft_dbi_cali_profile_delete(self, inputData):    
-        id = inputData['id']
-        models.t_cebs_cali_profile.objects.filter(id = id).delete()
+        sid = inputData['id']
+        models.t_cebs_cali_profile.objects.filter(id = sid).delete()
         return True
     
     
     def dft_dbi_cali_profile_modify(self, inputData): 
-        id = inputData['id']
-        result = models.t_cebs_cali_profile.objects.filter(id = id)
+        sid = inputData['id']
+        result = models.t_cebs_cali_profile.objects.filter(id = sid)
         if result.exists():
             if 'platetype' in inputData.keys():
                 platetype_val = inputData['platetype']
@@ -1625,8 +1625,8 @@ class dct_classDbiViewDebs:
             else:
                 back_step_val = result[0].back_step   
                         
-            models.t_cebs_cali_profile.objects.filter(id = id).update(
-                platetype = platetype_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            models.t_cebs_cali_profile.objects.filter(id = sid).update(
+                platetype = platetype_val,calitime = calitime_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
                 right_up_x = right_up_x_val, right_up_y = right_up_y_val, accspeed = accspeed_val,
                 decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
                 zero_dec = zero_dec_val, back_step = back_step_val
@@ -1638,9 +1638,9 @@ class dct_classDbiViewDebs:
         
         
     def dft_dbi_cali_profile_read(self, inputData):  
-        id = inputData['id']
+        sid = inputData['id']
         bufferout = {}
-        result = models.t_cebs_cali_profile.objects.filter(id = id)
+        result = models.t_cebs_cali_profile.objects.filter(id = sid)
         if result.exists():
             bufferout['platetype'] = result[0].platetype
             bufferout['calitime'] = result[0].calitime.strftime('%Y-%m-%d %H:%M:%S')
@@ -2098,8 +2098,8 @@ class dct_classDbiViewDebs:
             else:
                 memo_val = result[0].memo
             models.t_cebs_result_eleg.objects.filter(sid =sid).update(
-                snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,
-                name_after = name_after_val, bigalive = bigalive_val, bigdead = bigdead_val, midalive = midalive_val, middead = middead_val,
+                snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,cap_time = cap_time_val,
+                name_after = name_after_val, rec_time = rec_time_val,bigalive = bigalive_val, bigdead = bigdead_val, midalive = midalive_val, middead = middead_val,
                 smaalive = smaalive_val, smdead = smdead_val,totalalive = totalalive_val, totaldead = totaldead_val, totalsum = totalsum_val, 
                 doneflag = doneflag_val, memo = memo_val
                 )  
@@ -2200,7 +2200,7 @@ class dct_classDbiViewDebs:
             else:
                 memo_val = result[0].memo   
             models.t_cebs_result_stackcell.objects.filter(sid =sid).update(
-                file_attr = file_attr_val, name_before = name_before_val, name_after = name_after_val,
+                file_attr = file_attr_val, name_before = name_before_val, name_after = name_after_val,rec_time = rec_time_val,
                 totalnbr = totalnbr_val, validnbr = validnbr_val, doneflag = doneflag_val, memo = memo_val
                 )  
         else:           
@@ -2274,7 +2274,7 @@ class dct_classDbiViewDebs:
         snbatch = inputData['snbatch']
         result = models.t_cebs_result_eleg.objects.filter(snbatch = snbatch)
         res = []
-        if result.exists():
+        if result.exists(): 
             for i in range(0,len(result)):
                 bufferout = {}
                 bufferout['snhole']= result[i].snhole
