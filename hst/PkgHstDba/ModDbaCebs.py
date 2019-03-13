@@ -139,16 +139,16 @@ class ClassDbaCebs():
 #         try:
 #             with transaction.atomic():
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_object_profil_modify(inputData)
+        result = DappDbCebs_view.dft_dbi_object_profile_modify(inputData)
 #         except Exception:
 #             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
 
-    def dft_object_profile_read(self, inputData):
+    def dft_dbi_object_profile_read(self, inputData):
 #         try:
 #             with transaction.atomic():
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_object_profil_read(inputData)
+        result = DappDbCebs_view.dft_dbi_object_profile_read(inputData)
 #         except Exception:
 #             result={'status':'false','auth':'true','data':{},'msg':'登录失败，请稍后重试'}
         return result
@@ -174,7 +174,7 @@ class ClassDbaCebs():
         result = DappDbCebs_view.dft_dbi_config_eleg_modify(inputData)
         return result
 
-    def dft_config_eleg_read(self, inputData):
+    def dft_dbi_config_eleg_read(self, inputData):
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
         result = DappDbCebs_view.dft_dbi_config_eleg_read(inputData)
         return result
@@ -194,7 +194,7 @@ class ClassDbaCebs():
         result = DappDbCebs_view.dft_dbi_config_stackcell_modify(inputData)
         return result
 
-    def config_stackcelldft_object_profile_read(self, inputData):
+    def dft_dbi_config_stackcell_read(self, inputData):
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
         result = DappDbCebs_view.dft_dbi_config_stackcell_read(inputData)
         return result
@@ -214,7 +214,7 @@ class ClassDbaCebs():
         result = DappDbCebs_view.dft_dbi_result_eleg_modify(inputData)
         return result
 
-    def dft_result_eleg_read(self, inputData):
+    def dft_dbi_result_eleg_read(self, inputData):
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
         result = DappDbCebs_view.dft_dbi_result_eleg_read(inputData)
         return result
@@ -233,7 +233,7 @@ class ClassDbaCebs():
         result = DappDbCebs_view.dft_dbi_result_stackcell_modify(inputData)
         return result
 
-    def dft_result_stackcell_read(self, inputData):
+    def dft_dbi_result_stackcell_read(self, inputData):
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
         result = DappDbCebs_view.dft_dbi_result_stackcell_read(inputData)
         return result
