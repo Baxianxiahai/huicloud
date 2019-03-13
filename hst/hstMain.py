@@ -29,7 +29,7 @@ def hst_start_server(addr, port):
     print("[", time.asctime(), "HUIREST]: Server Stops - %s:%s" % addr)
 
 def main():
-    HST_HOST_NAME = "localhost"
+    HST_HOST_NAME = "0.0.0.0"
     HST_HOST_PORT = 7999
     zHstAddrBind = (HST_HOST_NAME, HST_HOST_PORT)
     hst_start_server(zHstAddrBind, HST_HOST_PORT)

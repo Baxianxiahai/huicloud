@@ -182,6 +182,23 @@ class classDappDbF3dm:
         except Exception:
             result=False
         return result
+    def dft_calculation_day_data(self):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_calculation_day_data()
+        except Exception:
+            result=False
+        return result
+    
+    def dft_dbi_aqyc_current_report_php(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
+                result=DappDbF3dm_view.dft_dbi_aqyc_current_report_php_view(inputData)
+        except Exception:
+            result={"status":"false"}
+        return result
 class HCUF3dmDataBaseConfirm():
     def __init__(self):
         pass

@@ -280,6 +280,8 @@ class ClassDbaMainEntry():
             result=F3dm.dft_dbi_HCU_Info_Query(inputData['body'])
         elif inputData['action']=="CalculationHour":
             result=F3dm.dft_calculation_hour_data()
+        elif inputData['action']=='CurrentReport':
+            result=F3dm.dft_dbi_aqyc_current_report_php(inputData['body'])
         else:
             result=""
         return result

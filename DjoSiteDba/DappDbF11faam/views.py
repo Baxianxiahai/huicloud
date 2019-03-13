@@ -8,7 +8,7 @@ from django.db.models import Q
 from datetime import timedelta
 from DappDbF11faam.models import *
 from DappDbF1sym.models import *
-from _datetime import date
+# from _datetime import date
 
 
 class dct_classDbiL3apF11Faam:
@@ -1093,8 +1093,8 @@ class dct_classDbiL3apF11Faam:
         ColumnName.append("二维码")
         ColumnName.append("工人姓名")
         ColumnName.append("产品规格")
-        ColumnName.append("申请时间")
         ColumnName.append("成品时间")
+        ColumnName.append("申请时间")
         uid = inputData['uid']
         timeStart = inputData['timeStart']
         timeEnd = inputData['timeEnd']
@@ -1112,7 +1112,7 @@ class dct_classDbiL3apF11Faam:
             flag="true"
         result = dct_t_l3f11faam_production.objects.filter(Q(pjcode=pjCode),
                                                            Q(owner__icontains=keyWord) | Q(typecode__icontains=keyWord),
-                                                           Q(applytime__gte=dayTimeStart), Q(applytime__lte=dayTimeEnd))
+                                                           Q(activetime__gte=dayTimeStart), Q(activetime__lte=dayTimeEnd))
         for line in result:
             #             applyTime=line.applytime
             #             applyTime = datetime.datetime.strptime(str(applyTime), '%Y-%m-%d %H:%M:%S')
@@ -1122,8 +1122,8 @@ class dct_classDbiL3apF11Faam:
             temp.append(line.qrcode)
             temp.append(line.owner)
             temp.append(line.typecode)
-            temp.append(str(line.applytime))
             temp.append(str(line.activetime))
+            temp.append(str(line.applytime))
             TableData.append(temp)
         history = {'ColumnName': ColumnName, 'TableData': TableData,'Flag':flag}
         return history
@@ -3061,6 +3061,7 @@ class dct_classDbiL3apF11Faam:
                 allocateResp = self.__HUITP_IEID_UNI_EQULABLE_ALLOCATION_FLAG_FALSE
                 comConfirm = self.__HUITP_IEID_UNI_COM_CONFIRM_NO
         resp = {'start': start, 'end': end, 'allocateResp': allocateResp, 'comConfirm': comConfirm}
+        # resp = {'start': start, 'end': end, 'allocateResp': allocateResp, 'comConfirm': comConfirm,'name':userTabTL,'typecode':userTabTR}
         return resp
     
     def dft_dbi_huitp_xmlmag_equlable_lky_apply_report(self, inputData):

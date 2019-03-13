@@ -1,4 +1,3 @@
-from django.shortcuts import render
 import os,json
 import numpy as np
 from django.db.models import Q
@@ -1299,7 +1298,7 @@ class dct_classDbiL3apF3dm():
         resp=dct_t_l3f3dm_current_report_smartcity.objects.filter(dev_code_id=dev_code)
         retlist=[]
         if result.exists():
-            print('dct_t_l3f3dm_current_report_aqyc')
+#             print('dct_t_l3f3dm_current_report_aqyc')
             for line in result:
                 map='设备编号：'+str(dev_code)
                 retlist.append(map)
@@ -1308,6 +1307,8 @@ class dct_classDbiL3apF3dm():
                 map = 'BASE_PORT：' + str(line.dev_code.base_port).ljust(5).replace(" ",'0') 
                 retlist.append(map)
                 map = '第三方编号：' + line.dev_code.zhb_label
+                retlist.append(map)
+                map = '软件版本：' + str(line.dev_code.sw_ver)
                 retlist.append(map)
                 map = 'TSP：' + str(int(line.tsp))+'μg/m³'
                 retlist.append(map)
@@ -1327,8 +1328,10 @@ class dct_classDbiL3apF3dm():
                 retlist.append(map)
                 map = '风速：' + str(round(line.windspd,2))+"m/s"
                 retlist.append(map)
+                map = '二氧化氮：：' + str(round(line.no2,4))+"mg/m³"
+                retlist.append(map)
         elif resp.exists():
-            print('dct_t_l3f3dm_current_report_smartcity')
+#             print('dct_t_l3f3dm_current_report_smartcity')
             for line in resp:
                 map='设备编号：'+str(dev_code)
                 retlist.append(map)
@@ -1337,6 +1340,8 @@ class dct_classDbiL3apF3dm():
                 map = 'BASE_PORT：' + str(line.dev_code.base_port).ljust(5).replace(" ",'0') 
                 retlist.append(map)
                 map = '第三方编号：' + line.dev_code.zhb_label
+                retlist.append(map)
+                map = '软件版本：' + str(line.dev_code.sw_ver)
                 retlist.append(map)
                 map = 'TSP：' + str(int(line.tsp))+'μg/m³'
                 retlist.append(map)
@@ -1440,6 +1445,9 @@ class dct_classDbiL3apF3dm():
                         pwrind = []
                         pwrind.append(line.pwrind)
                         data[line.site_code_id][line.dev_code_id].append(pwrind)
+                        no2 = []
+                        no2.append(line.no2)
+                        data[line.site_code_id][line.dev_code_id].append(no2)
                     else:
                         data[line.site_code_id][line.dev_code_id][0].append(line.tsp)
                         data[line.site_code_id][line.dev_code_id][1].append(line.pm01)
@@ -1461,6 +1469,7 @@ class dct_classDbiL3apF3dm():
                         data[line.site_code_id][line.dev_code_id][17].append(line.toxicgas)
                         data[line.site_code_id][line.dev_code_id][18].append(line.rssi)
                         data[line.site_code_id][line.dev_code_id][19].append(line.pwrind)
+                        data[line.site_code_id][line.dev_code_id][19].append(line.no2)
                 else:
                     if line.dev_code_id not in data[line.site_code_id].keys():
                         data[line.site_code_id][line.dev_code_id]=[]
@@ -1524,6 +1533,9 @@ class dct_classDbiL3apF3dm():
                         pwrind = []
                         pwrind.append(line.pwrind)
                         data[line.site_code_id][line.dev_code_id].append(pwrind)
+                        no2 = []
+                        no2.append(line.no2)
+                        data[line.site_code_id][line.dev_code_id].append(no2)
                     else:
                         data[line.site_code_id][line.dev_code_id][0].append(line.tsp)
                         data[line.site_code_id][line.dev_code_id][1].append(line.pm01)
@@ -1545,6 +1557,7 @@ class dct_classDbiL3apF3dm():
                         data[line.site_code_id][line.dev_code_id][17].append(line.toxicgas)
                         data[line.site_code_id][line.dev_code_id][18].append(line.rssi)
                         data[line.site_code_id][line.dev_code_id][19].append(line.pwrind)
+                        data[line.site_code_id][line.dev_code_id][19].append(line.no2)
         else:
             return False
         for key, value in data.items():
@@ -1569,6 +1582,7 @@ class dct_classDbiL3apF3dm():
                 toxicgas_aveage_3 = round(np.mean(value_dev[17]), 3)
                 rssi_aveage_3 = round(np.mean(value_dev[18]), 3)
                 pwrind_aveage_3 = round(np.mean(value_dev[19]), 3)
+                no2_aveage_3 = round(np.mean(value_dev[20]), 3)
                 hour.append(
                     dct_t_l3f3dm_hour_report_aqyc(dev_code_id=key_dev, site_code_id=key, hourindex=now_hour,report_date=time_start,
                                                   tsp=tsp_aveage_3, pm01=pm01_aveage_3, pm25=pm25_aveage_3,
@@ -1581,7 +1595,7 @@ class dct_classDbiL3apF3dm():
                                                   so2=so2_aveage_3, co1=co1_aveage_3, no1=no1_aveage_3,
                                                   h2s=h2s_aveage_3, hcho=hcho_aveage_3,
                                                   toxicgas=toxicgas_aveage_3, rssi=rssi_aveage_3,
-                                                  pwrind=pwrind_aveage_3))
+                                                  pwrind=pwrind_aveage_3,no2=no2_aveage_3))
         dct_t_l3f3dm_hour_report_aqyc.objects.bulk_create(hour)
         return True
 
@@ -1656,6 +1670,9 @@ class dct_classDbiL3apF3dm():
                         toxicgas = []
                         toxicgas.append(line.toxicgas)
                         data[line.site_code_id][line.dev_code_id].append(toxicgas)
+                        no2 = []
+                        no2.append(line.no2)
+                        data[line.site_code_id][line.dev_code_id].append(no2)
                         # rssi = []
                         # rssi.append(line.rssi)
                         # data[line.site_code_id][line.dev_code_id].append(rssi)
@@ -1681,6 +1698,7 @@ class dct_classDbiL3apF3dm():
                         data[line.site_code_id][line.dev_code_id][15].append(line.h2s)
                         data[line.site_code_id][line.dev_code_id][16].append(line.hcho)
                         data[line.site_code_id][line.dev_code_id][17].append(line.toxicgas)
+                        data[line.site_code_id][line.dev_code_id][18].append(line.no2)
                         # data[line.site_code_id][line.dev_code_id][18].append(line.rssi)
                         # data[line.site_code_id][line.dev_code_id][19].append(line.pwrind)
                 else:
@@ -1740,6 +1758,9 @@ class dct_classDbiL3apF3dm():
                         toxicgas = []
                         toxicgas.append(line.toxicgas)
                         data[line.site_code_id][line.dev_code_id].append(toxicgas)
+                        no2 = []
+                        no2.append(line.no2)
+                        data[line.site_code_id][line.dev_code_id].append(no2)
                         # rssi = []
                         # rssi.append(line.rssi)
                         # data[line.site_code_id][line.dev_code_id].append(rssi)
@@ -1765,6 +1786,7 @@ class dct_classDbiL3apF3dm():
                         data[line.site_code_id][line.dev_code_id][15].append(line.h2s)
                         data[line.site_code_id][line.dev_code_id][16].append(line.hcho)
                         data[line.site_code_id][line.dev_code_id][17].append(line.toxicgas)
+                        data[line.site_code_id][line.dev_code_id][17].append(line.no2)
                         # data[line.site_code_id][line.dev_code_id][18].append(line.rssi)
                         # data[line.site_code_id][line.dev_code_id][19].append(line.pwrind)
         else:
@@ -1791,6 +1813,7 @@ class dct_classDbiL3apF3dm():
                 h2s_aveage_3 = round(np.mean(value_dev[15]), 3)
                 hcho_aveage_3 = round(np.mean(value_dev[16]), 3)
                 toxicgas_aveage_3 = round(np.mean(value_dev[17]), 3)
+                no2_aveage_3 = round(np.mean(value_dev[18]), 3)
                 # rssi_aveage_3 = round(np.mean(value_dev[18]), 3)
                 # pwrind_aveage_3 = round(np.mean(value_dev[19]), 3)
                 day.append(
@@ -1805,12 +1828,90 @@ class dct_classDbiL3apF3dm():
                                                   lightstr=lightstr_aveage_3,
                                                   so2=so2_aveage_3, co1=co1_aveage_3, no1=no1_aveage_3,
                                                   h2s=h2s_aveage_3, hcho=hcho_aveage_3,
-                                                  toxicgas=toxicgas_aveage_3
+                                                  toxicgas=toxicgas_aveage_3,no2=no2_aveage_3
                                                  # ,rssi=rssi_aveage_3, pwrind=pwrind_aveage_3
                                                  ))
         dct_t_l3f3dm_day_report_aqyc.objects.bulk_create(day)
         return True
-    
+
+    def dft_dbi_aqyc_current_report_php_view(self,inputData):
+        dev_code=inputData['devCode']
+        result=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code)
+        tsp = 0
+        pm01 = 0
+        pm25 = 0
+        pm10 = 0
+        noise = 0
+        temperature = 0
+        humidity = 0
+        winddir = 0
+        windspd = 0
+        rain = 0
+        airpresure = 0
+        lightstr = 0
+        so2 = 0
+        co1 = 0
+        no1 = 0
+        h2s = 0
+        hcho = 0
+        toxicgas = 0
+        rssi = 0
+        pwrind=0
+        no2 = 0
+        report_date=str(datetime.datetime.now())
+        status='true'
+        if result.exists():
+            for line in result:
+                report_date=str(line.report_time)
+                tsp=line.tsp
+                pm01=line.pm01
+                pm25=line.pm25
+                pm10=line.pm10
+                noise=line.noise
+                temperature=line.temperature
+                humidity=line.humidity
+                winddir=line.winddir
+                windspd=line.windspd
+                rain=line.rain
+                airpresure=line.airpresure
+                lightstr=line.lightstr
+                so2=line.so2
+                co1=line.co1
+                no1=line.no1
+                h2s=line.h2s
+                hcho=line.hcho
+                toxicgas=line.toxicgas
+                rssi=line.rssi
+                pwrind=line.pwrind
+                no2=line.no2
+        else:
+            status='false'
+        resp_data={'report_time':report_date,
+                   'tsp':tsp,
+                   'pm01':pm01,
+                   'pm25':pm25,
+                   'pm10':pm10,
+                   'noise':noise,
+                   'temperature':temperature,
+                   'humidity':humidity,
+                   'winddir':winddir,
+                   'windspd':windspd,
+                   'rain':rain,
+                   'airpresure':airpresure,
+                   'lightstr':lightstr,
+                   'so2':so2,
+                   'co1':co1,
+                   'no1':no1,
+                   'h2s':h2s,
+                   'hcho':hcho,
+                   'toxicgas':toxicgas,
+                   'rssi':rssi,
+                   'pwrind':pwrind,
+                   'no2':no2,
+
+                   }
+        resp={'status':status,'data':resp_data}
+        return resp
 class dct_t_HCU_Data_Report():
     def __init__(self):
         pass
@@ -1823,77 +1924,77 @@ class dct_t_HCU_Data_Report():
             currentTime=inputData['CrTim']
             currentData = inputData['IeCnt']
             if 'pm1d0Value' in currentData.keys():pm1d0Value = currentData['pm1d0Value']
-            else:pass
+            else:pm1d0Value=0
             if 'pm2d5Value' in currentData.keys():pm2d5Value = currentData['pm2d5Value']
-            else:pass
+            else:pm2d5Value=0
             if 'pm10Value' in currentData.keys():pm10Value = currentData['pm10Value']
-            else:pass
+            else:pm10Value=0
             if 'tspValue' in currentData.keys():tspValue = currentData['tspValue']
-            else:pass
+            else:tspValue=0
             if 'tempValue' in currentData.keys():tempValue = currentData['tempValue']
-            else:pass
+            else:tempValue=0
             if 'humidValue' in currentData.keys():humidValue = currentData['humidValue']
-            else:pass
+            else:humidValue=0
             if 'winddirValue' in currentData.keys():winddirValue = currentData['winddirValue']
-            else:pass
+            else:winddirValue=0
             if 'windspdValue' in currentData.keys():windspdValue = currentData['windspdValue']
-            else:pass
+            else:windspdValue=0
             if 'lightstrValue' in currentData.keys():lightstrValue = currentData['lightstrValue']
-            else:pass
+            else:lightstrValue=0
             if 'so2Value' in currentData.keys():so2Value = currentData['so2Value']
-            else:pass
+            else:so2Value=0
             if 'co1Value' in currentData.keys():co1Value = currentData['co1Value']
-            else:pass
+            else:co1Value=0
             if 'co2Value' in currentData.keys():co2Value = currentData['co2Value']
-            else:pass
+            else:co2Value=0
             if 'no1Value' in currentData.keys():no1Value = currentData['no1Value']
-            else:pass
+            else:no1Value=0
             if 'hsValue' in currentData.keys():hsValue = currentData['hsValue']
-            else:pass
+            else:hsValue=0
             if 'hchoValue' in currentData.keys():hchoValue = currentData['hchoValue']
-            else:pass
+            else:hchoValue=0
             if 'toxicgasValue' in currentData.keys():toxicgasValue = currentData['toxicgasValue']
-            else:pass
+            else:toxicgasValue=0
             if 'rssiValue' in currentData.keys():rssiValue = currentData['rssiValue']
-            else:pass
+            else:rssiValue=0
             if 'workContMins' in currentData.keys():workContMins = currentData['workContMins']
-            else:pass
+            else:workContMins=0
             if 'pwrInd' in currentData.keys():pwrInd = currentData['pwrInd']
-            else:pass
+            else:pwrInd=0
             if 'noiseValue' in currentData.keys():noiseValue = currentData['noiseValue']
-            else:pass
+            else:noiseValue=0
             if 'wst' in currentData.keys():wst = currentData['wst']
-            else:pass
+            else:wst=0
             if 'apr' in currentData.keys():apr = currentData['apr']
-            else:pass
+            else:apr=0
             if 'atd' in currentData.keys():atd = currentData['atd']
-            else:pass
+            else:atd=0
             if 'so2' in currentData.keys():so2Value = currentData['so2']
-            else:pass
+            else:so2Value=0
             if 'no1' in currentData.keys():no1Value = currentData['no1']
-            else:pass
+            else:no1Value=0
             if 'no2' in currentData.keys():no2 = currentData['no2']
-            else:pass
+            else:no2=0
             if 'co1' in currentData.keys():co1Value = currentData['co1']
-            else:pass
+            else:co1Value=0
             if 'co2' in currentData.keys():co2Value = currentData['co2']
-            else:pass
+            else:co2Value=0
             if 'o3' in currentData.keys():o3 = currentData['o3']
-            else:pass
+            else:o3=0
             if 'h2s' in currentData.keys():hsValue = currentData['h2s']
-            else:pass
+            else:hsValue=0
             if 'ph' in currentData.keys():ph = currentData['ph']
-            else:pass
+            else:ph=0
             if 'ch4' in currentData.keys():ch4 = currentData['ch4']
-            else:pass
+            else:ch4=0
             if 'ach' in currentData.keys():ph = currentData['ach']
-            else:pass
+            else:ph=0
             if 'hcho' in currentData.keys():hchoValue = currentData['hcho']
-            else:pass
+            else:hchoValue=0
             if 'voc' in currentData.keys():voc = currentData['voc']
-            else:pass
+            else:voc=0
             if 'tox' in currentData.keys():toxicgasValue = currentData['tox']
-            else:pass
+            else:toxicgasValue=0
             
 #             currentTime=inputData['CrTim']
 #             currentData = inputData['IeCnt']
@@ -1924,7 +2025,7 @@ class dct_t_HCU_Data_Report():
                                                            pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
                                                            humidity=humidValue,winddir=winddirValue,windspd=windspdValue,
                                                            lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
-                                                           hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+                                                           hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd,no2=no2)
 #             dct_t_l2snr_dust.objects.create(dev_code_id=devCode,tsp=tspValue,pm01=pm1d0Value,pm25=pm2d5Value,pm10=pm10Value,hourminindex=hourminindex,dataflag='Y')
 #             dct_t_l2snr_windspd.objects.create(dev_code_id=devCode,windspd=windspdValue,dataflag='Y',hourminindex=hourminindex)
 #             dct_t_l2snr_noise.objects.create(dev_code_id=devCode,noise=noiseValue,dataflag='Y',hourminindex=hourminindex)
@@ -1936,11 +2037,11 @@ class dct_t_HCU_Data_Report():
                                                            pm25=pm2d5Value,pm10=pm10Value,noise=noiseValue,temperature=tempValue,
                                                            humidity=humidValue,winddir=winddirValue,windspd=windspdValue,
                                                            lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
-                                                           hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+                                                           hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd,no2=no2)
             else:
                 dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=devCode,site_code=result[0].site_code,tsp=tspValue, pm01=pm1d0Value,pm25=pm2d5Value, pm10=pm10Value, noise=noiseValue, temperature=tempValue,humidity=humidValue, winddir=winddirValue, windspd=windspdValue,
                                                                 lightstr=lightstrValue,so2=so2Value,co1=co1Value,no1=no1Value,h2s=hsValue,
-                                                                hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd)
+                                                                hcho=hchoValue,toxicgas=toxicgasValue,rssi=rssiValue,pwrind=pwrInd,no2=no2)
             result={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':115,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
             msg_len=len(json.dumps(result))
             Msg_final={'socketid':socketId,'data':{'ToUsr':devCode,'FrUsr':ServerName,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':0x3010,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':1},"FnFlg":0}}
