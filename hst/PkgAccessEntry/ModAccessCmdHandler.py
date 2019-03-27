@@ -1606,6 +1606,14 @@ class ClassHCUReportDataToDba:
 
             else:
                 return
+
+class ClassNbiotReportDataToDba:
+    def inputCmdHandlerEntry(self,inputData):
+        serviceId=inputData['serviceId']
+        inputData=inputData['iot_data']
+        proc=ModDbaMainEntry.ClassNbiotDbaMainEntry()
+        result=proc.NbIotMainEntry(serviceId, inputData)
+        return result
                 
             
         

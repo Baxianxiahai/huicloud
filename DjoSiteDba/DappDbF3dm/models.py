@@ -240,3 +240,14 @@ class dct_t_l3f3dm_day_report_aqyc(models.Model):
     toxicgas = models.FloatField(default=0, verbose_name="煤气")
     # rssi = models.FloatField(default=0, verbose_name="信号强度")
     # pwrind = models.FloatField(default=0, verbose_name="电量强度")
+    
+    
+class dct_t_l3f2cm_nbiot_ctc_token(models.Model):
+    sid=models.AutoField(primary_key=True)
+    appid=models.CharField(max_length=256)
+    appsecret=models.CharField(max_length=256)
+    serviceid = models.CharField(max_length=256)
+    accesstoken = models.CharField(max_length=256)
+    refreshtoken = models.CharField(max_length=256)
+    accexpires = models.DateTimeField(max_length=0)
+    refexpires = models.DateTimeField(max_length=0)

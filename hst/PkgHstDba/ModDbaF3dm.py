@@ -223,6 +223,16 @@ class HCUF3dmDataBaseConfirm():
             result={'socketid':socketId,'data':{'ToUsr':inputData['FrUsr'],'FrUsr':inputData['ToUsr'],"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_SMART_CITY_DATA_CONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
         return result
     
+class NBIOTF3dmDataBaseComfirm():
+    def dft_dbi_nb_iot_data_current_report(self,serviceId,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF3dm_view=DappDbF3dm.dct_t_iot_data_report()
+                result=DappDbF3dm_view.dft_dbi_nb_iot_data_report_view(serviceId, inputData)
+        except Exception:
+            result={'result':'false', 'token':"errcode"}
+        return result
+    
     
     
     

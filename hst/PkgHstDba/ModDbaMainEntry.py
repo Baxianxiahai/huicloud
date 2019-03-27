@@ -952,7 +952,13 @@ class ClassHCUDbaMainEntry():
         F10oam=ModDbaF10oam.classDappDbF10oam()
         result=F10oam.dft_dbi_hcu_inventory_confirm(socketId, inputData)
         return result
-    
+
+class ClassNbiotDbaMainEntry():
+    def NbIotMainEntry(self,serviceId,inputData):
+        if int(inputData['MsgId']) ==GOLBALVAR.HUITPJSON_MSGID_NB_IOT_DATA_REPORT:
+            F3dmnbiot=ModDbaF3dm.NBIOTF3dmDataBaseComfirm()
+            result=F3dmnbiot.dft_dbi_nb_iot_data_current_report(serviceId,inputData)
+            return result
 
     
             
