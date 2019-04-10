@@ -148,15 +148,11 @@ class t_cebs_cali_profile(models.Model):
     left_bot_y = models.IntegerField(default=0)
     right_up_x = models.IntegerField(default=0)
     right_up_y = models.IntegerField(default=0)
-    accspeed = models.IntegerField(default=20)
-    decspeed = models.IntegerField(default=20)
-    movespeed = models.IntegerField(default=20)
-    zero_spd = models.IntegerField(default=20)
-    zero_dec = models.IntegerField(default=20)
-    back_step = models.IntegerField(default=12800)
+
     
 class t_cebs_object_profile(models.Model):
     objid = models.AutoField(primary_key=True) 
+    defaultflag = models.BooleanField()
     objname = models.CharField(max_length=20,db_index=True)
     objtype = models.IntegerField(default=1)
     uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
@@ -178,6 +174,12 @@ class t_cebs_config_eleg(models.Model):
     smlimit = models.IntegerField(default=500)
     mblimit = models.IntegerField(default=2000)
     blimit = models.IntegerField(default=5000)
+    accspeed = models.IntegerField(default=4)
+    decspeed = models.IntegerField(default=4)
+    movespeed = models.IntegerField(default=4)
+    zero_spd = models.IntegerField(default=4)
+    zero_dec = models.IntegerField(default=4)
+    back_step = models.IntegerField(default=4)
 
 class t_cebs_config_stackcell(models.Model):
     confid = models.AutoField(primary_key=True)
