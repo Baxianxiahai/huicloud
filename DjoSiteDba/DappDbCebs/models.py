@@ -152,7 +152,7 @@ class t_cebs_cali_profile(models.Model):
     
 class t_cebs_object_profile(models.Model):
     objid = models.AutoField(primary_key=True) 
-    defaultflag = models.BooleanField()
+    defaultflag = models.BooleanField(default=False)
     objname = models.CharField(max_length=20,db_index=True)
     objtype = models.IntegerField(default=1)
     uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
@@ -237,7 +237,14 @@ class t_cebs_result_stackcell(models.Model):
     doneflag = models.BooleanField(default=False)
     memo=models.CharField(max_length=500)
     
-    
+class t_cebs_batch_info(models.Model):
+    snbatch = models.AutoField(primary_key=True)
+    user = models.CharField(max_length=20)
+    createtime = models.DateTimeField(auto_now=True)
+    comp_nbr = models.IntegerField(default=4)
+    usr_def1 = models.CharField(max_length=256)
+    usr_def2 = models.CharField(max_length=256)
+   
     
     
     
