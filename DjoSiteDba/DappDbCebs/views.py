@@ -2291,6 +2291,51 @@ class dct_classDbiViewDebs:
         print('res',res)       
         return res       
            
-            
+    def dft_dbi_cebs_init_config_read(self, inputData):
+        bufferout = {}
+        result = models.t_cebs_object_profile.objects.filter(defaultflag = True)
+        if result.exists():
+            foundObjid=result[0].objid
+            bufferout['objid'] = result[0].objid
+            bufferout['objname'] = result[0].objname
+            bufferout['objtype'] = result[0].objtype
+            bufferout['uid'] = result[0].uid
+            bufferout['dir_origin'] = result[0].dir_origin
+            bufferout['dir_middle'] = result[0].dir_middle
+        
+        result = models.t_cebs_config_eleg.objects.filter(objid = foundObjid)
+        if result.exists():
+            bufferout['confid'] = result[0].confid
+            bufferout['fixpoint'] = result[0].fixpoint
+            bufferout['autovideo'] = result[0].autovideo
+            bufferout['autodist'] = result[0].autodist
+            bufferout['addset'] = result[0].addset
+            bufferout['autocap'] = result[0].autocap
+            bufferout['autoperiod'] = result[0].autoperiod
+            bufferout['videotime'] = result[0].videotime
+            bufferout['slimit'] = result[0].slimit
+            bufferout['smlimit'] = result[0].smlimit
+            bufferout['mblimit'] = result[0].mblimit
+            bufferout['blimit'] = result[0].blimit
+            bufferout['accspeed'] = result[0].accspeed
+            bufferout['decspeed'] = result[0].decspeed
+            bufferout['movespeed'] = result[0].movespeed
+            bufferout['zero_spd'] = result[0].zero_spd
+            bufferout['zero_dec'] = result[0].zero_dec
+            bufferout['back_step'] = result[0].back_step
+        
+        result = models.t_cebs_cali_profile.objects.all()   
+        if result.exists():
+            bufferout['platetype'] = result[0].platetype
+            bufferout['calitime'] = result[0].calitime
+            bufferout['caliuid'] = result[0].uid
+            bufferout['left_bot_x'] = result[0].left_bot_x
+            bufferout['left_bot_y'] = result[0].left_bot_y
+            bufferout['right_up_x'] = result[0].right_up_x
+            bufferout['right_up_y'] = result[0].right_up_y
+              
+
+        print(bufferout)
+        return bufferout 
         
         
