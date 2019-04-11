@@ -2295,7 +2295,7 @@ class dct_classDbiViewDebs:
         bufferout = {}
         result = models.t_cebs_object_profile.objects.filter(defaultflag = True)
         if result.exists():
-        	foundObjid=result[0].objid
+            foundObjid=result[0].objid
             bufferout['objid'] = result[0].objid
             bufferout['objname'] = result[0].objname
             bufferout['objtype'] = result[0].objtype
