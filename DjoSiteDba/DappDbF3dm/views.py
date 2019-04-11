@@ -1,4 +1,4 @@
-import os,json
+import os,json,io
 import pycurl
 import numpy as np
 from django.db.models import Q
