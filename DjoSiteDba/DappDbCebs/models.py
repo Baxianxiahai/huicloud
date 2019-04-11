@@ -239,7 +239,7 @@ class t_cebs_result_stackcell(models.Model):
     
 class t_cebs_batch_info(models.Model):
     snbatch = models.AutoField(primary_key=True)
-    user = models.CharField(max_length=20)
+    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
     createtime = models.DateTimeField(auto_now=True)
     comp_nbr = models.IntegerField(default=4)
     usr_def1 = models.CharField(max_length=256)
