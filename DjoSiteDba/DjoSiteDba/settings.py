@@ -36,6 +36,7 @@ _SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-2018011
                        {'att':'pc', 'name':'ZJLPC', 'index':2},
                        {'att':'pc', 'name':'PGS-20180113DJZ', 'index':3},
                        {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
+                       {'att':'pc', 'name':'kickseed', 'index':5},
                        ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
@@ -59,6 +60,11 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_WK_TARGET = element['index']
         PasswordSetFlag = True
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
+        IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = '123456';
+        LOCAL_WK_TARGET = element['index']
+        PasswordSetFlag = True
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'kickseed'):
         IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456';
         LOCAL_WK_TARGET = element['index']
@@ -332,6 +338,60 @@ elif (LOCAL_WK_TARGET == 4):
         'DappDbSnr':'default',
         'DappDbCebs':'cebs',
         
+    }    
+
+#Ubuntu 16 From xiaohui
+elif (LOCAL_WK_TARGET == 5):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        },
+        'cebs': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+            }
+        }
+    DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
+    DATABASE_APPS_MAPPING={
+        'admin': 'default',
+        'auth': 'default',
+        'contenttypes': 'default',
+        'sessions': 'default',
+        'messages': 'default',
+        'staticfiles': 'default',
+        'DappDbF1sym':'default',
+        'DappDbF2cm':'default',
+        'DappDbF3dm':'default',
+        'DappDbF4icm':'default',
+        'DappDbF5fm':'default',
+        'DappDbF6pm':'default',
+        'DappDbF7ads':'default',
+        'DappDbF8psm':'default',
+        'DappDbF9gism':'default',
+        'DappDbF10oam':'default',
+        'DappDbF11faam':'default',
+        'DappDbFxprcm':'default',
+        'DappDbSnr':'default',
+        'DappDbCebs':'cebs',
     }    
 
 #FORMAL SERVER DEPLOYMENT

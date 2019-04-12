@@ -242,12 +242,6 @@ class ClassDbaCebs():
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
         result = DappDbCebs_view.dft_dbi_result_stackcell_delete(inputData)
 
-    def dft_dbi_cebs_init_config_read(self, inputData):
-        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_cebs_init_config_read(inputData)
-        
-        
-
 
 
 
