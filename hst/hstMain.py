@@ -19,17 +19,10 @@ def hst_start_server(addr, port):
     mySvrConn = HTTPServer(addr, ModAccessHttpHandler.ClassHttpRequestGenernalHandler)
     print("[", time.asctime(), "HUIREST]: Server Starts - %s:%s" % addr)
     try:
-<<<<<<< HEAD
         mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # SOCK_STREAM  #SOCK_DGRAM
         mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #SOCK_STREAM  #SOCK_DGRAM
         mySvrConn.recSocket.settimeout(200)
         mySvrConn.recSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
-=======
-        mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #SOCK_STREAM  #SOCK_DGRAM    
-#         mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #SOCK_STREAM  #SOCK_DGRAM
-        mySvrConn.recSocket.settimeout(200)
-        mySvrConn.recSocket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1) 
->>>>>>> 19deb93d02253bb66ca311399129f52699254c5e
 #         mySvrConn.recSocket.bind(('', 7999))
         mySvrConn.serve_forever()
     except KeyboardInterrupt as e:

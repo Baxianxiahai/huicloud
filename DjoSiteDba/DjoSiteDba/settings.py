@@ -336,16 +336,12 @@ elif (LOCAL_WK_TARGET == 4):
         'DappDbF11faam':'default',
         'DappDbFxprcm':'default',
         'DappDbSnr':'default',
-        'DappDbCebs':'cebs',
-        
-<<<<<<< HEAD
+        'DappDbCebs':'cebs',    
+
     }    
 
 #Ubuntu 16 From xiaohui
-=======
-    }
-#LCPC
->>>>>>> 19deb93d02253bb66ca311399129f52699254c5e
+
 elif (LOCAL_WK_TARGET == 5):
     DATABASES = {
         'default': {
@@ -397,13 +393,10 @@ elif (LOCAL_WK_TARGET == 5):
         'DappDbFxprcm':'default',
         'DappDbSnr':'default',
         'DappDbCebs':'cebs',
-<<<<<<< HEAD
+
     }    
 
-=======
-        
-    }
->>>>>>> 19deb93d02253bb66ca311399129f52699254c5e
+
 #FORMAL SERVER DEPLOYMENT
 else:
     DATABASES = {
