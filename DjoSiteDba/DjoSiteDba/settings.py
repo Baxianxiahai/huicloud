@@ -310,7 +310,7 @@ elif (LOCAL_WK_TARGET == 4):
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
             }
@@ -353,7 +353,7 @@ elif (LOCAL_WK_TARGET == 5):
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                #'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         },
@@ -366,7 +366,7 @@ elif (LOCAL_WK_TARGET == 5):
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
             }

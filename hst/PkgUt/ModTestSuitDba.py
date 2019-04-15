@@ -97,9 +97,9 @@ class ClassUtDba(unittest.TestCase):
     #add
     def tc_dba_cebs_001(self):
         ticks = time.time();
+        
         print("tc_dba_cebs_001, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 3800,"parFlag": 1,"parContent": \
-            {"cmd":"add", "user":"test222"}}
+        jsonInputData = {"restTag": "dba","actionId": 3800,"parFlag": 1,"parContent":{'cmd':'add', 'uid':250, 'login_name':'admin', 'pass_word':'13456', 'grade_level':1,'email':'13525@.com', 'memo':'this'}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         print("tc_dba_cebs_001 result = ", result);
     

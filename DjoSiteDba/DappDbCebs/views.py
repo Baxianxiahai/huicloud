@@ -6,7 +6,6 @@ import datetime
 import time
 #import pycurl
 import io
-
 from DappDbCebs import models
 from django.template.defaultfilters import length
 from DappDbInsertData.CheckoutMenuAndAction import update_menu_and_action
@@ -1407,10 +1406,18 @@ class dct_classDbiViewDebs:
 #         models.t_cebs_batch_file.objects.filter(batch_no = bufferdata['batch_no'],hole_no = bufferdata['hole_no']).delete()
 #         return True
 
-
+    def __dft_getRandomSid(self,strlen):
+        str_array=['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y']
+        sid=''.join(random.sample(str_array,strlen))
+        return sid
+    def _dft_getRandomUid(self,strlen):
+        str_array=['0','1','2','3','4','5','6','7','8','9']
+        uid=''.join(random.sample(str_array,strlen))
+        return uid
+    
   #LC:add protection
     def dft_dbi_user_sheet_add(self, inputData):
-        uid_val = inputData['uid']
+        uid_val = "UID"+self._dft_getRandomUid(7)
         login_name_val = inputData['login_name']
         pass_word_val = inputData['pass_word']
         grade_level_val = inputData['grade_level']
@@ -1419,19 +1426,22 @@ class dct_classDbiViewDebs:
         result = models.t_cebs_user_sheet.objects.filter(uid = uid_val)
         #print(result[0].login_name)
         if result.exists():
-            pass
+            self.dft_dbi_user_sheet_add(inputData)
         else:
             models.t_cebs_user_sheet.objects.create(
             uid = uid_val,login_name = login_name_val,pass_word = pass_word_val,
             grade_level = grade_level_val,email = email_val,memo = memo_val         
             )
-            return True
+            status={"status":"true","msg":"用户新建成功"}
+            return status
     
     
     def dft_dbi_user_sheet_delete(self, inputData):
         uid = inputData['uid']
         models.t_cebs_user_sheet.objects.filter(uid = uid).delete()
-        return True
+        status={"status":"true","msg":"用户已删除"}
+        return status
+    
     #LC:add protection
     def dft_dbi_user_sheet_modify(self, inputData):
         uid = inputData['uid']
@@ -1465,9 +1475,10 @@ class dct_classDbiViewDebs:
                 login_name = login_name_val,pass_word = pass_word_val,
                 grade_level = grade_level_val,reg_date = reg_date_val,email = email_val,memo = memo_val  
                 )
-            return True        
+            resp={"status":"true","msg":"用户信息修改成功"}        
         else:
-            pass
+            resp={"status":"false","msg":"用户不存在，请检查信息"}
+        return resp
     #LC:add protection
     def dft_dbi_user_sheet_read(self, inputData):
         uid = inputData['uid']
@@ -1480,10 +1491,11 @@ class dct_classDbiViewDebs:
             bufferout['reg_date'] = result[0].reg_date.strftime('%Y-%m-%d %H:%M:%S')
             bufferout['email'] = result[0].email
             bufferout['memo'] = result[0].memo
-            print(bufferout)
-            return bufferout       
+            resp={'status':'true','msg':'用户信息获取成功','data':bufferout}
+#             return bufferout
         else:
-            pass
+            resp={'status':'false','msg':'用户不存在，请检查信息'}
+        return resp
         
         
             
@@ -2341,8 +2353,8 @@ class dct_classDbiViewDebs:
         result = models.t_cebs_cali_profile.objects.all()   
         if result.exists():
             bufferout['platetype'] = result[0].platetype
-            bufferout['calitime'] = result[0].calitime
-            bufferout['caliuid'] = result[0].uid
+            bufferout['calitime'] = str(result[0].calitime)
+            bufferout['caliuid'] = result[0].uid_id
             bufferout['left_bot_x'] = result[0].left_bot_x
             bufferout['left_bot_y'] = result[0].left_bot_y
             bufferout['right_up_x'] = result[0].right_up_x
