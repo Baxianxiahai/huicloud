@@ -2299,11 +2299,13 @@ class dct_classDbiViewDebs:
             bufferout['objid'] = result[0].objid
             bufferout['objname'] = result[0].objname
             bufferout['objtype'] = result[0].objtype
-            bufferout['uid'] = result[0].uid
+            #bufferout['uid'] = result[0].uid
+            bufferout['uid'] = result[0].uid_id
             bufferout['dir_origin'] = result[0].dir_origin
             bufferout['dir_middle'] = result[0].dir_middle
         
-        result = models.t_cebs_config_eleg.objects.filter(objid = foundObjid)
+        #result = models.t_cebs_config_eleg.objects.filter(objid = foundObjid)
+        result = models.t_cebs_config_eleg.objects.filter(objid_id = foundObjid)
         if result.exists():
             bufferout['confid'] = result[0].confid
             bufferout['fixpoint'] = result[0].fixpoint
@@ -2327,8 +2329,10 @@ class dct_classDbiViewDebs:
         result = models.t_cebs_cali_profile.objects.all()   
         if result.exists():
             bufferout['platetype'] = result[0].platetype
-            bufferout['calitime'] = result[0].calitime
-            bufferout['caliuid'] = result[0].uid
+            #bufferout['calitime'] = result[0].calitime
+            bufferout['calitime'] = str(result[0].calitime)
+            #bufferout['caliuid'] = result[0].uid
+            bufferout['caliuid'] = result[0].uid_id
             bufferout['left_bot_x'] = result[0].left_bot_x
             bufferout['left_bot_y'] = result[0].left_bot_y
             bufferout['right_up_x'] = result[0].right_up_x
