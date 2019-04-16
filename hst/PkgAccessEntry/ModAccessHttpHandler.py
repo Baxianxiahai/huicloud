@@ -78,6 +78,8 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
 #         print(type(jsonInput))
         if(('socketid' in jsonInput) or ('data' in jsonInput)):
             varClassInputHandler = ModAccessCmdHandler.ClassHCUReportDataToDba()
+        elif(('serviceId') in jsonInput):
+            varClassInputHandler = ModAccessCmdHandler.ClassNbiotReportDataToDba()
         else:
             if ((("restTag" in jsonInput) == False) or (("actionId" in jsonInput) == False) or (("parFlag" in jsonInput) == False) or (("parContent" in jsonInput) == False)):
                 print("HUIREST: Receiving data format error!")
@@ -142,7 +144,6 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
             if (ModAccessCom.GL_PRJ_PAR.PRJ_SER_CEWORM == True):
                 if (jsonInput['restTag'] == 'ceworm'):
                     varClassInputHandler = ModAccessCmdHandler.ClassHuirestCewormInputCmdHandler()
-            
             #NOT EXIST OPTION
 #             else:
 #                 print("HUIREST: Receiving restTag domain error!")
@@ -164,10 +165,6 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
         self.wfile.write(bytes(strOutputData2, "UTF-8"))
         print("")
         return
-        
-        
-        
-        
         
         
         
