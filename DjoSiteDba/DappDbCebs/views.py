@@ -1565,15 +1565,15 @@ class dct_classDbiViewDebs:
         left_bot_y_val = inputData['left_bot_y']
         right_up_x_val = inputData['right_up_x']
         right_up_y_val = inputData['right_up_y']
-        accspeed_val = inputData['accspeed']
-        print("11111")
-        print(inputData['accspeed'])
-        print(accspeed_val)
-        decspeed_val = inputData['decspeed']
-        movespeed_val = inputData['movespeed']
-        zero_spd_val = inputData['zero_spd']
-        zero_dec_val = inputData['zero_dec']
-        back_step_val = inputData['back_step']
+        # accspeed_val = inputData['accspeed']
+        # print("11111")
+        # print(inputData['accspeed'])
+        # print(accspeed_val)
+        # decspeed_val = inputData['decspeed']
+        # movespeed_val = inputData['movespeed']
+        # zero_spd_val = inputData['zero_spd']
+        # zero_dec_val = inputData['zero_dec']
+        # back_step_val = inputData['back_step']
         foreignkeyname = inputData['uid']
         print(inputData)
         print(foreignkeyname)
@@ -1584,11 +1584,15 @@ class dct_classDbiViewDebs:
             #print(uid_val)
         #注意：子表中得加id    
         else:
+            # models.t_cebs_cali_profile.objects.create(
+            #     platetype = platetype_val, uid_id = foreignkeyname, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            #     right_up_x = right_up_x_val, right_up_y = right_up_y_val, accspeed = accspeed_val,
+            #     decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
+            #     zero_dec = zero_dec_val, back_step = back_step_val
+            #     )
             models.t_cebs_cali_profile.objects.create(
                 platetype = platetype_val, uid_id = foreignkeyname, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
-                right_up_x = right_up_x_val, right_up_y = right_up_y_val, accspeed = accspeed_val,
-                decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
-                zero_dec = zero_dec_val, back_step = back_step_val
+                right_up_x = right_up_x_val, right_up_y = right_up_y_val
                 )
         return True
     
@@ -1626,36 +1630,41 @@ class dct_classDbiViewDebs:
                 right_up_y_val = inputData['right_up_y']
             else:
                 right_up_y_val = result[0].right_up_y
-            if 'accspeed' in inputData.keys():
-                accspeed_val = inputData['accspeed']
-            else:
-                accspeed_val = result[0].accspeed
-            if 'decspeed' in inputData.keys():
-                decspeed_val = inputData['decspeed']
-            else:
-                decspeed_val = result[0].decspeed
-            if 'movespeed' in inputData.keys():
-                movespeed_val = inputData['movespeed']
-            else:
-                movespeed_val = result[0].movespeed
-            if 'zero_spd' in inputData.keys():
-                zero_spd_val = inputData['zero_spd']
-            else:
-                zero_spd_val = result[0].zero_spd
-            if 'zero_dec' in inputData.keys():
-                zero_dec_val = inputData['zero_dec']
-            else:
-                zero_dec_val = result[0].zero_dec
-            if 'back_step' in inputData.keys():
-                back_step_val = inputData['back_step']
-            else:
-                back_step_val = result[0].back_step   
+            # if 'accspeed' in inputData.keys():
+            #     accspeed_val = inputData['accspeed']
+            # else:
+            #     accspeed_val = result[0].accspeed
+            # if 'decspeed' in inputData.keys():
+            #     decspeed_val = inputData['decspeed']
+            # else:
+            #     decspeed_val = result[0].decspeed
+            # if 'movespeed' in inputData.keys():
+            #     movespeed_val = inputData['movespeed']
+            # else:
+            #     movespeed_val = result[0].movespeed
+            # if 'zero_spd' in inputData.keys():
+            #     zero_spd_val = inputData['zero_spd']
+            # else:
+            #     zero_spd_val = result[0].zero_spd
+            # if 'zero_dec' in inputData.keys():
+            #     zero_dec_val = inputData['zero_dec']
+            # else:
+            #     zero_dec_val = result[0].zero_dec
+            # if 'back_step' in inputData.keys():
+            #     back_step_val = inputData['back_step']
+            # else:
+            #     back_step_val = result[0].back_step   
                         
+            # models.t_cebs_cali_profile.objects.filter(id = sid).update(
+            #     platetype = platetype_val,calitime = calitime_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            #     right_up_x = right_up_x_val, right_up_y = right_up_y_val, accspeed = accspeed_val,
+            #     decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
+            #     zero_dec = zero_dec_val, back_step = back_step_val
+            #     )
+
             models.t_cebs_cali_profile.objects.filter(id = sid).update(
                 platetype = platetype_val,calitime = calitime_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
-                right_up_x = right_up_x_val, right_up_y = right_up_y_val, accspeed = accspeed_val,
-                decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,
-                zero_dec = zero_dec_val, back_step = back_step_val
+                right_up_x = right_up_x_val, right_up_y = right_up_y_val
                 )
         return False
             
@@ -1675,12 +1684,12 @@ class dct_classDbiViewDebs:
             bufferout['left_bot_y'] = result[0].left_bot_y
             bufferout['right_up_x'] = result[0].right_up_x
             bufferout['right_up_y'] = result[0].right_up_y
-            bufferout['accspeed'] = result[0].accspeed
-            bufferout['decspeed'] = result[0].decspeed
-            bufferout['movespeed'] = result[0].movespeed
-            bufferout['zero_spd'] = result[0].zero_spd
-            bufferout['zero_dec'] = result[0].zero_dec
-            bufferout['back_step'] = result[0].back_step
+            # bufferout['accspeed'] = result[0].accspeed
+            # bufferout['decspeed'] = result[0].decspeed
+            # bufferout['movespeed'] = result[0].movespeed
+            # bufferout['zero_spd'] = result[0].zero_spd
+            # bufferout['zero_dec'] = result[0].zero_dec
+            # bufferout['back_step'] = result[0].back_step
             print(bufferout)
             return bufferout
                      
