@@ -103,17 +103,9 @@ class ClassUtDba(unittest.TestCase):
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         print("tc_dba_cebs_001 result = ", result);
     
-    #delete
-    def tc_dba_cebs_002(self):
-        ticks = time.time();
-        print("tc_dba_cebs_002, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
-            {"cmd":"delete", "user":"test222"}}
-        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
-        print("tc_dba_cebs_002 result = ", result);
-    
+   
     #read
-    def tc_dba_cebs_003(self):
+    def tc_dba_cebs_002(self):
         ticks = time.time();
         print("tc_dba_cebs_003, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
@@ -122,13 +114,22 @@ class ClassUtDba(unittest.TestCase):
         print("tc_dba_cebs_003 result = ", result);
     
     #modify
-    def tc_dba_cebs_004(self):
+    def tc_dba_cebs_003(self):
         ticks = time.time();
         print("tc_dba_cebs_004, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
             {"cmd":"modify", "user":"test222"}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         print("tc_dba_cebs_004 result = ", result);
+
+        #delete
+    def tc_dba_cebs_004(self):
+        ticks = time.time();
+        print("tc_dba_cebs_002, time in second = ", ticks);
+        jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
+            {"cmd":"delete", "user":"test222"}}
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print("tc_dba_cebs_002 result = ", result);
 
 
 
