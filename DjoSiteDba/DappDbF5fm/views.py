@@ -100,7 +100,234 @@ class dct_classDbiL3apF5fm:
         else:
             resp=False
         return resp
-
+    
+    def dft_dbi_fstt_dev_alarmhistory_realtime_req_view(self,inputData):
+        # a={"StatCode":"284356971","date":"","AlarmName":"细颗粒物","AlarmUnit":"微克\/立方米","WarningTarget":201,"minute_head":["12:37","12:38","12:39","12:40","12:41","12:42","12:43","12:44","12:45","12:46","12:47","12:48","12:49","12:50","12:51","12:52","12:53","12:54","12:55","12:56","12:57","12:58","12:59","13:00","13:01","13:02","13:03","13:04","13:05","13:06","13:07","13:08","13:09","13:10","13:11","13:12","13:13","13:14","13:15","13:16","13:17","13:18","13:19","13:20","13:21","13:22","13:23","13:24","13:25","13:26","13:27","13:28","13:29","13:30","13:31","13:32","13:33","13:34","13:35","13:36"],"minute_alarm":[{"name":"TSP","color":"","items":[88,77,74,81,79,83,85,69,73,84,73,68,70,67,65,71,60,70,66,66,68,68,69,64,62,64,63,58,66,67,69,72,69,72,64,69,69,69,66,80,67,62,60,68,69,66,69,67,72,68,69,62,64,63,75,75,71,71,72,63]}],"hour_head":["14:00","15:00","16:00","17:00","18:00","19:00","20:00","21:00","22:00","23:00","0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00","13:00"],"hour_alarm":[{"name":"TSP","color":"","items":[86.4,83.3,89.6,74.1,74.7,68.4,57.6,55.5,51,55.9,64.3,72.1,73.9,80.1,87.8,96.2,104.8,107.1,90,94.9,82.6,74.2,74.3,67.5]}],"Alarm_min":0,"Alarm_max":112.1}
+        statcode = inputData['statcode']
+        alarm_type = inputData['alarmtype']
+        alarm_name = ""
+        alarm_unit = ''
+        result = dct_t_l3f2cm_device_inventory.objects.filter(site_code_id=statcode)
+        if result.exists():
+            dev_code = result[0].dev_code
+        else:
+            dev_code = ""
+        value_min=0
+        value_max=0
+        warning=0
+        line_name=""
+        minute_alarm = []
+        minute_head = []
+        hour_alarm = []
+        hour_head = []
+        minute_new = {}
+        hour_new = {}
+        now_time = datetime.datetime.now()
+        yesterday_time = datetime.datetime.now() - datetime.timedelta(days=1)
+        data_today = now_time.date()
+        hour_today = now_time.hour
+        minute_today = now_time.minute
+        secound_today = now_time.second
+        data_yesterday = yesterday_time.date()
+        hour_yesterday = yesterday_time.hour
+        minute_start = str(data_today) + " " + str(hour_today - 1) + ":" + str(minute_today) + ":" + str(secound_today)
+        hour_start = str(data_yesterday) + " " + str(hour_yesterday) + ":00:00"
+        minute_end = str(data_today) + " " + str(hour_today) + ":" + str(minute_today) + ":" + str(secound_today)
+        hour_end = str(data_today) + " " + str(hour_today) + ":00:00"
+        result_min = dct_t_l3f3dm_minute_report_smartcity.objects.filter(dev_code_id=dev_code,
+                                                                    report_date__range=(minute_start, minute_end))
+        result_hour = dct_t_l3f3dm_hour_report_aqyc.objects.filter(dev_code_id=dev_code,
+                                                                   report_date__range=(hour_start, hour_end))
+        if alarm_type==self.__MFUN_L3APL_F3DM_AQYC_STYPE_PM:
+            alarm_name='细颗粒物'
+            alarm_unit='微克/立方米'
+            warning=self.__MFUN_L3APL_F3DM_TH_ALARM_PM25
+            line_name='TSP'
+            if(result_min.exists() and result_hour.exists()):
+                for line in result_min:
+                    NewData = str(line.report_date.hour).zfill(2) + ":" + str(line.report_date.minute).zfill(2)
+                    minute_new[NewData] = line.tsp
+                for line in result_hour:
+                    newData = str(line.report_date.hour).zfill(2) + ":00"
+                    hour_new[newData] = line.tsp
+                # print(len(minute_new))
+                for i in range(60):
+                    if minute_today + i < 60:
+                        minute_head1 = str(hour_today - 1).zfill(2) + ":" + str(minute_today + i).zfill(2)
+                    else:
+                        minute_head1 = str(hour_today).zfill(2) + ":" + str(minute_today - (60 - i)).zfill(2)
+                    minute_head.append(minute_head1)
+                    if minute_head1 in minute_new.keys():
+                        minute_alarm.append(round(minute_new[minute_head1]), 2)
+                    else:
+                        minute_alarm.append(0)
+                for i in range(0, 24):
+                    if hour_today + i < 24:
+                        hour_head1 = str(hour_today + i).zfill(2) + ":00"
+                    else:
+                        hour_head1 = str(hour_today - (24 - i)).zfill(2) + ":00"
+                    hour_head.append(hour_head1)
+                    if hour_head1 in hour_new.keys():
+                        hour_alarm.append(hour_new[hour_head1])
+                    else:
+                        hour_alarm.append(0)
+                value_min=0
+                max_1=max(minute_alarm)
+                max_2=max(hour_alarm)
+                value_max=max(max_1,max_2)+5
+        elif alarm_type==self.__MFUN_L3APL_F3DM_AQYC_STYPE_NOISE:
+            alarm_name = '噪声'
+            alarm_unit = '分贝'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_NOISE
+            line_name = '噪声'
+            if (result_min.exists() and result_hour.exists()):
+                for line in result_min:
+                    NewData = str(line.report_date.hour).zfill(2) + ":" + str(line.report_date.minute).zfill(2)
+                    minute_new[NewData] = line.noise
+                for line in result_hour:
+                    newData = str(line.report_date.hour).zfill(2) + ":00"
+                    hour_new[newData] = line.noise
+                # print(len(minute_new))
+                for i in range(60):
+                    if minute_today + i < 60:
+                        minute_head1 = str(hour_today - 1).zfill(2) + ":" + str(minute_today + i).zfill(2)
+                    else:
+                        minute_head1 = str(hour_today).zfill(2) + ":" + str(minute_today - (60 - i)).zfill(2)
+                    minute_head.append(minute_head1)
+                    if minute_head1 in minute_new.keys():
+                        minute_alarm.append(round(minute_new[minute_head1]), 2)
+                    else:
+                        minute_alarm.append(0)
+                for i in range(0, 24):
+                    if hour_today + i < 24:
+                        hour_head1 = str(hour_today + i).zfill(2) + ":00"
+                    else:
+                        hour_head1 = str(hour_today - (24 - i)).zfill(2) + ":00"
+                    hour_head.append(hour_head1)
+                    if hour_head1 in hour_new.keys():
+                        hour_alarm.append(hour_new[hour_head1])
+                    else:
+                        hour_alarm.append(0)
+                value_min = 0
+                max_1 = max(minute_alarm)
+                max_2 = max(hour_alarm)
+                value_max = max(max_1, max_2) + 5
+        elif alarm_type==self.__MFUN_L3APL_F3DM_AQYC_STYPE_TEMP:
+            alarm_name = '温度'
+            alarm_unit = '摄氏度'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_TEMP
+            line_name = '温度'
+            if (result_min.exists() and result_hour.exists()):
+                for line in result_min:
+                    NewData = str(line.report_date.hour).zfill(2) + ":" + str(line.report_date.minute).zfill(2)
+                    minute_new[NewData] = line.temperature
+                for line in result_hour:
+                    newData = str(line.report_date.hour).zfill(2) + ":00"
+                    hour_new[newData] = line.temperature
+                print(len(minute_new))
+                for i in range(60):
+                    if minute_today + i < 60:
+                        minute_head1 = str(hour_today - 1).zfill(2) + ":" + str(minute_today + i).zfill(2)
+                    else:
+                        minute_head1 = str(hour_today).zfill(2) + ":" + str(minute_today - (60 - i)).zfill(2)
+                    minute_head.append(minute_head1)
+                    if minute_head1 in minute_new.keys():
+                        minute_alarm.append(round(minute_new[minute_head1]), 2)
+                    else:
+                        minute_alarm.append(0)
+                for i in range(0, 24):
+                    if hour_today + i < 24:
+                        hour_head1 = str(hour_today + i).zfill(2) + ":00"
+                    else:
+                        hour_head1 = str(hour_today - (24 - i)).zfill(2) + ":00"
+                    hour_head.append(hour_head1)
+                    if hour_head1 in hour_new.keys():
+                        hour_alarm.append(hour_new[hour_head1])
+                    else:
+                        hour_alarm.append(0)
+                value_min = 0
+                max_1 = max(minute_alarm)
+                max_2 = max(hour_alarm)
+                value_max = max(max_1, max_2) + 5
+        elif alarm_type==self.__MFUN_L3APL_F3DM_AQYC_STYPE_HUMID:
+            alarm_name = '湿度'
+            alarm_unit = '%'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_HUMID
+            line_name = '湿度'
+            if (result_min.exists() and result_hour.exists()):
+                for line in result_min:
+                    NewData = str(line.report_date.hour).zfill(2) + ":" + str(line.report_date.minute).zfill(2)
+                    minute_new[NewData] = line.humidity
+                for line in result_hour:
+                    newData = str(line.report_date.hour).zfill(2) + ":00"
+                    hour_new[newData] = line.humidity
+                # print(len(minute_new))
+                for i in range(60):
+                    if minute_today + i < 60:
+                        minute_head1 = str(hour_today - 1).zfill(2) + ":" + str(minute_today + i).zfill(2)
+                    else:
+                        minute_head1 = str(hour_today).zfill(2) + ":" + str(minute_today - (60 - i)).zfill(2)
+                    minute_head.append(minute_head1)
+                    if minute_head1 in minute_new.keys():
+                        minute_alarm.append(round(minute_new[minute_head1],2))
+                    else:
+                        minute_alarm.append(0)
+                for i in range(0, 24):
+                    if hour_today + i < 24:
+                        hour_head1 = str(hour_today + i).zfill(2) + ":00"
+                    else:
+                        hour_head1 = str(hour_today - (24 - i)).zfill(2) + ":00"
+                    hour_head.append(hour_head1)
+                    if hour_head1 in hour_new.keys():
+                        hour_alarm.append(hour_new[hour_head1])
+                    else:
+                        hour_alarm.append(0)
+                value_min = 0
+                max_1 = max(minute_alarm)
+                max_2 = max(hour_alarm)
+                value_max = max(max_1, max_2) + 5
+        elif alarm_type==self.__MFUN_L3APL_F3DM_AQYC_STYPE_WINDSPD:
+            alarm_name = '风速'
+            alarm_unit = '米/秒'
+            warning = self.__MFUN_L3APL_F3DM_TH_ALARM_WINDSPD
+            line_name = '风速'
+            if (result_min.exists() and result_hour.exists()):
+                for line in result_min:
+                    NewData = str(line.report_date.hour).zfill(2) + ":" + str(line.report_date.minute).zfill(2)
+                    minute_new[NewData] = line.windspd
+                for line in result_hour:
+                    newData = str(line.report_date.hour).zfill(2) + ":00"
+                    hour_new[newData] = line.windspd
+                print(len(minute_new))
+                for i in range(60):
+                    if minute_today + i < 60:
+                        minute_head1 = str(hour_today - 1).zfill(2) + ":" + str(minute_today + i).zfill(2)
+                    else:
+                        minute_head1 = str(hour_today).zfill(2) + ":" + str(minute_today - (60 - i)).zfill(2)
+                    minute_head.append(minute_head1)
+                    if minute_head1 in minute_new.keys():
+                        minute_alarm.append(round(minute_new[minute_head1]), 2)
+                    else:
+                        minute_alarm.append(0)
+                for i in range(0, 24):
+                    if hour_today + i < 24:
+                        hour_head1 = str(hour_today + i).zfill(2) + ":00"
+                    else:
+                        hour_head1 = str(hour_today - (24 - i)).zfill(2) + ":00"
+                    hour_head.append(hour_head1)
+                    if hour_head1 in hour_new.keys():
+                        hour_alarm.append(hour_new[hour_head1])
+                    else:
+                        hour_alarm.append(0)
+                value_min = 0
+                max_1 = max(minute_alarm)
+                max_2 = max(hour_alarm)
+                value_max = max(max_1, max_2) + 5
+        value_temp={"minute_alarm":[{'name':line_name,'color':"",'items':minute_alarm}],"minute_head":minute_head,"hour_alarm":[{'name':line_name,'color':"",'items':hour_alarm}],
+                    "hour_head":hour_head,"alarm_name":alarm_name,"alarm_unit":alarm_unit,"warning":warning,
+                    'value_min':value_min,"value_max":value_max}
+        return value_temp
+    
     def dft_dbi_map_alarm_site_info_req(self,inputData):
         uid=inputData['uid']
         auth_list=self.__dft_dbi_user_statproj_inqury(uid)

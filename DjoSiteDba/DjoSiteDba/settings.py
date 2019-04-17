@@ -37,6 +37,7 @@ _SERVER_HOSTNAME_SET = [
     {'att': 'pc', 'name': 'ZJLPC', 'index': 2}, #ZJL
     {'att': 'pc', 'name': 'PGS-20180113DJZ', 'index': 3}, #D
     {'att': 'pc', 'name': 'PGS-20180113SZM', 'index': 4}, #L
+    {'att': 'fssvr', 'name': 'fsg0518', 'index': 5}, #fs服务器
 ]
 # PasswordSetFlag = False
 LOCAL_HOSTNAME = socket.gethostname()
@@ -59,6 +60,11 @@ for element in _SERVER_HOSTNAME_SET:
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113DJZ'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
+        LOCAL_WK_TARGET = element['index']
+        # PasswordSetFlag = True
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'fsg0518'):
+        # IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = 'xiaohui@naxian'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
     else:
@@ -325,7 +331,59 @@ elif (LOCAL_WK_TARGET == 4):
         'DappDbSnr': 'default',
         'DappDbCebs': 'cebs',
     }
-
+# 复珊数据库
+elif (LOCAL_WK_TARGET == 5):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'Django',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        },
+        'cebs': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        }
+    }
+    DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
+    DATABASE_APPS_MAPPING = {
+        'admin': 'default',
+        'auth': 'default',
+        'contenttypes': 'default',
+        'sessions': 'default',
+        'messages': 'default',
+        'staticfiles': 'default',
+        'DappDbF1sym': 'default',
+        'DappDbF2cm': 'default',
+        'DappDbF3dm': 'default',
+        'DappDbF4icm': 'default',
+        'DappDbF5fm': 'default',
+        'DappDbF6pm': 'default',
+        'DappDbF7ads': 'default',
+        'DappDbF8psm': 'default',
+        'DappDbF9gism': 'default',
+        'DappDbF10oam': 'default',
+        'DappDbF11faam': 'default',
+        'DappDbFxprcm': 'default',
+        'DappDbSnr': 'default',
+        'DappDbCebs': 'cebs',
+    }
 # FORMAL SERVER DEPLOYMENT
 else:
     DATABASES = {

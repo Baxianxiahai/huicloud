@@ -2168,7 +2168,7 @@ class dct_t_iot_data_report():
         curl.setopt(pycurl.WRITEFUNCTION, buf.write)
         curl.setopt(pycurl.HEADER, 0)
         curl.setopt(pycurl.HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded'])
-        curl.setopt(pycurl.SSLCERT, '/var/www/html/mfunhcu/outgoing.CertwithKey.pem')
+        curl.setopt(pycurl.SSLCERT, '/var/www/html/outgoing.CertwithKey.pem')
         curl.setopt(pycurl.SSLCERTPASSWD, "IoM@1234")
         curl.perform()
         curlData = json.loads(buf.getvalue(),encoding='utf8')
@@ -2177,7 +2177,9 @@ class dct_t_iot_data_report():
     def dft_dbi_nb_iot_data_report_view(self,serviceId,inputData):
         FrUsr = inputData['FrUsr']
         FnFlg=inputData['FnFlg']
+        print(serviceId)
         token_expires=dct_t_l3f2cm_nbiot_ctc_token.objects.filter(serviceid=serviceId)
+        print(token_expires)
         if token_expires.exists():
             token=token_expires[0].accesstoken
             accexpires=token_expires[0].accexpires
@@ -2219,7 +2221,7 @@ class dct_t_iot_data_report():
                 else:
                     result = {'result': 'false',  'token':token}
         else:
-            result={'result':'false', 'token':"errcode"}
+            result={'result':'false', 'token':"信息未找到"}
         return result
 
     def dft_dbi_get_aqyc_current_report_view(self,dev_code):

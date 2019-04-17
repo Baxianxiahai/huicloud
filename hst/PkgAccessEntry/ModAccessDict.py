@@ -35,5 +35,7 @@ class All_Golbal_Variable_Dictionary():
         self.HUITPJSON_MSGID_NGROKRES_RESP=0XF0C3
         self.HUITPJSON_MSGID_SWRESTART_RESP=0XF0C4
         self.HUITPJSON_MSGID_SMART_CITY_CTRL_RESP=0X5E90
-
+        
+        '''NB IOT Data REPORT'''
+        self.HUITPJSON_MSGID_NB_IOT_DATA_REPORT=24209
 GOLBALVAR=All_Golbal_Variable_Dictionary()

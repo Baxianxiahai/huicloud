@@ -1472,7 +1472,7 @@ class dct_classDbiViewDebs:
             bufferout['reg_date'] = result[0].reg_date.strftime('%Y-%m-%d %H:%M:%S')
             bufferout['email'] = result[0].email
             bufferout['memo'] = result[0].memo
-            print(bufferout)
+            print (bufferout)
             return bufferout        
         
         
@@ -1632,10 +1632,6 @@ class dct_classDbiViewDebs:
                 zero_dec = zero_dec_val, back_step = back_step_val
                 )
         return False
-            
-        
-        
-        
         
     def dft_dbi_cali_profile_read(self, inputData):  
         sid = inputData['id']
