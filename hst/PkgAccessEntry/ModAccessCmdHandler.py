@@ -203,6 +203,7 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_CEBS_config_stackcell    = 0X0EDC
     __HUIREST_ACTIONID_DBA_CEBS_result_eleg         = 0X0EDD
     __HUIREST_ACTIONID_DBA_CEBS_result_stackcell    = 0X0EDE
+    __HUIREST_ACTIONID_DBA_CEBS_init_result         = 0X0EDF
     __HUIREST_ACTIONID_DBA_FAAM                     = 0X0F3C
     __HUIREST_ACTIONID_DBA_FSTT                     = 0X0FA0
     __HUIREST_ACTIONID_DBA_TEST                     = 0X1004
@@ -354,6 +355,11 @@ class ClassHuirestDbaInputCmdHandler:
                     self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achContentResExt = proc.dft_cebs_msg_process_result_stackcell(inputStr['parContent'])
+            elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_CEBS_init_result:
+                if (inputStr['parContent']['cmd']=='read'):
+                    self.achCtrlFlag = _HST_ACH_CTRL_FLAG_CONTENT_EXT
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.achContentResExt = proc.dft_cebs_msg_process_init_result(inputStr['parContent'])            
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FAAM:
                 self.achProcResult = False
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_FSTT:

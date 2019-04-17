@@ -1,6 +1,6 @@
 # coding:utf8
 from django.db import models
-from serial.properties import NoneType
+#from serial.properties import NoneType
 
 # Create your models here.
 

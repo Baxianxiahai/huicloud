@@ -773,6 +773,12 @@ class ClassDbaMainEntry():
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
+
+    def  dft_cebs_msg_process_init_result(self, inputData):
+        if inputData['cmd']=='read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_init_config_read(inputData)
+        return result
     
     def dft_F12Iwdp_Send_Message(self,inputData):
 #         print(inputData)

@@ -54,3 +54,4 @@
 *.dSYM/
 *.su
 /.metadata/
+migrations/
