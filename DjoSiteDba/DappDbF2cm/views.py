@@ -10,6 +10,7 @@ from DappDbF10oam.models import *
 from DappDbF11faam.models import *
 import json
 from DappDbInsertData.DappDbMsgDefine import *
+import pycurl,io
 
 
 # Create your views here.
@@ -34,6 +35,7 @@ class dct_classDbiL3apF2cm:
     __HCU_NOISE = True
     __HCU_WINDSPD = True
     __HCU_WINDDIR = True
+    __HCU_NO2 = True
 
     __MFUN_HCU_AQYC_INSTALL_PICTURE = "/var/www/html/avorion/upload/"
     __MFUN_HCU_AQYC_INSTALL_PICTURE2 = "/avorion/upload/"
@@ -1432,6 +1434,7 @@ class dct_classDbiL3apF2cm:
             dct_t_l3f2cm_device_inventory.objects.create(dev_code=devCode, site_code_id=statcode, create_date=starttime,
                                                          base_port=BasePort, upgradeflag=1)
             #             weburl = "http://" + str(devCode) + ".ngrok2.hkrob.com:8080/yii2basic/web/index.php"
+            dct_t_l3f2cm_device_cail.objects.create(dev_code_id=devCode)
             weburl = "http://" + str(devCode) + ".ngrok2.hkrob.com:8080/phpmyadmin"
             picurl = "http://admin:Bxxh!123@ngrok2.hkrob.com:" + str(
                 BasePort) + "2" + "/ISAPI/Streaming/channels/1/picture"
@@ -2158,6 +2161,22 @@ class dct_classDbiL3apF2cm:
                     list.append(winddir_delta)
                     winddir_group = {'groupname': "风向参数设置", 'list': list}
                     groups.append(winddir_group)
+                if self.__HCU_NO2 == True:
+                    list = []
+                    no2_max = {'paraname': '数据上限', 'type': 'float', 'max': '20', 'min': '0',
+                                   'value': str(line.no2_coefmax), 'note': "二氧化氮最大值设置", }
+                    list.append(no2_max)
+                    no2_min = {'paraname': '数据下限', 'type': 'float', 'max': '0', 'min': '0',
+                                   'value': str(line.no2_coefmin), 'note': "二氧化氮最小值设置", }
+                    list.append(no2_min)
+                    no2_K = {'paraname': '数据K值', 'type': 'float', 'max': '100', 'min': '',
+                                 'value': str(line.no2_coefK), 'note': "二氧化氮K值设置", }
+                    list.append(no2_K)
+                    no2_B = {'paraname': '数据B值', 'type': 'float', 'max': '100', 'min': '',
+                                 'value': str(line.no2_coefB), 'note': "二氧化氮B值设置", }
+                    list.append(no2_B)
+                    winddir_group = {'groupname': "二氧化氮参数设置", 'list': list}
+                    groups.append(winddir_group)
         ret = {'name': 'configure', 'owner': 'system', 'parameter': {'groups': groups}}
         msg = {'status': 'true', 'auth': 'true', 'ret': ret, 'msg': '获取配置参数成功'}
         return msg
@@ -2165,6 +2184,7 @@ class dct_classDbiL3apF2cm:
     def dft_dbi_HCU_sys_config_save(self, inputData):
         dev_code = inputData['code']
         data = inputData['configure']['parameter']['groups']
+        status = 'false'
         for i in range(len(data)):
             if data[i]['groupname'] == '粉尘参数设置':
                 dust_max = data[i]['list'][0]['value']
@@ -2230,6 +2250,16 @@ class dct_classDbiL3apF2cm:
                                                                                      winddir_coefB=winddir_B,
                                                                                      winddir_delta=winddir_delta)
                 status = 'true'
+            elif data[i]['groupname'] == '二氧化氮参数设置':
+                no2_max = data[i]['list'][0]['value']
+                no2_min = data[i]['list'][1]['value']
+                no2_K = data[i]['list'][2]['value']
+                no2_B = data[i]['list'][3]['value']
+                dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=dev_code).update(no2_coefmax=no2_max,
+                                                                                     no2_coefmin=no2_min,
+                                                                                     no2_coefK=no2_K,
+                                                                                     no2_coefB=no2_B)
+                status = 'true'
             else:
                 status = 'false'
         if status == 'true':
@@ -2255,6 +2285,7 @@ class dct_classDbiL3apF2cm:
     def dft_dbi_get_device_cali(self, inputData):
         devCode = inputData["DevCode"]
         resp = dct_t_l3f2cm_device_cail.objects.filter(dev_code=devCode)
+        msg = {}
         if resp.exists():
             for line in resp:
                 msg = {
@@ -2827,9 +2858,14 @@ class HCUReportAndConfirm():
                             calNoiseCoefMin = line_dev.noise_coefmin
                             calNoiseCoefK = line_dev.noise_coefK
                             calNoiseCoefB = line_dev.noise_coefB
+                            calNo2CoefMax = line_dev.no2_coefmax
+                            calNo2CoefMin = line_dev.no2_coefmin
+                            calNo2CoefK = line_dev.no2_coefK
+                            calNo2CoefB = line_dev.no2_coefB
                             prescaleXHT = line_dev.dev_code.prescale_xht
                             prescaleCUS = line_dev.dev_code.prescale_cus
                             prescaleOFC = line_dev.dev_code.prescale_ofc
+                            ngrokFlag = line_dev.dev_code.port_flag
                             if userName == None: userName = ""
                             if userPswd == None: userPswd = ""
                             if userDef1 == None: userDef1 = ""
@@ -2839,6 +2875,7 @@ class HCUReportAndConfirm():
                             msgIeCnt = {
                                 "htp": hwtype,
                                 'npt': ngrokPort,
+                                'npf': ngrokFlag,
                                 'hlb': hcuLable,
                                 'zlb': zhbLable,
                                 'ufg': upgradeFlag,
@@ -2868,6 +2905,10 @@ class HCUReportAndConfirm():
                                 'nsi': calNoiseCoefMin,
                                 'nsk': calNoiseCoefK,
                                 'nsb': calNoiseCoefB,
+                                'no2m': calNo2CoefMax,
+                                'no2i': calNo2CoefMin,
+                                'no2k': calNo2CoefK,
+                                'no2b': calNo2CoefB,
                                 'ptc': calPm25ThdCannon,
                                 #                                 'eda':"",
                                 #                                 'eia':"",
@@ -2965,3 +3006,155 @@ class HCUReportAndConfirm():
             result.update(lamp_start=startTime, lamp_stop=stopTime, snr_light=lightStr, lamp_mode=lampWorkMode)
         else:
             print("Error Code")
+
+class dct_t_iot_data_report():
+    def dft_dbi_nb_iot_curl_token(self,appId,secret,refresh,topken_type):
+        print(topken_type)
+        if topken_type=="access":
+            login_url='https://180.101.147.89:8743/iocm/app/sec/v1.1.0/login'
+            login_data = 'appId=' + appId + '&secret=' + secret
+        else:
+            login_url = 'https://180.101.147.89:8743/iocm/app/sec/v1.1.0/refreshToken'
+            data = {"appId":appId,"secret":secret,"refreshToken":refresh}
+            login_data=json.dumps(data)
+        curl = pycurl.Curl()
+        curl.setopt(pycurl.URL, login_url)
+        curl.setopt(pycurl.SSL_VERIFYPEER, False)
+        curl.setopt(pycurl.SSL_VERIFYHOST, 0)
+        curl.setopt(pycurl.FOLLOWLOCATION, 1)
+        curl.setopt(pycurl.AUTOREFERER, 1)
+        curl.setopt(pycurl.POST, 1)
+        curl.setopt(pycurl.POSTFIELDS, login_data)
+        curl.setopt(pycurl.TIMEOUT, 30)
+        buf = io.BytesIO()
+        curl.setopt(pycurl.WRITEFUNCTION, buf.write)
+        curl.setopt(pycurl.HEADER, 0)
+        curl.setopt(pycurl.HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded'])
+        curl.setopt(pycurl.SSLCERT, '/var/www/html/outgoing.CertwithKey.pem')
+        curl.setopt(pycurl.SSLCERTPASSWD, "IoM@1234")
+        curl.perform()
+        curlData = json.loads(buf.getvalue(),encoding='utf8')
+        curl.close()
+        return curlData
+    def dft_dbi_nb_iot_data_report_view(self,serviceId,inputData):
+        FrUsr = inputData['FrUsr']
+        FnFlg=inputData['FnFlg']
+        print(serviceId)
+        token_expires=dct_t_l3f2cm_nbiot_ctc_token.objects.filter(serviceid=serviceId)
+        print(token_expires)
+        if token_expires.exists():
+            token=token_expires[0].accesstoken
+            accexpires=token_expires[0].accexpires
+            if(accexpires<datetime.datetime.now()):
+                curl_data=self.dft_dbi_nb_iot_curl_token(token_expires[0].appid,token_expires[0].appsecret,"","access")
+                accessToken=curl_data['accessToken']
+                refreshToken=curl_data['refreshToken']
+                expiresIn=int(curl_data['expiresIn'])-300
+                time_expires=datetime.datetime.now()+datetime.timedelta(seconds=expiresIn)
+                token_expires.update(accesstoken=accessToken,refreshtoken=refreshToken,accexpires=time_expires,refexpires=time_expires)
+                pm2d5Value = inputData['IeCnt']['pm2d5Value']
+                resp_dev = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=FrUsr)
+                if (resp_dev.exists()):
+                    dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=FrUsr, pm25=pm2d5Value,
+                                                                    site_code_id=resp_dev[0].site_code_id)
+                    hourminindex = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
+                    dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=FrUsr, pm25=pm2d5Value,
+                                                                   site_code_id=resp_dev[0].site_code_id,
+                                                                   hourminindex=hourminindex)
+                    # data = self.dft_dbi_get_aqyc_current_report_view(FrUsr)
+                    IeCnt={"cfmYesOrNo":1}
+                    strLen=len(json.dumps(IeCnt))
+                    data={"ToUsr":FrUsr,"FrUsr":"XHTS","CrTim":int(time.time()),"MsgTp":"huitp_json","MsgId":0X5E90,"MsgLn":strLen,"IeCnt":IeCnt,"FnFlg":FnFlg}
+                    result = {'result': 'true', 'token': token, 'data': data}
+                else:
+                    result = {'result': 'false', 'token': token}
+            else:
+                pm2d5Value=inputData['IeCnt']['pm2d5Value']
+                resp_dev=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=FrUsr)
+                if(resp_dev.exists()):
+                    dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=FrUsr,pm25=pm2d5Value,site_code_id=resp_dev[0].site_code_id)
+                    hourminindex = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
+                    dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=FrUsr,pm25=pm2d5Value,site_code_id=resp_dev[0].site_code_id,hourminindex=hourminindex)
+                    IeCnt = {"cfmYesOrNo": 1}
+                    strLen = len(json.dumps(IeCnt))
+                    data = {"ToUsr": FrUsr, "FrUsr": "XHTS", "CrTim": int(time.time()), "MsgTp": "huitp_json",
+                            "MsgId": 0X5E90, "MsgLn": strLen, "IeCnt": IeCnt, "FnFlg": FnFlg}
+                    result = {'result': 'true', 'token':token,'data':data}
+                else:
+                    result = {'result': 'false',  'token':token}
+        else:
+            result={'result':'false', 'token':"信息未找到"}
+        return result
+
+    def dft_dbi_get_aqyc_current_report_view(self,dev_code):
+        result=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code)
+        tsp = 0
+        pm01 = 0
+        pm25 = 0
+        pm10 = 0
+        noise = 0
+        temperature = 0
+        humidity = 0
+        winddir = 0
+        windspd = 0
+        rain = 0
+        airpresure = 0
+        lightstr = 0
+        so2 = 0
+        co1 = 0
+        no1 = 0
+        h2s = 0
+        hcho = 0
+        toxicgas = 0
+        rssi = 0
+        pwrind=0
+        no2 = 0
+        report_date=str(datetime.datetime.now())
+        if result.exists():
+            for line in result:
+                report_date=str(line.report_time)
+                tsp=line.tsp
+                pm01=line.pm01
+                pm25=line.pm25
+                pm10=line.pm10
+                noise=line.noise
+                temperature=line.temperature
+                humidity=line.humidity
+                winddir=line.winddir
+                windspd=line.windspd
+                rain=line.rain
+                airpresure=line.airpresure
+                lightstr=line.lightstr
+                so2=line.so2
+                co1=line.co1
+                no1=line.no1
+                h2s=line.h2s
+                hcho=line.hcho
+                toxicgas=line.toxicgas
+                rssi=line.rssi
+                pwrind=line.pwrind
+                no2=line.no2
+        resp_data={'report_time':report_date,
+                   'tsp':tsp,
+                   'pm01':pm01,
+                   'pm25':pm25,
+                   'pm10':pm10,
+                   'noise':noise,
+                   'temperature':temperature,
+                   'humidity':humidity,
+                   'winddir':winddir,
+                   'windspd':windspd,
+                   'rain':rain,
+                   'airpresure':airpresure,
+                   'lightstr':lightstr,
+                   'so2':so2,
+                   'co1':co1,
+                   'no1':no1,
+                   'h2s':h2s,
+                   'hcho':hcho,
+                   'toxicgas':toxicgas,
+                   'rssi':rssi,
+                   'pwrind':pwrind,
+                   'no2':no2,
+                   }
+        return resp_data

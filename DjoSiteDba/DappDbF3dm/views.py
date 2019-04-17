@@ -2144,156 +2144,157 @@ class dct_t_HCU_Data_Report():
 #         pass
 
 
+# class dct_t_iot_data_report():
+#     def dft_dbi_nb_iot_curl_token(self,appId,secret,refresh,topken_type):
+#         print(topken_type)
+#         if topken_type=="access":
+#             login_url='https://180.101.147.89:8743/iocm/app/sec/v1.1.0/login'
+#             login_data = 'appId=' + appId + '&secret=' + secret
+#         else:
+#             login_url = 'https://180.101.147.89:8743/iocm/app/sec/v1.1.0/refreshToken'
+#             data = {"appId":appId,"secret":secret,"refreshToken":refresh}
+#             login_data=json.dumps(data)
+#         curl = pycurl.Curl()
+#         curl.setopt(pycurl.URL, login_url)
+#         curl.setopt(pycurl.SSL_VERIFYPEER, False)
+#         curl.setopt(pycurl.SSL_VERIFYHOST, 0)
+#         curl.setopt(pycurl.FOLLOWLOCATION, 1)
+#         curl.setopt(pycurl.AUTOREFERER, 1)
+#         curl.setopt(pycurl.POST, 1)
+#         curl.setopt(pycurl.POSTFIELDS, login_data)
+#         curl.setopt(pycurl.TIMEOUT, 30)
+#         buf = io.BytesIO()
+#         curl.setopt(pycurl.WRITEFUNCTION, buf.write)
+#         curl.setopt(pycurl.HEADER, 0)
+#         curl.setopt(pycurl.HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded'])
+#         curl.setopt(pycurl.SSLCERT, '/var/www/html/outgoing.CertwithKey.pem')
+#         curl.setopt(pycurl.SSLCERTPASSWD, "IoM@1234")
+#         curl.perform()
+#         curlData = json.loads(buf.getvalue(),encoding='utf8')
+#         curl.close()
+#         return curlData
+#     def dft_dbi_nb_iot_data_report_view(self,serviceId,inputData):
+#         FrUsr = inputData['FrUsr']
+#         FnFlg=inputData['FnFlg']
+#         token_expires=dct_t_l3f2cm_nbiot_ctc_token.objects.filter(serviceid=serviceId)
+#         if token_expires.exists():
+#             token=token_expires[0].accesstoken
+#             accexpires=token_expires[0].accexpires
+#             if(accexpires<datetime.datetime.now()):
+#                 curl_data=self.dft_dbi_nb_iot_curl_token(token_expires[0].appid,token_expires[0].appsecret,"","access")
+#                 accessToken=curl_data['accessToken']
+#                 refreshToken=curl_data['refreshToken']
+#                 expiresIn=int(curl_data['expiresIn'])-300
+#                 time_expires=datetime.datetime.now()+datetime.timedelta(seconds=expiresIn)
+#                 token_expires.update(accesstoken=accessToken,refreshtoken=refreshToken,accexpires=time_expires,refexpires=time_expires)
+#                 pm2d5Value = inputData['IeCnt']['pm2d5Value']
+#                 resp_dev = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=FrUsr)
+#                 if (resp_dev.exists()):
+#                     dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=FrUsr, pm25=pm2d5Value,
+#                                                                     site_code_id=resp_dev[0].site_code_id)
+#                     hourminindex = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
+#                     dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=FrUsr, pm25=pm2d5Value,
+#                                                                    site_code_id=resp_dev[0].site_code_id,
+#                                                                    hourminindex=hourminindex)
+#                     # data = self.dft_dbi_get_aqyc_current_report_view(FrUsr)
+#                     IeCnt={"cfmYesOrNo":1}
+#                     strLen=len(json.dumps(IeCnt))
+#                     data={"ToUsr":FrUsr,"FrUsr":"XHTS","CrTim":int(time.time()),"MsgTp":"huitp_json","MsgId":0X5E90,"MsgLn":strLen,"IeCnt":IeCnt,"FnFlg":FnFlg}
+#                     result = {'result': 'true', 'token': accessToken, 'data': data}
+#                 else:
+#                     result = {'result': 'false', 'token': accessToken}
+#             else:
+#                 pm2d5Value=inputData['IeCnt']['pm2d5Value']
+#                 resp_dev=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=FrUsr)
+#                 if(resp_dev.exists()):
+#                     dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=FrUsr,pm25=pm2d5Value,site_code_id=resp_dev[0].site_code_id)
+#                     hourminindex = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
+#                     dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=FrUsr,pm25=pm2d5Value,site_code_id=resp_dev[0].site_code_id,hourminindex=hourminindex)
+#                     IeCnt = {"cfmYesOrNo": "1"}
+#                     strLen = len(json.dumps(IeCnt))
+#                     data = {"ToUsr": "XHTS", "FrUsr": FrUsr, "CrTim": int(time.time()), "MsgTp": "huitp_json",
+#                             "MsgId": 0X5E90, "MsgLn": strLen, "IeCnt": IeCnt, "FnFlg": FnFlg}
+#                     result = {'result': 'true', 'token':token,'data':data}
+#                 else:
+#                     result = {'result': 'false',  'token':token}
+#         else:
+#             result={'result':'false', 'token':"errcode"}
+#         return result
+#
+#     def dft_dbi_get_aqyc_current_report_view(self,dev_code):
+#         result=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code)
+#         tsp = 0
+#         pm01 = 0
+#         pm25 = 0
+#         pm10 = 0
+#         noise = 0
+#         temperature = 0
+#         humidity = 0
+#         winddir = 0
+#         windspd = 0
+#         rain = 0
+#         airpresure = 0
+#         lightstr = 0
+#         so2 = 0
+#         co1 = 0
+#         no1 = 0
+#         h2s = 0
+#         hcho = 0
+#         toxicgas = 0
+#         rssi = 0
+#         pwrind=0
+#         no2 = 0
+#         report_date=str(datetime.datetime.now())
+#         if result.exists():
+#             for line in result:
+#                 report_date=str(line.report_time)
+#                 tsp=line.tsp
+#                 pm01=line.pm01
+#                 pm25=line.pm25
+#                 pm10=line.pm10
+#                 noise=line.noise
+#                 temperature=line.temperature
+#                 humidity=line.humidity
+#                 winddir=line.winddir
+#                 windspd=line.windspd
+#                 rain=line.rain
+#                 airpresure=line.airpresure
+#                 lightstr=line.lightstr
+#                 so2=line.so2
+#                 co1=line.co1
+#                 no1=line.no1
+#                 h2s=line.h2s
+#                 hcho=line.hcho
+#                 toxicgas=line.toxicgas
+#                 rssi=line.rssi
+#                 pwrind=line.pwrind
+#                 no2=line.no2
+#         resp_data={'report_time':report_date,
+#                    'tsp':tsp,
+#                    'pm01':pm01,
+#                    'pm25':pm25,
+#                    'pm10':pm10,
+#                    'noise':noise,
+#                    'temperature':temperature,
+#                    'humidity':humidity,
+#                    'winddir':winddir,
+#                    'windspd':windspd,
+#                    'rain':rain,
+#                    'airpresure':airpresure,
+#                    'lightstr':lightstr,
+#                    'so2':so2,
+#                    'co1':co1,
+#                    'no1':no1,
+#                    'h2s':h2s,
+#                    'hcho':hcho,
+#                    'toxicgas':toxicgas,
+#                    'rssi':rssi,
+#                    'pwrind':pwrind,
+#                    'no2':no2,
+#                    }
+#         return resp_data
 
-class dct_t_iot_data_report():
-    def dft_dbi_nb_iot_curl_token(self,appId,secret,refresh,topken_type):
-        print(topken_type)
-        if topken_type=="access":
-            login_url='https://180.101.147.89:8743/iocm/app/sec/v1.1.0/login'
-            login_data = 'appId=' + appId + '&secret=' + secret
-        else:
-            login_url = 'https://180.101.147.89:8743/iocm/app/sec/v1.1.0/refreshToken'
-            data = {"appId":appId,"secret":secret,"refreshToken":refresh}
-            login_data=json.dumps(data)
-        curl = pycurl.Curl()
-        curl.setopt(pycurl.URL, login_url)
-        curl.setopt(pycurl.SSL_VERIFYPEER, False)
-        curl.setopt(pycurl.SSL_VERIFYHOST, 0)
-        curl.setopt(pycurl.FOLLOWLOCATION, 1)
-        curl.setopt(pycurl.AUTOREFERER, 1)
-        curl.setopt(pycurl.POST, 1)
-        curl.setopt(pycurl.POSTFIELDS, login_data)
-        curl.setopt(pycurl.TIMEOUT, 30)
-        buf = io.BytesIO()
-        curl.setopt(pycurl.WRITEFUNCTION, buf.write)
-        curl.setopt(pycurl.HEADER, 0)
-        curl.setopt(pycurl.HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded'])
-        curl.setopt(pycurl.SSLCERT, '/var/www/html/outgoing.CertwithKey.pem')
-        curl.setopt(pycurl.SSLCERTPASSWD, "IoM@1234")
-        curl.perform()
-        curlData = json.loads(buf.getvalue(),encoding='utf8')
-        curl.close()
-        return curlData
-    def dft_dbi_nb_iot_data_report_view(self,serviceId,inputData):
-        FrUsr = inputData['FrUsr']
-        FnFlg=inputData['FnFlg']
-        print(serviceId)
-        token_expires=dct_t_l3f2cm_nbiot_ctc_token.objects.filter(serviceid=serviceId)
-        print(token_expires)
-        if token_expires.exists():
-            token=token_expires[0].accesstoken
-            accexpires=token_expires[0].accexpires
-            if(accexpires<datetime.datetime.now()):
-                curl_data=self.dft_dbi_nb_iot_curl_token(token_expires[0].appid,token_expires[0].appsecret,"","access")
-                accessToken=curl_data['accessToken']
-                refreshToken=curl_data['refreshToken']
-                expiresIn=int(curl_data['expiresIn'])-300
-                time_expires=datetime.datetime.now()+datetime.timedelta(seconds=expiresIn)
-                token_expires.update(accesstoken=accessToken,refreshtoken=refreshToken,accexpires=time_expires,refexpires=time_expires)
-                pm2d5Value = inputData['IeCnt']['pm2d5Value']
-                resp_dev = dct_t_l3f2cm_device_inventory.objects.filter(dev_code=FrUsr)
-                if (resp_dev.exists()):
-                    dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=FrUsr, pm25=pm2d5Value,
-                                                                    site_code_id=resp_dev[0].site_code_id)
-                    hourminindex = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
-                    dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=FrUsr, pm25=pm2d5Value,
-                                                                   site_code_id=resp_dev[0].site_code_id,
-                                                                   hourminindex=hourminindex)
-                    # data = self.dft_dbi_get_aqyc_current_report_view(FrUsr)
-                    IeCnt={"cfmYesOrNo":1}
-                    strLen=len(json.dumps(IeCnt))
-                    data={"ToUsr":FrUsr,"FrUsr":"XHTS","CrTim":int(time.time()),"MsgTp":"huitp_json","MsgId":0X5E90,"MsgLn":strLen,"IeCnt":IeCnt,"FnFlg":FnFlg}
-                    result = {'result': 'true', 'token': token, 'data': data}
-                else:
-                    result = {'result': 'false', 'token': token}
-            else:
-                pm2d5Value=inputData['IeCnt']['pm2d5Value']
-                resp_dev=dct_t_l3f2cm_device_inventory.objects.filter(dev_code=FrUsr)
-                if(resp_dev.exists()):
-                    dct_t_l3f3dm_current_report_aqyc.objects.create(dev_code_id=FrUsr,pm25=pm2d5Value,site_code_id=resp_dev[0].site_code_id)
-                    hourminindex = datetime.datetime.now().hour * 60 + datetime.datetime.now().minute
-                    dct_t_l3f3dm_minute_report_aqyc.objects.create(dev_code_id=FrUsr,pm25=pm2d5Value,site_code_id=resp_dev[0].site_code_id,hourminindex=hourminindex)
-                    IeCnt = {"cfmYesOrNo": 1}
-                    strLen = len(json.dumps(IeCnt))
-                    data = {"ToUsr": FrUsr, "FrUsr": "XHTS", "CrTim": int(time.time()), "MsgTp": "huitp_json",
-                            "MsgId": 0X5E90, "MsgLn": strLen, "IeCnt": IeCnt, "FnFlg": FnFlg}
-                    result = {'result': 'true', 'token':token,'data':data}
-                else:
-                    result = {'result': 'false',  'token':token}
-        else:
-            result={'result':'false', 'token':"信息未找到"}
-        return result
 
-    def dft_dbi_get_aqyc_current_report_view(self,dev_code):
-        result=dct_t_l3f3dm_current_report_aqyc.objects.filter(dev_code_id=dev_code)
-        tsp = 0
-        pm01 = 0
-        pm25 = 0
-        pm10 = 0
-        noise = 0
-        temperature = 0
-        humidity = 0
-        winddir = 0
-        windspd = 0
-        rain = 0
-        airpresure = 0
-        lightstr = 0
-        so2 = 0
-        co1 = 0
-        no1 = 0
-        h2s = 0
-        hcho = 0
-        toxicgas = 0
-        rssi = 0
-        pwrind=0
-        no2 = 0
-        report_date=str(datetime.datetime.now())
-        if result.exists():
-            for line in result:
-                report_date=str(line.report_time)
-                tsp=line.tsp
-                pm01=line.pm01
-                pm25=line.pm25
-                pm10=line.pm10
-                noise=line.noise
-                temperature=line.temperature
-                humidity=line.humidity
-                winddir=line.winddir
-                windspd=line.windspd
-                rain=line.rain
-                airpresure=line.airpresure
-                lightstr=line.lightstr
-                so2=line.so2
-                co1=line.co1
-                no1=line.no1
-                h2s=line.h2s
-                hcho=line.hcho
-                toxicgas=line.toxicgas
-                rssi=line.rssi
-                pwrind=line.pwrind
-                no2=line.no2
-        resp_data={'report_time':report_date,
-                   'tsp':tsp,
-                   'pm01':pm01,
-                   'pm25':pm25,
-                   'pm10':pm10,
-                   'noise':noise,
-                   'temperature':temperature,
-                   'humidity':humidity,
-                   'winddir':winddir,
-                   'windspd':windspd,
-                   'rain':rain,
-                   'airpresure':airpresure,
-                   'lightstr':lightstr,
-                   'so2':so2,
-                   'co1':co1,
-                   'no1':no1,
-                   'h2s':h2s,
-                   'hcho':hcho,
-                   'toxicgas':toxicgas,
-                   'rssi':rssi,
-                   'pwrind':pwrind,
-                   'no2':no2,
-                   }
-        return resp_data
+
+
     

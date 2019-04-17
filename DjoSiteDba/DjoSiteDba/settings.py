@@ -69,7 +69,7 @@ for element in _SERVER_HOSTNAME_SET:
         # PasswordSetFlag = True
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'kickseed'):
 #         IS_FORMAL_DEPLOYMENT = False
-        LOCAL_DB_PASSWORD = '123456';
+        LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
 #         PasswordSetFlag = True
     else:
@@ -99,12 +99,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #     'DappDbAqyc',
-    #     'DappDbBfdf',
-    #     'DappDbBfhs',
-    #     'DappDbCcl',
     'DappDbCebs',
-    #     'DappDbComm',
     'DappDbF1sym',
     'DappDbF2cm',
     'DappDbF3dm',
@@ -118,9 +113,8 @@ INSTALLED_APPS = [
     'DappDbF11faam',
     'DappDbFxprcm',
     'DappDbSnr',
-    'DappDbF12iwdp'
-    #     'DappDbFstt',
-    #     'DappDbTest',
+    'DappDbF12iwdp',
+    'DappDbF13phos',
 ]
 
 MIDDLEWARE = [
@@ -163,7 +157,7 @@ if (LOCAL_WK_TARGET == 1):
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-            'NAME': 'djztest6',
+            'NAME': 'Django',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
@@ -183,6 +177,19 @@ if (LOCAL_WK_TARGET == 1):
             'PORT': 3306,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
+            },
+            'CONN_MAX_AGE': None,
+        },
+        'CEBS': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'mfunhcu',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         }
@@ -208,8 +215,9 @@ if (LOCAL_WK_TARGET == 1):
         'DappDbF11faam': 'default',
         'DappDbFxprcm': 'default',
         'DappDbSnr': 'default',
-        'DappDbCebs': 'default',
-        'DappDbF12iwdp': 'IWDP'
+        'DappDbCebs': 'CEBS',
+        'DappDbF12iwdp': 'IWDP',
+        'DappDbF13phos': 'IWDP'
     }
 
 # ZJL PC
@@ -258,12 +266,21 @@ elif (LOCAL_WK_TARGET == 3):
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
-            #             'OPTIONS': {
-            #                 'autocommit': True,
-            #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            #             },
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
+            },
+            'CONN_MAX_AGE': None,
+        },
+        'CEBS': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         }
@@ -289,8 +306,9 @@ elif (LOCAL_WK_TARGET == 3):
         'DappDbF11faam': 'default',
         'DappDbFxprcm': 'default',
         'DappDbSnr': 'default',
-        'DappDbCebs': 'default',
-        'DappDbF12iwdp': 'IWDP'
+        'DappDbCebs': 'CEBS',
+        'DappDbF12iwdp': 'IWDP',
+        'DappDbF13phos': 'IWDP'
     }
 # LCPC
 elif (LOCAL_WK_TARGET == 4):
@@ -407,7 +425,7 @@ elif (LOCAL_WK_TARGET == 6):
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'Django',
-            'USER': 'root',
+            'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
@@ -417,10 +435,23 @@ elif (LOCAL_WK_TARGET == 6):
             },
             'CONN_MAX_AGE': None,
         },
-        'cebs': {
+        "IWDP": {
+            'ENGINE': 'django.db.backends.mysql',
+            # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'NAME': 'iwdp',
+            'USER': 'mfunhcu',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                "init_command": "SET default_storage_engine='INNODB'"
+            },
+            'CONN_MAX_AGE': None,
+        },
+        'CEBS': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'cebs',
-            'USER': 'root',
+            'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
@@ -452,7 +483,9 @@ elif (LOCAL_WK_TARGET == 6):
         'DappDbF11faam': 'default',
         'DappDbFxprcm': 'default',
         'DappDbSnr': 'default',
-        'DappDbCebs': 'cebs',
+        'DappDbF12iwdp': 'IWDP',
+        'DappDbF13phos': 'IWDP',
+        'DappDbCebs': 'cebs'
     }
 else:
     DATABASES = {

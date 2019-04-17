@@ -229,7 +229,6 @@ class dct_classDbiL3apF4icm:
         else:
             return resp
         result=dct_t_l3f2cm_device_aqyc.objects.filter(dev_code_id=devCode)
-        print(devCode)
         if result.exists():
             for line in result:
                 url=line.pic1_url

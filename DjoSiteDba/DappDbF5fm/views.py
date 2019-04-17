@@ -323,9 +323,11 @@ class dct_classDbiL3apF5fm:
                 max_1 = max(minute_alarm)
                 max_2 = max(hour_alarm)
                 value_max = max(max_1, max_2) + 5
-        value_temp={"minute_alarm":[{'name':line_name,'color':"",'items':minute_alarm}],"minute_head":minute_head,"hour_alarm":[{'name':line_name,'color':"",'items':hour_alarm}],
-                    "hour_head":hour_head,"alarm_name":alarm_name,"alarm_unit":alarm_unit,"warning":warning,
-                    'value_min':value_min,"value_max":value_max}
+
+        value_temp = {"minute_alarm": [{'name': line_name, 'color': "", 'items': minute_alarm}],
+                      "minute_head": minute_head, "hour_alarm": [{'name': line_name, 'color': "", 'items': hour_alarm}],
+                      "hour_head": hour_head, "alarm_name": alarm_name, "alarm_unit": alarm_unit, "warning": warning,
+                      'value_min': value_min, "value_max": value_max}
         return value_temp
     
     def dft_dbi_map_alarm_site_info_req(self,inputData):
