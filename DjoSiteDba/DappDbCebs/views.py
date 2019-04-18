@@ -1694,7 +1694,7 @@ class dct_classDbiViewDebs:
             return bufferout
                      
     def dft_dbi_object_profil_add(self, inputData):
-    	defaultflag_val = inputData['defaultflag']
+        defaultflag_val = inputData['defaultflag']
         objname_val = inputData['objname']
         objtype_val = inputData['objtype']
         dir_origin_val = inputData['dir_origin']
