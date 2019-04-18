@@ -5,6 +5,17 @@ Created on 2017年12月12日
 '''
 import unittest
 import time
+import django
+import sys
+
+sys.path.append('../../DjoSiteDba/')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
+django.setup()
+from django.db import transaction
+from DappDbCebs import views as DappDbCebs
+
+from DappDbCebs import models
+
 from PkgUt import ModTestSuitComFunc
 
 def hst_testsuite_dba():
@@ -34,10 +45,11 @@ def hst_testsuite_dba():
     #继续普通测试
     Flag=True
     if (Flag == True):
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_002"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_001"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_002"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_005"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -107,30 +119,53 @@ class ClassUtDba(unittest.TestCase):
     #read
     def tc_dba_cebs_002(self):
         ticks = time.time();
-        print("tc_dba_cebs_003, time in second = ", ticks);
+        print("tc_dba_cebs_001, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
             {"cmd":"read", "user":"test222"}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        print("tc_dba_cebs_003 result = ", result);
+        print("tc_dba_cebs_001 result = ", result);
     
     #modify
     def tc_dba_cebs_003(self):
         ticks = time.time();
-        print("tc_dba_cebs_004, time in second = ", ticks);
+        print("tc_dba_cebs_003, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
             {"cmd":"modify", "user":"test222"}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        print("tc_dba_cebs_004 result = ", result);
+        print("tc_dba_cebs_003 result = ", result);
 
         #delete
     def tc_dba_cebs_004(self):
         ticks = time.time();
-        print("tc_dba_cebs_002, time in second = ", ticks);
+        print("tc_dba_cebs_004, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
             {"cmd":"delete", "user":"test222"}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
-        print("tc_dba_cebs_002 result = ", result);
+        print("tc_dba_cebs_004 result = ", result);
 
+
+        
+
+    def tc_dba_cebs_005(self):
+        ticks = time.time();
+
+        print("tc_dba_cebs_005, time in second = ", ticks);
+        jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,'parContent': {'cmd': 'add', 'platetype': 1, 'uid': 'UID3982146', 'left_bot_x': 9, 'left_bot_y': 9, 'right_up_x': 9, 'right_up_y': 9}}
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(models.t_cebs_cali_profile.objects.all().last().id)
+        newId=models.t_cebs_cali_profile.objects.all().last().id
+      
+        jsonInputData1 ='{"restTag": "dba","actionId": 3801,"parFlag": 1,"parContent" : {"cmd": "read", "id":'+str(newId)+'}}'
+        #print(jsonInputData)
+        result=ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData1, 1)
+        subdict=result['parContent']
+        testResult='OK'
+        for item in subdict:
+            if item!="calitime":
+                if subdict[item]!=jsonInputData['parContent'][item]:
+                   testResult='NOK'
+                   break
+        print("test result is "+testResult)
 
 
 
