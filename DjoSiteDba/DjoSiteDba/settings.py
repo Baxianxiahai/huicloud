@@ -426,7 +426,7 @@ elif (LOCAL_WK_TARGET == 5):
         'DappDbSnr': 'default',
         'DappDbCebs': 'cebs',
     }
-# 复珊数据库
+# 澶嶇強鏁版嵁搴�
 elif (LOCAL_WK_TARGET == 6):
     DATABASES = {
         'default': {
