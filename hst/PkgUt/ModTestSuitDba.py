@@ -7,6 +7,7 @@ import unittest
 import time
 import django
 import sys
+import os
 
 sys.path.append('../../DjoSiteDba/')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjoSiteDba.settings")
@@ -165,7 +166,7 @@ class ClassUtDba(unittest.TestCase):
                 if subdict[item]!=jsonInputData['parContent'][item]:
                    testResult='NOK'
                    break
-        print("test result is "+testResult)
+        print("test tc_dba_cebs_005 result is "+testResult)
 
 
 
