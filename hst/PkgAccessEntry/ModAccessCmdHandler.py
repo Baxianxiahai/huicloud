@@ -190,6 +190,7 @@ class ClassHuirestDbaInputCmdHandler:
     __HUIREST_ACTIONID_DBA_F11faam                  = 0x1B00
     __HUIREST_ACTIONID_DBA_Fxprcm                   = 0x1C00
     __HUIREST_ACTIONID_DBA_F12iwdp                  = 0x1D00
+    __HUIREST_ACTIONID_DBA_F13phos                  = 0x1E00
     __HUIREST_ACTIONID_DBA_L2snr                    = 0x1F00
 
     __HUIREST_ACTIONID_DBA_AQYC                     = 0X0D48
@@ -303,6 +304,12 @@ class ClassHuirestDbaInputCmdHandler:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult=proc.dft_F12Iwdp_Send_Message(inputStr['parContent'])
                 self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
+            elif inputStr["actionId"]==self.__HUIREST_ACTIONID_DBA_F13phos:
+                proc=ModDbaMainEntry.ClassDbaMainEntry()
+                self.publicReturnResult=proc.dft_F13Phos_Send_Message(inputStr['parContent'])
+                self.achCtrlFlag = _HST_ACH_CTRL_FLAG_MFUN_TREATMENT
+                
             elif inputStr["actionId"] == self.__HUIREST_ACTIONID_DBA_L2snr:
                 proc=ModDbaMainEntry.ClassDbaMainEntry()
                 self.achProcResult = proc.dft_Snr_Send_Message(inputStr['parContent'])

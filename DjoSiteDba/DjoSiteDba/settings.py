@@ -41,6 +41,7 @@ _SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-2018011
                        ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
+
 # ip = socket.gethostbyname(LOCAL_HOSTNAME)
 # print(LOCAL_HOSTNAME)
 # print(ip)
@@ -72,10 +73,10 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
 #         PasswordSetFlag = True
-    else:
-        # IS_FORMAL_DEPLOYMENT = False
-        LOCAL_DB_PASSWORD = '123456'
-        LOCAL_WK_TARGET = element['index']
+#     else:
+#         # IS_FORMAL_DEPLOYMENT = False
+#         LOCAL_DB_PASSWORD = '123456'
+#         LOCAL_WK_TARGET = element['index']
 # <<<<<<< HEAD
 #         # PasswordSetFlag = True
 # # if (PasswordSetFlag == False):
@@ -151,7 +152,8 @@ WSGI_APPLICATION = 'DjoSiteDba.wsgi.application'
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # Comments Options setting will remove running WARNING.
 
-# SERVER
+# TEST SERVER
+print(LOCAL_WK_TARGET)
 if (LOCAL_WK_TARGET == 1):
     DATABASES = {
         'default': {
@@ -244,7 +246,7 @@ elif (LOCAL_WK_TARGET == 3):
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-            'NAME': 'djztest6',
+            'NAME': 'django',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
@@ -261,7 +263,7 @@ elif (LOCAL_WK_TARGET == 3):
         "IWDP": {
             'ENGINE': 'django.db.backends.mysql',
             # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-            'NAME': 'iwdp',
+            'NAME': 'django_iwdp',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
@@ -273,14 +275,13 @@ elif (LOCAL_WK_TARGET == 3):
         },
         'CEBS': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'cebs',
+            'NAME': 'django_cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
             'OPTIONS': {
-                'autocommit': True,
-                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                "init_command": "SET default_storage_engine='INNODB'"
             },
             'CONN_MAX_AGE': None,
         }
@@ -485,7 +486,7 @@ elif (LOCAL_WK_TARGET == 6):
         'DappDbSnr': 'default',
         'DappDbF12iwdp': 'IWDP',
         'DappDbF13phos': 'IWDP',
-        'DappDbCebs': 'cebs'
+        'DappDbCebs': 'CEBS'
     }
 else:
     DATABASES = {

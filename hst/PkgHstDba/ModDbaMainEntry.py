@@ -20,6 +20,7 @@ from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
 from PkgHstDba import ModDbaCebs
 from PkgHstDba import ModDbaF12Iwdp
+from PkgHstDba import ModeDbaF13Phos
 from PkgAccessEntry.ModAccessDict import *
 
 
@@ -860,7 +861,97 @@ class ClassDbaMainEntry():
         else:
             result={"errcode":"1","errmsg":"非合法操作"}
         return result
-
+    
+    def dft_F13Phos_Send_Message(self,inputData):
+#         print(inputData)
+        if inputData['action']=="ChekOpenid":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_check_openid(inputData["body"])
+        elif inputData['action']=="TelphoneRegi":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_user_telphone_register(inputData["body"])
+        elif inputData['action']=="GetCompanyList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_coampany_list(inputData["body"])
+        elif inputData['action']=="UploadUserLoaction":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_upload_user_location(inputData["body"])
+        elif inputData['action']=="DriverSubmit":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_driver_information_submit(inputData["body"])
+        elif inputData['action']=="GetTaskList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_task_list(inputData["body"])
+        elif inputData['action']=="GetAcceptInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_user_accept_task_info(inputData["body"])
+        elif inputData['action']=="GetContractInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_contract_information(inputData["body"])
+        elif inputData['action']=="RefuseTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_user_refuse_task(inputData["body"])
+        elif inputData['action']=="AcceptTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_user_accept_task(inputData["body"])
+        elif inputData['action']=="GetAcceptedInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_user_accepted_task_info(inputData["body"])
+        elif inputData['action']=="UploadPicInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_upload_picture_infomation(inputData["body"])
+        elif inputData['action']=="UploadVideo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_upload_video(inputData["body"])
+        elif inputData['action']=="VideoList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_video_list(inputData["body"])
+        elif inputData['action']=="VideoDelete":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_video_delete(inputData["body"])
+        elif inputData['action']=="TaskDone":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_task_done(inputData["body"])
+        elif inputData['action']=="GetTaskDetail":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_task_detail(inputData["body"])
+        elif inputData['action']=="GetUserInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_user_information(inputData["body"])
+        elif inputData['action']=="GetCarList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_car_list(inputData["body"])
+        elif inputData['action']=="BindingPlate":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_binding_license_plate(inputData["body"])
+        elif inputData['action']=="ManageSubmit":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_manage_information_submit(inputData["body"])
+        elif inputData['action']=="GetFreePlateList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_free_plate_list(inputData["body"])
+        elif inputData['action']=="GetGoodsList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_goods_list(inputData["body"])
+        elif inputData['action']=="GetAccountList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_account_list(inputData["body"])
+        elif inputData['action']=="ReleaseTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_manage_release_task(inputData["body"])
+        elif inputData['action']=="GetRefuseList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_refuse_task_list(inputData["body"])
+        elif inputData['action']=="DeleteTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_delete_task_info(inputData["body"])
+        elif inputData['action']=="TaskReSelection":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_task_reselection(inputData["body"])
+        else:
+            result={"status":"false","msg":"非合法操作"}
+        return result
+    
 #HCU    
 class ClassHCUDbaMainEntry():
     def dft_F2cm_Send_Message(self,socketId,inputData): 
