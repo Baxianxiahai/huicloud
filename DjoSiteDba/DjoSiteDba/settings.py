@@ -37,7 +37,7 @@ _SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-2018011
                        {'att':'pc', 'name':'PGS-20180113DJZ', 'index':3},
                        {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
                        {'att':'pc', 'name':'kickseed', 'index':5},
-                       {'att': 'fssvr', 'name': 'fsg0518', 'index': 6}, #fs服务器
+                       {'att': 'fssvr', 'name': 'fsg0518', 'index': 6}, #fs鏈嶅姟鍣�
                        ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
@@ -62,6 +62,11 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
+    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
+        # IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = '123456'
+        LOCAL_WK_TARGET = element['index']
+        # PasswordSetFlag = True
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'fsg0518'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = 'xiaohui@bxxh'
@@ -72,10 +77,10 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
 #         PasswordSetFlag = True
-    else:
-        # IS_FORMAL_DEPLOYMENT = False
-        LOCAL_DB_PASSWORD = '123456'
-        LOCAL_WK_TARGET = element['index']
+#     else:
+#         # IS_FORMAL_DEPLOYMENT = False
+#         LOCAL_DB_PASSWORD = '123456'
+#         LOCAL_WK_TARGET = element['index']
 # <<<<<<< HEAD
 #         # PasswordSetFlag = True
 # # if (PasswordSetFlag == False):
@@ -419,7 +424,7 @@ elif (LOCAL_WK_TARGET == 5):
         'DappDbSnr': 'default',
         'DappDbCebs': 'cebs',
     }
-# 复珊数据库
+# 澶嶇強鏁版嵁搴�
 elif (LOCAL_WK_TARGET == 6):
     DATABASES = {
         'default': {
