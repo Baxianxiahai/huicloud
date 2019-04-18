@@ -1719,7 +1719,7 @@ class dct_classDbiViewDebs:
         objid = inputData['objid']
         result = models.t_cebs_object_profile.objects.filter(objid = objid)
         if result.exists():
-        	if 'defaultflag' in inputData.keys():
+            if 'defaultflag' in inputData.keys():
                 defaultflag_val = inputData['defaultflag']
             else:
                 defaultflag_val = result[0].defaultflag
