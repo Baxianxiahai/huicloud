@@ -1754,7 +1754,7 @@ class dct_classDbiViewDebs:
         bufferout = {}
         result = models.t_cebs_object_profile.objects.filter(objid = objid)
         if result.exists():
-        	bufferout['defaultflag'] = result[0].defaultflag
+            bufferout['defaultflag'] = result[0].defaultflag
             bufferout['objname'] = result[0].objname
             bufferout['objtype'] = result[0].objtype
             bufferout['uid'] = result[0].uid_id
