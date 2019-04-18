@@ -165,6 +165,8 @@ class ClassUtDba(unittest.TestCase):
             if item!="calitime":
                 if subdict[item]!=jsonInputData['parContent'][item]:
                    testResult='NOK'
+                   print(item)
+                   print("Source data "+ jsonInputData['parContent'][item] + "is not equal target data " + subdict[item])
                    break
         print("test tc_dba_cebs_005 result is "+testResult)
 
