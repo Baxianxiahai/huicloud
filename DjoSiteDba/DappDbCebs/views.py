@@ -1694,6 +1694,7 @@ class dct_classDbiViewDebs:
             return bufferout
                      
     def dft_dbi_object_profil_add(self, inputData):
+    	defaultflag_val = inputData['defaultflag']
         objname_val = inputData['objname']
         objtype_val = inputData['objtype']
         dir_origin_val = inputData['dir_origin']
@@ -1705,7 +1706,7 @@ class dct_classDbiViewDebs:
             uid_val = result[0].uid
         models.t_cebs_object_profile.objects.create(
             objname = objname_val, objtype = objtype_val, uid_id = uid_val, dir_origin = dir_origin_val,
-            dir_middle = dir_middle_val,memo = memo_val
+            dir_middle = dir_middle_val,memo = memo_val,defaultflag = defaultflag_val
             )
         return True
     
@@ -1718,6 +1719,10 @@ class dct_classDbiViewDebs:
         objid = inputData['objid']
         result = models.t_cebs_object_profile.objects.filter(objid = objid)
         if result.exists():
+        	if 'defaultflag' in inputData.keys():
+                defaultflag_val = inputData['defaultflag']
+            else:
+                defaultflag_val = result[0].defaultflag
             if 'objname' in inputData.keys():
                 objname_val = inputData['objname']
             else:
@@ -1740,7 +1745,7 @@ class dct_classDbiViewDebs:
                 memo_val = result[0].memo
             models.t_cebs_object_profile.objects.filter(objid = objid).update(
                 objname = objname_val, objtype = objtype_val, dir_origin = dir_origin_val,
-                dir_middle = dir_middle_val,memo = memo_val
+                dir_middle = dir_middle_val,memo = memo_val,defaultflag = defaultflag_val
                 )
         return False
     
@@ -1749,6 +1754,7 @@ class dct_classDbiViewDebs:
         bufferout = {}
         result = models.t_cebs_object_profile.objects.filter(objid = objid)
         if result.exists():
+        	bufferout['defaultflag'] = result[0].defaultflag
             bufferout['objname'] = result[0].objname
             bufferout['objtype'] = result[0].objtype
             bufferout['uid'] = result[0].uid_id
@@ -1771,6 +1777,12 @@ class dct_classDbiViewDebs:
         smlimit_val = inputData['smlimit']
         mblimit_val = inputData['mblimit']
         blimit_val = inputData['blimit']
+        accspeed_val = inputData['accspeed']
+        decspeed_val = inputData['decspeed']
+        movespeed_val = inputData['movespeed']
+        zero_spd_val = inputData['zero_spd']
+        zero_dec_val = inputData['zero_dec']
+        back_step_val = inputData['back_step']
         foreignkeyname = inputData['objid']
         print(foreignkeyname)
         #关联到别的表单就要加  _id   只能锁定上表的主键
@@ -1780,7 +1792,9 @@ class dct_classDbiViewDebs:
         models.t_cebs_config_eleg.objects.create(
             objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
-            slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val
+            slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
+            accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
+            zero_spd = zero_spd_val, zero_dec = zero_dec_val, back_step  = back_step_val
             )
         return True
 
@@ -1801,6 +1815,12 @@ class dct_classDbiViewDebs:
             bufferout['smlimit'] = result[0].smlimit
             bufferout['mblimit'] = result[0].mblimit
             bufferout['blimit'] = result[0].blimit
+            bufferout['accspeed'] = result[0].accspeed
+            bufferout['decspeed'] = result[0].decspeed
+            bufferout['movespeed'] = result[0].movespeed
+            bufferout['zero_spd'] = result[0].zero_spd
+            bufferout['zero_dec'] = result[0].zero_dec
+            bufferout['back_step'] = result[0].back_step
             print(bufferout)
             return bufferout
         
@@ -1857,10 +1877,37 @@ class dct_classDbiViewDebs:
                 blimit_val = inputData['blimit']
             else:
                 blimit_val = result[0].blimit
+            if 'accspeed' in inputData.keys():
+                accspeed_val = inputData['accspeed']
+            else:
+                accspeed_val = result[0].accspeed
+            if 'decspeed' in inputData.keys():
+                decspeed_val = inputData['decspeed']
+            else:
+                decspeed_val = result[0].decspeed
+            if 'movespeed' in inputData.keys():
+                movespeed_val = inputData['movespeed']
+            else:
+                movespeed_val = result[0].movespeed
+            if 'zero_spd' in inputData.keys():
+                zero_spd_val = inputData['zero_spd']
+            else:
+                zero_spd_val = result[0].zero_spd
+            if 'zero_dec' in inputData.keys():
+                zero_dec_val = inputData['zero_dec']
+            else:
+                zero_dec_val = result[0].zero_dec
+            if 'back_step' in inputData.keys():
+                back_step_val = inputData['back_step']
+            else:
+                back_step_val = result[0].back_step 
+
             models.t_cebs_config_eleg.objects.filter(confid = confid).update(
                 fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
                 addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
-                slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val
+                slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
+                accspeed = accspeed_val,decspeed = decspeed_val, movespeed = movespeed_val,
+                zero_spd = zero_spd_val,zero_dec = zero_dec_val, back_step = back_step_val
                 )
         return False    
     
