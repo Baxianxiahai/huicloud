@@ -159,7 +159,6 @@ WSGI_APPLICATION = 'DjoSiteDba.wsgi.application'
 # Comments Options setting will remove running WARNING.
 
 # TEST SERVER
-print(LOCAL_WK_TARGET)
 if (LOCAL_WK_TARGET == 1):
     DATABASES = {
         'default': {

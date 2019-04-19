@@ -3065,7 +3065,7 @@ class dct_t_iot_data_report():
                     IeCnt={"cfmYesOrNo":1}
                     strLen=len(json.dumps(IeCnt))
                     data={"ToUsr":FrUsr,"FrUsr":"XHTS","CrTim":int(time.time()),"MsgTp":"huitp_json","MsgId":0X5E90,"MsgLn":strLen,"IeCnt":IeCnt,"FnFlg":FnFlg}
-                    result = {'result': 'true', 'token': token, 'data': data}
+                    result = {'result': 'true', 'token': accessToken, 'data': data}
                 else:
                     result = {'result': 'false', 'token': token}
             else:

@@ -54,5 +54,5 @@
 *.dSYM/
 *.su
 /.metadata/
-migrations/**
+migrations/*.py
 !migrations/__init__.py
