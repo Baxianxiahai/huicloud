@@ -1,6 +1,5 @@
 from django.db import models
 from DappDbF2cm.models import dct_t_l3f2cm_device_inventory,dct_t_l3f2cm_site_common
-from email.policy import default
 # Create your models here.
 class dct_t_l3f3dm_current_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -28,6 +27,7 @@ class dct_t_l3f3dm_current_report_aqyc(models.Model):
     rssi = models.FloatField(default=0, verbose_name="信号强度")
     pwrind = models.FloatField(default=0, verbose_name="电量强度")
     cmd_flag = models.CharField(default="00",max_length=2, verbose_name="信号标志位")
+    no2 = models.FloatField(default=0, verbose_name="二氧化氮")
 
 
 class dct_t_l3f3dm_minute_report_aqyc(models.Model):
@@ -56,6 +56,7 @@ class dct_t_l3f3dm_minute_report_aqyc(models.Model):
     toxicgas = models.FloatField(default=0, verbose_name="煤气")
     rssi = models.FloatField(default=0, verbose_name="信号强度")
     pwrind = models.FloatField(default=0, verbose_name="电量强度")
+    no2 = models.FloatField(default=0, verbose_name="二氧化氮")
     
 
 class dct_t_l3f3dm_current_report_smartcity(models.Model):
@@ -212,6 +213,7 @@ class dct_t_l3f3dm_hour_report_aqyc(models.Model):
     toxicgas = models.FloatField(default=0, verbose_name="煤气")
     rssi = models.FloatField(default=0, verbose_name="信号强度")
     pwrind = models.FloatField(default=0, verbose_name="电量强度")
+    no2 = models.FloatField(default=0, verbose_name="二氧化氮")
 
 class dct_t_l3f3dm_day_report_aqyc(models.Model):
     sid = models.AutoField(primary_key=True)
@@ -238,16 +240,7 @@ class dct_t_l3f3dm_day_report_aqyc(models.Model):
     h2s = models.FloatField(default=0, verbose_name="硫化氢")
     hcho = models.FloatField(default=0, verbose_name="酒精")
     toxicgas = models.FloatField(default=0, verbose_name="煤气")
+    no2 = models.FloatField(default=0, verbose_name="二氧化氮")
     # rssi = models.FloatField(default=0, verbose_name="信号强度")
     # pwrind = models.FloatField(default=0, verbose_name="电量强度")
     
-    
-class dct_t_l3f2cm_nbiot_ctc_token(models.Model):
-    sid=models.AutoField(primary_key=True)
-    appid=models.CharField(max_length=256)
-    appsecret=models.CharField(max_length=256)
-    serviceid = models.CharField(max_length=256)
-    accesstoken = models.CharField(max_length=256)
-    refreshtoken = models.CharField(max_length=256)
-    accexpires = models.DateTimeField(max_length=0)
-    refexpires = models.DateTimeField(max_length=0)

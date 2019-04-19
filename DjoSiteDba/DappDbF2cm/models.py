@@ -59,6 +59,7 @@ class dct_t_l3f2cm_device_inventory(models.Model):
     upgradeflag = models.IntegerField(default=0)
     rebootflag = models.IntegerField(default=0)
     base_port = models.IntegerField(default=0)
+    port_flag=models.BooleanField(default=True)
     cus_info=models.CharField(max_length=50,null=True)
     eccport=models.IntegerField(default=0)
     username=models.CharField(max_length=50,null=True)
@@ -99,6 +100,10 @@ class dct_t_l3f2cm_device_cail(models.Model):
     winddir_coefK = models.FloatField(default=1)
     winddir_coefB = models.FloatField(default=0)
     winddir_delta = models.FloatField(default=0)
+    no2_coefmax = models.FloatField(default=20)
+    no2_coefmin = models.FloatField(default=0)
+    no2_coefK = models.FloatField(default=1)
+    no2_coefB = models.FloatField(default=0)
     dust_cannon=models.FloatField(default=200)
 
 class dct_t_l3f2cm_device_holops(models.Model):
@@ -208,3 +213,13 @@ class dct_t_l3f2cm_key_auth_fhys(models.Model):
     validnum=models.IntegerField(default=0)
     validstart=models.DateField(null=True)
     validend=models.DateField(null=True)
+
+class dct_t_l3f2cm_nbiot_ctc_token(models.Model):
+    sid=models.AutoField(primary_key=True)
+    appid=models.CharField(max_length=256)
+    appsecret=models.CharField(max_length=256)
+    serviceid = models.CharField(max_length=256)
+    accesstoken = models.CharField(max_length=256)
+    refreshtoken = models.CharField(max_length=256)
+    accexpires = models.DateTimeField(max_length=0)
+    refexpires = models.DateTimeField(max_length=0)

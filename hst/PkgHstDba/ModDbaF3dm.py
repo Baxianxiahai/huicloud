@@ -225,12 +225,12 @@ class HCUF3dmDataBaseConfirm():
     
 class NBIOTF3dmDataBaseComfirm():
     def dft_dbi_nb_iot_data_current_report(self,serviceId,inputData):
-        try:
-            with transaction.atomic():
-                DappDbF3dm_view=DappDbF3dm.dct_t_iot_data_report()
-                result=DappDbF3dm_view.dft_dbi_nb_iot_data_report_view(serviceId, inputData)
-        except Exception:
-            result={'result':'false', 'token':"errcode"}
+#         try:
+#             with transaction.atomic():
+        DappDbF3dm_view=DappDbF3dm.dct_t_iot_data_report()
+        result=DappDbF3dm_view.dft_dbi_nb_iot_data_report_view(serviceId, inputData)
+#         except Exception:
+#             result={'result':'false', 'token':"errcode"}
         return result
     
     

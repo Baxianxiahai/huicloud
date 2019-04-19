@@ -962,8 +962,8 @@ class ClassHCUDbaMainEntry():
 class ClassNbiotDbaMainEntry():
     def NbIotMainEntry(self,serviceId,inputData):
         if int(inputData['MsgId']) ==GOLBALVAR.HUITPJSON_MSGID_NB_IOT_DATA_REPORT:
-            F3dmnbiot=ModDbaF3dm.NBIOTF3dmDataBaseComfirm()
-            result=F3dmnbiot.dft_dbi_nb_iot_data_current_report(serviceId,inputData)
+            F2cmnbiot=ModDbaF2cm.NBIOTF3dmDataBaseComfirm()
+            result=F2cmnbiot.dft_dbi_nb_iot_data_current_report(serviceId,inputData)
             return result
 
     

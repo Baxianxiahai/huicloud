@@ -19,8 +19,8 @@ def hst_start_server(addr, port):
     mySvrConn = HTTPServer(addr, ModAccessHttpHandler.ClassHttpRequestGenernalHandler)
     print("[", time.asctime(), "HUIREST]: Server Starts - %s:%s" % addr)
     try:
-        mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # SOCK_STREAM  #SOCK_DGRAM
-        mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #SOCK_STREAM  #SOCK_DGRAM
+        mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #SOCK_STREAM  #SOCK_DGRAM
+#         mySvrConn.recSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) #SOCK_STREAM  #SOCK_DGRAM
         mySvrConn.recSocket.settimeout(200)
         mySvrConn.recSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
 #         mySvrConn.recSocket.bind(('', 7999))
@@ -33,7 +33,7 @@ def hst_start_server(addr, port):
  
 def main():
     HST_HOST_NAME = "0.0.0.0"
-    HST_HOST_PORT = 7999
+    HST_HOST_PORT = 8000
     zHstAddrBind = (HST_HOST_NAME, HST_HOST_PORT)
     hst_start_server(zHstAddrBind, HST_HOST_PORT)
 

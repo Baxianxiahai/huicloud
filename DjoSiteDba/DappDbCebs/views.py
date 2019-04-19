@@ -1667,10 +1667,6 @@ class dct_classDbiViewDebs:
                 right_up_x = right_up_x_val, right_up_y = right_up_y_val
                 )
         return False
-            
-        
-        
-        
         
     def dft_dbi_cali_profile_read(self, inputData):  
         sid = inputData['id']
