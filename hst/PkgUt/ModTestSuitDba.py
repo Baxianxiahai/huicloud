@@ -51,6 +51,8 @@ def hst_testsuite_dba():
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
         suiteTest.addTest(ClassUtDba("tc_dba_cebs_005"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -151,7 +153,12 @@ class ClassUtDba(unittest.TestCase):
         ticks = time.time();
 
         print("tc_dba_cebs_005, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,'parContent': {'cmd': 'add', 'platetype': 1, 'uid': 'UID3982146', 'left_bot_x': 9, 'left_bot_y': 9, 'right_up_x': 9, 'right_up_y': 9}}
+        uid=models.t_cebs_user_sheet.objects.all().last().uid
+
+        #jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,"parContent": {"cmd": "add", "platetype": 1, "uid": "UID3982146", "left_bot_x": 9, "left_bot_y": 9, "right_up_x": 9, "right_up_y": 9}}
+        jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,'parContent': {'cmd': 'add', 'platetype': 1, 'left_bot_x': 19, 'left_bot_y': 19, 'right_up_x': 19, 'right_up_y': 19}}
+        jsonInputData['parContent'].update({"uid": uid})
+
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
         print(models.t_cebs_cali_profile.objects.all().last().id)
         newId=models.t_cebs_cali_profile.objects.all().last().id
@@ -165,16 +172,67 @@ class ClassUtDba(unittest.TestCase):
             if item!="calitime":
                 if subdict[item]!=jsonInputData['parContent'][item]:
                    testResult='NOK'
-                   print(item)
-                   print("Source data "+ jsonInputData['parContent'][item] + "is not equal target data " + subdict[item])
+                   print("Table Field : "+item)
+                   print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
                    break
         print("test tc_dba_cebs_005 result is "+testResult)
 
 
 
+    def tc_dba_cebs_006(self):
+        ticks = time.time();
+
+        print("tc_dba_cebs_006, time in second = ", ticks);
+        uid=models.t_cebs_user_sheet.objects.all().last().uid
+
+        #jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,"parContent": {"cmd": "add", "platetype": 1, "uid": "UID3982146", "left_bot_x": 9, "left_bot_y": 9, "right_up_x": 9, "right_up_y": 9}}
+        jsonInputData = {"restTag": "dba","actionId": 0X0EDA,"parFlag": 7,'parContent': {'cmd':'add', 'objname':'xianchong','objtype':1, 'dir_origin':'/var/www/origin', 'dir_middle':'/var/www/middle', 'memo':'varcebs', 'defaultflag': 0}}
+        jsonInputData['parContent'].update({"uid": uid})
+
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(models.t_cebs_object_profile.objects.all().last().objid)
+        newId=models.t_cebs_object_profile.objects.all().last().objid
+      
+        jsonInputData1 ='{"restTag": "dba","actionId": 3802,"parFlag": 1,"parContent" : {"cmd": "read", "objid":'+str(newId)+'}}'
+        #print(jsonInputData)
+        result=ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData1, 1)
+        subdict=result['parContent']
+        testResult='OK'
+        for item in subdict:
+            if subdict[item]!=jsonInputData['parContent'][item]:
+                testResult='NOK'
+                print("Table Field : "+item)
+                print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
+                break
+        print("test tc_dba_cebs_006 result is "+testResult)
 
 
+    def tc_dba_cebs_007(self):
+        ticks = time.time();
 
+        print("tc_dba_cebs_007, time in second = ", ticks);
+        objid=models.t_cebs_object_profile.objects.all().last().objid
+
+        #jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,"parContent": {"cmd": "add", "platetype": 1, "uid": "UID3982146", "left_bot_x": 9, "left_bot_y": 9, "right_up_x": 9, "right_up_y": 9}}
+        jsonInputData = {"restTag": "dba","actionId": 0X0EDB,"parFlag": 7,'parContent': {'cmd':'add', 'fixpoint':0, 'autovideo':0, 'autodist':0, 'addset':1, 'autocap':0, 'autoperiod':60, 'videotime':3, 'slimit':200,'smlimit':500, 'mblimit':2000, 'blimit':5000, 'accspeed':20, 'decspeed':20, 'movespeed':20, 'zero_spd':20, 'zero_dec':20, 'back_step':12800}}
+        jsonInputData['parContent'].update({"objid": objid})
+
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(models.t_cebs_config_eleg.objects.all().last().confid)
+        newId=models.t_cebs_config_eleg.objects.all().last().confid
+      
+        jsonInputData1 ='{"restTag": "dba","actionId": 3803,"parFlag": 1,"parContent" : {"cmd": "read", "confid":'+str(newId)+'}}'
+        #print(jsonInputData)
+        result=ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData1, 1)
+        subdict=result['parContent']
+        testResult='OK'
+        for item in subdict:
+            if subdict[item]!=jsonInputData['parContent'][item]:
+                testResult='NOK'
+                print("Table Field : "+item)
+                print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
+                break
+        print("test tc_dba_cebs_007 result is "+testResult)
 
 
 
