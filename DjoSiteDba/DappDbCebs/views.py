@@ -2436,7 +2436,7 @@ class dct_classDbiViewDebs:
             uid_val = result[0].uid
         models.t_cebs_object_profile.objects.create(
             defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
-            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val, memo = memo_val              
+            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
             )
 
         fixpoint_val = inputData['fixpoint']
