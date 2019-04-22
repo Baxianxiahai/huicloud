@@ -2482,7 +2482,7 @@ class dct_classDbiViewDebs:
             uid_val = result[0].uid
          
         models.t_cebs_cali_profile.objects.create(
-            platetype = platetype_val, uid_id = foreignkeyname, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            platetype = platetype_val,  left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
             right_up_x = right_up_x_val, right_up_y = right_up_y_val, uid_id = uid_val, calitime = calitime_val
             )                
         return True
