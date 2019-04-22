@@ -2443,8 +2443,12 @@ class dct_classDbiViewDebs:
                 dir_middle_val = inputData['dir_middle']
             else:
                 dir_middle_val = result[0].dir_middle 
+            if 'calitime' in inputData.keys():
+                calitime_val = inputData['calitime']
+            else:
+                calitime_val = result[0].calitime.strftime('%Y-%m-%d %H:%M:%S')
             models.t_cebs_object_profile.objects.filter(defaultflag = True).update(
-                objname = objname_val, objtype = objtype_val, dir_origin = dir_origin_val,dir_middle = dir_middle_val
+                objname = objname_val, objtype = objtype_val, dir_origin = dir_origin_val,dir_middle = dir_middle_val,calitime = calitime_val
                 )  
         else:           
             return False 
