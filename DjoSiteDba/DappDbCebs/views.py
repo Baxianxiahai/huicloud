@@ -2443,12 +2443,8 @@ class dct_classDbiViewDebs:
                 dir_middle_val = inputData['dir_middle']
             else:
                 dir_middle_val = result[0].dir_middle 
-            if 'calitime' in inputData.keys():
-                calitime_val = inputData['calitime']
-            else:
-                calitime_val = result[0].calitime.strftime('%Y-%m-%d %H:%M:%S')
             models.t_cebs_object_profile.objects.filter(defaultflag = True).update(
-                objname = objname_val, objtype = objtype_val, dir_origin = dir_origin_val,dir_middle = dir_middle_val,calitime = calitime_val
+                objname = objname_val, objtype = objtype_val, dir_origin = dir_origin_val,dir_middle = dir_middle_val
                 )  
         else:           
             return False 
@@ -2537,6 +2533,10 @@ class dct_classDbiViewDebs:
         result = models.t_cebs_cali_profile.objects.filter(id = calid)
 
         if result.exists():
+            if 'calitime' in inputData.keys():
+                calitime_val = inputData['calitime']
+            else:
+                calitime_val = result[0].calitime.strftime('%Y-%m-%d %H:%M:%S')
             if 'platetype' in inputData.keys():
                 platetype_val = inputData['platetype']
             else:
@@ -2559,7 +2559,7 @@ class dct_classDbiViewDebs:
                 right_up_y_val = result[0].right_up_y
             models.t_cebs_cali_profile.objects.filter(id = calid).update(
                 platetype = platetype_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
-                right_up_x = right_up_x_val, right_up_y = right_up_y_val
+                right_up_x = right_up_x_val, right_up_y = right_up_y_val,calitime = calitime_val
                 ) 
         else:           
             return False 
