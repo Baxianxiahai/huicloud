@@ -2519,7 +2519,7 @@ class dct_classDbiViewDebs:
                 back_step_val = inputData['back_step']
             else:
                 back_step_val = result[0].back_step
-            models.t_cebs_config_eleg.objects.filter(defaultflag = True).update(
+            models.t_cebs_config_eleg.objects.filter(objid_id = foundObjid).update(
                 fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,addset = addset_val,
                 autocap = autocap_val,autoperiod = autoperiod_val,videotime = videotime_val,slimit = slimit_val,
                 smlimit = smlimit_val, mblimit = mblimit_val,blimit = blimit_val, accspeed = accspeed_val,
