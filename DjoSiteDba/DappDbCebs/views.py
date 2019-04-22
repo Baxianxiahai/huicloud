@@ -2456,7 +2456,9 @@ class dct_classDbiViewDebs:
         zero_spd_val = inputData['zero_spd']
         zero_dec_val = inputData['zero_dec']
         back_step_val = inputData['back_step']
-        foreignkeyname = inputData['objid']
+
+        
+        foreignkeyname = models.t_cebs_object_profile.objects.all().last().objid
         print(foreignkeyname)
         #关联到别的表单就要加  _id   只能锁定上表的主键
         result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
