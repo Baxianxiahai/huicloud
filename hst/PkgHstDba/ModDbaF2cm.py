@@ -760,11 +760,11 @@ class classDappDbF2cm:
 
 class HCUF2cmDataBaseConfirm():
     
-    def dft_dbi_response_HCU_data(self,socketId,inputData):
+    def dft_dbi_response_HCU_data(self,socketId,inputData,ipaddr):
         try:
             with transaction.atomic():
                 DappDbF2cm_view=DappDbF2cm.HCUReportAndConfirm()
-                result=DappDbF2cm_view.dft_dbi_response_HCU_data(socketId,inputData)
+                result=DappDbF2cm_view.dft_dbi_response_HCU_data(socketId,inputData,ipaddr)
                 return result
         except Exception:
             return False

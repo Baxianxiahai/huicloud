@@ -2802,7 +2802,7 @@ class HCUReportAndConfirm():
         self.HCU_REBOOT_NAME = ""
         pass
 
-    def dft_dbi_response_HCU_data(self, socketId, inputData):
+    def dft_dbi_response_HCU_data(self, socketId, inputData,ipaddr):
         InsertTime = datetime.datetime.now()
         ServerName = inputData["ToUsr"]
         cpuId = inputData['IeCnt']['cpuId']
@@ -2813,7 +2813,7 @@ class HCUReportAndConfirm():
             return
         result = dct_t_l3f2cm_device_holops.objects.filter(cpu_id=cpuId)
         if result.exists():
-            result.update(last_update=datetime.datetime.now(), socket_id=socketId, prjid=prjId, prjname=prjName)
+            result.update(last_update=datetime.datetime.now(), socket_id=socketId, prjid=prjId, prjname=prjName,ip_addr=ipaddr)
             for line in result:
                 if line.valid_flag:
                     resp = dct_t_l3f2cm_device_cail.objects.filter(dev_code_id=line.dev_code)
@@ -2940,7 +2940,7 @@ class HCUReportAndConfirm():
                     return
         else:
             dct_t_l3f2cm_device_holops.objects.create(cpu_id=cpuId, socket_id=socketId, last_update=InsertTime,
-                                                      prjid=prjId, prjname=prjName)
+                                                      prjid=prjId, prjname=prjName,ip_addr=ipaddr)
             return
 
     def dft_dbi_device_heart_report(self, socketId, inputData):

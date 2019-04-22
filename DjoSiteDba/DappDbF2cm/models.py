@@ -115,6 +115,7 @@ class dct_t_l3f2cm_device_holops(models.Model):
     cmd_flag=models.IntegerField(default=0)
     prjid=models.IntegerField(default=0)
     prjname=models.CharField(max_length=50,null=True)
+    ip_addr=models.CharField(max_length=30,null=True)
     
 class dct_t_l3f2cm_favour_site(models.Model):
     sid = models.AutoField(primary_key=True)

@@ -20,7 +20,7 @@ from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
 from PkgHstDba import ModDbaCebs
 from PkgHstDba import ModDbaF12Iwdp
-from PkgHstDba import ModeDbaF13Phos
+from PkgHstDba import ModDbaF13Phos
 from PkgAccessEntry.ModAccessDict import *
 
 
@@ -954,9 +954,9 @@ class ClassDbaMainEntry():
     
 #HCU    
 class ClassHCUDbaMainEntry():
-    def dft_F2cm_Send_Message(self,socketId,inputData): 
+    def dft_F2cm_Send_Message(self,socketId,inputData,ipaddr): 
         F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
-        result=F2cm.dft_dbi_response_HCU_data(socketId,inputData)
+        result=F2cm.dft_dbi_response_HCU_data(socketId,inputData,ipaddr)
         return result
     
     def dft_F2cm_Heart_Data_Report(self,socketId,inputData):

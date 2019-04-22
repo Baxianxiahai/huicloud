@@ -171,10 +171,10 @@ class ClassUtDba(unittest.TestCase):
         for item in subdict:
             if item!="calitime":
                 if subdict[item]!=jsonInputData['parContent'][item]:
-                   testResult='NOK'
-                   print("Table Field : "+item)
-                   print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
-                   break
+                    testResult='NOK'
+                    print("Table Field : "+item)
+                    print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
+                    break
         print("test tc_dba_cebs_005 result is "+testResult)
 
 
@@ -304,8 +304,7 @@ class ClassUtDba(unittest.TestCase):
 
 
         
-# if __name__ == "__main__":
-#     #import sys;sys.argv = ['', 'Test.testName']
-#     unittest.main()
-#     
+if __name__ == "__main__":
+    test_case_class=ClassUtDba()
+    test_case_class.tc_dba_cebs_001()
     

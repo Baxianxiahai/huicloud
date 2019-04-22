@@ -1564,17 +1564,18 @@ class ClassHCUReportDataToDba:
 
     def __init__(self):
         self.achCtrlFlag = True
-    def inputCmdHandlerEntry(self,inputData):
-        socketId=inputData['socketid']
-        inputData=json.loads(inputData['data'])
+    def inputCmdHandlerEntry(self,inputAllData):
+        socketId=inputAllData['socketid']
+        inputData=json.loads(inputAllData['data'])
         if inputData['ToUsr']!='FSTT' and inputData['ToUsr']!='XHTS':
             self.achCtrlFlag=False
         if self.achCtrlFlag==False:
             return 
         else:
             if inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHOLOPSREPORT:
+                ipaddr=inputAllData['ipaddr']
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result = proc.dft_F2cm_Send_Message(socketId,inputData)
+                result = proc.dft_F2cm_Send_Message(socketId,inputData,ipaddr)
                 return result
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHEARTREPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
