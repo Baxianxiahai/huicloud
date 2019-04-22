@@ -2426,20 +2426,20 @@ class dct_classDbiViewDebs:
         print(inputData)
         result = models.t_cebs_object_profile.objects.filter(defaultflag = True)
         if result.exists():
-        	foundObjid=result[0].objid
-        	if 'objname' in inputData.keys():
+            foundObjid=result[0].objid
+            if 'objname' in inputData.keys():
                 objname_val = inputData['objname']
             else:
                 objname_val = result[0].objname
-        	if 'objtype' in inputData.keys():
+            if 'objtype' in inputData.keys():
                 objtype_val = inputData['objtype']
             else:
                 objtype_val = result[0].objtype        
-        	if 'dir_origin' in inputData.keys():
+            if 'dir_origin' in inputData.keys():
                 dir_origin_val = inputData['dir_origin']
             else:
                 dir_origin_val = result[0].dir_origin        
-        	if 'dir_middle' in inputData.keys():
+            if 'dir_middle' in inputData.keys():
                 dir_middle_val = inputData['dir_middle']
             else:
                 dir_middle_val = result[0].dir_middle 
