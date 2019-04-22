@@ -778,6 +778,9 @@ class ClassDbaMainEntry():
         if inputData['cmd']=='read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_cebs_init_config_read(inputData)
+        elif inputData['cmd']=='modify':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_init_config_modify(inputData)       
         return result
     
     def dft_F12Iwdp_Send_Message(self,inputData):

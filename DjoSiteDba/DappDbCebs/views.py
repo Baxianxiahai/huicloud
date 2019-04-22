@@ -2421,5 +2421,141 @@ class dct_classDbiViewDebs:
 
         print(bufferout)
         return bufferout 
-        
-        
+
+    def dft_dbi_cebs_init_config_modify(self, inputData):
+        print(inputData)
+        result = models.t_cebs_object_profile.objects.filter(defaultflag = True)
+        if result.exists():
+        	foundObjid=result[0].objid
+        	if 'objname' in inputData.keys():
+                objname_val = inputData['objname']
+            else:
+                objname_val = result[0].objname
+        	if 'objtype' in inputData.keys():
+                objtype_val = inputData['objtype']
+            else:
+                objtype_val = result[0].objtype        
+        	if 'dir_origin' in inputData.keys():
+                dir_origin_val = inputData['dir_origin']
+            else:
+                dir_origin_val = result[0].dir_origin        
+        	if 'dir_middle' in inputData.keys():
+                dir_middle_val = inputData['dir_middle']
+            else:
+                dir_middle_val = result[0].dir_middle 
+            models.t_cebs_object_profile.objects.filter(defaultflag = True).update(
+                objname = objname_val, objtype = objtype_val, dir_origin = dir_origin_val,dir_middle = dir_middle_val
+                )  
+        else:           
+            return False 
+
+        result = models.t_cebs_config_eleg.objects.filter(objid_id = foundObjid)
+        if result.exists():
+            if 'fixpoint' in inputData.keys():
+                fixpoint_val = inputData['fixpoint']
+            else:
+                fixpoint_val = result[0].fixpoint
+            if 'autovideo' in inputData.keys():
+                autovideo_val = inputData['autovideo']
+            else:
+                autovideo_val = result[0].autovideo
+            if 'autodist' in inputData.keys():
+                autodist_val = inputData['autodist']
+            else:
+                autodist_val = result[0].autodist
+            if 'addset' in inputData.keys():
+                addset_val = inputData['addset']
+            else:
+                addset_val = result[0].addset 
+            if 'autocap' in inputData.keys():
+                autocap_val = inputData['autocap']
+            else:
+                autocap_val = result[0].autocap     
+            if 'autoperiod' in inputData.keys():
+                autoperiod_val = inputData['autoperiod']
+            else:
+                autoperiod_val = result[0].autoperiod
+            if 'videotime' in inputData.keys():
+                videotime_val = inputData['videotime']
+            else:
+                videotime_val = result[0].videotime
+            if 'slimit' in inputData.keys():
+                slimit_val = inputData['slimit']
+            else:
+                slimit_val = result[0].slimit
+            if 'smlimit' in inputData.keys():
+                smlimit_val = inputData['smlimit']
+            else:
+                smlimit_val = result[0].smlimit
+            if 'mblimit' in inputData.keys():
+                mblimit_val = inputData['mblimit']
+            else:
+                mblimit_val = result[0].mblimit
+            if 'blimit' in inputData.keys():
+                blimit_val = inputData['blimit']
+            else:
+                blimit_val = result[0].blimit
+            if 'accspeed' in inputData.keys():
+                accspeed_val = inputData['accspeed']
+            else:
+                accspeed_val = result[0].accspeed
+            if 'decspeed' in inputData.keys():
+                decspeed_val = inputData['decspeed']
+            else:
+                decspeed_val = result[0].decspeed
+            if 'movespeed' in inputData.keys():
+                movespeed_val = inputData['movespeed']
+            else:
+                movespeed_val = result[0].movespeed
+            if 'zero_spd' in inputData.keys():
+                zero_spd_val = inputData['zero_spd']
+            else:
+                zero_spd_val = result[0].zero_spd
+            if 'zero_dec' in inputData.keys():
+                zero_dec_val = inputData['zero_dec']
+            else:
+                zero_dec_val = result[0].zero_dec
+            if 'back_step' in inputData.keys():
+                back_step_val = inputData['back_step']
+            else:
+                back_step_val = result[0].back_step
+            models.t_cebs_object_profile.objects.filter(defaultflag = True).update(
+                fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,addset = addset_val,
+                autocap = autocap_val,autoperiod = autoperiod_val,videotime = videotime_val,slimit = slimit_val,
+                smlimit = smlimit_val, mblimit = mblimit_val,blimit = blimit_val, accspeed = accspeed_val,
+                decspeed = decspeed_val, movespeed = movespeed_val, zero_spd = zero_spd_val,zero_dec = zero_dec_val,
+                back_step = back_step_val
+                )  
+        else:           
+            return False 
+
+        calid = models.t_cebs_cali_profile.objects.all().last().id 
+        result = models.t_cebs_cali_profile.objects.filter(id = calid)
+
+        if result.exists():
+            if 'platetype' in inputData.keys():
+                platetype_val = inputData['platetype']
+            else:
+                platetype_val = result[0].platetype
+            if 'left_bot_x' in inputData.keys():
+                left_bot_x_val = inputData['left_bot_x']
+            else:
+                left_bot_x_val = result[0].left_bot_x
+            if 'left_bot_y' in inputData.keys():
+                left_bot_y_val = inputData['left_bot_y']
+            else:
+                left_bot_y_val = result[0].left_bot_y
+            if 'right_up_x' in inputData.keys():
+                right_up_x_val = inputData['right_up_x']
+            else:
+                right_up_x_val = result[0].right_up_x
+            if 'right_up_y' in inputData.keys():
+                right_up_y_val = inputData['right_up_y']
+            else:
+                right_up_y_val = result[0].right_up_y
+            models.t_cebs_cali_profile.objects.filter(id = calid).update(
+                platetype = platetype_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+                right_up_x = right_up_x_val, right_up_y = right_up_y_val
+                ) 
+        else:           
+            return False 
