@@ -50,9 +50,13 @@ def hst_testsuite_dba():
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_002"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_005"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_005"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_008"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_010"))
+#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_011"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -338,7 +342,7 @@ class ClassUtDba(unittest.TestCase):
         subdict=result['parContent']
         testResult='OK'
         for item in subdict:
-            if item!="objid" and item!="confid":
+            if item!="objid" and item!="confid" and item!="calitime":
                 if subdict[item]!=jsonInputData['parContent'][item]:
                     testResult='NOK'
                     print("Table Field : "+item)
