@@ -338,7 +338,7 @@ class ClassUtDba(unittest.TestCase):
         subdict=result['parContent']
         testResult='OK'
         for item in subdict:
-            if item!="objid":
+            if item!="objid" and item!="confid":
                 if subdict[item]!=jsonInputData['parContent'][item]:
                     testResult='NOK'
                     print("Table Field : "+item)
