@@ -348,7 +348,7 @@ class ClassUtDba(unittest.TestCase):
                     print("Table Field : "+item)
                     print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
                     break
-        print("test tc_dba_cebs_010 result is "+testResult)
+        print("test tc_dba_cebs_011 result is "+testResult)
 
 
 
