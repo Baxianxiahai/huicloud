@@ -320,6 +320,31 @@ class ClassUtDba(unittest.TestCase):
                     break
         print("test tc_dba_cebs_010 result is "+testResult)
 
+# add a new init configuration record and read init configuration
+    def tc_dba_cebs_011(self):
+        ticks = time.time();
+
+        print("tc_dba_cebs_011, time in second = ", ticks);
+
+        #jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,"parContent": {"cmd": "add", "platetype": 1, "uid": "UID3982146", "left_bot_x": 9, "left_bot_y": 9, "right_up_x": 9, "right_up_y": 9}}
+        jsonInputData = {"restTag": "dba","actionId": 0X0EDF,"parFlag": 7,'parContent': {'cmd':'add','defaultflag': True,'memo':'add test','calitime':'2019-04-21 04:14:22.249304','uid': 'UID6498510','caliuid': 'UID6498510','objname': 'objtest0422add', 'objtype': 5, 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add','fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 4220, 'videotime': 4220, 'slimit': 220, 'smlimit': 220, 'mblimit': 220, 'blimit': 220, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220, 'platetype': 1, 'left_bot_x': 40, 'left_bot_y': 220, 'right_up_x': 40, 'right_up_y': 220}}
+
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+
+      
+        jsonInputData1 ='{"restTag": "dba","actionId": 3807,"parFlag": 1,"parContent" : {"cmd": "read"}}'
+        #print(jsonInputData)
+        result=ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData1, 1)
+        subdict=result['parContent']
+        testResult='OK'
+        for item in subdict:
+            if subdict[item]!=jsonInputData['parContent'][item]:
+                testResult='NOK'
+                print("Table Field : "+item)
+                print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
+                break
+        print("test tc_dba_cebs_010 result is "+testResult)
+
 
 
 
