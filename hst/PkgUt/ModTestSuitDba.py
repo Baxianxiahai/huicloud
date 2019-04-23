@@ -338,11 +338,12 @@ class ClassUtDba(unittest.TestCase):
         subdict=result['parContent']
         testResult='OK'
         for item in subdict:
-            if subdict[item]!=jsonInputData['parContent'][item]:
-                testResult='NOK'
-                print("Table Field : "+item)
-                print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
-                break
+            if item!="objid":
+                if subdict[item]!=jsonInputData['parContent'][item]:
+                    testResult='NOK'
+                    print("Table Field : "+item)
+                    print("Test data "+ jsonInputData['parContent'][item] + " is not equal database data " + subdict[item])
+                    break
         print("test tc_dba_cebs_010 result is "+testResult)
 
 
