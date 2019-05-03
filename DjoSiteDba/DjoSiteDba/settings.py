@@ -32,20 +32,22 @@ ALLOWED_HOSTS = []
 # index: USING INDEX EXPRESS DIFFERENT WORK-TARGET SYSTEM, such as PC or Server
 # Different working environment might adapt variance db names.
 '''
-_SERVER_HOSTNAME_SET = [{'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZPGS-20180113SZM ', 'index':1},\
-                       {'att':'pc', 'name':'ZJLPC', 'index':2},
-                       {'att':'pc', 'name':'PGS-20180113DJZ', 'index':3},
-                       {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
-                       {'att':'pc', 'name':'kickseed', 'index':5},
-                       {'att': 'fssvr', 'name': 'fsg0518', 'index': 6}, #fs鏈嶅姟鍣�
-                       ]
-PasswordSetFlag=False
+_SERVER_HOSTNAME_SET = [{'att': 'svr', 'name': 'iZbp1iil3e0qqrfbczpmkhZPGS-20180113SZM ', 'index': 1},
+                        {'att': 'pc', 'name': 'ZJLPC', 'index': 2},
+                        {'att': 'pc', 'name': 'PGS-20180113DJZ', 'index': 3},
+                        {'att': 'pc', 'name': 'PGS-20180113SZM', 'index': 4},
+                        {'att': 'pc', 'name': 'kickseed', 'index': 5},
+                        {'att': 'fssvr', 'name': 'fsg0518', 'index': 6},  # fs鏈嶅姟鍣�
+                        ]
+PasswordSetFlag = False
 LOCAL_HOSTNAME = socket.gethostname()
 # ip = socket.gethostbyname(LOCAL_HOSTNAME)
 # print(LOCAL_HOSTNAME)
 # print(ip)
-LOCAL_WK_TARGET=1
+LOCAL_WK_TARGET = 1
 LOCAL_DB_PASSWORD = '123456'
+DB_HOST = "db"
+print(LOCAL_HOSTNAME)
 for element in _SERVER_HOSTNAME_SET:
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'iZbp1iil3e0qqrfbczpmkhZ'):
         # IS_FORMAL_DEPLOYMENT = True
@@ -73,9 +75,12 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
     elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'kickseed'):
-#         IS_FORMAL_DEPLOYMENT = False
+        #         IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
+    else:
+        LOCAL_DB_PASSWORD = 'bxxhbxxh'
+        LOCAL_WK_TARGET = -1
 #         PasswordSetFlag = True
 #     else:
 #         # IS_FORMAL_DEPLOYMENT = False
@@ -89,7 +94,7 @@ for element in _SERVER_HOSTNAME_SET:
 # #     LOCAL_WK_TARGET = 1
 # =======
 #         PasswordSetFlag = True
-#     
+#
 # # if (PasswordSetFlag == False):
 # #     IS_FORMAL_DEPLOYMENT = True
 # #     LOCAL_DB_PASSWORD = 'bxxhbxxh';
@@ -157,6 +162,7 @@ WSGI_APPLICATION = 'DjoSiteDba.wsgi.application'
 # Comments Options setting will remove running WARNING.
 
 # SERVER
+print("LOCAL_WK_TARGET:" + str(LOCAL_WK_TARGET))
 if (LOCAL_WK_TARGET == 1):
     DATABASES = {
         'default': {
@@ -165,7 +171,7 @@ if (LOCAL_WK_TARGET == 1):
             'NAME': 'Django',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
@@ -178,7 +184,7 @@ if (LOCAL_WK_TARGET == 1):
             'NAME': 'iwdp',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
@@ -190,7 +196,7 @@ if (LOCAL_WK_TARGET == 1):
             'NAME': 'cebs',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
@@ -233,7 +239,7 @@ elif (LOCAL_WK_TARGET == 2):
             'NAME': 'hstdb',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             #             'OPTIONS': {
             #                 'autocommit': True,
@@ -252,7 +258,7 @@ elif (LOCAL_WK_TARGET == 3):
             'NAME': 'djztest6',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             #             'OPTIONS': {
             #                 'autocommit': True,
@@ -269,7 +275,7 @@ elif (LOCAL_WK_TARGET == 3):
             'NAME': 'iwdp',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
@@ -281,7 +287,7 @@ elif (LOCAL_WK_TARGET == 3):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
@@ -323,7 +329,7 @@ elif (LOCAL_WK_TARGET == 4):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
@@ -336,41 +342,41 @@ elif (LOCAL_WK_TARGET == 4):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
-            }
         }
+    }
     DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
-    DATABASE_APPS_MAPPING={
+    DATABASE_APPS_MAPPING = {
         'admin': 'default',
         'auth': 'default',
         'contenttypes': 'default',
         'sessions': 'default',
         'messages': 'default',
         'staticfiles': 'default',
-        'DappDbF1sym':'default',
-        'DappDbF2cm':'default',
-        'DappDbF3dm':'default',
-        'DappDbF4icm':'default',
-        'DappDbF5fm':'default',
-        'DappDbF6pm':'default',
-        'DappDbF7ads':'default',
-        'DappDbF8psm':'default',
-        'DappDbF9gism':'default',
-        'DappDbF10oam':'default',
-        'DappDbF11faam':'default',
-        'DappDbFxprcm':'default',
-        'DappDbSnr':'default',
-        'DappDbCebs':'cebs',    
+        'DappDbF1sym': 'default',
+        'DappDbF2cm': 'default',
+        'DappDbF3dm': 'default',
+        'DappDbF4icm': 'default',
+        'DappDbF5fm': 'default',
+        'DappDbF6pm': 'default',
+        'DappDbF7ads': 'default',
+        'DappDbF8psm': 'default',
+        'DappDbF9gism': 'default',
+        'DappDbF10oam': 'default',
+        'DappDbF11faam': 'default',
+        'DappDbFxprcm': 'default',
+        'DappDbSnr': 'default',
+        'DappDbCebs': 'cebs',
 
-    }    
+    }
 
-#Ubuntu 16 From xiaohui
+# Ubuntu 16 From xiaohui
 
 elif (LOCAL_WK_TARGET == 5):
     DATABASES = {
@@ -379,11 +385,11 @@ elif (LOCAL_WK_TARGET == 5):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-                #'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         },
@@ -392,11 +398,11 @@ elif (LOCAL_WK_TARGET == 5):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         }
@@ -432,11 +438,11 @@ elif (LOCAL_WK_TARGET == 6):
             'NAME': 'Django',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         },
@@ -446,7 +452,7 @@ elif (LOCAL_WK_TARGET == 6):
             'NAME': 'iwdp',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
@@ -458,11 +464,11 @@ elif (LOCAL_WK_TARGET == 6):
             'NAME': 'cebs',
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
-#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
         }
@@ -496,10 +502,10 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'djztest6',
+            'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': '127.0.0.1',
+            'HOST': DB_HOST,
             'PORT': 3306,
             'CONN_MAX_AGE': None,
         }
