@@ -46,7 +46,7 @@ def hst_testsuite_dba():
     #继续普通测试
     Flag=True
     if (Flag == True):
-        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_001"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_001"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_002"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
@@ -56,7 +56,7 @@ def hst_testsuite_dba():
 #        suiteTest.addTest(ClassUtDba("tc_dba_cebs_008"))
 #        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
 #        suiteTest.addTest(ClassUtDba("tc_dba_cebs_010"))
-#        suiteTest.addTest(ClassUtDba("tc_dba_cebs_011"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_011"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -329,9 +329,9 @@ class ClassUtDba(unittest.TestCase):
         ticks = time.time();
 
         print("tc_dba_cebs_011, time in second = ", ticks);
-
+        userid="UID250"
         #jsonInputData = {"restTag": "dba","actionId": 0X0ED9,"parFlag": 7,"parContent": {"cmd": "add", "platetype": 1, "uid": "UID3982146", "left_bot_x": 9, "left_bot_y": 9, "right_up_x": 9, "right_up_y": 9}}
-        jsonInputData = {"restTag": "dba","actionId": 0X0EDF,"parFlag": 7,'parContent': {'cmd':'add','defaultflag': True,'memo':'add test','calitime':'2019-04-21 04:14:22.249304','uid': 'UID6498510','caliuid': 'UID6498510','objname': 'objtest0422add', 'objtype': 5, 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add','fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 4220, 'videotime': 4220, 'slimit': 220, 'smlimit': 220, 'mblimit': 220, 'blimit': 220, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220, 'platetype': 1, 'left_bot_x': 40, 'left_bot_y': 220, 'right_up_x': 40, 'right_up_y': 220}}
+        jsonInputData = {"restTag": "dba","actionId": 0X0EDF,"parFlag": 7,'parContent': {'cmd':'add','defaultflag': True,'memo':'add test','calitime':'2019-04-21 04:14:22.249304','uid': userid,'caliuid': userid,'objname': 'objtest0422add', 'objtype': 5, 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add','fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 4220, 'videotime': 4220, 'slimit': 220, 'smlimit': 220, 'mblimit': 220, 'blimit': 220, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220, 'platetype': 1, 'left_bot_x': 40, 'left_bot_y': 220, 'right_up_x': 40, 'right_up_y': 220}}
 
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
 
