@@ -246,6 +246,16 @@ class ClassDbaCebs():
         DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
         result = DappDbCebs_view.dft_dbi_cebs_init_config_read(inputData)
         return result
+
+    def dft_dbi_cebs_init_config_modify(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_init_config_modify(inputData)
+        return result
+
+    def dft_dbi_cebs_init_config_add(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_init_config_add(inputData)
+        return result
         
         
 
