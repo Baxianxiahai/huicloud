@@ -352,6 +352,8 @@ class ClassDbaMainEntry():
         F6pm=ModDbaF6pm.classDappDbF6pm()
         if inputData['action']=='GetAuditStabilityTable':
             result=F6pm.dft_dbi_aqyc_performance_table_req(inputData['body'])
+        elif inputData['action']=='HcuOnlineKpi':
+            result=F6pm.dft_dbi_minute_cron_optkpi(inputData['body'])
         else:
             result=""
         return result
@@ -990,50 +992,8 @@ class ClassHCUDbaMainEntry():
     
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
-        FrUsr=inputData['FrUsr']
-        ToUsr=inputData["ToUsr"]
-        dev_code=FrUsr.split("_")
-        if dev_code[2]=="AQYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2400ZNXX":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2008SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2012NALT":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G1400FSTT":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2008FSTT":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2013SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2014SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2012SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2012SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2015XCYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2013XCYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        else:
-            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId': GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-            msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-            return Msg_final
+        Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+        return Msg
     
     def dft_F3dm_smart_city_current_report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
@@ -1053,7 +1013,7 @@ class ClassHCUDbaMainEntry():
 class ClassNbiotDbaMainEntry():
     def NbIotMainEntry(self,serviceId,inputData):
         if int(inputData['MsgId']) ==GOLBALVAR.HUITPJSON_MSGID_NB_IOT_DATA_REPORT:
-            F2cmnbiot=ModDbaF2cm.NBIOTF3dmDataBaseComfirm()
+            F2cmnbiot=ModDbaF2cm.NBIOTF2cmDataBaseComfirm()
             result=F2cmnbiot.dft_dbi_nb_iot_data_current_report(serviceId,inputData)
             return result
 

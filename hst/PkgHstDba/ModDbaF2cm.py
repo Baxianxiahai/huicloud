@@ -814,12 +814,12 @@ class HCUF2cmDataBaseConfirm():
         except Exception:
             return
 
-class NBIOTF3dmDataBaseComfirm():
+class NBIOTF2cmDataBaseComfirm():
     def dft_dbi_nb_iot_data_current_report(self,serviceId,inputData):
         try:
             with transaction.atomic():
-                DappDbF3dm_view=DappDbF2cm.dct_t_iot_data_report()
-                result=DappDbF3dm_view.dft_dbi_nb_iot_data_report_view(serviceId, inputData)
+                DappDbF2cm_view=DappDbF2cm.dct_t_iot_data_report()
+                result=DappDbF2cm_view.dft_dbi_nb_iot_data_report_view(serviceId, inputData)
         except Exception:
             result={'result':'false', 'token':"errcode"}
         return result

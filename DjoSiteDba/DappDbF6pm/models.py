@@ -19,3 +19,10 @@ class dct_t_l3f6pm_perfdata(models.Model):
     alarmcnt=models.IntegerField(default=0)
     dischomecnt=models.IntegerField(default=0)
     vmerrcnt=models.IntegerField(default=0)
+
+class dct_t_l3f6pm_optkpi(models.Model):
+    sid=models.AutoField(primary_key=True)
+    createtime=models.DateTimeField(null=True)
+    dev_code=models.ForeignKey(dct_t_l3f2cm_device_inventory,on_delete=models.CASCADE)
+    ol_score=models.IntegerField(default=0)
+    conn_freq=models.FloatField(default=0)

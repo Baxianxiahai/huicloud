@@ -1573,12 +1573,12 @@ class ClassHCUReportDataToDba:
             return 
         else:
             if inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHOLOPSREPORT:
-                if(inputAllData.has_key("ipaddr")):
+                if "ipaddr" in inputAllData:
                     ipaddr=inputAllData['ipaddr']
                 else:
                     ipaddr="0.0.0.0"
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()
-                result = proc.dft_F2cm_Send_Message(socketId,inputData,ipaddr)
+                result=proc.dft_F2cm_Send_Message(socketId,inputData,ipaddr)
                 return result
             elif inputData['MsgId']==ModAccessDict.GOLBALVAR.HUITPJSON_MSGID_YCHEARTREPORT:
                 proc=ModDbaMainEntry.ClassHCUDbaMainEntry()

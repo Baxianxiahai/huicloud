@@ -26,6 +26,14 @@ class classDappDbF6pm:
         except Exception:
             result={"body":{"status":"true","auth":"false","admin":"false"},"msg":"数据库发生错误，请重试"}
         return result
+    def dft_dbi_minute_cron_optkpi(self,inputData):
+        try:
+            with transaction.atomic():
+                DappDbF6pm_view=DappDbF6pm.dct_classDbiL3apF6pm()
+                result=DappDbF6pm_view.dft_dbi_minute_cron_optkpi_view(inputData)
+        except Exception:
+            result={"status":"false"}
+        return result
 class Msg_From_HCU_Report:
     def __init__(self):
         pass
