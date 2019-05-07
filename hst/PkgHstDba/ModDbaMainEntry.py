@@ -6,6 +6,7 @@ Created on 2018年7月13日
 '''
 import time,json
 from PkgHstDba import ModDbaF1sym
+from PkgHstDba import ModDbaF1Vmlog
 from PkgHstDba import ModDbaF2cm
 from PkgHstDba import ModDbaF3dm
 from PkgHstDba import ModDbaF4icm
@@ -77,6 +78,17 @@ class ClassDbaMainEntry():
         elif inputData['action']=="HCU_Session_Binding":
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_HCU_Session_Binding(inputData['body'])
+        else:
+            result=""
+        return result
+    
+    def dft_F1vmlog_Send_Message(self,inputData):
+        if inputData['action']=='SyslogSave':
+            F1vmlog=ModDbaF1Vmlog.ClassDbaF1vmlog()
+            result=F1vmlog.dft_dbi_l1comvm_syslog_save_view(inputData['body'])
+        elif inputData['action']=='VmlogCleanup':
+            F1vmlog=ModDbaF1Vmlog.ClassDbaF1vmlog()
+            result=F1vmlog.dft_dbi_cron_l1vm_loginfo_cleanup(inputData['body']) 
         else:
             result=""
         return result

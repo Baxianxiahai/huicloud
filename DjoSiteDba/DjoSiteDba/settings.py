@@ -122,6 +122,7 @@ INSTALLED_APPS = [
     'DappDbSnr',
     'DappDbF12iwdp',
     'DappDbF13phos',
+    'DappDbF1vmlog'
 ]
 
 MIDDLEWARE = [
@@ -199,7 +200,19 @@ if (LOCAL_WK_TARGET == 1):
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             },
             'CONN_MAX_AGE': None,
-        }
+        },
+        "DjoVmLog":{
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'DjoVmLog',
+            'USER': 'root',
+            'PASSWORD': "123456",
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                "init_command": "SET default_storage_engine='INNODB'"
+            },
+            'CONN_MAX_AGE': None,
+        },
     }
     DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
     DATABASE_APPS_MAPPING = {
@@ -224,7 +237,8 @@ if (LOCAL_WK_TARGET == 1):
         'DappDbSnr': 'default',
         'DappDbCebs': 'CEBS',
         'DappDbF12iwdp': 'IWDP',
-        'DappDbF13phos': 'IWDP'
+        'DappDbF13phos': 'IWDP',
+        'DappDbF1vmlog':'DjoVmLog',
     }
 
 # ZJL PC
@@ -278,6 +292,18 @@ elif (LOCAL_WK_TARGET == 3):
             },
             'CONN_MAX_AGE': None,
         },
+        "DjoVmLog":{
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'DjoVmLog',
+            'USER': 'root',
+            'PASSWORD': "123456",
+            'HOST': '127.0.0.1',
+            'PORT': 3306,
+            'OPTIONS': {
+                "init_command": "SET default_storage_engine='INNODB'"
+            },
+            'CONN_MAX_AGE': None,
+        },
         'CEBS': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'django_cebs',
@@ -314,7 +340,8 @@ elif (LOCAL_WK_TARGET == 3):
         'DappDbSnr': 'default',
         'DappDbCebs': 'CEBS',
         'DappDbF12iwdp': 'IWDP',
-        'DappDbF13phos': 'IWDP'
+        'DappDbF13phos': 'IWDP',
+        'DappDbF1vmlog':'DjoVmLog',
     }
 # LCPC
 elif (LOCAL_WK_TARGET == 4):

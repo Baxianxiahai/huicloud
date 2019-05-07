@@ -179,8 +179,9 @@ class classDappDbF3dm:
             with transaction.atomic():
                 DappDbF3dm_view=DappDbF3dm.dct_classDbiL3apF3dm()
                 result=DappDbF3dm_view.dft_dbi_calculation_hour_data()
+                result={"status":'true'}
         except Exception:
-            result=False
+            result={"status":'false'}
         return result
     def dft_calculation_day_data(self):
         try:

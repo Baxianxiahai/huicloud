@@ -823,39 +823,3 @@ class NBIOTF2cmDataBaseComfirm():
         except Exception:
             result={'result':'false', 'token':"errcode"}
         return result
-    
-    
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
