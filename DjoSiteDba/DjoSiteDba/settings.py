@@ -47,6 +47,7 @@ LOCAL_HOSTNAME = socket.gethostname()
 LOCAL_WK_TARGET = 1
 LOCAL_DB_PASSWORD = '123456'
 DB_HOST = "db"
+DB_PORT = 3306
 print(LOCAL_HOSTNAME)
 for element in _SERVER_HOSTNAME_SET:
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'iZbp1iil3e0qqrfbczpmkhZ'):
@@ -172,7 +173,7 @@ if (LOCAL_WK_TARGET == 1):
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
             },
@@ -185,7 +186,7 @@ if (LOCAL_WK_TARGET == 1):
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
             },
@@ -197,7 +198,7 @@ if (LOCAL_WK_TARGET == 1):
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -240,7 +241,7 @@ elif (LOCAL_WK_TARGET == 2):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             #             'OPTIONS': {
             #                 'autocommit': True,
             #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -259,7 +260,7 @@ elif (LOCAL_WK_TARGET == 3):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             #             'OPTIONS': {
             #                 'autocommit': True,
             #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -276,7 +277,7 @@ elif (LOCAL_WK_TARGET == 3):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
             },
@@ -288,7 +289,7 @@ elif (LOCAL_WK_TARGET == 3):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -330,7 +331,7 @@ elif (LOCAL_WK_TARGET == 4):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -343,7 +344,7 @@ elif (LOCAL_WK_TARGET == 4):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -386,7 +387,7 @@ elif (LOCAL_WK_TARGET == 5):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -399,7 +400,7 @@ elif (LOCAL_WK_TARGET == 5):
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -439,7 +440,7 @@ elif (LOCAL_WK_TARGET == 6):
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -453,7 +454,7 @@ elif (LOCAL_WK_TARGET == 6):
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 "init_command": "SET default_storage_engine='INNODB'"
             },
@@ -465,7 +466,7 @@ elif (LOCAL_WK_TARGET == 6):
             'USER': 'mfunhcu',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'OPTIONS': {
                 'autocommit': True,
                 #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -506,7 +507,7 @@ else:
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': DB_HOST,
-            'PORT': 3306,
+            'PORT': DB_PORT,
             'CONN_MAX_AGE': None,
         }
     }
