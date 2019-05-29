@@ -30,7 +30,7 @@ def hst_start_server(addr, port):
     mySvrConn.server_close()
     print("[", time.asctime(), "HUIREST]: Server Stops - %s:%s" % addr)
 
- 
+
 def main():
     HST_HOST_NAME = "0.0.0.0"
     HST_HOST_PORT = 8000
