@@ -1427,7 +1427,11 @@ class ClassHuirestCewormInputCmdHandler:
     __HUIREST_ACTIONID_CEWORM_white_pic_cfy             = 27001
     __HUIREST_ACTIONID_CEWORM_flu_pic_cfy               = 27002
     __HUIREST_ACTIONID_CEWORM_fcc_pic_cfy               = 27003
-    __HUIREST_ACTIONID_CEWORM_white_video_cfy           = 27004
+    __HUIREST_ACTIONID_CEWORM_fspc_pic_cfy              = 27004
+    __HUIREST_ACTIONID_CEWORM_white_video_cfy           = 27005
+    __HUIREST_ACTIONID_CEWORM_colony_cfy                = 27010 #菌落识别
+    __HUIREST_ACTIONID_CEWORM_cnn_pic_cfy               = 27020 #CNN算法尝试识别线虫
+    __HUIREST_ACTIONID_CEWORM_cnn_colony_cfy            = 27021 #CNN算法尝试识别菌落
     __HUIREST_ACTIONID_CEWORM_max                       = 27999
 
     achCtrlFlag = False
