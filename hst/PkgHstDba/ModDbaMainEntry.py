@@ -6,6 +6,7 @@ Created on 2018年7月13日
 '''
 import time,json
 from PkgHstDba import ModDbaF1sym
+from PkgHstDba import ModDbaF1Vmlog
 from PkgHstDba import ModDbaF2cm
 from PkgHstDba import ModDbaF3dm
 from PkgHstDba import ModDbaF4icm
@@ -20,6 +21,7 @@ from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
 from PkgHstDba import ModDbaCebs
 from PkgHstDba import ModDbaF12Iwdp
+from PkgHstDba import ModDbaF13Phos
 from PkgAccessEntry.ModAccessDict import *
 
 
@@ -76,6 +78,17 @@ class ClassDbaMainEntry():
         elif inputData['action']=="HCU_Session_Binding":
             F1sym=ModDbaF1sym.ClassDbaF1sym()
             result=F1sym.dft_dbi_HCU_Session_Binding(inputData['body'])
+        else:
+            result=""
+        return result
+    
+    def dft_F1vmlog_Send_Message(self,inputData):
+        if inputData['action']=='SyslogSave':
+            F1vmlog=ModDbaF1Vmlog.ClassDbaF1vmlog()
+            result=F1vmlog.dft_dbi_l1comvm_syslog_save_view(inputData['body'])
+        elif inputData['action']=='VmlogCleanup':
+            F1vmlog=ModDbaF1Vmlog.ClassDbaF1vmlog()
+            result=F1vmlog.dft_dbi_cron_l1vm_loginfo_cleanup(inputData['body']) 
         else:
             result=""
         return result
@@ -351,6 +364,8 @@ class ClassDbaMainEntry():
         F6pm=ModDbaF6pm.classDappDbF6pm()
         if inputData['action']=='GetAuditStabilityTable':
             result=F6pm.dft_dbi_aqyc_performance_table_req(inputData['body'])
+        elif inputData['action']=='HcuOnlineKpi':
+            result=F6pm.dft_dbi_minute_cron_optkpi(inputData['body'])
         else:
             result=""
         return result
@@ -637,156 +652,110 @@ class ClassDbaMainEntry():
             result=""
         return result
 
-    def dft_cebs_msg_process_user_sheet(self, inputData):
-        if inputData['cmd']=='add':
+    def dft_cebs_msg_process_integration(self, inputData):
+        if inputData['cmd']=='cebs_init_config_read':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_init_config_read(inputData)        
+        elif inputData['cmd']=='user_sheet_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_user_sheet_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='user_sheet_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_user_sheet_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='user_sheet_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_user_sheet_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='user_sheet_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_user_sheet_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-
-    def dft_cebs_msg_process_product_profile(self, inputData):
-        if inputData['cmd']=='add':
+        elif inputData['cmd']=='product_profile_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_product_profile_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='product_profile_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_product_profile_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='product_profile_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_product_profile_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='product_profile_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_product_profile_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-
-    def dft_cebs_msg_process_cali_profile(self, inputData):
-        if inputData['cmd']=='add':
+            result=dbaCebsObj.dft_dbi_product_profile_delete(inputData)            
+        elif inputData['cmd']=='cali_profile_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_cali_profile_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='cali_profile_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_cali_profile_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='cali_profile_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_cali_profile_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='cali_profile_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_cali_profile_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-
-    def dft_cebs_msg_process_object_profile(self, inputData):
-        if inputData['cmd']=='add':
+            result=dbaCebsObj.dft_dbi_cali_profile_delete(inputData)           
+        elif inputData['cmd']=='object_profileadd':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_object_profile_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='object_profileread':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_object_profile_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='object_profilemodify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_object_profile_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='object_profiledelete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_object_profile_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-    
-    def dft_cebs_msg_process_config_eleg(self, inputData):
-        if inputData['cmd']=='add':
+        elif inputData['cmd']=='config_eleg_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_eleg_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='config_eleg_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_eleg_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='config_eleg_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_eleg_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='config_eleg_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_eleg_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-    
-    def dft_cebs_msg_process_config_stackcell(self, inputData):
-        if inputData['cmd']=='add':
+        elif inputData['cmd']=='config_stackcell_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_stackcell_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='config_stackcell_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_stackcell_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='config_stackcell_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_stackcell_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='config_stackcell_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_config_stackcell_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-    
-    def dft_cebs_msg_process_result_eleg(self, inputData):
-        if inputData['cmd']=='add':
+        elif inputData['cmd']=='result_eleg_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_eleg_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='result_eleg_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_eleg_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='result_eleg_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_eleg_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='result_eleg_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_eleg_delete(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
-    
-    
-    def dft_cebs_msg_process_result_stackcell(self, inputData):
-        if inputData['cmd']=='add':
+        elif inputData['cmd']=='result_stackcell_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_stackcell_add(inputData)
-        elif inputData['cmd']=='read':
+        elif inputData['cmd']=='result_stackcell_read':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_stackcell_read(inputData)
-        elif inputData['cmd']=='modify':
+        elif inputData['cmd']=='result_stackcell_modify':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_result_stackcell_modify(inputData)
-        elif inputData['cmd']=='delete':
+        elif inputData['cmd']=='result_stackcell_delete':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_result_stackcell_delete(inputData)
+            result=dbaCebsObj.dft_dbi_result_stackcell_delete(inputData)            
         else:
             result= {'res':False, 'reason':'not exist command'}
         return result
 
-    def  dft_cebs_msg_process_init_result(self, inputData):
-        if inputData['cmd']=='read':
-            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_cebs_init_config_read(inputData)
-        elif inputData['cmd']=='modify':
-            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_cebs_init_config_modify(inputData)
-        elif inputData['cmd']=='add':
-            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_cebs_init_config_add(inputData)
-        else:
-            result= {'res':False, 'reason':'not exist command'}
-        return result
     
     def dft_F12Iwdp_Send_Message(self,inputData):
 #         print(inputData)
@@ -868,12 +837,102 @@ class ClassDbaMainEntry():
         else:
             result={"errcode":"1","errmsg":"非合法操作"}
         return result
-
+    
+    def dft_F13Phos_Send_Message(self,inputData):
+#         print(inputData)
+        if inputData['action']=="ChekOpenid":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_check_openid(inputData["body"])
+        elif inputData['action']=="TelphoneRegi":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_user_telphone_register(inputData["body"])
+        elif inputData['action']=="GetCompanyList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_coampany_list(inputData["body"])
+        elif inputData['action']=="UploadUserLoaction":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_upload_user_location(inputData["body"])
+        elif inputData['action']=="DriverSubmit":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_driver_information_submit(inputData["body"])
+        elif inputData['action']=="GetTaskList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_task_list(inputData["body"])
+        elif inputData['action']=="GetAcceptInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_user_accept_task_info(inputData["body"])
+        elif inputData['action']=="GetContractInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_contract_information(inputData["body"])
+        elif inputData['action']=="RefuseTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_user_refuse_task(inputData["body"])
+        elif inputData['action']=="AcceptTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_user_accept_task(inputData["body"])
+        elif inputData['action']=="GetAcceptedInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_user_accepted_task_info(inputData["body"])
+        elif inputData['action']=="UploadPicInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_upload_picture_infomation(inputData["body"])
+        elif inputData['action']=="UploadVideo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_upload_video(inputData["body"])
+        elif inputData['action']=="VideoList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_video_list(inputData["body"])
+        elif inputData['action']=="VideoDelete":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_video_delete(inputData["body"])
+        elif inputData['action']=="TaskDone":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_task_done(inputData["body"])
+        elif inputData['action']=="GetTaskDetail":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_task_detail(inputData["body"])
+        elif inputData['action']=="GetUserInfo":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_user_information(inputData["body"])
+        elif inputData['action']=="GetCarList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_car_list(inputData["body"])
+        elif inputData['action']=="BindingPlate":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_binding_license_plate(inputData["body"])
+        elif inputData['action']=="ManageSubmit":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_manage_information_submit(inputData["body"])
+        elif inputData['action']=="GetFreePlateList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_free_plate_list(inputData["body"])
+        elif inputData['action']=="GetGoodsList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_goods_list(inputData["body"])
+        elif inputData['action']=="GetAccountList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_account_list(inputData["body"])
+        elif inputData['action']=="ReleaseTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_manage_release_task(inputData["body"])
+        elif inputData['action']=="GetRefuseList":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_get_refuse_task_list(inputData["body"])
+        elif inputData['action']=="DeleteTask":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_delete_task_info(inputData["body"])
+        elif inputData['action']=="TaskReSelection":
+            F13Phos=ModDbaF13Phos.classDappDbF13Phos()
+            result=F13Phos.dft_dbi_task_reselection(inputData["body"])
+        else:
+            result={"status":"false","msg":"非合法操作"}
+        return result
+    
 #HCU    
 class ClassHCUDbaMainEntry():
-    def dft_F2cm_Send_Message(self,socketId,inputData): 
+    def dft_F2cm_Send_Message(self,socketId,inputData,ipaddr): 
         F2cm=ModDbaF2cm.HCUF2cmDataBaseConfirm()
-        result=F2cm.dft_dbi_response_HCU_data(socketId,inputData)
+        result=F2cm.dft_dbi_response_HCU_data(socketId,inputData,ipaddr)
         return result
     
     def dft_F2cm_Heart_Data_Report(self,socketId,inputData):
@@ -907,50 +966,8 @@ class ClassHCUDbaMainEntry():
     
     def dft_F3dm_Data_Current_Report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
-        FrUsr=inputData['FrUsr']
-        ToUsr=inputData["ToUsr"]
-        dev_code=FrUsr.split("_")
-        if dev_code[2]=="AQYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2400ZNXX":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2008SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2012NALT":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G1400FSTT":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2008FSTT":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2013SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2014SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2012SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2012SHYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2015XCYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        elif dev_code[1]=="G2013XCYC":
-            Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
-            return Msg
-        else:
-            result={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId': GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':115,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-            msg_len=len(json.dumps(result))
-            Msg_final={'socketid':socketId,'data':{'ToUsr':FrUsr,'FrUsr':ToUsr,"CrTim":int(time.time()),'MsgTp':'huitp_json','MsgId':GOLBALVAR.HUITPJSON_MSGID_YCDATACONFIRM,'MsgLn':msg_len,"IeCnt":{'cfmYesOrNo':0},"FnFlg":0}}
-            return Msg_final
+        Msg=F3dm.dft_dbi_aqyc_current_report(socketId, inputData)
+        return Msg
     
     def dft_F3dm_smart_city_current_report(self,socketId,inputData):
         F3dm=ModDbaF3dm.HCUF3dmDataBaseConfirm()
@@ -970,7 +987,7 @@ class ClassHCUDbaMainEntry():
 class ClassNbiotDbaMainEntry():
     def NbIotMainEntry(self,serviceId,inputData):
         if int(inputData['MsgId']) ==GOLBALVAR.HUITPJSON_MSGID_NB_IOT_DATA_REPORT:
-            F2cmnbiot=ModDbaF2cm.NBIOTF3dmDataBaseComfirm()
+            F2cmnbiot=ModDbaF2cm.NBIOTF2cmDataBaseComfirm()
             result=F2cmnbiot.dft_dbi_nb_iot_data_current_report(serviceId,inputData)
             return result
 
