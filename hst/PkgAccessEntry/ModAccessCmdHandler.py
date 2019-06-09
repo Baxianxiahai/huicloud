@@ -1439,7 +1439,7 @@ class ClassHuirestCewormInputCmdHandler:
     achContentResExt=''
      
     def __init__(self):
-        self.achCtrlFlag = True
+        self.achCtrlFlag = False
         self.achProcResult = ''
         self.achContentResExt = ""
  
@@ -1447,13 +1447,13 @@ class ClassHuirestCewormInputCmdHandler:
     def inputCmdHandlerEntry(self, inputStr):
         #
         if (inputStr['restTag'] != self.__HUIREST_SVTAG):
-            self.achCtrlFlag = False;
-        if (inputStr['actionId'] < self.__HUIREST_ACTIONID_CEWORM_min):
-            self.achCtrlFlag = False;
+            self.achCtrlFlag = True;
+        if (inputStr['actionId'] <= self.__HUIREST_ACTIONID_CEWORM_min):
+            self.achCtrlFlag = True;
         if (inputStr['actionId'] >= self.__HUIREST_ACTIONID_CEWORM_max):
-            self.achCtrlFlag = False;
+            self.achCtrlFlag = True;
         if (inputStr['parFlag'] != int(True) and inputStr['parFlag'] != int(False)):
-            self.achCtrlFlag = False;
+            self.achCtrlFlag = True;
                      
         #
         if (self.achCtrlFlag == True):

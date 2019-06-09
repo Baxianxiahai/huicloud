@@ -93,7 +93,7 @@ class clsL0_PrjCfgPar():
     PRJ_SER_FLOWERID = False    #花卉识别
     PRJ_SER_ROADWID = False     #路面积水识别
     PRJ_SER_ROADFID = False     #路边花草识别
-    PRJ_SER_CEWORM = False      #白光线虫照片识别
+    PRJ_SER_CEWORM = True      #白光线虫照片识别
     
     #DIFFERENT PROJECT DEFINE
     if GL_PRJ_CUR_SET == GL_PRJ_SET_MFUN_CENTOS:

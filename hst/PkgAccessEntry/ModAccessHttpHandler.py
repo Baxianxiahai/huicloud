@@ -147,19 +147,19 @@ class ClassHttpRequestGenernalHandler(BaseHTTPRequestHandler):
             #NOT EXIST OPTION
 #             else:
 #                 print("HUIREST: Receiving restTag domain error!")
-                return
+#                 return
         #准备继续干活
         varProcessResult = varClassInputHandler.inputCmdHandlerEntry(jsonInput)
-        strOutputData1 = """<!DOCTYPE HTML>
-        <html lang="en-US">
-        <head>
-        <meta charset="UTF-8">
-        <title>HUIREST SERVICE - POST</title>
-        </head>
-        <body>
-        <p>this is post!</p>
-        </body>
-        </html>"""+str(self.headers)+str(self.command)+str(self.headers.get)+str(varProcessResult)
+#         strOutputData1 = """<!DOCTYPE HTML>
+#         <html lang="en-US">
+#         <head>
+#         <meta charset="UTF-8">
+#         <title>HUIREST SERVICE - POST</title>
+#         </head>
+#         <body>
+#         <p>this is post!</p>
+#         </body>
+#         </html>"""+str(self.headers)+str(self.command)+str(self.headers.get)+str(varProcessResult)
         strOutputData2 = json.dumps(varProcessResult, ensure_ascii=False)
         print("[", time.asctime(time.localtime(time.time())), "HUIREST]: Sending Post Data Buf = ", strOutputData2)
         self.wfile.write(bytes(strOutputData2, "UTF-8"))
