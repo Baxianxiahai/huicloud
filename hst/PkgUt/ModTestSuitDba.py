@@ -50,9 +50,11 @@ def hst_testsuite_dba():
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_002"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_003"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_004"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_005"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
+        # suiteTest.addTest(ClassUtDba("tc_dba_cebs_005"))
+        # suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
+        # suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_008"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -114,7 +116,7 @@ class ClassUtDba(unittest.TestCase):
         ticks = time.time();
         
         print("tc_dba_cebs_001, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent":{'cmd':'add', 'uid':250, 'login_name':'admin', 'pass_word':'13456', 'grade_level':1,'email':'13525@.com', 'memo':'this'}}
+        jsonInputData = {"restTag": "dba","actionId": 8500,"parFlag": 1,"parContent":{'cmd':'user_sheet_add', 'uid':250, 'login_name':'adminABC', 'pass_word':'13456', 'grade_level':1,'email':'13525@.com', 'memo':'this'}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
         print("tc_dba_cebs_001 result = ", result);
     
@@ -123,10 +125,10 @@ class ClassUtDba(unittest.TestCase):
     def tc_dba_cebs_002(self):
         ticks = time.time();
         print("tc_dba_cebs_001, time in second = ", ticks);
-        jsonInputData = {"restTag": "dba","actionId": 0X0ED7,"parFlag": 1,"parContent": \
-            {"cmd":"read", "user":"test222"}}
+        jsonInputData = {"restTag": "dba","actionId": 8500,"parFlag": 1,"parContent": \
+            {"cmd":"user_sheet_read", "uid":"UID0327145"}}
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)   
-        print("tc_dba_cebs_001 result = ", result);
+        print("tc_dba_cebs_002 result = ", result);
     
     #modify
     def tc_dba_cebs_003(self):
@@ -234,9 +236,22 @@ class ClassUtDba(unittest.TestCase):
                 break
         print("test tc_dba_cebs_007 result is "+testResult)
 
+    #test hstGetConfig
+    def tc_dba_cebs_008(self):
+        ticks = time.time();
+        print("tc_dba_cebs_008, time in second = ", ticks);
+        jsonInputData = {"restTag": "dba","actionId": 8500,"parFlag": 1,'parContent': {'cmd':'hstGetConfig'}}
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
 
-
-
+    #test hstSetConfig
+    def tc_dba_cebs_009(self):
+        ticks = time.time();
+        print("tc_dba_cebs_009, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':0, 'memo': 'This is used for a memo record','objid': 1, 'objname': 'objtest0610add', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 610, 'videotime': 610, 'slimit': 610, 'smlimit': 610, 'mblimit': 610, 'blimit': 610, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': 1, 'calitime': '2019-05-08 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 610, 'left_bot_y': 610, 'right_up_x': 610, 'right_up_y': 610}}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
 
 
 
