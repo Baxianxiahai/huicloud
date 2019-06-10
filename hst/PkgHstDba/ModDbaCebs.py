@@ -248,7 +248,15 @@ class ClassDbaCebs():
         return result
         
         
+    def dft_dbi_cebs_hstGetConfig(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstGetConfig(inputData)
+        return result
 
+    def dft_dbi_cebs_hstSetConfig(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstSetConfig(inputData)
+        return result
 
 
 

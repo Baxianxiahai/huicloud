@@ -653,9 +653,15 @@ class ClassDbaMainEntry():
         return result
 
     def dft_cebs_msg_process_integration(self, inputData):
-        if inputData['cmd']=='cebs_init_config_read':
+        # if inputData['cmd']=='cebs_init_config_read':
+        #     dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+        #     result=dbaCebsObj.dft_dbi_cebs_init_config_read(inputData)   
+        if inputData['cmd']=='hstGetConfig':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_cebs_init_config_read(inputData)        
+            result=dbaCebsObj.dft_dbi_cebs_hstGetConfig(inputData)
+        elif inputData['cmd']=='hstSetConfig':
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstSetConfig(inputData)   
         elif inputData['cmd']=='user_sheet_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_user_sheet_add(inputData)
