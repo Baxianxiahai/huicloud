@@ -1432,6 +1432,7 @@ class dct_classDbiViewDebs:
             uid = uid_val,login_name = login_name_val,pass_word = pass_word_val,
             grade_level = grade_level_val,email = email_val,memo = memo_val         
             )
+            print("add user successful.")
             status={"status":"true","msg":"用户新建成功"}
             return status
     
@@ -2417,5 +2418,304 @@ class dct_classDbiViewDebs:
 
         print(bufferout)
         return bufferout 
+
+    def dft_dbi_cebs_hstGetConfig(self, inputData):
+        bufferout = {}
+        objectProfile={}
+        elegObj={}
+        caliProfile={}
+        bufferout['cmd'] ='hstGetConfig',
+        result = models.t_cebs_object_profile.objects.filter(defaultflag = True)
+        if result.exists():
+            foundObjid=result[0].objid
+            objectProfile['objid'] = result[0].objid
+            objectProfile['objname'] = result[0].objname
+            objectProfile['objtype'] = result[0].objtype
+            #bufferout['uid'] = result[0].uid
+            objectProfile['uid'] = result[0].uid_id
+            objectProfile['dir_origin'] = result[0].dir_origin
+            objectProfile['dir_middle'] = result[0].dir_middle
+            objectProfile['memo'] = result[0].memo
+            objectProfile['defaultflag']=result[0].defaultflag
+        else:
+            bufferout['error_no']='not found default setting'
+            return bufferout
         
+        bufferout['cebs_object_profile']=objectProfile
+        #result = models.t_cebs_config_eleg.objects.filter(objid = foundObjid)
+        result = models.t_cebs_config_eleg.objects.filter(objid_id = foundObjid)
+        if result.exists():
+            elegObj['confid'] = result[0].confid
+            elegObj['fixpoint'] = result[0].fixpoint
+            elegObj['autovideo'] = result[0].autovideo
+            elegObj['autodist'] = result[0].autodist
+            elegObj['addset'] = result[0].addset
+            elegObj['autocap'] = result[0].autocap
+            elegObj['autoperiod'] = result[0].autoperiod
+            elegObj['videotime'] = result[0].videotime
+            elegObj['slimit'] = result[0].slimit
+            elegObj['smlimit'] = result[0].smlimit
+            elegObj['mblimit'] = result[0].mblimit
+            elegObj['blimit'] = result[0].blimit
+            elegObj['accspeed'] = result[0].accspeed
+            elegObj['decspeed'] = result[0].decspeed
+            elegObj['movespeed'] = result[0].movespeed
+            elegObj['zero_spd'] = result[0].zero_spd
+            elegObj['zero_dec'] = result[0].zero_dec
+            elegObj['back_step'] = result[0].back_step
+        bufferout['cebs_config_eleg']=elegObj
+        result = models.t_cebs_cali_profile.objects.all()   
+        if result.exists():
+            caliProfile['platetype'] = result[0].platetype
+            caliProfile['calitime'] = str(result[0].calitime)
+            caliProfile['uid'] = result[0].uid_id
+            caliProfile['left_bot_x'] = result[0].left_bot_x
+            caliProfile['left_bot_y'] = result[0].left_bot_y
+            caliProfile['right_up_x'] = result[0].right_up_x
+            caliProfile['right_up_y'] = result[0].right_up_y
+            caliProfile['plateoption']=['96_STANDARD','48_STANDARD','24_STANDARD','12_STANDARD','6_STANDARD']
+        bufferout['cebs_cali_profile']=caliProfile
+
+        print(bufferout)
+        return bufferout         
         
+    def dft_dbi_cebs_hstSetConfig(self, inputData):
+        print(inputData)
+        defaultflag_val = inputData['cebs_object_profile']['defaultflag'] 
+        objname_val = inputData['cebs_object_profile']['objname'] 
+        objtype_val = inputData['cebs_object_profile']['objtype'] 
+        uid_val = inputData['cebs_object_profile']['uid']   
+        dir_origin_val = inputData['cebs_object_profile']['dir_origin'] 
+        dir_middle_val = inputData['cebs_object_profile']['dir_middle'] 
+        memo_val = inputData['cebs_object_profile']['memo'] 
+        foreignkeyname = inputData['cebs_object_profile']['uid'] 
+        result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+        if result.exists():
+            uid_val = result[0].uid
+        models.t_cebs_object_profile.objects.create(
+            defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
+            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
+            )
+
+        fixpoint_val = inputData['cebs_config_eleg']['fixpoint']
+        autovideo_val = inputData['cebs_config_eleg']['autovideo']
+        autodist_val = inputData['cebs_config_eleg']['autodist']
+        addset_val = inputData['cebs_config_eleg']['addset']
+        autocap_val = inputData['cebs_config_eleg']['autocap']
+        autoperiod_val = inputData['cebs_config_eleg']['autoperiod']
+        videotime_val = inputData['cebs_config_eleg']['videotime']
+        slimit_val = inputData['cebs_config_eleg']['slimit']
+        smlimit_val = inputData['cebs_config_eleg']['smlimit']
+        mblimit_val = inputData['cebs_config_eleg']['mblimit']
+        blimit_val = inputData['cebs_config_eleg']['blimit']
+        accspeed_val = inputData['cebs_config_eleg']['accspeed']
+        decspeed_val = inputData['cebs_config_eleg']['decspeed']
+        movespeed_val = inputData['cebs_config_eleg']['movespeed']
+        zero_spd_val = inputData['cebs_config_eleg']['zero_spd']
+        zero_dec_val = inputData['cebs_config_eleg']['zero_dec']
+        back_step_val = inputData['cebs_config_eleg']['back_step']
+
+        
+        foreignkeyname = models.t_cebs_object_profile.objects.all().last().objid
+        print(foreignkeyname)
+        #关联到别的表单就要加  _id   只能锁定上表的主键
+        result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
+        if result.exists():
+            objid_val = result[0].objid
+        models.t_cebs_config_eleg.objects.create(
+            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
+            addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
+            slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
+            accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
+            zero_spd = zero_spd_val, zero_dec = zero_dec_val, back_step  = back_step_val
+            )
+
+        platetype_val = inputData['cebs_cali_profile']['platetype']
+        left_bot_x_val = inputData['cebs_cali_profile']['left_bot_x']
+        left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
+        right_up_x_val = inputData['cebs_cali_profile']['right_up_x']
+        right_up_y_val = inputData['cebs_cali_profile']['right_up_y']
+        foreignkeyname = inputData['cebs_cali_profile']['uid']
+        calitime_val = inputData['cebs_cali_profile']['calitime']
+        result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+        if result.exists():
+            uid_val = result[0].uid
+         
+        models.t_cebs_cali_profile.objects.create(
+            platetype = platetype_val,  left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            right_up_x = right_up_x_val, right_up_y = right_up_y_val, uid_id = uid_val, calitime = calitime_val
+            )                
+        return inputData
+
+    def dft_dbi_cebs_hstUpdateCaliPar(self, inputData): 
+        uid_val=inputData['cebs_cali_profile']['uid']
+       
+        result = models.t_cebs_cali_profile.objects.filter(uid_id = uid_val)
+        if result.exists():
+            platetype_val = inputData['cebs_cali_profile']['platetype']
+            calitime_val = inputData['cebs_cali_profile']['calitime']
+            left_bot_x_val = inputData['cebs_cali_profile']['left_bot_x']
+            left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
+            right_up_x_val = inputData['cebs_cali_profile']['right_up_x']
+            right_up_y_val = inputData['cebs_cali_profile']['right_up_y']
+
+            models.t_cebs_cali_profile.objects.filter(uid_id = uid_val).update(
+                platetype = platetype_val,calitime = calitime_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+                right_up_x = right_up_x_val, right_up_y = right_up_y_val
+                )
+        return inputData
+
+    def dft_dbi_cebs_hstAddBatchNbr(self, inputData): 
+        uid_val = inputData['cebs_batch_info']['user'] 
+        createtime_val = inputData['cebs_batch_info']['createtime'] 
+        comp_nbr_val = inputData['cebs_batch_info']['comp_nbr'] 
+        usr_def1_val = inputData['cebs_batch_info']['usr_def1']   
+        usr_def2_val = inputData['cebs_batch_info']['usr_def2'] 
+        models.t_cebs_batch_info.objects.create(
+             uid_id = uid_val,createtime = createtime_val, comp_nbr = comp_nbr_val, usr_def1 = usr_def1_val,
+             usr_def2 = usr_def2_val              
+              )
+        #result = models.t_cebs_batch_info.objects.filter(createtime = createtime_val)
+        result = models.t_cebs_batch_info.objects.last()
+        bufferout = {}
+        dbainfo={}
+        # print(result.snbatch)
+        # if result.exists():
+        #     print("found subid")
+        dbainfo['snbatch']=result.snbatch
+        dbainfo['uid_id']=result.uid_id
+        dbainfo['createtime']=str(result.createtime)
+        dbainfo['comp_nbr']=result.comp_nbr
+        dbainfo['usr_def1']=result.usr_def1
+        dbainfo['usr_def2']=result.usr_def2
+        bufferout['cmd']="hstAddBatchNbr"
+        bufferout['cebs_batch_info']=dbainfo
+
+        return bufferout
+
+    def dft_dbi_cebs_hstAddPicCap(self, inputData): 
+        # sid_val = inputData['cebs_pvci_eleg']['sid'] 
+        # confid_val = inputData['cebs_pvci_eleg']['confid'] 
+        result = models.t_cebs_object_profile.objects.filter(defaultflag = True, objtype=1)
+
+        if result.exists():
+            foundObjid=result[0].objid 
+            print(foundObjid)    
+            config_result=models.t_cebs_config_eleg.objects.filter(objid_id = foundObjid)
+            if config_result.exists():
+                confid_val=config_result[0].confid
+                print(confid_val)
+        else:
+            confd={}
+            confd['cmd']='hstAddPicCap'
+            confd['error_no']='Not found defaultflag true & objtype is ELEG'
+            return confd
+
+        snbatch_val = inputData['cebs_pvci_eleg']['snbatch'] 
+        snhole_val = inputData['cebs_pvci_eleg']['snhole']   
+        file_attr_val = inputData['cebs_pvci_eleg']['file_attr'] 
+        name_before_val = inputData['cebs_pvci_eleg']['name_before'] 
+        video_before_val = inputData['cebs_pvci_eleg']['video_before'] 
+        cap_time_val = inputData['cebs_pvci_eleg']['cap_time'] 
+        name_after_val = inputData['cebs_pvci_eleg']['name_after'] 
+        memo_val = inputData['cebs_pvci_eleg']['memo'] 
+        rec_time_val = inputData['cebs_pvci_eleg']['rec_time'] 
+
+        models.t_cebs_pvci_eleg.objects.create(
+            confid_id = confid_val, snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,
+            name_after = name_after_val, bigalive = 0, bigdead = 0, midalive = 0, middead = 0,
+            smaalive = 0, smdead = 0,totalalive = 0, totaldead = 0, totalsum = 0, 
+            doneflag = 0, memo = memo_val, rec_time=rec_time_val,cap_time=cap_time_val,video_before=video_before_val
+            ) 
+
+        inputData['cebs_pvci_eleg']['sid']=models.t_cebs_pvci_eleg.objects.last().sid
+        inputData['cebs_pvci_eleg']['confid']=models.t_cebs_pvci_eleg.objects.last().confid_id
+        return inputData
+
+    def dft_dbi_cebs_hstUpdatePicCfy(self, inputData): 
+        sid_val = inputData['cebs_pvci_eleg']['sid'] 
+        confid_val= inputData['cebs_pvci_eleg']['confid_id'] 
+        snbatch_val = inputData['cebs_pvci_eleg']['snbatch'] 
+        snhole_val = inputData['cebs_pvci_eleg']['snhole']   
+        file_attr_val = inputData['cebs_pvci_eleg']['file_attr'] 
+        name_before_val = inputData['cebs_pvci_eleg']['name_before'] 
+        video_before_val = inputData['cebs_pvci_eleg']['video_before'] 
+        cap_time_val = inputData['cebs_pvci_eleg']['cap_time'] 
+        name_after_val = inputData['cebs_pvci_eleg']['name_after'] 
+        memo_val = inputData['cebs_pvci_eleg']['memo'] 
+        rec_time_val = inputData['cebs_pvci_eleg']['rec_time'] 
+
+        bigalive_val=inputData['cebs_pvci_eleg']['bigalive']
+        bigdead_val=inputData['cebs_pvci_eleg']['bigdead']
+        midalive_val=inputData['cebs_pvci_eleg']['midalive']
+        middead_val=inputData['cebs_pvci_eleg']['middead']
+        smaalive_val=inputData['cebs_pvci_eleg']['smalive']
+        smdead_val=inputData['cebs_pvci_eleg']['smdead']
+        totalalive_val=inputData['cebs_pvci_eleg']['totalalive']
+        totaldead_val=inputData['cebs_pvci_eleg']['totaldead']
+        totalsum_val=inputData['cebs_pvci_eleg']['totalsum']
+        doneflag_val=inputData['cebs_pvci_eleg']['doneflag']
+
+
+        models.t_cebs_pvci_eleg.objects.filter(sid =sid_val).update(
+            snbatch = snbatch_val, snhole = snhole_val, file_attr = file_attr_val, name_before = name_before_val,cap_time = cap_time_val,
+            name_after = name_after_val, rec_time = rec_time_val,bigalive = bigalive_val, bigdead = bigdead_val, midalive = midalive_val, 
+            middead = middead_val,smaalive = smaalive_val, smdead = smdead_val,totalalive = totalalive_val, totaldead = totaldead_val, 
+            totalsum = totalsum_val, doneflag = doneflag_val, memo = memo_val ,confid_id = confid_val, video_before=video_before_val
+            )  
+        return inputData
+
+    def dft_dbi_cebs_hstReadPic(self, inputData):
+        snbatch_val = inputData['batch_number'] 
+        snhole_val = inputData['hole_number']
+        bufferout= {}
+        bufferout['cmd']='hstReadPic'
+        bufferout['error_no']='no_error'
+        dbinfo={}
+        result = models.t_cebs_pvci_eleg.objects.filter(snbatch = snbatch_val,snhole=snhole_val)
+        if result.exists():
+            dbinfo['sid'] = result[0].sid
+            dbinfo['confid'] = result[0].confid_id
+            dbinfo['snbatch'] = result[0].snbatch
+            dbinfo['snhole'] = result[0].snhole
+            dbinfo['file_attr'] = result[0].file_attr
+            dbinfo['name_before'] = result[0].name_before
+            dbinfo['cap_time'] = result[0].cap_time.strftime('%Y-%m-%d %H:%M:%S') 
+            dbinfo['video_before'] = result[0].video_before
+            dbinfo['name_after'] = result[0].name_after
+            dbinfo['rec_time'] = result[0].rec_time.strftime('%Y-%m-%d %H:%M:%S') 
+            dbinfo['bigalive'] = result[0].bigalive
+            dbinfo['bigdead'] = result[0].bigdead  
+            dbinfo['midalive'] = result[0].midalive 
+            dbinfo['middead'] = result[0].middead 
+            dbinfo['smaalive'] = result[0].smaalive 
+            dbinfo['smdead'] = result[0].smdead 
+            dbinfo['totalalive'] = result[0].totalalive 
+            dbinfo['totaldead'] = result[0].totaldead 
+            dbinfo['totalsum'] = result[0].totalsum 
+            dbinfo['doneflag'] = result[0].doneflag 
+            dbinfo['memo'] = result[0].memo 
+            print(dbinfo)
+        else:
+            bufferout['error_no']='not found pic data'
+        bufferout['cebs_pvci_eleg']=dbinfo
+        return bufferout 
+
+    def dft_dbi_cebs_hstReadUnclfyPar(self, inputData):
+        file_attr_val = inputData['file_attr'] 
+        bufferout= {}
+        result = models.t_cebs_pvci_eleg.objects.filter(file_attr = file_attr_val,doneflag= False).order_by('cap_time')
+        if result.exists():
+            bufferout['batchNbr']=result[0].snbatch
+            bufferout['holeNbr']=result[0].snhole
+            bufferout['fileAbsOrigin']=result[0].name_before
+            bufferout['fileAbsMiddle']=result[0].name_after
+            bufferout['fileAbsVideo']=result[0].video_before
+ 
+        
+        else:
+
+            bufferout['error_no']='not found Unclfy pic data'
+        bufferout['cmd']='hstReadUnclfyPar'
+        bufferout['file-attr']=file_attr_val
+        return bufferout 

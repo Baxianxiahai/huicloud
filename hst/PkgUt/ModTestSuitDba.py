@@ -54,7 +54,13 @@ def hst_testsuite_dba():
         # suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
         # suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_008"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_010"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_011"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_012"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_013"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_014"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_015"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -241,6 +247,7 @@ class ClassUtDba(unittest.TestCase):
         ticks = time.time();
         print("tc_dba_cebs_008, time in second = ", ticks);
         jsonInputData = {"restTag": "dba","actionId": 8500,"parFlag": 1,'parContent': {'cmd':'hstGetConfig'}}
+        print(jsonInputData)
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
         print(result)
 
@@ -248,14 +255,75 @@ class ClassUtDba(unittest.TestCase):
     def tc_dba_cebs_009(self):
         ticks = time.time();
         print("tc_dba_cebs_009, time in second = ", ticks);
-        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':0, 'memo': 'This is used for a memo record','objid': 1, 'objname': 'objtest0610add', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 610, 'videotime': 610, 'slimit': 610, 'smlimit': 610, 'mblimit': 610, 'blimit': 610, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': 1, 'calitime': '2019-05-08 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 610, 'left_bot_y': 610, 'right_up_x': 610, 'right_up_y': 610}}}
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':0, 'memo': 'This is used for a memo record','objid': 1, 'objname': 'objtest0610add', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 610, 'videotime': 610, 'slimit': 610, 'smlimit': 610, 'mblimit': 610, 'blimit': 610, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-05-08 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 610, 'left_bot_y': 610, 'right_up_x': 610, 'right_up_y': 610}}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
+
+    #test dft_dbi_cebs_hstUpdateCaliPar
+
+    def tc_dba_cebs_010(self):
+        ticks = time.time();
+        print("tc_dba_cebs_010, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstUpdateCaliPar', 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-06-11 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 611, 'left_bot_y': 611, 'right_up_x': 611, 'right_up_y': 611}}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
+
+
+    #test dft_dbi_cebs_hstAddBatchNbr
+
+    def tc_dba_cebs_011(self):
+        ticks = time.time();
+        print("tc_dba_cebs_011, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstAddBatchNbr', 'cebs_batch_info': {'createtime': '2019-06-11 12:31:52.226945', 'user': 'UID3250678', 'comp_nbr': 96, 'usr_def1': 'User Comments Part 1', 'usr_def2': 'User Comments Part 2'}}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
+
+
+    #test dft_dbi_cebs_hstAddPicCap
+
+    def tc_dba_cebs_012(self):
+        ticks = time.time();
+        print("tc_dba_cebs_012, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstAddPicCap', 'cebs_pvci_eleg': {'rec_time':'2019-06-05 20:00:00', 'snbatch': 1,'snhole': 96,'file_attr':'normal','name_before':'d:\aa\origin\batch#20#hole#a5_org.jpg','video_before':'d:\aa\origin\batch#20#hole#a5_video.mp4','cap_time':'2019-06-05 20:00:00','name_after':'d:\aa\mid\batch#20#hole#a5_cfy.jpg','memo': 'This is for user specific comments','bigalive':0,'bigdead':0,'midalive':0,'middead':0,'smalive':0,'smdead':0,'totalalive':0,'totaldead':0,'totalsum':0,'doneflag':0}}}
         print(jsonInputData)        
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
         print(result)
 
 
 
+    #test dft_dbi_cebs_hstUpdatePicCfy
 
+    def tc_dba_cebs_013(self):
+        ticks = time.time();
+        print("tc_dba_cebs_013, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstUpdatePicCfy', 'cebs_pvci_eleg': {'sid':1,'confid_id':1,'rec_time':'2019-06-05 20:00:00', 'snbatch': 1,'snhole': 96,'file_attr':'normal','name_before':'d:\aa\origin\batch#20#hole#a5_org.jpg','video_before':'d:\aa\origin\batch#20#hole#a5_video.mp4','cap_time':'2019-06-05 20:00:00','name_after':'d:\aa\mid\batch#20#hole#a5_cfy.jpg','memo': 'This is for user specific comments','bigalive':20,'bigdead':30,'midalive':40,'middead':20,'smalive':10,'smdead':5,'totalalive':100,'totaldead':50,'totalsum':300,'doneflag':1}}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
+
+    #test dft_dbi_cebs_hstReadPic
+
+    def tc_dba_cebs_014(self):
+        ticks = time.time();
+        print("tc_dba_cebs_014, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstReadPic', 'batch_number': 1,'hole_number': 96}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
+
+
+    #test dft_dbi_cebs_hstReadUnclfyPar
+
+    def tc_dba_cebs_015(self):
+        ticks = time.time();
+        print("tc_dba_cebs_015, time in second = ", ticks);
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstReadUnclfyPar', 'file_attr':'normal'}}
+        print(jsonInputData)        
+        result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+        print(result)
 
 
 

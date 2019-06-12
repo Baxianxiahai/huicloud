@@ -57,8 +57,12 @@ def hst_curlib3_client_connection(jsonInputData, logic):
             body=encoded_data, 
             headers={'Content-Type':'application/json', 'Connection': 'close'}
             )
+        # print("r data")
+        # print(r.data)
+        # result=''
         try:
             result = json.loads(r.data)
+            # print(result)
         except Exception:
             print("Test case run error without feedback!")
             result = ''

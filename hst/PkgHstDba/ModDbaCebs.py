@@ -258,7 +258,33 @@ class ClassDbaCebs():
         result = DappDbCebs_view.dft_dbi_cebs_hstSetConfig(inputData)
         return result
 
+    def dft_dbi_cebs_hstUpdateCaliPar(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstUpdateCaliPar(inputData)
+        return result
+
+    def dft_dbi_cebs_hstAddBatchNbr(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstAddBatchNbr(inputData)
+        return result
+
+    def dft_dbi_cebs_hstAddPicCap(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstAddPicCap(inputData)
+        return result
+
+    def dft_dbi_cebs_hstUpdatePicCfy(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstUpdatePicCfy(inputData)
+        return result
 
 
+    def dft_dbi_cebs_hstReadPic(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstReadPic(inputData)
+        return result
 
-    
+    def dft_dbi_cebs_hstReadUnclfyPar(self, inputData):
+        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        result = DappDbCebs_view.dft_dbi_cebs_hstReadUnclfyPar(inputData)
+        return result

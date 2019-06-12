@@ -21,7 +21,7 @@ from PkgHstDba import ModDbaFxprcm
 from PkgHstDba import ModDbaSnr
 from PkgHstDba import ModDbaCebs
 from PkgHstDba import ModDbaF12Iwdp
-from PkgHstDba import ModDbaF13Phos
+#from PkgHstDba import ModDbaF13Phos
 from PkgAccessEntry.ModAccessDict import *
 
 
@@ -661,7 +661,25 @@ class ClassDbaMainEntry():
             result=dbaCebsObj.dft_dbi_cebs_hstGetConfig(inputData)
         elif inputData['cmd']=='hstSetConfig':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
-            result=dbaCebsObj.dft_dbi_cebs_hstSetConfig(inputData)   
+            result=dbaCebsObj.dft_dbi_cebs_hstSetConfig(inputData)  
+        elif inputData['cmd']=='hstUpdateCaliPar': 
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstUpdateCaliPar(inputData)
+        elif inputData['cmd']=='hstAddBatchNbr': 
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstAddBatchNbr(inputData)
+        elif inputData['cmd']=='hstAddPicCap': 
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstAddPicCap(inputData)
+        elif inputData['cmd']=='hstUpdatePicCfy': 
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstUpdatePicCfy(inputData)
+        elif inputData['cmd']=='hstReadPic': 
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstReadPic(inputData)
+        elif inputData['cmd']=='hstReadUnclfyPar': 
+            dbaCebsObj = ModDbaCebs.ClassDbaCebs()
+            result=dbaCebsObj.dft_dbi_cebs_hstReadUnclfyPar(inputData)
         elif inputData['cmd']=='user_sheet_add':
             dbaCebsObj = ModDbaCebs.ClassDbaCebs()
             result=dbaCebsObj.dft_dbi_user_sheet_add(inputData)

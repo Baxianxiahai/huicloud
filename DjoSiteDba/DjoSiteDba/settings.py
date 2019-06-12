@@ -39,6 +39,7 @@ _SERVER_HOSTNAME_SET = [
     {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
     {'att':'pc', 'name':'kickseed', 'index':5},
     {'att': 'fssvr', 'name': 'fsg0518', 'index': 6}, #fs服务器
+    {'att':'docker', 'name':'db', 'index':7},
     ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
@@ -46,39 +47,49 @@ LOCAL_HOSTNAME = socket.gethostname()
 # ip = socket.gethostbyname(LOCAL_HOSTNAME)
 # print(LOCAL_HOSTNAME)
 # print(ip)
-LOCAL_WK_TARGET=1
-LOCAL_DB_PASSWORD = '123456'
+# LOCAL_WK_TARGET=1
+# LOCAL_DB_PASSWORD = '123456'
+LOCAL_WK_TARGET=5
+LOCAL_DB_PASSWORD = 'bxxhbxxh'
+DEFAULT_LOCAL_HOST = '127.0.0.1'
+
 for element in _SERVER_HOSTNAME_SET:
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'iZbp1iil3e0qqrfbczpmkhZ'):
         # IS_FORMAL_DEPLOYMENT = True
         LOCAL_DB_PASSWORD = 'xiaohui@bxxh'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
-    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'ZJLPC'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'ZJLPC'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
-    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113DJZ'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113DJZ'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
-    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
-    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'fsg0518'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'fsg0518'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = 'xiaohui@bxxh'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
-    elif (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'kickseed'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'kickseed'):
 #         IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
 #         PasswordSetFlag = True
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'db'):
+        # IS_FORMAL_DEPLOYMENT = False
+        LOCAL_DB_PASSWORD = 'bxxhbxxh'
+        LOCAL_WK_TARGET = element['index']
+		DEFAULT_LOCAL_HOST = 'db'
+        # PasswordSetFlag = True
 #     else:
 #         # IS_FORMAL_DEPLOYMENT = False
 #         LOCAL_DB_PASSWORD = '123456'
@@ -519,6 +530,58 @@ elif (LOCAL_WK_TARGET == 6):
         'DappDbF12iwdp': 'IWDP',
         'DappDbF13phos': 'IWDP',
         'DappDbCebs': 'CEBS'
+    }
+elif (LOCAL_WK_TARGET == 7):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': DEFAULT_LOCAL_HOST,
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+                #'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        },
+        'cebs': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'cebs',
+            'USER': 'root',
+            'PASSWORD': LOCAL_DB_PASSWORD,
+            'HOST': DEFAULT_LOCAL_HOST,
+            'PORT': 3306,
+            'OPTIONS': {
+                'autocommit': True,
+#                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+            'CONN_MAX_AGE': None,
+        }
+    }
+    DATABASE_ROUTERS = ['DjoSiteDba.db_route.DatabaseAppsRouter']
+    DATABASE_APPS_MAPPING = {
+        'admin': 'default',
+        'auth': 'default',
+        'contenttypes': 'default',
+        'sessions': 'default',
+        'messages': 'default',
+        'staticfiles': 'default',
+        'DappDbF1sym': 'default',
+        'DappDbF2cm': 'default',
+        'DappDbF3dm': 'default',
+        'DappDbF4icm': 'default',
+        'DappDbF5fm': 'default',
+        'DappDbF6pm': 'default',
+        'DappDbF7ads': 'default',
+        'DappDbF8psm': 'default',
+        'DappDbF9gism': 'default',
+        'DappDbF10oam': 'default',
+        'DappDbF11faam': 'default',
+        'DappDbFxprcm': 'default',
+        'DappDbSnr': 'default',
+        'DappDbCebs': 'cebs',
     }
 else:
     DATABASES = {

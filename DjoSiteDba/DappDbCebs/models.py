@@ -141,7 +141,8 @@ class t_cebs_product_profile(models.Model):
     mfd = models.DateTimeField(auto_now_add=True)
     
 class t_cebs_cali_profile(models.Model):
-    platetype = models.IntegerField(default=5,null=True)
+    #platetype = models.IntegerField(default=5,null=True)
+    platetype = models.CharField(max_length=50)
     calitime = models.DateTimeField(auto_now=True)
     uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
     left_bot_x = models.IntegerField(default=0)
@@ -224,7 +225,30 @@ class  t_cebs_result_eleg(models.Model):
     totalsum = models.IntegerField(default=0)
     doneflag = models.BooleanField(default=False)
     memo=models.CharField(max_length=500)
-    
+
+class  t_cebs_pvci_eleg(models.Model):   
+    sid = models.AutoField(primary_key=True)
+    confid = models.ForeignKey(t_cebs_object_profile,on_delete=models.CASCADE)
+    snbatch = models.IntegerField(default=0)
+    snhole = models.IntegerField(default=0)
+    file_attr = models.CharField(max_length=50)
+    name_before = models.CharField(max_length=20)
+    video_before = models.CharField(max_length=100)
+    cap_time = models.DateTimeField(auto_now_add=True)
+    name_after = models.CharField(max_length=20)
+    rec_time = models.DateTimeField(auto_now=True)
+    bigalive = models.IntegerField(default=0)
+    bigdead = models.IntegerField(default=0)
+    midalive = models.IntegerField(default=0)
+    middead = models.IntegerField(default=0)
+    smaalive = models.IntegerField(default=0)
+    smdead = models.IntegerField(default=0)
+    totalalive = models.IntegerField(default=0)
+    totaldead = models.IntegerField(default=0)
+    totalsum = models.IntegerField(default=0)
+    doneflag = models.BooleanField(default=False)
+    memo=models.CharField(max_length=500)
+
 class t_cebs_result_stackcell(models.Model):
     sid = models.AutoField(primary_key=True)
     confid = models.ForeignKey(t_cebs_object_profile,on_delete=models.CASCADE)
