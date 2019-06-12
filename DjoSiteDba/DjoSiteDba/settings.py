@@ -39,7 +39,7 @@ _SERVER_HOSTNAME_SET = [
     {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
     {'att':'pc', 'name':'kickseed', 'index':5},
     {'att': 'fssvr', 'name': 'fsg0518', 'index': 6}, #fs服务器
-    {'att':'docker', 'name':'db', 'index':7},
+    {'att':'docker', 'name':'hst', 'index':7},
     ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
@@ -51,7 +51,7 @@ LOCAL_HOSTNAME = socket.gethostname()
 # LOCAL_DB_PASSWORD = '123456'
 LOCAL_WK_TARGET=5
 LOCAL_DB_PASSWORD = 'bxxhbxxh'
-DEFAULT_LOCAL_HOST = '127.0.0.1'
+TARGET_DB_HOST = '127.0.0.1'
 
 for element in _SERVER_HOSTNAME_SET:
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'iZbp1iil3e0qqrfbczpmkhZ'):
@@ -84,11 +84,11 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
 #         PasswordSetFlag = True
-    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'db'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'hst'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = 'bxxhbxxh'
         LOCAL_WK_TARGET = element['index']
-		DEFAULT_LOCAL_HOST = 'db'
+		TARGET_DB_HOST = 'db'
         # PasswordSetFlag = True
 #     else:
 #         # IS_FORMAL_DEPLOYMENT = False
@@ -538,7 +538,7 @@ elif (LOCAL_WK_TARGET == 7):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': DEFAULT_LOCAL_HOST,
+            'HOST': TARGET_DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
@@ -551,7 +551,7 @@ elif (LOCAL_WK_TARGET == 7):
             'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
-            'HOST': DEFAULT_LOCAL_HOST,
+            'HOST': TARGET_DB_HOST,
             'PORT': 3306,
             'OPTIONS': {
                 'autocommit': True,
