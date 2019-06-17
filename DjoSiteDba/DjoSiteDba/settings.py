@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 
 import os
+import platform
 import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -86,28 +87,30 @@ for element in _SERVER_HOSTNAME_SET:
 #         PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'hst'):
         # IS_FORMAL_DEPLOYMENT = False
-        LOCAL_DB_PASSWORD = 'bxxhbxxh'
-        LOCAL_WK_TARGET = element['index']
-		TARGET_DB_HOST = 'db'
+        if(platform.system() =="Windows"):
+            LOCAL_DB_PASSWORD = 'bxxhbxxh'
+            LOCAL_WK_TARGET = element['index']
+            TARGET_DB_HOST = '127.0.0.1'
+        else:
+            LOCAL_DB_PASSWORD = 'bxxhbxxh'
+            LOCAL_WK_TARGET = element['index']
+            TARGET_DB_HOST = 'db'
         # PasswordSetFlag = True
 #     else:
 #         # IS_FORMAL_DEPLOYMENT = False
 #         LOCAL_DB_PASSWORD = '123456'
 #         LOCAL_WK_TARGET = element['index']
-# <<<<<<< HEAD
 #         # PasswordSetFlag = True
 # # if (PasswordSetFlag == False):
 # #     IS_FORMAL_DEPLOYMENT = True
 # #     LOCAL_DB_PASSWORD = 'bxxhbxxh'
 # #     LOCAL_WK_TARGET = 1
-# =======
 #         PasswordSetFlag = True
 #     
 # # if (PasswordSetFlag == False):
 # #     IS_FORMAL_DEPLOYMENT = True
 # #     LOCAL_DB_PASSWORD = 'bxxhbxxh';
 # #     LOCAL_WK_TARGET = 1
-# >>>>>>> 2f1bc20919f4c60c266fe59923f97f9279ddbf0d
 
 # Application definition
 INSTALLED_APPS = [
