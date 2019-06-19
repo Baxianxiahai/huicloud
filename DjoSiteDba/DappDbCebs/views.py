@@ -2463,6 +2463,7 @@ class dct_classDbiViewDebs:
             elegObj['zero_spd'] = result[0].zero_spd
             elegObj['zero_dec'] = result[0].zero_dec
             elegObj['back_step'] = result[0].back_step
+            elegObj['autoclfy'] = result[0].autoclfy
         bufferout['cebs_config_eleg']=elegObj
         result = models.t_cebs_cali_profile.objects.all()   
         if result.exists():
@@ -2489,10 +2490,11 @@ class dct_classDbiViewDebs:
         dir_middle_val = inputData['cebs_object_profile']['dir_middle'] 
         memo_val = inputData['cebs_object_profile']['memo'] 
         foreignkeyname = inputData['cebs_object_profile']['uid'] 
-        result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
-        if result.exists():
-            uid_val = result[0].uid
-        models.t_cebs_object_profile.objects.create(
+#         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+#         if result.exists():
+#             uid_val = result[0].uid
+
+        models.t_cebs_object_profile.objects.filter(defaultflag =True).update(
             defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
             dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
             )
@@ -2516,20 +2518,22 @@ class dct_classDbiViewDebs:
         back_step_val = inputData['cebs_config_eleg']['back_step']
 
         
-        foreignkeyname = models.t_cebs_object_profile.objects.all().last().objid
-        print(foreignkeyname)
+        # foreignkeyname = models.t_cebs_object_profile.objects.all().last().objid
+        # print(foreignkeyname)
         #关联到别的表单就要加  _id   只能锁定上表的主键
-        result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
+        # result = models.t_cebs_object_profile.objects.filter(objid = foreignkeyname)
+        result=models.t_cebs_object_profile.objects.filter(defaultflag = True)
         if result.exists():
             objid_val = result[0].objid
-        models.t_cebs_config_eleg.objects.create(
+
+
+        models.t_cebs_config_eleg.objects.filter(objid_id=objid_val).update(
             objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
             accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
             zero_spd = zero_spd_val, zero_dec = zero_dec_val, back_step  = back_step_val
             )
-
         platetype_val = inputData['cebs_cali_profile']['platetype']
         left_bot_x_val = inputData['cebs_cali_profile']['left_bot_x']
         left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
@@ -2540,11 +2544,11 @@ class dct_classDbiViewDebs:
         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
         if result.exists():
             uid_val = result[0].uid
-         
-        models.t_cebs_cali_profile.objects.create(
+           
+        models.t_cebs_cali_profile.objects.filter(uid_id=uid_val).update(
             platetype = platetype_val,  left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
             right_up_x = right_up_x_val, right_up_y = right_up_y_val, uid_id = uid_val, calitime = calitime_val
-            )                
+            )         
         return inputData
 
     def dft_dbi_cebs_hstUpdateCaliPar(self, inputData): 

@@ -54,10 +54,10 @@ def hst_testsuite_dba():
         # suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
         # suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_008"))
-        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_010"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_011"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_012"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_012"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_013"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_014"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_015"))
@@ -252,10 +252,18 @@ class ClassUtDba(unittest.TestCase):
         print(result)
 
     #test hstSetConfig
+    # def tc_dba_cebs_009(self):
+    #     ticks = time.time();
+    #     print("tc_dba_cebs_009, time in second = ", ticks);
+    #     jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':0, 'memo': 'This is used for a memo record','objid': 1, 'objname': 'objtest0610add', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 610, 'videotime': 610, 'slimit': 610, 'smlimit': 610, 'mblimit': 610, 'blimit': 610, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-05-08 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 610, 'left_bot_y': 610, 'right_up_x': 610, 'right_up_y': 610}}}
+    #     print(jsonInputData)        
+    #     result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
+    #     print(result)
+
     def tc_dba_cebs_009(self):
         ticks = time.time();
         print("tc_dba_cebs_009, time in second = ", ticks);
-        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':0, 'memo': 'This is used for a memo record','objid': 1, 'objname': 'objtest0610add', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 610, 'videotime': 610, 'slimit': 610, 'smlimit': 610, 'mblimit': 610, 'blimit': 610, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-05-08 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 610, 'left_bot_y': 610, 'right_up_x': 610, 'right_up_y': 610}}}
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':1, 'memo': 'This is used for a update memo record','objid': 1, 'objname': 'objtest0618update', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 618, 'videotime': 618, 'slimit': 618, 'smlimit': 618, 'mblimit': 618, 'blimit': 618, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-06-18 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 618, 'left_bot_y': 618, 'right_up_x': 18, 'right_up_y': 18}}}
         print(jsonInputData)        
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
         print(result)
@@ -324,6 +332,8 @@ class ClassUtDba(unittest.TestCase):
         print(jsonInputData)        
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
         print(result)
+
+
 
 
 

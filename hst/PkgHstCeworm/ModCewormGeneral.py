@@ -11,7 +11,7 @@ import time
 import json
 import os   #Python的标准库中的os模块包含普遍的操作系统功能  
 import re   #引入正则表达式对象  
-import imutils
+# import imutils
 import cv2
 import argparse
 
