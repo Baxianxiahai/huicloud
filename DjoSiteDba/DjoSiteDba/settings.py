@@ -35,7 +35,7 @@ ALLOWED_HOSTS = []
 '''
 _SERVER_HOSTNAME_SET = [
     {'att':'svr', 'name':'iZbp1iil3e0qqrfbczpmkhZ', 'index':1},
-    {'att':'pc', 'name':'ZJLPC', 'index':2},
+    {'att':'pc', 'name':'ZJL-WORK-PC', 'index':2},
     {'att':'pc', 'name':'PGS-20180113DJZ', 'index':3},
     {'att':'pc', 'name':'PGS-20180113SZM', 'index':4},
     {'att':'pc', 'name':'kickseed', 'index':5},
@@ -60,7 +60,7 @@ for element in _SERVER_HOSTNAME_SET:
         LOCAL_DB_PASSWORD = 'xiaohui@bxxh'
         LOCAL_WK_TARGET = element['index']
         # PasswordSetFlag = True
-    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'ZJLPC'):
+    if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'ZJL-WORK-PC'):
         # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
@@ -265,10 +265,6 @@ elif (LOCAL_WK_TARGET == 2):
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
             'PORT': 3306,
-            #             'OPTIONS': {
-            #                 'autocommit': True,
-            #                 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            #             },
             'CONN_MAX_AGE': None,
         }
     }
