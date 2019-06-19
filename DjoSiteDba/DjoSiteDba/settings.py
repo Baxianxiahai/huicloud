@@ -44,73 +44,42 @@ _SERVER_HOSTNAME_SET = [
     ]
 PasswordSetFlag=False
 LOCAL_HOSTNAME = socket.gethostname()
+ip = socket.gethostbyname(LOCAL_HOSTNAME)
 
-# ip = socket.gethostbyname(LOCAL_HOSTNAME)
-# print(LOCAL_HOSTNAME)
-# print(ip)
-# LOCAL_WK_TARGET=1
-# LOCAL_DB_PASSWORD = '123456'
-LOCAL_WK_TARGET=5
-LOCAL_DB_PASSWORD = 'bxxhbxxh'
-TARGET_DB_HOST = '127.0.0.1'
+#使用ip地址来区分正式部署，还是临时部署
+if ('192.168.' in ip):
+    LOCAL_WK_TARGET=2
+    LOCAL_DB_PASSWORD = '123456'
+    TARGET_DB_HOST = '127.0.0.1'
+else:
+    LOCAL_WK_TARGET=5
+    LOCAL_DB_PASSWORD = 'bxxhbxxh'
+    TARGET_DB_HOST = '127.0.0.1'
 
 for element in _SERVER_HOSTNAME_SET:
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'iZbp1iil3e0qqrfbczpmkhZ'):
-        # IS_FORMAL_DEPLOYMENT = True
         LOCAL_DB_PASSWORD = 'xiaohui@bxxh'
         LOCAL_WK_TARGET = element['index']
-        # PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'ZJL-WORK-PC'):
-        # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
-        # PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113DJZ'):
-        # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
-        # PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'PGS-20180113SZM'):
-        # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
-        # PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'fsg0518'):
-        # IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = 'xiaohui@bxxh'
         LOCAL_WK_TARGET = element['index']
-        # PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'kickseed'):
-#         IS_FORMAL_DEPLOYMENT = False
         LOCAL_DB_PASSWORD = '123456'
         LOCAL_WK_TARGET = element['index']
-#         PasswordSetFlag = True
     if (element['name'].find(LOCAL_HOSTNAME) >= 0) and (element['name'] == 'hst'):
-        # IS_FORMAL_DEPLOYMENT = False
-        if(platform.system() =="Windows"):
-            LOCAL_DB_PASSWORD = 'bxxhbxxh'
-            LOCAL_WK_TARGET = element['index']
-            TARGET_DB_HOST = '127.0.0.1'
-        else:
-            LOCAL_DB_PASSWORD = 'bxxhbxxh'
-            LOCAL_WK_TARGET = element['index']
-            TARGET_DB_HOST = 'db'
-        # PasswordSetFlag = True
-#     else:
-#         # IS_FORMAL_DEPLOYMENT = False
-#         LOCAL_DB_PASSWORD = '123456'
-#         LOCAL_WK_TARGET = element['index']
-#         # PasswordSetFlag = True
-# # if (PasswordSetFlag == False):
-# #     IS_FORMAL_DEPLOYMENT = True
-# #     LOCAL_DB_PASSWORD = 'bxxhbxxh'
-# #     LOCAL_WK_TARGET = 1
-#         PasswordSetFlag = True
-#     
-# # if (PasswordSetFlag == False):
-# #     IS_FORMAL_DEPLOYMENT = True
-# #     LOCAL_DB_PASSWORD = 'bxxhbxxh';
-# #     LOCAL_WK_TARGET = 1
+        LOCAL_DB_PASSWORD = 'bxxhbxxh'
+        LOCAL_WK_TARGET = element['index']
+        TARGET_DB_HOST = 'db'
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -260,7 +229,7 @@ elif (LOCAL_WK_TARGET == 2):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'hstdb',
+            'NAME': 'cebs',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',
@@ -404,8 +373,7 @@ elif (LOCAL_WK_TARGET == 4):
         'DappDbF11faam':'default',
         'DappDbFxprcm':'default',
         'DappDbSnr':'default',
-        'DappDbCebs':'cebs',    
-
+        'DappDbCebs':'cebs',
     }    
 
 #Ubuntu 16 From xiaohui
