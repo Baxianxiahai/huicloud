@@ -327,7 +327,7 @@ elif (LOCAL_WK_TARGET == 4):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'cebs',
+            'NAME': 'django',
             'USER': 'root',
             'PASSWORD': LOCAL_DB_PASSWORD,
             'HOST': '127.0.0.1',

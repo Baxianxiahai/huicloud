@@ -1575,10 +1575,10 @@ class dct_classDbiViewDebs:
         # zero_spd_val = inputData['zero_spd']
         # zero_dec_val = inputData['zero_dec']
         # back_step_val = inputData['back_step']
-        foreignkeyname = inputData['uid']
-        print(inputData)
-        print(foreignkeyname)
-        result = models.t_cebs_cali_profile.objects.filter(uid = foreignkeyname)
+#         foreignkeyname = inputData['uid']
+#         print(inputData)
+#         print(foreignkeyname)
+        result = models.t_cebs_cali_profile.objects.all()
         #print(result[0].login_name)
         if result.exists():
             pass
@@ -1592,7 +1592,7 @@ class dct_classDbiViewDebs:
             #     zero_dec = zero_dec_val, back_step = back_step_val
             #     )
             models.t_cebs_cali_profile.objects.create(
-                platetype = platetype_val, uid_id = foreignkeyname, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+                platetype = platetype_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
                 right_up_x = right_up_x_val, right_up_y = right_up_y_val
                 )
         return True
@@ -2485,14 +2485,15 @@ class dct_classDbiViewDebs:
         return bufferout         
         
     def dft_dbi_cebs_hstSetConfig(self, inputData):
+        print(inputData)
         defaultflag_val = inputData['cebs_object_profile']['defaultflag'] 
         objname_val = inputData['cebs_object_profile']['objname'] 
         objtype_val = inputData['cebs_object_profile']['objtype'] 
-        uid_val = inputData['cebs_object_profile']['uid']   
+          
         dir_origin_val = inputData['cebs_object_profile']['dir_origin'] 
         dir_middle_val = inputData['cebs_object_profile']['dir_middle'] 
         memo_val = inputData['cebs_object_profile']['memo'] 
-        foreignkeyname = inputData['cebs_object_profile']['uid'] 
+        
 #         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
 #         if result.exists():
 #             uid_val = result[0].uid
@@ -2501,12 +2502,12 @@ class dct_classDbiViewDebs:
         
         if result.exists():
             models.t_cebs_object_profile.objects.filter(defaultflag =True).update(
-            defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
+            defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, 
             dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
             )
         else:
             models.t_cebs_object_profile.objects.create(
-            defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
+            defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, 
             dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
             )  
 
@@ -2567,7 +2568,7 @@ class dct_classDbiViewDebs:
         left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
         right_up_x_val = inputData['cebs_cali_profile']['right_up_x']
         right_up_y_val = inputData['cebs_cali_profile']['right_up_y']
-        foreignkeyname = inputData['cebs_cali_profile']['uid']
+        
         calitime_val = inputData['cebs_cali_profile']['calitime']
         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
 

@@ -354,7 +354,7 @@ class ClassHuirestDbaInputCmdHandler:
         parContentStrErr={'sucFlag':int(False), 'errCode':1}
         if (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_CONTENT_EXT):
             outputStr['parContent'] = self.achContentResExt;
-            print("output",outputStr)
+#             print("output",outputStr)
             return outputStr
         elif (self.achCtrlFlag == _HST_ACH_CTRL_FLAG_MFUN_TREATMENT):
             return self.achProcResult

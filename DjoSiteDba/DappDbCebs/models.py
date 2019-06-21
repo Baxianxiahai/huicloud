@@ -144,7 +144,7 @@ class t_cebs_cali_profile(models.Model):
     #platetype = models.IntegerField(default=5,null=True)
     platetype = models.CharField(max_length=50)
     calitime = models.DateTimeField(auto_now=True)
-    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
+    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE,null=True)
     left_bot_x = models.IntegerField(default=0)
     left_bot_y = models.IntegerField(default=0)
     right_up_x = models.IntegerField(default=0)
@@ -156,7 +156,7 @@ class t_cebs_object_profile(models.Model):
     defaultflag = models.BooleanField(default=False)
     objname = models.CharField(max_length=20,db_index=True)
     objtype = models.IntegerField(default=1)
-    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
+    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE,null=True)
     dir_origin = models.CharField(max_length=100)
     dir_middle = models.CharField(max_length=100)
     memo=models.CharField(max_length=500)
@@ -267,7 +267,7 @@ class t_cebs_result_stackcell(models.Model):
     
 class t_cebs_batch_info(models.Model):
     snbatch = models.AutoField(primary_key=True)
-    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE)
+    uid = models.ForeignKey(t_cebs_user_sheet,on_delete=models.CASCADE,null=True)
     createtime = models.DateTimeField(auto_now=True)
     comp_nbr = models.IntegerField(default=4)
     usr_def1 = models.CharField(max_length=256)
