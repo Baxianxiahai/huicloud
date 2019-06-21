@@ -2568,12 +2568,18 @@ class dct_classDbiViewDebs:
         left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
         right_up_x_val = inputData['cebs_cali_profile']['right_up_x']
         right_up_y_val = inputData['cebs_cali_profile']['right_up_y']
-        
+        if "uid" in inputData['cebs_cali_profile'].keys():
+            foreignkeyname=inputData['cebs_cali_profile'].keys()
+        else:
+            foreignkeyname=None
+#         foreignkeyname = inputData['cebs_cali_profile']['uid']
         calitime_val = inputData['cebs_cali_profile']['calitime']
         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
 
         if result.exists():
             uid_val = result[0].uid
+        else:
+            uid_val=None
         
         result= models.t_cebs_cali_profile.objects.filter(uid_id=uid_val)
 
