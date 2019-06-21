@@ -181,6 +181,10 @@ class t_cebs_config_eleg(models.Model):
     zero_spd = models.IntegerField(default=4)
     zero_dec = models.IntegerField(default=4)
     back_step = models.IntegerField(default=4)
+    autoclfy = models.BooleanField(default=False)
+    autowork = models.BooleanField(default=False)
+    blurylimit = models.IntegerField(default=300)
+    zero_acc = models.IntegerField(default=4)
 
 class t_cebs_config_stackcell(models.Model):
     confid = models.AutoField(primary_key=True)

@@ -2448,7 +2448,9 @@ class dct_classDbiViewDebs:
             elegObj['confid'] = result[0].confid
             elegObj['fixpoint'] = result[0].fixpoint
             elegObj['autovideo'] = result[0].autovideo
-            elegObj['autodist'] = result[0].autodist
+            # elegObj['autodist'] = result[0].autodist
+            elegObj['autowork'] = result[0].autowork
+            elegObj['blurylimit'] = result[0].blurylimit
             elegObj['addset'] = result[0].addset
             elegObj['autocap'] = result[0].autocap
             elegObj['autoperiod'] = result[0].autoperiod
@@ -2461,9 +2463,11 @@ class dct_classDbiViewDebs:
             elegObj['decspeed'] = result[0].decspeed
             elegObj['movespeed'] = result[0].movespeed
             elegObj['zero_spd'] = result[0].zero_spd
-            elegObj['zero_dec'] = result[0].zero_dec
+            # elegObj['zero_dec'] = result[0].zero_dec
+            elegObj['zero_acc'] = result[0].zero_acc
             elegObj['back_step'] = result[0].back_step
             elegObj['autoclfy'] = result[0].autoclfy
+            elegObj['objid'] = result[0].objid_id
         bufferout['cebs_config_eleg']=elegObj
         result = models.t_cebs_cali_profile.objects.all()   
         if result.exists():
@@ -2481,7 +2485,6 @@ class dct_classDbiViewDebs:
         return bufferout         
         
     def dft_dbi_cebs_hstSetConfig(self, inputData):
-        print(inputData)
         defaultflag_val = inputData['cebs_object_profile']['defaultflag'] 
         objname_val = inputData['cebs_object_profile']['objname'] 
         objtype_val = inputData['cebs_object_profile']['objtype'] 
@@ -2494,14 +2497,22 @@ class dct_classDbiViewDebs:
 #         if result.exists():
 #             uid_val = result[0].uid
 
-        models.t_cebs_object_profile.objects.filter(defaultflag =True).update(
+        result=models.t_cebs_object_profile.objects.filter(defaultflag = True)
+        
+        if result.exists():
+            models.t_cebs_object_profile.objects.filter(defaultflag =True).update(
             defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
             dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
             )
+        else:
+            models.t_cebs_object_profile.objects.create(
+            defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, uid_id = uid_val,
+            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
+            )  
 
         fixpoint_val = inputData['cebs_config_eleg']['fixpoint']
         autovideo_val = inputData['cebs_config_eleg']['autovideo']
-        autodist_val = inputData['cebs_config_eleg']['autodist']
+        # autodist_val = inputData['cebs_config_eleg']['autodist']
         addset_val = inputData['cebs_config_eleg']['addset']
         autocap_val = inputData['cebs_config_eleg']['autocap']
         autoperiod_val = inputData['cebs_config_eleg']['autoperiod']
@@ -2514,8 +2525,12 @@ class dct_classDbiViewDebs:
         decspeed_val = inputData['cebs_config_eleg']['decspeed']
         movespeed_val = inputData['cebs_config_eleg']['movespeed']
         zero_spd_val = inputData['cebs_config_eleg']['zero_spd']
-        zero_dec_val = inputData['cebs_config_eleg']['zero_dec']
+        # zero_dec_val = inputData['cebs_config_eleg']['zero_dec']
+        zero_acc_val = inputData['cebs_config_eleg']['zero_acc']
         back_step_val = inputData['cebs_config_eleg']['back_step']
+        autoclfy_val = inputData['cebs_config_eleg']['autoclfy']
+        autowork_val = inputData['cebs_config_eleg']['autowork']
+        blurylimit_val = inputData['cebs_config_eleg']['blurylimit']
 
         
         # foreignkeyname = models.t_cebs_object_profile.objects.all().last().objid
@@ -2526,14 +2541,27 @@ class dct_classDbiViewDebs:
         if result.exists():
             objid_val = result[0].objid
 
+        
+        result=models.t_cebs_config_eleg.objects.filter(objid_id=objid_val)
 
-        models.t_cebs_config_eleg.objects.filter(objid_id=objid_val).update(
-            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
-            addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
+        if result.exists():
+            models.t_cebs_config_eleg.objects.filter(objid_id=objid_val).update(
+            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, addset = addset_val,
+            autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
             accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
-            zero_spd = zero_spd_val, zero_dec = zero_dec_val, back_step  = back_step_val
+            zero_spd = zero_spd_val, back_step  = back_step_val, autoclfy = autoclfy_val,
+            autowork = autowork_val, blurylimit = blurylimit_val, zero_acc = zero_acc_val 
             )
+        else:
+            models.t_cebs_config_eleg.objects.create(
+            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, addset = addset_val,
+            autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
+            slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
+            accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
+            zero_spd = zero_spd_val, back_step  = back_step_val, autoclfy = autoclfy_val,
+            autowork = autowork_val, blurylimit = blurylimit_val, zero_acc = zero_acc_val)
+            
         platetype_val = inputData['cebs_cali_profile']['platetype']
         left_bot_x_val = inputData['cebs_cali_profile']['left_bot_x']
         left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
@@ -2542,13 +2570,22 @@ class dct_classDbiViewDebs:
         foreignkeyname = inputData['cebs_cali_profile']['uid']
         calitime_val = inputData['cebs_cali_profile']['calitime']
         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+
         if result.exists():
             uid_val = result[0].uid
-           
-        models.t_cebs_cali_profile.objects.filter(uid_id=uid_val).update(
+        
+        result= models.t_cebs_cali_profile.objects.filter(uid_id=uid_val)
+
+        if result.exists(): 
+            models.t_cebs_cali_profile.objects.filter(uid_id=uid_val).update(
             platetype = platetype_val,  left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
             right_up_x = right_up_x_val, right_up_y = right_up_y_val, uid_id = uid_val, calitime = calitime_val
-            )         
+            ) 
+        else:
+            models.t_cebs_cali_profile.objects.create(
+            platetype = platetype_val,  left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            right_up_x = right_up_x_val, right_up_y = right_up_y_val, uid_id = uid_val, calitime = calitime_val
+            )           
         return inputData
 
     def dft_dbi_cebs_hstUpdateCaliPar(self, inputData): 
