@@ -54,13 +54,14 @@ def hst_testsuite_dba():
         # suiteTest.addTest(ClassUtDba("tc_dba_cebs_006"))
         # suiteTest.addTest(ClassUtDba("tc_dba_cebs_007"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_008"))
-        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
+        #suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_010"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_011"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_012"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_013"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_014"))
         #suiteTest.addTest(ClassUtDba("tc_dba_cebs_015"))
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_init"))
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_002")) #CustomerMission del
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_001")) #CustomerMission add
 #         suiteTest.addTest(ClassUtDba("tc_dba_cebs_003")) #CustomerMission modify
@@ -263,7 +264,7 @@ class ClassUtDba(unittest.TestCase):
     def tc_dba_cebs_009(self):
         ticks = time.time();
         print("tc_dba_cebs_009, time in second = ", ticks);
-        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':1, 'memo': 'This is used for a update memo record','objid': 1, 'objname': 'objtest0618update', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abcadd', 'dir_middle': '/var/t0add'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'autodist': True, 'addset': True, 'autocap': True, 'autoperiod': 618, 'videotime': 618, 'slimit': 618, 'smlimit': 618, 'mblimit': 618, 'blimit': 618, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220}, 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-06-18 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 618, 'left_bot_y': 618, 'right_up_x': 18, 'right_up_y': 18}}}
+        jsonInputData = {'restTag': 'dba', 'actionId': 8500, 'parFlag': 1, 'parContent': {'cmd': 'hstSetConfig', 'cebs_object_profile': {'defaultflag':1, 'memo': 'This is used for a 999 memo record','objid': 1, 'objname': 'objtest0618update', 'objtype': 5, 'uid': 'UID3250678', 'dir_origin': '/www/abc/def', 'dir_middle': '/var/tadd/def'}, 'cebs_config_eleg': {'confid': 1, 'fixpoint': True, 'autovideo': True, 'addset': True, 'autocap': True, 'autoperiod': 629, 'videotime': 629, 'slimit': 629, 'smlimit': 629, 'mblimit': 629, 'blimit': 629, 'accspeed': 40, 'decspeed': 220, 'movespeed': 40, 'zero_spd': 220, 'zero_dec': 40, 'back_step': 220,'autowork':1,'autoclfy':1,'blurylimit':100,'zero_acc':200}, 'cebs_cali_profile': {'platetype': '1_test', 'calitime': '2019-06-18 10:31:52.226945', 'uid': 'UID3250678', 'left_bot_x': 629, 'left_bot_y': 629, 'right_up_x': 20, 'right_up_y': 20}}}
         print(jsonInputData)        
         result = ModTestSuitComFunc.hst_curlib3_client_connection(jsonInputData, 1)
         print(result)
@@ -334,7 +335,18 @@ class ClassUtDba(unittest.TestCase):
         print(result)
 
 
-
+    def tc_dba_cebs_init(self):
+        ticks = time.time();
+        print("tc_dba_cebs_init, time in second = ", ticks);
+        models.t_cebs_user_sheet.objects.create(
+            uid = 'UID3250678',login_name = 'hstTester',pass_word = 'abc',
+            grade_level = 1,email = 'hstTester@localhost.com',memo = 'hstTester test'         
+            )
+        print("add user successful.")
+        suiteTest = unittest.TestSuite()
+        suiteTest.addTest(ClassUtDba("tc_dba_cebs_009"))
+        runner = unittest.TextTestRunner()
+        runner.run(suiteTest)
 
 
 
