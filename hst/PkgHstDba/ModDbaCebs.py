@@ -254,28 +254,50 @@ class ClassDbaCebs():
         return result
 
     def dft_dbi_cebs_hstSetConfig(self, inputData):
-        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_cebs_hstSetConfig(inputData)
+        try:
+            with transaction.atomic():
+                DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+                result = DappDbCebs_view.dft_dbi_cebs_hstSetConfig(inputData)
+        except Exception as e:
+            result="hstSetConfig error: " + str(e)
+        # DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+        # result = DappDbCebs_view.dft_dbi_cebs_hstSetConfig(inputData)
         return result
 
     def dft_dbi_cebs_hstUpdateCaliPar(self, inputData):
-        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_cebs_hstUpdateCaliPar(inputData)
+        try:
+            with transaction.atomic():
+                DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+                result = DappDbCebs_view.dft_dbi_cebs_hstUpdateCaliPar(inputData)
+        except Exception as e:
+            result="hstUpdateCaliPar error: " + str(e)
         return result
 
     def dft_dbi_cebs_hstAddBatchNbr(self, inputData):
-        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_cebs_hstAddBatchNbr(inputData)
+        try:
+            with transaction.atomic():
+                DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+                result = DappDbCebs_view.dft_dbi_cebs_hstAddBatchNbr(inputData)
+        except Exception as e:
+            result="hstAddBatchNbr error: " + str(e)
         return result
 
     def dft_dbi_cebs_hstAddPicCap(self, inputData):
-        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_cebs_hstAddPicCap(inputData)
+        try:
+            with transaction.atomic():
+                DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+                result = DappDbCebs_view.dft_dbi_cebs_hstAddPicCap(inputData)
+        except Exception as e:
+            result="hstAddPicCap error: " + str(e)
         return result
 
     def dft_dbi_cebs_hstUpdatePicCfy(self, inputData):
-        DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
-        result = DappDbCebs_view.dft_dbi_cebs_hstUpdatePicCfy(inputData)
+        try:
+            with transaction.atomic():
+                DappDbCebs_view = DappDbCebs.dct_classDbiViewDebs()
+                result = DappDbCebs_view.dft_dbi_cebs_hstUpdatePicCfy(inputData)
+        except Exception as e:
+            result="hstUpdatePicCfy error: " + str(e)
         return result
 
 

@@ -272,6 +272,10 @@ class t_cebs_batch_info(models.Model):
     comp_nbr = models.IntegerField(default=4)
     usr_def1 = models.CharField(max_length=256)
     usr_def2 = models.CharField(max_length=256)
+
+class t_cebs_platform_info(models.Model):
+    platoption = models.CharField(max_length=100,primary_key=True)
+
    
     
     

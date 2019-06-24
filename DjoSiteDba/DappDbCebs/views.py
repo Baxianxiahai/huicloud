@@ -2468,7 +2468,12 @@ class dct_classDbiViewDebs:
             elegObj['back_step'] = result[0].back_step
             elegObj['autoclfy'] = result[0].autoclfy
             elegObj['objid'] = result[0].objid_id
+        else:
+            bufferout['error_no']='not found eleg setting'
+            return bufferout
+        
         bufferout['cebs_config_eleg']=elegObj
+		
         result = models.t_cebs_cali_profile.objects.all()   
         if result.exists():
             caliProfile['platetype'] = result[0].platetype
@@ -2479,6 +2484,11 @@ class dct_classDbiViewDebs:
             caliProfile['right_up_x'] = result[0].right_up_x
             caliProfile['right_up_y'] = result[0].right_up_y
             caliProfile['plateoption']=['96_STANDARD','48_STANDARD','24_STANDARD','12_STANDARD','6_STANDARD']
+        else:
+            bufferout['error_no']='not found cali setting'
+            return bufferout
+        bufferout['cebs_object_profile']=objectProfile
+        bufferout['cebs_config_eleg']=elegObj
         bufferout['cebs_cali_profile']=caliProfile
 
         print(bufferout)
@@ -2569,7 +2579,7 @@ class dct_classDbiViewDebs:
         right_up_x_val = inputData['cebs_cali_profile']['right_up_x']
         right_up_y_val = inputData['cebs_cali_profile']['right_up_y']
         if "uid" in inputData['cebs_cali_profile'].keys():
-            foreignkeyname=inputData['cebs_cali_profile'].keys()
+            foreignkeyname=inputData['cebs_cali_profile']['uid']
         else:
             foreignkeyname=None
 #         foreignkeyname = inputData['cebs_cali_profile']['uid']
@@ -2581,10 +2591,10 @@ class dct_classDbiViewDebs:
         else:
             uid_val=None
         
-        result= models.t_cebs_cali_profile.objects.filter(uid_id=uid_val)
-
+        # result= models.t_cebs_cali_profile.objects.filter(uid_id=uid_val)
+        result= models.t_cebs_cali_profile.objects.all()
         if result.exists(): 
-            models.t_cebs_cali_profile.objects.filter(uid_id=uid_val).update(
+            models.t_cebs_cali_profile.objects.filter(id=result[0].id).update(
             platetype = platetype_val,  left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
             right_up_x = right_up_x_val, right_up_y = right_up_y_val, uid_id = uid_val, calitime = calitime_val
             ) 
