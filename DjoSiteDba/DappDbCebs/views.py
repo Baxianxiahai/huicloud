@@ -2614,7 +2614,12 @@ class dct_classDbiViewDebs:
         return inputData
 
     def dft_dbi_cebs_hstAddBatchNbr(self, inputData): 
-        uid_val = inputData['cebs_batch_info']['user'] 
+        print("inputData",inputData)
+        res = models.t_cebs_user_sheet.objects.filter(uid = inputData['cebs_batch_info']['user'])
+        if res:
+            uid_val = inputData['cebs_batch_info']['user']
+        else:
+            uid_val = None
         createtime_val = inputData['cebs_batch_info']['createtime'] 
         comp_nbr_val = inputData['cebs_batch_info']['comp_nbr'] 
         usr_def1_val = inputData['cebs_batch_info']['usr_def1']   
