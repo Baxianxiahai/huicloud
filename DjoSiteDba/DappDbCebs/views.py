@@ -2596,7 +2596,10 @@ class dct_classDbiViewDebs:
         return inputData
 
     def dft_dbi_cebs_hstUpdateCaliPar(self, inputData): 
-        uid_val=inputData['cebs_cali_profile']['uid']
+        if "uid" in inputData['cebs_cali_profile']:
+            uid_val=inputData['cebs_cali_profile']['uid']
+        else:
+            uid_val=None
        
         result = models.t_cebs_cali_profile.objects.filter(uid_id = uid_val)
         if result.exists():
