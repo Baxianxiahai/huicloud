@@ -2441,7 +2441,7 @@ class dct_classDbiViewDebs:
             bufferout['error_no']='not found default setting'
             return bufferout
         
-        bufferout['cebs_object_profile']=objectProfile
+        # bufferout['cebs_object_profile']=objectProfile
         #result = models.t_cebs_config_eleg.objects.filter(objid = foundObjid)
         result = models.t_cebs_config_eleg.objects.filter(objid_id = foundObjid)
         if result.exists():
@@ -2472,7 +2472,7 @@ class dct_classDbiViewDebs:
             bufferout['error_no']='not found eleg setting'
             return bufferout
         
-        bufferout['cebs_config_eleg']=elegObj
+        # bufferout['cebs_config_eleg']=elegObj
 		
         result = models.t_cebs_cali_profile.objects.all()   
         if result.exists():
@@ -2504,6 +2504,17 @@ class dct_classDbiViewDebs:
         dir_middle_val = inputData['cebs_object_profile']['dir_middle'] 
         memo_val = inputData['cebs_object_profile']['memo'] 
         
+        if "uid" in inputData['cebs_object_profile'].keys():
+            foreignkeyname=inputData['cebs_object_profile']['uid']
+        else:
+            foreignkeyname=None
+
+        result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
+
+        if result.exists():
+            obj_uid_val = result[0].uid
+        else:
+            obj_uid_val = None
 #         result = models.t_cebs_user_sheet.objects.filter(uid = foreignkeyname)
 #         if result.exists():
 #             uid_val = result[0].uid
@@ -2513,12 +2524,12 @@ class dct_classDbiViewDebs:
         if result.exists():
             models.t_cebs_object_profile.objects.filter(defaultflag =True).update(
             defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, 
-            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
+            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val,uid_id=obj_uid_val             
             )
         else:
             models.t_cebs_object_profile.objects.create(
             defaultflag = defaultflag_val,objname = objname_val, objtype = objtype_val, 
-            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val             
+            dir_origin = dir_origin_val, dir_middle = dir_middle_val, memo = memo_val,uid_id=obj_uid_val             
             )  
 
         fixpoint_val = inputData['cebs_config_eleg']['fixpoint']
@@ -2606,12 +2617,13 @@ class dct_classDbiViewDebs:
         return inputData
 
     def dft_dbi_cebs_hstUpdateCaliPar(self, inputData): 
-        if "uid" in inputData['cebs_cali_profile']:
-            uid_val=inputData['cebs_cali_profile']['uid']
-        else:
-            uid_val=None
+        # if "uid" in inputData['cebs_cali_profile']:
+        #     uid_val=inputData['cebs_cali_profile']['uid']
+        # else:
+        #     uid_val=None
        
-        result = models.t_cebs_cali_profile.objects.filter(uid_id = uid_val)
+        # result = models.t_cebs_cali_profile.objects.filter(uid_id = uid_val)
+        result= models.t_cebs_cali_profile.objects.all()
         if result.exists():
             platetype_val = inputData['cebs_cali_profile']['platetype']
             calitime_val = inputData['cebs_cali_profile']['calitime']
@@ -2619,11 +2631,20 @@ class dct_classDbiViewDebs:
             left_bot_y_val = inputData['cebs_cali_profile']['left_bot_y']
             right_up_x_val = inputData['cebs_cali_profile']['right_up_x']
             right_up_y_val = inputData['cebs_cali_profile']['right_up_y']
+        else:
+            cali_info={}
+            cali_info['cmd']='hstUpdateCaliPar'
+            cali_info['error_no']='Update Cali profile fail. Not found cali record.'
+            return cali_info
 
-            models.t_cebs_cali_profile.objects.filter(uid_id = uid_val).update(
-                platetype = platetype_val,calitime = calitime_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
-                right_up_x = right_up_x_val, right_up_y = right_up_y_val
+        models.t_cebs_cali_profile.objects.filter(id = result[0].id).update(
+            platetype = platetype_val,calitime = calitime_val, left_bot_x = left_bot_x_val, left_bot_y = left_bot_y_val,
+            right_up_x = right_up_x_val, right_up_y = right_up_y_val
                 )
+
+        if result[0].uid_id is not None:
+            inputData['cebs_cali_profile']['uid']=result[0].uid_id
+        
         return inputData
 
     def dft_dbi_cebs_hstAddBatchNbr(self, inputData): 
