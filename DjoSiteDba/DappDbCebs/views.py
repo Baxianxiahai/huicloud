@@ -1765,7 +1765,7 @@ class dct_classDbiViewDebs:
     def dft_dbi_config_eleg_add(self, inputData):
         fixpoint_val = inputData['fixpoint']
         autoexpo_val = inputData["autoexpo"]
-        autoexpo_val = inputData["autoexpo"]
+
         autovideo_val = inputData['autovideo']
         autodist_val = inputData['autodist']
         addset_val = inputData['addset']
