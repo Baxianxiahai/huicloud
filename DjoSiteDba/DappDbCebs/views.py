@@ -1764,6 +1764,8 @@ class dct_classDbiViewDebs:
                  
     def dft_dbi_config_eleg_add(self, inputData):
         fixpoint_val = inputData['fixpoint']
+        autoexpo_val = inputData["autoexpo"]
+        autoexpo_val = inputData["autoexpo"]
         autovideo_val = inputData['autovideo']
         autodist_val = inputData['autodist']
         addset_val = inputData['addset']
@@ -1787,7 +1789,7 @@ class dct_classDbiViewDebs:
         if result.exists():
             objid_val = result[0].objid
         models.t_cebs_config_eleg.objects.create(
-            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
+            objid_id = objid_val, fixpoint = fixpoint_val,autoexpo = autoexpo_val, autovideo = autovideo_val, autodist = autodist_val,
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
             accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
@@ -1802,6 +1804,7 @@ class dct_classDbiViewDebs:
         if result.exists():
             bufferout['objid'] = result[0].objid_id
             bufferout['fixpoint'] = result[0].fixpoint
+            bufferout["autoexpo"] = result[0].autoexpo
             bufferout['autovideo'] = result[0].autovideo
             bufferout['autodist'] = result[0].autodist
             bufferout['addset'] = result[0].addset
@@ -1834,6 +1837,10 @@ class dct_classDbiViewDebs:
                 fixpoint_val = inputData['fixpoint']
             else:
                 fixpoint_val = result[0].fixpoint  
+            if "autoexpo" in inputData.keys():
+                autoexpo_val = inputData["autoexpo"]
+            else:
+                autoexpo_val = inputData["autoexpo"]
             if 'autovideo' in inputData.keys():
                 autovideo_val = inputData['autovideo']
             else:
@@ -1900,7 +1907,7 @@ class dct_classDbiViewDebs:
                 back_step_val = result[0].back_step 
 
             models.t_cebs_config_eleg.objects.filter(confid = confid).update(
-                fixpoint = fixpoint_val, autovideo = autovideo_val, autodist = autodist_val,
+                fixpoint = fixpoint_val,autoexpo = autoexpo_val, autovideo = autovideo_val, autodist = autodist_val,
                 addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
                 slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
                 accspeed = accspeed_val,decspeed = decspeed_val, movespeed = movespeed_val,
@@ -2388,6 +2395,7 @@ class dct_classDbiViewDebs:
         if result.exists():
             bufferout['confid'] = result[0].confid
             bufferout['fixpoint'] = result[0].fixpoint
+            bufferout["autoexpo"] = result[0].autoexpo
             bufferout['autovideo'] = result[0].autovideo
             bufferout['autodist'] = result[0].autodist
             bufferout['addset'] = result[0].addset
@@ -2447,6 +2455,7 @@ class dct_classDbiViewDebs:
         if result.exists():
             elegObj['confid'] = result[0].confid
             elegObj['fixpoint'] = result[0].fixpoint
+            elegObj["autoexpo"] = result[0].autoexpo
             elegObj['autovideo'] = result[0].autovideo
             # elegObj['autodist'] = result[0].autodist
             elegObj['autowork'] = result[0].autowork
@@ -2533,6 +2542,7 @@ class dct_classDbiViewDebs:
             )  
 
         fixpoint_val = inputData['cebs_config_eleg']['fixpoint']
+        autoexpo_val = inputData["cebs_config_eleg"]["autoexpo"]
         autovideo_val = inputData['cebs_config_eleg']['autovideo']
         # autodist_val = inputData['cebs_config_eleg']['autodist']
         addset_val = inputData['cebs_config_eleg']['addset']
@@ -2568,7 +2578,7 @@ class dct_classDbiViewDebs:
 
         if result.exists():
             models.t_cebs_config_eleg.objects.filter(objid_id=objid_val).update(
-            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, addset = addset_val,
+            objid_id = objid_val, fixpoint = fixpoint_val, autoexpo = autoexpo_val, autovideo = autovideo_val, addset = addset_val,
             autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
             accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
@@ -2577,7 +2587,7 @@ class dct_classDbiViewDebs:
             )
         else:
             models.t_cebs_config_eleg.objects.create(
-            objid_id = objid_val, fixpoint = fixpoint_val, autovideo = autovideo_val, addset = addset_val,
+            objid_id = objid_val, fixpoint = fixpoint_val, autoexpo = autoexpo_val, autovideo = autovideo_val, addset = addset_val,
             autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
             accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,

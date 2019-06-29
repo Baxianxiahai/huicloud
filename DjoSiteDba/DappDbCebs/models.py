@@ -1,5 +1,6 @@
 # coding:utf8
 from django.db import models
+from django.template.defaultfilters import default
 #from serial.properties import NoneType
 
 # Create your models here.
@@ -165,6 +166,7 @@ class t_cebs_config_eleg(models.Model):
     confid = models.AutoField(primary_key=True) 
     objid = models.ForeignKey(t_cebs_object_profile,on_delete=models.CASCADE)
     fixpoint = models.BooleanField(default=False)
+    autoexpo = models.BooleanField(default=False)
     autovideo = models.BooleanField(default=False)
     autodist = models.BooleanField(default=False)
     addset = models.BooleanField(default=True)
