@@ -1780,7 +1780,7 @@ class dct_classDbiViewDebs:
         decspeed_val = inputData['decspeed']
         movespeed_val = inputData['movespeed']
         zero_spd_val = inputData['zero_spd']
-        zero_dec_val = inputData['zero_dec']
+        zero_acc_val = inputData['zero_acc']
         back_step_val = inputData['back_step']
         foreignkeyname = inputData['objid']
         print(foreignkeyname)
@@ -1793,7 +1793,7 @@ class dct_classDbiViewDebs:
             addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
             slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
             accspeed = accspeed_val, decspeed = decspeed_val, movespeed = movespeed_val,
-            zero_spd = zero_spd_val, zero_dec = zero_dec_val, back_step  = back_step_val
+            zero_spd = zero_spd_val, zero_acc = zero_acc_val, back_step  = back_step_val
             )
         return True
 
@@ -1819,7 +1819,7 @@ class dct_classDbiViewDebs:
             bufferout['decspeed'] = result[0].decspeed
             bufferout['movespeed'] = result[0].movespeed
             bufferout['zero_spd'] = result[0].zero_spd
-            bufferout['zero_dec'] = result[0].zero_dec
+            bufferout['zero_acc'] = result[0].zero_acc
             bufferout['back_step'] = result[0].back_step
             print(bufferout)
             return bufferout
@@ -1840,7 +1840,7 @@ class dct_classDbiViewDebs:
             if "autoexpo" in inputData.keys():
                 autoexpo_val = inputData["autoexpo"]
             else:
-                autoexpo_val = inputData["autoexpo"]
+                autoexpo_val = result[0].autoexpo
             if 'autovideo' in inputData.keys():
                 autovideo_val = inputData['autovideo']
             else:
@@ -1897,10 +1897,10 @@ class dct_classDbiViewDebs:
                 zero_spd_val = inputData['zero_spd']
             else:
                 zero_spd_val = result[0].zero_spd
-            if 'zero_dec' in inputData.keys():
-                zero_dec_val = inputData['zero_dec']
+            if 'zero_acc' in inputData.keys():
+                zero_acc_val = inputData['zero_acc']
             else:
-                zero_dec_val = result[0].zero_dec
+                zero_acc_val = result[0].zero_acc
             if 'back_step' in inputData.keys():
                 back_step_val = inputData['back_step']
             else:
@@ -1911,7 +1911,7 @@ class dct_classDbiViewDebs:
                 addset = addset_val, autocap = autocap_val, autoperiod = autoperiod_val, videotime = videotime_val,
                 slimit = slimit_val, smlimit =smlimit_val, mblimit = mblimit_val, blimit = blimit_val,
                 accspeed = accspeed_val,decspeed = decspeed_val, movespeed = movespeed_val,
-                zero_spd = zero_spd_val,zero_dec = zero_dec_val, back_step = back_step_val
+                zero_spd = zero_spd_val,zero_acc = zero_acc_val, back_step = back_step_val
                 )
         return False    
     
